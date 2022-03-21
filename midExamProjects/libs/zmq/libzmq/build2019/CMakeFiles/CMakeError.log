@@ -1,0 +1,222 @@
+Determining if the include file pthread.h exists failed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_d5d7f\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_d5d7f.dir\build.make /nologo -L                  CMakeFiles\cmTC_d5d7f.dir\build
+Building C object CMakeFiles/cmTC_d5d7f.dir/CheckIncludeFile.c.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_d5d7f.dir\CheckIncludeFile.c.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm3503.tmp
+CheckIncludeFile.c
+E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory
+NMAKE : fatal error U1077: “"D:\Program Files\CMake\bin\cmake.exe"”: 返回代码“0x2”
+Stop.
+NMAKE : fatal error U1077: “"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"”: 返回代码“0x2”
+Stop.
+
+
+
+Determining if the pselect exist failed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_28b5d\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_28b5d.dir\build.make /nologo -L                  CMakeFiles\cmTC_28b5d.dir\build
+Building CXX object CMakeFiles/cmTC_28b5d.dir/CheckSymbolExists.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_28b5d.dir\CheckSymbolExists.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm37D2.tmp
+CheckSymbolExists.cxx
+E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp\CheckSymbolExists.cxx(2): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渟ys/select.h鈥? No such file or directory
+NMAKE : fatal error U1077: “"D:\Program Files\CMake\bin\cmake.exe"”: 返回代码“0x2”
+Stop.
+NMAKE : fatal error U1077: “"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"”: 返回代码“0x2”
+Stop.
+
+
+File E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <sys/select.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pselect
+  return ((int*)(&pselect))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the posix_memalign exist failed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_28f7e\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_28f7e.dir\build.make /nologo -L                  CMakeFiles\cmTC_28f7e.dir\build
+Building CXX object CMakeFiles/cmTC_28f7e.dir/CheckSymbolExists.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_28f7e.dir\CheckSymbolExists.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm3949.tmp
+CheckSymbolExists.cxx
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stdlib.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_malloc.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits.h
+E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp\CheckSymbolExists.cxx(8): error C2065: 鈥減osix_memalign鈥? 鏈０鏄庣殑鏍囪瘑绗?NMAKE : fatal error U1077: “"D:\Program Files\CMake\bin\cmake.exe"”: 返回代码“0x2”
+Stop.
+NMAKE : fatal error U1077: “"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"”: 返回代码“0x2”
+Stop.
+
+
+File E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <stdlib.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef posix_memalign
+  return ((int*)(&posix_memalign))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the if_nametoindex exist failed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_7fe54\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_7fe54.dir\build.make /nologo -L                  CMakeFiles\cmTC_7fe54.dir\build
+Building CXX object CMakeFiles/cmTC_7fe54.dir/CheckSymbolExists.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_7fe54.dir\CheckSymbolExists.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm62F9.tmp
+CheckSymbolExists.cxx
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\iphlpapi.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winapifamily.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winpackagefamily.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\iprtrmib.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\mprapidef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\lmcons.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ipifcons.h
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ipifcons.h(248): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ipifcons.h(248): error C2146: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄦ爣璇嗙鈥淚FTYPE鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\iprtrmib.h(145): error C3646: 鈥渄wVarId鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\iprtrmib.h(145): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\iprtrmib.h(146): error C3646: 鈥渞gdwVarIndex鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\iprtrmib.h(146): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€淸鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\iprtrmib.h(146): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓??鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ipmib.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(23): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(23): error C2146: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄦ爣璇嗙鈥淣ET_IF_COMPARTMENT_ID鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(23): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(31): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(31): error C2146: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄦ爣璇嗙鈥淣ET_IF_NETWORK_GUID鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(31): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(44): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(44): error C2146: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄦ爣璇嗙鈥淣ET_IF_OBJECT_ID鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(44): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(92): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(104): error C3646: 鈥渋fRcvAddressLength鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(104): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(105): error C3646: 鈥渋fRcvAddressOffset鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(105): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(110): error C3646: 鈥渋fAliasLength鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(110): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(111): error C3646: 鈥渋fAliasOffset鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(111): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(118): error C3646: 鈥淰alue鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(118): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(121): error C3646: 鈥淩eserved鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(121): error C2059: 璇硶閿欒:鈥?鈥?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(121): error C2334: 鈥?鈥濈殑鍓嶉潰鏈夋剰澶栨爣璁帮紱璺宠繃鏄庢樉鐨勫嚱鏁颁綋
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(124): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(139): error C3646: 鈥淣ET_LUID鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(139): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(139): error C2378: 鈥淿NET_LUID_LH::NET_LUID_LH鈥? 閲嶅畾涔夛紱绗﹀彿涓嶈兘鐢?typedef 閲嶈浇
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(125): note: 鍙傝鈥淿NET_LUID_LH::NET_LUID_LH鈥濈殑澹版槑
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(140): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€?鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(140): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(140): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(152): error C3646: 鈥淣ET_IFTYPE鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(152): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(152): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(277): error C2059: 璇硶閿欒:鈥滃父鏁扳€?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(278): error C3646: 鈥淯SHORT鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(278): error C3646: 鈥淟ength鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(278): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(278): warning C4183: 鈥淿Field_range_鈥? 缂哄皯杩斿洖绫诲瀷锛涘亣瀹氫负杩斿洖鈥渋nt鈥濈殑鎴愬憳鍑芥暟
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(279): error C3646: 鈥淪tring鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(279): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€淸鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(279): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(286): error C2059: 璇硶閿欒:鈥滃父鏁扳€?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(287): error C3646: 鈥淯SHORT鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(287): error C3646: 鈥淟ength鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(287): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(287): warning C4183: 鈥淿Field_range_鈥? 缂哄皯杩斿洖绫诲瀷锛涘亣瀹氫负杩斿洖鈥渋nt鈥濈殑鎴愬憳鍑芥暟
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(288): error C3646: 鈥淎ddress鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(288): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€淸鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(288): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(350): error C3646: 鈥渋fPromiscuousMode鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(350): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(351): error C3646: 鈥渋fDeviceWakeUpEnable鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(351): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(352): error C3646: 鈥淴mitLinkSpeed鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(352): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(353): error C3646: 鈥淩cvLinkSpeed鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(353): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(355): error C3646: 鈥渋fLastChange鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(355): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(356): error C3646: 鈥渋fCounterDiscontinuityTime鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(356): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(357): error C3646: 鈥渋fInUnknownProtos鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(357): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(362): error C3646: 鈥渋fInDiscards鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(362): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(363): error C3646: 鈥渋fInErrors鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(363): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(364): error C3646: 鈥渋fHCInOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(364): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(365): error C3646: 鈥渋fHCInUcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(365): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(366): error C3646: 鈥渋fHCInMulticastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(366): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(367): error C3646: 鈥渋fHCInBroadcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(367): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(368): error C3646: 鈥渋fHCOutOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(368): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(369): error C3646: 鈥渋fHCOutUcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(369): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(370): error C3646: 鈥渋fHCOutMulticastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(370): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(371): error C3646: 鈥渋fHCOutBroadcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(371): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(372): error C3646: 鈥渋fOutErrors鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(372): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(373): error C3646: 鈥渋fOutDiscards鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(373): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(374): error C3646: 鈥渋fHCInUcastOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(374): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(375): error C3646: 鈥渋fHCInMulticastOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(375): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(376): error C3646: 鈥渋fHCInBroadcastOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(376): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(377): error C3646: 鈥渋fHCOutUcastOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(377): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(378): error C3646: 鈥渋fHCOutMulticastOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(378): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(379): error C3646: 鈥渋fHCOutBroadcastOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(379): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(380): error C3646: 鈥淐ompartmentId鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h(380): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(32): error C2159: 鎸囧畾浜嗕竴涓互涓婄殑瀛樺偍绫?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(32): error C2236: 鎰忓鐨勬爣璁扳€渟truct鈥濄€傛槸鍚﹀繕璁颁簡鈥?鈥?
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(33): error C2059: 璇硶閿欒:鈥渰鈥?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(33): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€渰鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(33): error C2447: 鈥渰鈥? 缂哄皯鍑芥暟鏍囬(鏄惁鏄€佸紡鐨勫舰寮忚〃?)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(35): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(35): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(49): error C3646: 鈥渨szName鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(49): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€淸鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(49): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(50): error C3646: 鈥渄wIndex鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(50): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(51): error C3646: 鈥渄wType鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(51): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(52): error C3646: 鈥渄wMtu鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(52): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(53): error C3646: 鈥渄wSpeed鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(53): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(54): error C3646: 鈥渄wPhysAddrLen鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(54): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(55): error C3646: 鈥渂PhysAddr鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(55): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€淸鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(55): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(56): error C3646: 鈥渄wAdminStatus鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(56): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(58): error C3646: 鈥渄wLastChange鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(58): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(59): error C3646: 鈥渄wInOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(59): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(60): error C3646: 鈥渄wInUcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(60): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(61): error C3646: 鈥渄wInNUcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(61): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(62): error C3646: 鈥渄wInDiscards鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(62): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(63): error C3646: 鈥渄wInErrors鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(63): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(64): error C3646: 鈥渄wInUnknownProtos鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(64): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(65): error C3646: 鈥渄wOutOctets鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(65): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(66): error C3646: 鈥渄wOutUcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(66): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(67): error C3646: 鈥渄wOutNUcastPkts鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(67): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(68): error C3646: 鈥渄wOutDiscards鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(68): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(69): error C3646: 鈥渄wOutErrors鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(69): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(70): error C3646: 鈥渄wOutQLen鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(70): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(71): error C3646: 鈥渄wDescrLen鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(71): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(72): error C3646: 鈥渂Descr鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(72): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€淸鈥濈殑鍓嶉潰)
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(72): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(76): error C3646: 鈥渄wNumEntries鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h(76): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(218): error C3646: 鈥淣lChecksumSupported鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(218): error C2059: 璇硶閿欒:鈥?鈥?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(218): error C2334: 鈥?鈥濈殑鍓嶉潰鏈夋剰澶栨爣璁帮紱璺宠繃鏄庢樉鐨勫嚱鏁颁綋
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(226): error C2059: 璇硶閿欒:鈥?鈥?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(226): error C2238: 鎰忓鐨勬爣璁颁綅浜庘€?鈥濅箣鍓?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(244): error C3646: 鈥淏andwidth鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(244): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int
+D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(245): error C3646: 鈥淚nstability鈥? 鏈煡閲嶅啓璇存槑绗?D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h(245): fatal error C1003: 閿欒璁℃暟瓒呰繃 100锛涙鍦ㄥ仠姝㈢紪璇?NMAKE : fatal error U1077: “"D:\Program Files\CMake\bin\cmake.exe"”: 返回代码“0x2”
+Stop.
+NMAKE : fatal error U1077: “"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"”: 返回代码“0x2”
+Stop.
+
+
+File E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <iphlpapi.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef if_nametoindex
+  return ((int*)(&if_nametoindex))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the function fopen exists in the ws2 failed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_3a774\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_3a774.dir\build.make /nologo -L                  CMakeFiles\cmTC_3a774.dir\build
+Building C object CMakeFiles/cmTC_3a774.dir/CheckFunctionExists.c.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_3a774.dir\CheckFunctionExists.c.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm64CD.tmp
+CheckFunctionExists.c
+Linking C executable cmTC_3a774.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_3a774.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_3a774.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm65E8.tmp
+LINK Pass 1: command "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_3a774.dir\objects1.rsp /out:cmTC_3a774.exe /implib:cmTC_3a774.lib /pdb:E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp\cmTC_3a774.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console ws2.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_3a774.dir/intermediate.manifest CMakeFiles\cmTC_3a774.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: 无法打开文件“ws2.lib”
+NMAKE : fatal error U1077: “"D:\Program Files\CMake\bin\cmake.exe"”: 返回代码“0xffffffff”
+Stop.
+NMAKE : fatal error U1077: “"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"”: 返回代码“0x2”
+Stop.
+
+
+

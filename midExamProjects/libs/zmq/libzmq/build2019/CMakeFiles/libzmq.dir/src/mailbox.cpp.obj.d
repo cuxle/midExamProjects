@@ -1,0 +1,10 @@
+E:/projects/current_project/libzmq/libzmq/src/signaler.hpp
+E:/projects/current_project/libzmq/libzmq/src/macros.hpp
+E:/projects/current_project/libzmq/libzmq/src/command.hpp
+E:/projects/current_project/libzmq/libzmq/src/endpoint.hpp
+E:/projects/current_project/libzmq/libzmq/src/yqueue.hpp
+E:/projects/current_project/libzmq/libzmq/src/err.hpp
+E:/projects/current_project/libzmq/libzmq/src/likely.hpp
+E:/projects/current_project/libzmq/libzmq/src/macros.hpp
+E:/projects/current_project/libzmq/libzmq/src/macros.hpp
+E:/projects/current_project/libzmq/libzmq/src/macros.hpp

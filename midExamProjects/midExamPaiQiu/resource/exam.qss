@@ -1,0 +1,134 @@
+LoginDialog
+{
+    border-image: url(:/resource/images/login/login.png);
+}
+
+QPushButton#pbStartTest,
+QPushButton#pbDataManage,
+QPushButton#pbSetup,
+QPushButton#pbDataDownload,
+QPushButton#pbDataImport,
+QPushButton#pbScoreManage
+{
+    background-color: rgb(61, 127, 255);
+    border-radius: 10px;
+}
+
+QPushButton#pbConfimBtn
+{
+    background-color: rgb(61, 127, 255);
+    border-radius: 4px;
+}
+
+QLineEdit#leUserId,
+QLineEdit#leUserName,
+QLineEdit#leUserGender,
+QLineEdit#leUserSchool
+{
+    background-color: rgb(42, 38, 66);
+    color: rgb(255, 255, 255);
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: inset;
+}
+
+QGroupBox#gbSettingContent
+{
+    background-color: rgb(36, 34, 49);
+    border: 1px solid gray;
+}
+
+QGroupBox#gbClientModeBox
+{
+    background-color: rgb(36, 34, 49);
+    color: rgb(255, 255, 255);
+    border: 1px solid #89879a;
+}
+
+QGroupBox#gbClientModeBox
+{
+    background-color: rgb(36, 34, 49);
+    color: rgb(255, 255, 255);
+    border: 1px solid #89879a;
+}
+
+QGroupBox#gbExamSetupBox
+{
+    border:none;
+}
+
+QGroupBox#gbScoreCheck
+{
+    border:none;
+}
+
+QGroupBox#gbScoreManageContent
+{
+    border:none;
+    background-color: rgb(55, 50, 82);
+    border-radius:10px;
+}
+
+QGroupBox#gbDownloadManagerHeader,
+QGroupBox#gbScoreDownloadButton
+{
+    background-color: rgb(77, 70, 119);;
+    border:none;
+    border-radius:10px;
+}
+
+QGroupBox#gbScoreManageMain
+{
+    background-color: rgb(55, 50, 82);
+    border-radius:10px;
+    border:none;
+}
+
+QTableView#tblViewStudentData
+{
+    background-color: rgb(55, 50, 82);
+    border:none;
+}
+
+QGroupBox#gbSettingContent_2
+{
+    border:none;
+}
+
+QGroupBox#gbSettingContent_3
+{
+    border:none;
+}
+
+QDialog#SettingDialog
+{
+    background-color: rgb(36, 34, 49);
+}
+
+QGroupBox#groupBox_TestPage,
+QGroupBox#gbExamRecord0,
+QGroupBox#gbExamRecord1,
+QGroupBox#gbScoreRecord,
+QGroupBox#gbExamRecordBtnBox,
+QGroupBox#gbExamRecordVideo
+{
+    border:0px;
+}
+
+QGroupBox#gbStartTestBtn,
+QGroupBox#gbSettingsBtn,
+QGroupBox#gbDataManageBtn,
+QGroupBox#gbDataDownload,
+QGroupBox#gbDataImport,
+QGroupBox#gbScoreManage
+{
+    background-color: rgb(55, 50, 82);;
+    border-radius: 10px;
+}
+
+FormFuncChoose
+{
+    background-color: rgb(35, 31, 57);
+}
+
+

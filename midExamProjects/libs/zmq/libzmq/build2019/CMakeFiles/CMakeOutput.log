@@ -1,0 +1,1501 @@
+The system is: Windows - 10.0.19042 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: D:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.29.30136 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+CMakeCCompilerId.c
+Microsoft (R) Incremental Linker Version 14.29.30136.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:CMakeCCompilerId.exe 
+CMakeCCompilerId.obj 
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
+
+The C compiler identification is MSVC, found in "E:/projects/current_project/libzmq/build2019/CMakeFiles/3.21.3/CompilerIdC/CMakeCCompilerId.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: D:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.29.30136 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+CMakeCXXCompilerId.cpp
+Microsoft (R) Incremental Linker Version 14.29.30136.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:CMakeCXXCompilerId.exe 
+CMakeCXXCompilerId.obj 
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+
+The CXX compiler identification is MSVC, found in "E:/projects/current_project/libzmq/build2019/CMakeFiles/3.21.3/CompilerIdCXX/CMakeCXXCompilerId.exe"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_2a0cb\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_2a0cb.dir\build.make /nologo -L                  CMakeFiles\cmTC_2a0cb.dir\build
+Building C object CMakeFiles/cmTC_2a0cb.dir/CMakeCCompilerABI.c.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_2a0cb.dir\CMakeCCompilerABI.c.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm28AF.tmp
+CMakeCCompilerABI.c
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files\CMake\share\cmake-3.21\Modules\CMakeCompilerABI.h
+Linking C executable cmTC_2a0cb.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_2a0cb.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_2a0cb.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm2AE2.tmp
+
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_afeb4\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_afeb4.dir\build.make /nologo -L                  CMakeFiles\cmTC_afeb4.dir\build
+Building CXX object CMakeFiles/cmTC_afeb4.dir/CMakeCXXCompilerABI.cpp.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_afeb4.dir\CMakeCXXCompilerABI.cpp.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm2FB4.tmp
+CMakeCXXCompilerABI.cpp
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files\CMake\share\cmake-3.21\Modules\CMakeCompilerABI.h
+Linking CXX executable cmTC_afeb4.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_afeb4.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_afeb4.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm30CE.tmp
+
+
+
+Determining if files windows.h exist passed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_35920\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_35920.dir\build.make /nologo -L                  CMakeFiles\cmTC_35920.dir\build
+Building C object CMakeFiles/cmTC_35920.dir/ZMQ_HAVE_WINDOWS.c.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_35920.dir\ZMQ_HAVE_WINDOWS.c.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm3AC0.tmp
+ZMQ_HAVE_WINDOWS.c
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\windows.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\sdkddkver.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\excpt.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\sal.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vadefs.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\stdarg.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\windef.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\minwindef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_strict.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_undef.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\sdv_driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnt.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\ctype.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wctype.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\kernelspecs.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\basetsd.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\string.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memory.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memcpy_s.h
+?鈷? 鍖呭惈鏂囦欢:          D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\errno.h
+?鈷? 鍖呭惈鏂囦欢:          D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_string.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstring.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apiset.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ktmtypes.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winbase.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apisetcconv.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\minwinbase.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\apiquery2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processenv.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapifromapp.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\debugapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\utilapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\handleapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\errhandlingapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fibersapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namedpipeapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\profileapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\heapapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ioapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\synchapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\interlockedapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processthreadsapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\sysinfoapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\memoryapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\enclaveapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoollegacyapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoolapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wow64apiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\libloaderapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securitybaseapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namespaceapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\systemtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securityappcontainer.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\realtimeapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winerror.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timezoneapi.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wingdi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winuser.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tvout.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\datetimeapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\stringapiset.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincon.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi3.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winver.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\verrsrc.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winreg.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\reason.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnetwk.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wnnc.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\cderr.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dde.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ddeml.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dlgs.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\lzexpand.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsystem.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mciapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\playsoundapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\joystickapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\nb30.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdce.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdcep.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcnterr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcasync.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\shellapi.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winperf.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsock.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\inaddr.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincrypt.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\bcrypt.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ncrypt.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dpapi.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winscard.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcsal.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winioctl.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winsmcrd.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winspool.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ole2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objbase.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_malloc.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwnbase.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidlbase.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwn.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidlbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\urlmon.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\servprov.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidl.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\stralign.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsvc.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mcx.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\imm.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ime_cmodes.h
+Linking C executable cmTC_35920.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_35920.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_35920.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm3D03.tmp
+
+
+
+Determining if files winsock2.h;afunix.h exist passed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_b2dbb\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_b2dbb.dir\build.make /nologo -L                  CMakeFiles\cmTC_b2dbb.dir\build
+Building C object CMakeFiles/cmTC_b2dbb.dir/ZMQ_HAVE_IPC.c.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_b2dbb.dir\ZMQ_HAVE_IPC.c.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm405D.tmp
+ZMQ_HAVE_IPC.c
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsock2.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winapifamily.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\windows.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\excpt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\stdarg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\minwindef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_strict.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\ctype.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wctype.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\kernelspecs.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\basetsd.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memory.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\errno.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstring.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apiset.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ktmtypes.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apisetcconv.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\minwinbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\apiquery2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processenv.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapifromapp.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\debugapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\utilapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\handleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\errhandlingapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fibersapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namedpipeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\profileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\heapapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ioapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\synchapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\interlockedapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processthreadsapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\sysinfoapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\memoryapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\enclaveapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoollegacyapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoolapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wow64apiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\libloaderapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securitybaseapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namespaceapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\systemtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securityappcontainer.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\realtimeapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winerror.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timezoneapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wingdi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winuser.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tvout.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\datetimeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\stringapiset.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincon.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincontypes.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi3.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winver.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\verrsrc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winreg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\reason.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnetwk.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wnnc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\cderr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ddeml.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dlgs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\lzexpand.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsystem.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mciapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi2.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\playsoundapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmeapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timeapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\joystickapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\nb30.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpc.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdce.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdcep.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcnterr.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcasync.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\shellapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winperf.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsock.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\bcrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ncrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dpapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winefs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winscard.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wtypes.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcndr.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsip.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcsal.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wtypesbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winioctl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winsmcrd.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winspool.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ole2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objbase.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\combaseapi.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_malloc.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwnbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidlbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\cguid.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\coml2api.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidl.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwn.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidlbase.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oaidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\urlmon.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleidl.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\servprov.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\msxml.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\stralign.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsvc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mcx.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\imm.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ime_cmodes.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ws2def.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\inaddr.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\qos.h
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\afunix.h
+Linking C executable cmTC_b2dbb.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_b2dbb.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_b2dbb.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm4281.tmp
+
+
+
+Performing C SOURCE FILE Test ZMQ_HAVE_STRUCT_SOCKADDR_UN succeeded with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_f54fd\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_f54fd.dir\build.make /nologo -L                  CMakeFiles\cmTC_f54fd.dir\build
+Building C object CMakeFiles/cmTC_f54fd.dir/src.c.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_f54fd.dir\src.c.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm460A.tmp
+src.c
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsock2.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winpackagefamily.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\sdkddkver.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\sal.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vadefs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\stdarg.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\windef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\minwindef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_strict.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_undef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\sdv_driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\ctype.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wctype.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\kernelspecs.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\basetsd.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memory.h
+?鈷? 鍖呭惈鏂囦欢:          D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memcpy_s.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\errno.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstring.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apiset.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ktmtypes.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apisetcconv.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\apiquery2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processenv.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapifromapp.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\debugapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\utilapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\handleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\errhandlingapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fibersapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namedpipeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\profileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\heapapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ioapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\synchapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\interlockedapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processthreadsapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\sysinfoapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\memoryapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\enclaveapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoollegacyapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoolapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wow64apiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\libloaderapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securitybaseapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namespaceapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\systemtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securityappcontainer.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\realtimeapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winerror.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timezoneapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wingdi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winuser.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tvout.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\datetimeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\stringapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincon.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincontypes.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi3.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winver.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\verrsrc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winreg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\reason.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnetwk.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wnnc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\cderr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dde.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ddeml.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dlgs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\lzexpand.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsystem.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mciapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi2.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\playsoundapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmeapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\joystickapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\nb30.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpc.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdce.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdcep.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcnterr.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcasync.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\shellapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winperf.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsock.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\bcrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ncrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dpapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winefs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winscard.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wtypes.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcndr.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsip.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcsal.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winioctl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winsmcrd.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winspool.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ole2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objbase.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_malloc.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwnbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidlbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\cguid.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidl.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwn.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidlbase.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oaidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\urlmon.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleidl.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\servprov.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\msxml.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\stralign.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsvc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mcx.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\imm.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ime_cmodes.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ws2def.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\inaddr.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\qos.h
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\afunix.h
+Linking C executable cmTC_f54fd.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_f54fd.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_f54fd.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm481F.tmp
+
+
+Source file was:
+
+#include <winsock2.h>
+#include <afunix.h>
+
+int main()
+{
+  (void)sizeof(((struct sockaddr_un *)0)->sun_path);
+  return 0;
+}
+
+Determining if files condition_variable exist passed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_f038f\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_f038f.dir\build.make /nologo -L                  CMakeFiles\cmTC_f038f.dir\build
+Building CXX object CMakeFiles/cmTC_f038f.dir/ZMQ_HAVE_STL_CONDITION_VARIABLE.cpp.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_f038f.dir\ZMQ_HAVE_STL_CONDITION_VARIABLE.cpp.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm4B5A.tmp
+ZMQ_HAVE_STL_CONDITION_VARIABLE.cpp
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\condition_variable
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\sal.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xkeycheck.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\chrono
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\time.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wtime.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\cfloat
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\climits
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stdio.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_stdio_config.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\wchar.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_string.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wconio.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wctype.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wdirect.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wio.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_share.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wprocess.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstring.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\sys/stat.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\sys/types.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\intrin0.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\isa_availability.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stddef.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\cstdlib
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\initializer_list
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\ratio
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\utility
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xtimec.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_new_debug.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\crtdefs.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_exception.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\iosfwd
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memory.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\typeinfo
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xatomic.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\mutex
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\__msvc_system_error_abi.hpp
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\stdexcept
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xcall_once.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xerrc.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xthreads.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\thread
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\process.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_startup.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\tuple
+Linking CXX executable cmTC_f038f.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_f038f.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_f038f.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm4D5E.tmp
+
+
+
+Determining if the WSAStartup exist passed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_9c268\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_9c268.dir\build.make /nologo -L                  CMakeFiles\cmTC_9c268.dir\build
+Building CXX object CMakeFiles/cmTC_9c268.dir/CheckSymbolExists.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_9c268.dir\CheckSymbolExists.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm508A.tmp
+CheckSymbolExists.cxx
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsock2.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winapifamily.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winpackagefamily.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\windows.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\sdkddkver.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\excpt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\stdarg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\minwindef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_strict.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\ctype.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wctype.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\kernelspecs.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\basetsd.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memory.h
+?鈷? 鍖呭惈鏂囦欢:          D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memcpy_s.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\errno.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstring.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apiset.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ktmtypes.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apisetcconv.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\minwinbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\apiquery2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapifromapp.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\debugapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\utilapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\handleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\errhandlingapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fibersapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namedpipeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\profileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\heapapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ioapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\synchapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\interlockedapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processthreadsapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\sysinfoapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\memoryapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\enclaveapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoollegacyapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoolapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wow64apiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\libloaderapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securitybaseapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namespaceapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\systemtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securityappcontainer.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\realtimeapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winerror.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timezoneapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wingdi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winuser.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tvout.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\stringapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincon.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincontypes.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi3.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winver.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\verrsrc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winreg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\reason.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnetwk.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wnnc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\cderr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dde.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ddeml.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dlgs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\lzexpand.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsystem.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mciapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\playsoundapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmeapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\joystickapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\nb30.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpc.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdcep.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcnterr.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcasync.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winperf.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\bcrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ncrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dpapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winefs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winscard.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wtypes.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcndr.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsip.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcsal.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wtypesbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winioctl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winsmcrd.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winspool.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ole2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objbase.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\combaseapi.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_malloc.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwnbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidlbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\cguid.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\coml2api.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidl.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwn.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidlbase.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oaidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\urlmon.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleidl.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\servprov.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\msxml.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleauto.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\commdlg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\stralign.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsvc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mcx.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\imm.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ime_cmodes.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ws2def.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\inaddr.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\qos.h
+Linking CXX executable cmTC_9c268.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_9c268.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_9c268.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm53A8.tmp
+
+
+File E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <winsock2.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef WSAStartup
+  return ((int*)(&WSAStartup))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the UuidCreateSequential exist passed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_ab98c\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_ab98c.dir\build.make /nologo -L                  CMakeFiles\cmTC_ab98c.dir\build
+Building CXX object CMakeFiles/cmTC_ab98c.dir/CheckSymbolExists.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_ab98c.dir\CheckSymbolExists.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm56F3.tmp
+CheckSymbolExists.cxx
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpc.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\windows.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winpackagefamily.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\excpt.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\sal.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\stdarg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\minwindef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_strict.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_undef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\ctype.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wctype.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\kernelspecs.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\basetsd.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memory.h
+?鈷? 鍖呭惈鏂囦欢:          D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memcpy_s.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\errno.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstring.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apiset.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ktmtypes.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\apisetcconv.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\minwinbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\apiquery2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processenv.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapifromapp.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\debugapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\utilapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\handleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\errhandlingapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fibersapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namedpipeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\profileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ioapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\synchapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\interlockedapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processthreadsapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\sysinfoapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\memoryapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\enclaveapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoollegacyapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoolapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wow64apiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\libloaderapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securitybaseapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namespaceapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\systemtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securityappcontainer.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\realtimeapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winerror.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timezoneapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wingdi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winuser.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tvout.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\datetimeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\stringapiset.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincon.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincontypes.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi3.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winver.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\verrsrc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winreg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\reason.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnetwk.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\wnnc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\cderr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dde.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ddeml.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dlgs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\lzexpand.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsystem.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mciapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi2.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\playsoundapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmeapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\joystickapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpc.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdce.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdcep.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcnterr.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\shellapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winperf.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\inaddr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\bcrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ncrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dpapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winefs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winscard.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcsal.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winioctl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winsmcrd.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winspool.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ole2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_malloc.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwnbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidlbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\cguid.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidl.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwn.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidlbase.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oaidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\urlmon.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleidl.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\servprov.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\msxml.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\stralign.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsvc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mcx.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\imm.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ime_cmodes.h
+Linking CXX executable cmTC_ab98c.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_ab98c.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_ab98c.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm5993.tmp
+
+
+File E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <rpc.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef UuidCreateSequential
+  return ((int*)(&UuidCreateSequential))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the GetAdaptersAddresses exist passed with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_5fdd6\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_5fdd6.dir\build.make /nologo -L                  CMakeFiles\cmTC_5fdd6.dir\build
+Building CXX object CMakeFiles/cmTC_5fdd6.dir/CheckSymbolExists.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_5fdd6.dir\CheckSymbolExists.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm5CEE.tmp
+CheckSymbolExists.cxx
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsock2.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\windows.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\excpt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\concurrencysal.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\stdarg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\minwindef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_strict.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\specstrings_undef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\sdv_driverspecs.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnt.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\ctype.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wctype.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\kernelspecs.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\basetsd.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memory.h
+?鈷? 鍖呭惈鏂囦欢:          D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_memcpy_s.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\errno.h
+?鈷? 鍖呭惈鏂囦欢:           D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vcruntime_string.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstring.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ktmtypes.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\minwinbase.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\apiquery2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fileapifromapp.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\debugapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\utilapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\handleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\errhandlingapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\fibersapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namedpipeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\profileapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\heapapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ioapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\synchapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\interlockedapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processthreadsapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\sysinfoapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\memoryapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\enclaveapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoollegacyapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\threadpoolapiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\jobapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wow64apiset.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\libloaderapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securitybaseapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\namespaceapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\systemtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\processtopologyapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\securityappcontainer.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winerror.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timezoneapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wingdi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack4.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winuser.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tvout.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\stringapiset.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnls.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincon.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincontypes.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\consoleapi3.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winver.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\verrsrc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winreg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\reason.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winnetwk.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\cderr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ddeml.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dlgs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\lzexpand.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsystem.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mciapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmiscapi2.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\playsoundapi.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmsyscom.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mmeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\timeapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\joystickapi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpc.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdce.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcdcep.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\rpcnsi.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcnterr.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcasync.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\shellapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winperf.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\wincrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\bcrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ncrypt.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\dpapi.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winefs.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winscard.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcndr.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\rpcsal.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winioctl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack1.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\winsmcrd.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winspool.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ole2.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objbase.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\combaseapi.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_malloc.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_search.h
+?鈷? 鍖呭惈鏂囦欢:         D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\stddef.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wstdlib.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\limits.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwnbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\objidlbase.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\guiddef.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\unknwn.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidlbase.h
+?鈷? 鍖呭惈鏂囦欢:        D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oaidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\urlmon.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleidl.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\servprov.h
+?鈷? 鍖呭惈鏂囦欢:       D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\msxml.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\propidl.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\oleauto.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\pshpack8.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\poppack.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\commdlg.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\prsht.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\stralign.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\winsvc.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\mcx.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\imm.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ime_cmodes.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\inaddr.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\qos.h
+?鈷? 鍖呭惈鏂囦欢:  D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\iphlpapi.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\iprtrmib.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\mprapidef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\lmcons.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ipifcons.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ipmib.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifmib.h
+?鈷? 鍖呭惈鏂囦欢:      D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\ifdef.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\nldef.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tcpmib.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\udpmib.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\ipexport.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\in6addr.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\packon.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\packoff.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um\iptypes.h
+?鈷? 鍖呭惈鏂囦欢:    D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\time.h
+?鈷? 鍖呭惈鏂囦欢:     D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\corecrt_wtime.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\tcpestats.h
+?鈷? 鍖呭惈鏂囦欢:   D:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared\netioapi.h
+Linking CXX executable cmTC_5fdd6.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_5fdd6.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_5fdd6.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm5FFC.tmp
+
+
+File E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <winsock2.h>
+#include <iphlpapi.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef GetAdaptersAddresses
+  return ((int*)(&GetAdaptersAddresses))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Performing C++ SOURCE FILE Test HAVE_FLAG_/W3 succeeded with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_84f48\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_84f48.dir\build.make /nologo -L                  CMakeFiles\cmTC_84f48.dir\build
+Building CXX object CMakeFiles/cmTC_84f48.dir/src.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_84f48.dir\src.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm677D.tmp
+src.cxx
+Linking CXX executable cmTC_84f48.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_84f48.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_84f48.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm6888.tmp
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test ZMQ_HAVE_NOEXCEPT succeeded with the following output:
+Change Dir: E:/projects/current_project/libzmq/build2019/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_db8f6\fast && 	"D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\nmake.exe"  -f CMakeFiles\cmTC_db8f6.dir\build.make /nologo -L                  CMakeFiles\cmTC_db8f6.dir\build
+Building CXX object CMakeFiles/cmTC_db8f6.dir/src.cxx.obj
+	"D:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_db8f6.dir\src.cxx.obj.d --working-dir=E:\projects\current_project\libzmq\build2019\CMakeFiles\CMakeTmp --filter-prefix="注意: 包含文件:  " -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\cl.exe" @C:\Users\X1YOGA~1\AppData\Local\Temp\nm6B65.tmp
+src.cxx
+Linking CXX executable cmTC_db8f6.exe
+	"D:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_db8f6.dir --rc="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe" --mt="D:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\mt.exe" --manifests -- "D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\link.exe" /nologo @CMakeFiles\cmTC_db8f6.dir\objects1.rsp @C:\Users\X1YOGA~1\AppData\Local\Temp\nm6C50.tmp
+
+
+Source file was:
+
+struct X 
+{
+    X(int i) noexcept {}
+};
+
+int main(int argc, char *argv [])
+{
+    X x(5);
+    return 0;
+}
+

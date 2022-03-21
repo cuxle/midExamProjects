@@ -1,0 +1,10 @@
+E:/projects/current_project/libzmq/build2019/CMakeFiles/libzmq.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/libzmq-static.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/list_install_components.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/clang-format-diff.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/clang-format.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/clang-format-check.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/edit_cache.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/rebuild_cache.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/install/local.dir
+E:/projects/current_project/libzmq/build2019/CMakeFiles/install.dir
