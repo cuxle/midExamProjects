@@ -6,7 +6,7 @@
 #include "scoremanagemodel.h"
 #include <opencv2/opencv.hpp>
 #include "camera.h"
-#include "socket/client.h"
+//#include "socket/client.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
 #include "TmpStudent.h"
@@ -176,11 +176,11 @@ private slots:
 
     void handleCameraStateChanged(CameraState);
 
-    void handleClientStatusChanged(Client::ClientState state);
+//    void handleClientStatusChanged(Client::ClientState state);
 
     void handleLoadFileFinished(bool loaded);
 
-    void handleClientConflict();
+//    void handleClientConflict();
 
     void on_tableViewDataDownload_clicked(const QModelIndex &index);
 
@@ -348,9 +348,9 @@ private:
 
     const bool m_cmdOnline = false;
 
-    Client *m_client = nullptr;
+//    Client *m_client = nullptr;
 
-    QThread *m_clientThread = nullptr;
+//    QThread *m_clientThread = nullptr;
 
     GodLeiLaser *m_godlei = nullptr;
     QThread *m_laserThread = nullptr;

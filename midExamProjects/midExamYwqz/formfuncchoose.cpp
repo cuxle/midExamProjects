@@ -74,10 +74,10 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     // init timers
     initTimers();
 
-    // init socket if online
-    if (m_cmdOnline) {
-        initSocketClient();
-    }
+//    // init socket if online
+//    if (m_cmdOnline) {
+//        initSocketClient();
+//    }
 
 	initSitupWorker();
 
@@ -103,10 +103,10 @@ FormFuncChoose::~FormFuncChoose()
         m_curTmpStudent = nullptr;
     }
     qDebug() << __func__ << __LINE__;
-    if (m_cmdOnline) {
-        m_clientThread->quit();
-        m_clientThread->wait();
-    }
+//    if (m_cmdOnline) {
+//        m_clientThread->quit();
+//        m_clientThread->wait();
+//    }
     qDebug() << __func__ << __LINE__;
     delete m_settingDialog;
 	
@@ -247,41 +247,41 @@ void FormFuncChoose::handleSendLoginInCmdRequest()
     server.sendLoginInCmdRequest();
 }
 
-void FormFuncChoose::initSocketClient()
-{
-    qRegisterMetaType<Client::ClientState>("Client::ClientState");
-    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-    int id = appconfig.m_deviceId.toInt();
-    QString ip = appconfig.m_platAddress;
-    m_client = new Client(id, ip);
-    m_clientThread = new QThread;
-    m_client->moveToThread(m_clientThread);
-    connect(m_clientThread, &QThread::started, m_client, &Client::initClient);
-    connect(m_clientThread, &QThread::finished, m_client, &Client::destroyClient);
-//    connect(m_clientThread, &QThread::finished, m_client, &Client::deleteLater);
-    connect(m_client, &Client::sigStartTest, this, &FormFuncChoose::handleStartExamFromRemote);
-    connect(m_client, &Client::sigClientStatusChanged, this, &FormFuncChoose::handleClientStatusChanged);
-    connect(m_client, &Client::sigClientConflict, this, &FormFuncChoose::handleClientConflict);
-    m_clientThread->start();
-//    m_client->updateState(Client::ClientRunning);
-}
+//void FormFuncChoose::initSocketClient()
+//{
+//    qRegisterMetaType<Client::ClientState>("Client::ClientState");
+//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+//    int id = appconfig.m_deviceId.toInt();
+//    QString ip = appconfig.m_platAddress;
+//    m_client = new Client(id, ip);
+//    m_clientThread = new QThread;
+//    m_client->moveToThread(m_clientThread);
+//    connect(m_clientThread, &QThread::started, m_client, &Client::initClient);
+//    connect(m_clientThread, &QThread::finished, m_client, &Client::destroyClient);
+////    connect(m_clientThread, &QThread::finished, m_client, &Client::deleteLater);
+//    connect(m_client, &Client::sigStartTest, this, &FormFuncChoose::handleStartExamFromRemote);
+//    connect(m_client, &Client::sigClientStatusChanged, this, &FormFuncChoose::handleClientStatusChanged);
+//    connect(m_client, &Client::sigClientConflict, this, &FormFuncChoose::handleClientConflict);
+//    m_clientThread->start();
+////    m_client->updateState(Client::ClientRunning);
+//}
 
-void FormFuncChoose::handleClientConflict()
-{
-    QMessageBox::warning(nullptr, tr("Warning!"), tr("id 已经被占用，请重新配置id"));
-}
+//void FormFuncChoose::handleClientConflict()
+//{
+//    QMessageBox::warning(nullptr, tr("Warning!"), tr("id 已经被占用，请重新配置id"));
+//}
 
-void FormFuncChoose::handleClientStatusChanged(Client::ClientState state)
-{
-    qDebug() << __func__ << __LINE__ << state;
-    if (state == Client::ClientOnline) {
-        ui->lbClientStatus->setText("Online");
-        ui->lbClientStatus->setStyleSheet("color: rgb(0, 255, 0);");
-    } else if (state == Client::ClientOffline) {
-        ui->lbClientStatus->setText("Offline");
-        ui->lbClientStatus->setStyleSheet("color: rgb(255, 0, 0);");
-    }
-}
+//void FormFuncChoose::handleClientStatusChanged(Client::ClientState state)
+//{
+//    qDebug() << __func__ << __LINE__ << state;
+//    if (state == Client::ClientOnline) {
+//        ui->lbClientStatus->setText("Online");
+//        ui->lbClientStatus->setStyleSheet("color: rgb(0, 255, 0);");
+//    } else if (state == Client::ClientOffline) {
+//        ui->lbClientStatus->setText("Offline");
+//        ui->lbClientStatus->setStyleSheet("color: rgb(255, 0, 0);");
+//    }
+//}
 
 
 void FormFuncChoose::initCommonToolbar()

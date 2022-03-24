@@ -7,7 +7,6 @@
 //#include "studentmanager.h"
 #include <opencv2/opencv.hpp>
 #include "camera.h"
-#include "socket/client.h"
 //#include "xlsxdocument.h"
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
@@ -148,11 +147,11 @@ private slots:
 
     void handleCameraStateChanged(CameraState);
 
-    void handleClientStatusChanged(Client::ClientState state);
+//    void handleClientStatusChanged(Client::ClientState state);
 
     void handleLoadFileFinished(bool loaded);
 
-    void handleClientConflict();
+//    void handleClientConflict();
 
     void on_tableViewDataDownload_clicked(const QModelIndex &index);
 
@@ -190,7 +189,7 @@ private:
     void initCommonToolbar();
     void initFontDatabase();
     void initTimers();
-    void initSocketClient();
+//    void initSocketClient();
 
 
     void clearAppConfig();
@@ -305,9 +304,9 @@ private:
 
     const bool m_cmdOnline = false;
 
-    Client *m_client = nullptr;
+//    Client *m_client = nullptr;
 
-    QThread *m_clientThread = nullptr;
+//    QThread *m_clientThread = nullptr;
 
 private:
 //     QXlsx::Document *m_xlsx = nullptr;

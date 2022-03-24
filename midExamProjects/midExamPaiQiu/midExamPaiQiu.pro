@@ -53,7 +53,7 @@ SOURCES += \
     #schoollisttablemodel.cpp \
     #scoremanagemodel.cpp \
     #settingdialog.cpp \
-    socket/client.cpp \
+    #socket/client.cpp \
     #videomanage/mat2qtformatmethod.cpp \
     #videomanage/videocaptureworker.cpp \
     #videoReplay/videoreplayworker.cpp \
@@ -83,7 +83,7 @@ HEADERS += \
     #scoremanagemodel.h \
     #settingdialog.h \
     #singleton.h \
-    socket/client.h \
+    #socket/client.h \
     #videomanage/mat2qtformatmethod.h \
     #videomanage/videocaptureworker.h \
     #videoReplay/videoreplayworker.h \

@@ -58,7 +58,7 @@ SOURCES += \
     #scoremanagemodel.cpp \
     #settingdialog.cpp \
     algorithm/skipropeonzeromq.cpp \
-    socket/client.cpp \
+    #socket/client.cpp \
     #student.cpp \
     #studentmanager.cpp \
     #videomanage/mat2qtformatmethod.cpp \
@@ -91,7 +91,7 @@ HEADERS += \
     #settingdialog.h \
     #singleton.h \
     algorithm/skipropeonzeromq.h \
-    socket/client.h \
+    #socket/client.h \
     #student.h \
     #studentmanager.h \
     #videomanage/mat2qtformatmethod.h \

@@ -34,9 +34,9 @@ DEFINES += FOOTBALL
 
 
 SOURCES += \
-    algorithm/algorithmloadbase.cpp \
-    algorithm/volleyballinterface.cpp \
-    algorithm/volleyballworker.cpp \
+    #algorithm/algorithmloadbase.cpp \
+    #algorithm/volleyballinterface.cpp \
+    #algorithm/volleyballworker.cpp \
     footballregin.cpp \
     lidar/godleilaser.cpp \
     lidar/godleilaserdifop.cpp \
@@ -46,13 +46,13 @@ SOURCES += \
     qcustomplot.cpp \
         main.cpp \
     formfuncchoose.cpp \
-    socket/client.cpp \
+    #socket/client.cpp \
     videowidget.cpp
 
 HEADERS += \
-    algorithm/algorithmloadbase.h \
-    algorithm/volleyballinterface.h \
-    algorithm/volleyballworker.h \
+    #algorithm/algorithmloadbase.h \
+    #algorithm/volleyballinterface.h \
+    #algorithm/volleyballworker.h \
     footballregin.h \
     lidar/godleilaser.h \
     lidar/godleilaserdifop.h \
@@ -61,7 +61,7 @@ HEADERS += \
     lidarcloudwidget.h \
     qcustomplot.h \
     formfuncchoose.h \
-    socket/client.h \
+    #socket/client.h \
     videowidget.h
 
 FORMS += \
