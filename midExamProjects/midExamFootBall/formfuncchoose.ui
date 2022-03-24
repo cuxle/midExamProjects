@@ -32,8 +32,8 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>-560</x>
-     <y>-500</y>
+     <x>90</x>
+     <y>-320</y>
      <width>2463</width>
      <height>1381</height>
     </rect>
@@ -1167,7 +1167,7 @@ border:1px solid #898698;</string>
                       </size>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">border-image: url(:/resource/images/mainform/paiqiu.png);</string>
+                      <string notr="true">border-image: url(:/resource/images/mainform/football.png);</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1207,7 +1207,7 @@ border:1px solid #898698;</string>
                       <string notr="true">color: rgb(255, 255, 255);</string>
                      </property>
                      <property name="text">
-                      <string>排球</string>
+                      <string>足球</string>
                      </property>
                     </widget>
                    </item>
