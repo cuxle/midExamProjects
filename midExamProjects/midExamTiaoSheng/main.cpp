@@ -1,7 +1,6 @@
-﻿#include "mainwindow.h"
-#include "formlogin.h"
+﻿#include "formlogin.h"
 #include "logindialog.h"
-#include "log/Logger.h"
+#include "Logger.h"
 #include "formfuncchoose.h"
 #include <QApplication>
 #include <QFile>

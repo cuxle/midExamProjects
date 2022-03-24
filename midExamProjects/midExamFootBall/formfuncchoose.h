@@ -4,17 +4,12 @@
 #include <QDialog>
 #include <QDir>
 #include "scoremanagemodel.h"
-//#include "studentmanager.h"
 #include <opencv2/opencv.hpp>
-#include "camera/camera.h"
+#include "camera.h"
 #include "socket/client.h"
-//#include "xlsxdocument.h"
-//#include "algorithm/situpinterface.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
 #include "TmpStudent.h"
-#include "defines.h"
-#include "algorithm/volleyballworker.h"
 
 #pragma   push_macro("min")
 #pragma   push_macro("max")
@@ -22,12 +17,16 @@
 #undef   max
 
 #include "lidar/godleilaser.h"
+#include "lidar/lidarAnalysis.h"
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/cloud_viewer.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/filters/project_inliers.h>
+#include <pcl/io/io.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/io/ply_io.h>
 
 
 #pragma   pop_macro("min")
@@ -104,7 +103,10 @@ signals:
     void sigVideoWidgetIsLocked(bool);
 
     void sigStopVideoPlay();
+
+    void sigSetReginRect(float xMin, float xMax, float yMin, float yMax);
 private slots:
+    void handleStudentQiangPao(bool flag);
 
     void handleStartExamFromRemote(bool start);
 
@@ -202,8 +204,16 @@ private slots:
 
     void on_pbShowExamRegin_clicked();
 
+    void on_pbConnectLeiDa_clicked();
+
+    void handleUpdateStudentPos(const QVector<double> &vx, const QVector<double> &vy);
+
 public slots:
+    // update point cloud
     void handleUpdateReceivedLeidaData();
+
+    // update normalized football or basketball regin
+    void handleUpdateNormalizedData();
     void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
 
 private:
@@ -286,8 +296,8 @@ private:
 //    SitupWorker *m_situpWorker = nullptr;
 //    QThread *m_situpThread = nullptr;
 
-    VolleyballWorker *m_volleyballWorker = nullptr;
-    QThread *m_volleyballThread = nullptr;
+//    VolleyballWorker *m_volleyballWorker = nullptr;
+//    QThread *m_volleyballThread = nullptr;
 
 
     bool m_bStartCapture = true;
@@ -343,6 +353,7 @@ private:
     QThread *m_clientThread = nullptr;
 
     GodLeiLaser *m_godlei = nullptr;
+    QThread *m_laserThread = nullptr;
 
 
     const double PI = 3.1415926;
@@ -363,6 +374,7 @@ private:
      void clearStudentUiInfo();
      void initGodLeilaser();
      void showCustomPlot();
+     void showExamRegion();
      void LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData);
      int m_rowsInXlsx = 1;
      QString m_saveVideoFormat = ".mp4";
@@ -391,6 +403,12 @@ private:
      QMediaPlayer *m_dingPlayer = nullptr;
      QMediaPlayer *m_mp3Player = nullptr;
      bool m_enableStartSound = true;
+
+     bool m_startShown = false;
+
+     lidarAnalysis *m_lidaAnalysis = nullptr;
+     std::vector<PointXYZ> m_objs;
+
 protected:
      void closeEvent(QCloseEvent *event);
 };

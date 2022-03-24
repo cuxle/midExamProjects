@@ -13,27 +13,34 @@ FootballRegin::FootballRegin(QWidget *parent)
     this->setStyleSheet("background-color: rgb(55, 50, 82);");
     this->setAttribute(Qt::WA_StyledBackground);
 
-    QAction *actionL = new QAction("设为左上");
-    QAction *actionR = new QAction("设为右下");
-    connect(actionL, &QAction::triggered, this, &FootballRegin::handleLeftUpPointSet);
-    connect(actionR, &QAction::triggered, this, &FootballRegin::handleRightDownPointSet);
-    connect(this, &QWidget::customContextMenuRequested, this, &FootballRegin::on_plot_customContextMenuRequested);
-    //    ui->plot->addAction(actionL);
-    //    ui->plot->addAction(actionR);
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
-    contexMenu.addAction(actionL);
-    contexMenu.addAction(actionR);
+//    QAction *actionL = new QAction("设为左上");
+//    QAction *actionR = new QAction("设为右下");
+//    connect(actionL, &QAction::triggered, this, &FootballRegin::handleLeftUpPointSet);
+//    connect(actionR, &QAction::triggered, this, &FootballRegin::handleRightDownPointSet);
+//    connect(this, &QWidget::customContextMenuRequested, this, &FootballRegin::on_plot_customContextMenuRequested);
+//    //    ui->plot->addAction(actionL);
+//    //    ui->plot->addAction(actionR);
+//    this->setContextMenuPolicy(Qt::CustomContextMenu);
+//    contexMenu.addAction(actionL);
+//    contexMenu.addAction(actionR);
 
 }
 
-void FootballRegin::handleLeftUpPointSet()
+void FootballRegin::updateStudentPointPos(int x, int y)
 {
-    leftUpPoint = contexPoint;
-    m_rect.setTopLeft(leftUpPoint);
-    leftUpOk = true;
-    this->update();
-    qDebug() << __func__ << __LINE__ << leftUpPoint;
+    m_studentPos.setX(x);
+    m_studentPos.setY(y);
+//    this->update();
 }
+
+//void FootballRegin::handleLeftUpPointSet()
+//{
+//    leftUpPoint = contexPoint;
+//    m_rect.setTopLeft(leftUpPoint);
+//    leftUpOk = true;
+//    this->update();
+//    qDebug() << __func__ << __LINE__ << leftUpPoint;
+//}
 
 void FootballRegin::calculateObsStickPosition()
 {
@@ -57,38 +64,38 @@ void FootballRegin::calculateObsStickPosition()
     m_stickPos.push_back(QPoint(x, y5));
 }
 
-void FootballRegin::handleRightDownPointSet()
-{
-    rightBotomPoint = contexPoint;
-    m_rect.setBottomRight(rightBotomPoint);
-    rightDownOk = true;
+//void FootballRegin::handleRightDownPointSet()
+//{
+//    rightBotomPoint = contexPoint;
+//    m_rect.setBottomRight(rightBotomPoint);
+//    rightDownOk = true;
 
-    calculateObsStickPosition();
+//    calculateObsStickPosition();
 
-    this->update();
+//    this->update();
 
 
-    qDebug() << __func__ << __LINE__ << rightBotomPoint;
-}
+//    qDebug() << __func__ << __LINE__ << rightBotomPoint;
+//}
 
-void FootballRegin::on_plot_customContextMenuRequested(const QPoint &pos)
-{
-    contexPoint = (pos);
-//    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-//    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-//    qDebug() << __func__ << __LINE__<< keyAxis->pixelToCoord(pos.x());
-//    qDebug() << __func__ << __LINE__<< valueAxis->pixelToCoord(pos.y());
-//    contexPoint = QPointF(keyAxis->pixelToCoord(pos.x()), valueAxis->pixelToCoord(pos.y()));
-//    qDebug() << __func__ << __LINE__<< contexPoint;
-    contexMenu.exec(mapToGlobal(pos));
-//    qDebug() << contexMenu.x() << contexMenu.y();
-    qDebug() << mapFromGlobal(QPoint(contexMenu.x(), contexMenu.y()));
-//    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-//    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-//    qDebug() << __func__ << __LINE__<< keyAxis->pixelToCoord(pos.x());
-//    qDebug() << __func__ << __LINE__<< valueAxis->pixelToCoord(pos.y());
+//void FootballRegin::on_plot_customContextMenuRequested(const QPoint &pos)
+//{
+//    contexPoint = (pos);
+////    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+////    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+////    qDebug() << __func__ << __LINE__<< keyAxis->pixelToCoord(pos.x());
+////    qDebug() << __func__ << __LINE__<< valueAxis->pixelToCoord(pos.y());
+////    contexPoint = QPointF(keyAxis->pixelToCoord(pos.x()), valueAxis->pixelToCoord(pos.y()));
+////    qDebug() << __func__ << __LINE__<< contexPoint;
+//    contexMenu.exec(mapToGlobal(pos));
+////    qDebug() << contexMenu.x() << contexMenu.y();
+//    qDebug() << mapFromGlobal(QPoint(contexMenu.x(), contexMenu.y()));
+////    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+////    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+////    qDebug() << __func__ << __LINE__<< keyAxis->pixelToCoord(pos.x());
+////    qDebug() << __func__ << __LINE__<< valueAxis->pixelToCoord(pos.y());
 
-}
+//}
 
 void FootballRegin::updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight)
 {
@@ -105,7 +112,7 @@ void FootballRegin::updateRectPoint(const QPoint &topLeft, const QPoint &bottomR
 
 void FootballRegin::paintEvent(QPaintEvent *event)
 {
-    qDebug() << __func__ << __LINE__ << leftUpOk << rightDownOk;
+//    qDebug() << __func__ << __LINE__ << leftUpOk << rightDownOk;
     if (leftUpOk && rightDownOk) {
         QPen m_pen;
         m_pen.setColor(QColor(107, 223, 255));
@@ -129,6 +136,8 @@ void FootballRegin::paintEvent(QPaintEvent *event)
     m_pen3.setWidth(5);
     m_pen3.setStyle(Qt::SolidLine);
 
+
+
     QPainter painterPoint(this);
     painterPoint.setPen(m_pen3);
     for (int i = 0; i < 5; i++) {
@@ -140,24 +149,33 @@ void FootballRegin::paintEvent(QPaintEvent *event)
             painterPoint.setPen(m_pen3);
         }
         painterPoint.drawPoint(m_stickPos[i]);
+
     }
+
+    QPen m_pen4;
+    m_pen4.setColor(QColor("yellow"));
+    m_pen4.setWidth(5);
+    m_pen4.setStyle(Qt::SolidLine);
+    QPainter studentPoint(this);
+    studentPoint.setPen(m_pen4);
+    studentPoint.drawPoint(m_studentPos);
 
     QWidget::paintEvent(event);
 }
 
-void FootballRegin::contextMenuEvent(QContextMenuEvent *event)
-{
-    qDebug() << __func__ << __LINE__ << event->pos();
-    contexPoint = event->pos();
-//    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-//    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-//    qDebug() << __func__ << __LINE__<< keyAxis->pixelToCoord(pos.x());
-//    qDebug() << __func__ << __LINE__<< valueAxis->pixelToCoord(pos.y());
-//    contexPoint = QPointF(keyAxis->pixelToCoord(pos.x()), valueAxis->pixelToCoord(pos.y()));
-//    qDebug() << __func__ << __LINE__<< contexPoint;
-    contexMenu.exec(mapFromGlobal(event->pos()));
-    QWidget::contextMenuEvent(event);
-}
+//void FootballRegin::contextMenuEvent(QContextMenuEvent *event)
+//{
+//    qDebug() << __func__ << __LINE__ << event->pos();
+//    contexPoint = event->pos();
+////    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+////    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+////    qDebug() << __func__ << __LINE__<< keyAxis->pixelToCoord(pos.x());
+////    qDebug() << __func__ << __LINE__<< valueAxis->pixelToCoord(pos.y());
+////    contexPoint = QPointF(keyAxis->pixelToCoord(pos.x()), valueAxis->pixelToCoord(pos.y()));
+////    qDebug() << __func__ << __LINE__<< contexPoint;
+//    contexMenu.exec(mapFromGlobal(event->pos()));
+//    QWidget::contextMenuEvent(event);
+//}
 
 void FootballRegin::mousePressEvent(QMouseEvent *event)
 {

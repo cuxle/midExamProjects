@@ -27,15 +27,15 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <QDateTime>
-#include "videomanage/mat2qtformatmethod.h"
-#include "camera/camera.h"
+#include "mat2qtformatmethod.h"
+#include "camera.h"
 #include "algorithm/ropeskipworker.h"
-#include "videomanage/videocaptureworker.h"
+#include "videocaptureworker.h"
 #include "videowidget.h"
-#include "videoReplay/videoreplayworker.h"
+#include "videoreplayworker.h"
 
 #include "settingdialog.h"
-#include "networkServer/networkserver.h"
+#include "networkserver.h"
 
 
 #include "singleton.h"

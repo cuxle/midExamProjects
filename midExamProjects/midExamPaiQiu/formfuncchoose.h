@@ -6,14 +6,13 @@
 #include "scoremanagemodel.h"
 //#include "studentmanager.h"
 #include <opencv2/opencv.hpp>
-#include "camera/camera.h"
+#include "camera.h"
 #include "socket/client.h"
 //#include "xlsxdocument.h"
 //#include "algorithm/situpinterface.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
 #include "TmpStudent.h"
-#include "defines.h"
 #include "algorithm/volleyballworker.h"
 
 class Camera;

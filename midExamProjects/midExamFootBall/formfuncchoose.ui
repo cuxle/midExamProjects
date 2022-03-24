@@ -1327,6 +1327,9 @@ border:1px solid #898698;</string>
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_30">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QGroupBox" name="gbExamRecord0">
             <property name="minimumSize">

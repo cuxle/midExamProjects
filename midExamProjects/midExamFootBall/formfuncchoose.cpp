@@ -27,15 +27,15 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <QDateTime>
-#include "videomanage/mat2qtformatmethod.h"
-#include "camera/camera.h"
+#include "mat2qtformatmethod.h"
+#include "camera.h"
 #include "algorithm/ropeskipworker.h"
-#include "videomanage/videocaptureworker.h"
+#include "videocaptureworker.h"
 #include "videowidget.h"
-#include "videoReplay/videoreplayworker.h"
+#include "videoreplayworker.h"
 
 #include "settingdialog.h"
-#include "networkServer/networkserver.h"
+#include "networkserver.h"
 #include "videowidget.h"
 
 
@@ -91,13 +91,13 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     // init local student table
     initStudentsListInterface();
 	
-    VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
-    if (videoWidget != nullptr) {
-        connect(this, &FormFuncChoose::sigOpenCamera, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
-        connect(this, &FormFuncChoose::sigSetPlayVideoName, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
-        connect(videoWidget, &VideoWidget::sigReginPosChanged, m_volleyballWorker, &VolleyballWorker::handleSetRectPos);
-        connect(this, &FormFuncChoose::sigVideoWidgetIsLocked, videoWidget, &VideoWidget::handleVideoWidgetIsLocked);
-    }
+//    VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
+//    if (videoWidget != nullptr) {
+//        connect(this, &FormFuncChoose::sigOpenCamera, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
+//        connect(this, &FormFuncChoose::sigSetPlayVideoName, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
+//        connect(videoWidget, &VideoWidget::sigReginPosChanged, m_volleyballWorker, &VolleyballWorker::handleSetRectPos);
+//        connect(this, &FormFuncChoose::sigVideoWidgetIsLocked, videoWidget, &VideoWidget::handleVideoWidgetIsLocked);
+//    }
 }
 
 FormFuncChoose::~FormFuncChoose()
@@ -126,8 +126,8 @@ FormFuncChoose::~FormFuncChoose()
     m_cameraThread->wait();
 
 
-    m_volleyballThread->quit();
-    m_volleyballThread->wait();
+    //m_volleyballThread->quit();
+    //m_volleyballThread->wait();
 
     m_videoCaptureThread->quit();
     m_videoCaptureThread->wait();
@@ -139,6 +139,7 @@ FormFuncChoose::~FormFuncChoose()
     }
 
     qDebug() << __func__ << __LINE__;
+    delete m_lidaAnalysis;
     delete ui;
 }
 
@@ -155,8 +156,39 @@ void FormFuncChoose::initGodLeilaser()
     cloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
 
     m_godlei = new GodLeiLaser;
-    connect(m_godlei, &GodLeiLaser::sigHandleReceivedData, this, &FormFuncChoose::handleUpdateReceivedLeidaData);
+    m_laserThread = new QThread;
+    m_godlei->moveToThread(m_laserThread);
+    connect(m_laserThread, &QThread::started, m_godlei, &GodLeiLaser::initLaser);
+    connect(m_laserThread, &QThread::finished, m_godlei, &GodLeiLaser::destroyLaser);
+//    connect(m_godlei, &GodLeiLaser::sigStudentQiangPao, this, &FormFuncChoose::handleStudentQiangPao);
+//    connect(this, &FormFuncChoose::sigStartCount, m_godlei, &GodLeiLaser::handleStartExam);
+//    connect(this, &FormFuncChoose::sigSetReginRect, m_godlei, &GodLeiLaser::handleSetTestRegin);
+//    connect(m_godlei, &GodLeiLaser::sigStudentPositionUpdated, this, &FormFuncChoose::handleUpdateStudentPos);
+    m_laserThread->start();
 
+    m_lidaAnalysis = new lidarAnalysis;
+}
+
+void FormFuncChoose::handleUpdateStudentPos(const QVector<double> &vx, const QVector<double> &vy)
+{
+    this->vx.clear();
+    this->vy.clear();
+    this->vx.append(vx);
+    this->vy.append(vy);
+
+    qDebug() << __func__ << __LINE__ << this->vx;
+    qDebug() << __func__ << __LINE__ << this->vy;
+
+    showCustomPlot();
+}
+
+void FormFuncChoose::handleStudentQiangPao(bool flag)
+{
+    if (flag) {
+        QMessageBox::warning(this, "警告", "考生抢跑，请重新考试考试！");
+        // TODO restart exam
+        return;
+    }
 }
 
 void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData)
@@ -198,12 +230,12 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
             tempY = (-((GodLeiLaser::lidar_dist[i][j] * cosTheta[i] * sin(GodLeiLaser::lidar_angle[i][j] * PI / 180))) +
                 (4.376 * sin((14.67 - GodLeiLaser::lidar_angle[i][j]) * PI / 180))) / 100.f;
             tempZ = ((GodLeiLaser::lidar_dist[i][j] * sinTheta[i]) + 0.426) / 100.f;
-            vx.push_back(tempX+2);
-            vy.push_back(tempY+4);
-            tempZ = 1;
+            vx.push_back(tempX);
+            vy.push_back(tempY);
+//            tempZ = 1;
 //            tempZ = 0;
             cloudData->points.push_back(PointXYZ(tempY, -tempX, tempZ));
-            //qDebug() << __func__ << __LINE__ << tempZ;
+//            qDebug() << __func__ << __LINE__ << cloudData->points.size();
 #ifdef _DEBUG
             outfileDeubg << tempX << ","
                 << tempY << ","
@@ -220,9 +252,15 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
     }
 }
 
+void FormFuncChoose::handleUpdateNormalizedData()
+{
+
+}
+
 
 void FormFuncChoose::handleUpdateReceivedLeidaData()
 {
+
 //    qDebug() << __func__ << __LINE__ << GodLeiLaser::lidar_angle.size();
     int i = 0;
     if (GodLeiLaser::lidar_angle.size() > 0)
@@ -231,8 +269,12 @@ void FormFuncChoose::handleUpdateReceivedLeidaData()
         //			PointCloud<PointXYZ>::Ptr cloud(new PointCloud<PointXYZ>);
 
         LidarParsing(cloud);
-
-        showCustomPlot();
+//        qDebug() << __func__ << __LINE__ << cloud->points.size();
+        if (ui->stkWidgetExamCloudRegin->currentIndex() == 0) {
+            showCustomPlot();
+        } else {
+            showExamRegion();
+        }
 
         cloud->points.resize(0); // waste resource
 
@@ -242,6 +284,47 @@ void FormFuncChoose::handleUpdateReceivedLeidaData()
         GodLeiLaser::lidar_mtimestamp.clear();
     }
 }
+
+void FormFuncChoose::showExamRegion()
+{
+    qDebug() << __func__ << __LINE__ << cloud->points.size();
+//    for (int i = 0; i < cloud->points.size(); i ++) {
+//        qDebug() << __func__ << __LINE__ << i << " x:" << cloud->points.at(i)._PointXYZ::x << " y:" << cloud->points.at(i)._PointXYZ::y;
+//    }
+
+    qDebug() << __func__ << __LINE__;
+
+//    qDebug() << __func__ << __LINE__ << pcl::io::savePCDFileASCII("E:/pcd_test" + std::to_string(0) + ".pcd", *cloud);
+
+     qDebug() << __func__ << __LINE__;
+
+    m_lidaAnalysis->normalizeData(cloud);
+
+    qDebug() << __func__ << __LINE__ << cloud->points.size();
+    //从当前点云中提取跟踪目标（人） 返回的跟踪目标可能会有多个（杆子的反射等异常干扰） 默认返回的第一项objs[0]是最大的跟踪目标, 考试开始后每帧调用
+    std::vector<PointXYZ> objs;
+    m_lidaAnalysis->objectDetection(cloud, objs);
+    qDebug() << __func__ << __LINE__ << objs.size();
+    if (objs.size() <= 0) {
+        return;
+    }
+
+    qDebug() << __func__ << __LINE__ << objs.size();
+//    for (int i = 0; i < objs.size(); i++) {
+//        qDebug() << __func__ << __LINE__ << i << " x:" << objs[i]._PointXYZ::x << " y:" << objs[i]._PointXYZ::y;
+//    }
+//    for (int i = 0; i < objs.size(); i++)
+//    {
+////        qDebug() << "center:" << objs[i];
+//    }
+
+    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+    QPoint point = QPoint(keyAxis->coordToPixel(objs[0]._PointXYZ::x), valueAxis->coordToPixel(objs[0]._PointXYZ::y));
+    ui->examRegin->updateStudentPointPos(point.x(), point.y());
+    ui->examRegin->update();
+}
+
 
 void FormFuncChoose::showCustomPlot()
 {
@@ -268,20 +351,20 @@ void FormFuncChoose::showCustomPlot()
 //    m_situpThread->start();
 //}
 
-void FormFuncChoose::initVolleyballWorker()
-{
-    m_volleyballWorker = new VolleyballWorker;
-    m_volleyballThread = new QThread;
-    m_volleyballWorker->moveToThread(m_volleyballThread);
-    connect(m_volleyballThread, &QThread::started, m_volleyballWorker, &VolleyballWorker::initlib);
-    connect(m_volleyballThread, &QThread::finished, m_volleyballWorker, &VolleyballWorker::destroyWorker);
-    connect(m_camera, &Camera::sigImageCapture, m_volleyballWorker, &VolleyballWorker::handleReceiveImage);
-//    connect(this, &FormFuncChoose::sigSendImageFromVideo, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
-    connect(this, &FormFuncChoose::sigStartCount, m_volleyballWorker, &VolleyballWorker::startCount);
-    connect(this, &FormFuncChoose::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
-    connect(m_volleyballWorker, &VolleyballWorker::sigVolCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
-    m_volleyballThread->start();
-}
+//void FormFuncChoose::initVolleyballWorker()
+//{
+//    m_volleyballWorker = new VolleyballWorker;
+//    m_volleyballThread = new QThread;
+//    m_volleyballWorker->moveToThread(m_volleyballThread);
+//    connect(m_volleyballThread, &QThread::started, m_volleyballWorker, &VolleyballWorker::initlib);
+//    connect(m_volleyballThread, &QThread::finished, m_volleyballWorker, &VolleyballWorker::destroyWorker);
+//    connect(m_camera, &Camera::sigImageCapture, m_volleyballWorker, &VolleyballWorker::handleReceiveImage);
+////    connect(this, &FormFuncChoose::sigSendImageFromVideo, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
+//    connect(this, &FormFuncChoose::sigStartCount, m_volleyballWorker, &VolleyballWorker::startCount);
+//    connect(this, &FormFuncChoose::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
+//    connect(m_volleyballWorker, &VolleyballWorker::sigVolCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
+//    m_volleyballThread->start();
+//}
 
 void FormFuncChoose::initUi()
 {
@@ -299,6 +382,7 @@ void FormFuncChoose::initUi()
 
     ui->stackedWidget->setCurrentIndex(0);
     ui->stkVideoHolder->setCurrentIndex(0);
+    ui->stkWidgetExamCloudRegin->setCurrentIndex(0);
 
     // no cmd online mode for ytxs
     // read m_online from settings
@@ -325,9 +409,14 @@ void FormFuncChoose::updateRectPoint(const QPoint &topLeft, const QPoint &bottom
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     m_topLeft = QPointF(keyAxis->pixelToCoord((topLeft).x()), valueAxis->pixelToCoord((topLeft).y()));
     m_bottomRight = QPointF(keyAxis->pixelToCoord((bottomRight).x()), valueAxis->pixelToCoord((bottomRight).y()));
-    qDebug() << __func__ << __LINE__ << m_topLeft << m_bottomRight;
+    // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
+//    emit sigSetReginRect(m_topLeft.x(), m_bottomRight.x(), m_topLeft.y(), m_bottomRight.y());
 
-    //    ui->plot->update();
+
+    float zMin =  -1.2f;
+    float zMax = 1.2f;
+    qDebug() << "top left:" << m_topLeft << " bottom right:" << m_bottomRight;
+    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(), zMin, zMax);
 }
 
 //void FormFuncChoose::initExamTimeVersion()
@@ -1015,8 +1104,8 @@ void FormFuncChoose::initVideoPlayer()
 //    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
 //    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
 
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
-    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
+//    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
+//    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
 
     //    connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, [&](bool videoLoaded){
 //        m_bVideoFileLoaded = videoLoaded;
@@ -1163,6 +1252,7 @@ void FormFuncChoose::on_pbMainForm_clicked()
     if (gotoIndex == -1) {
 
         this->close();
+        return;
     }
 
     if (gotoIndex >= ui->stackedWidget->count()) {
@@ -1326,7 +1416,7 @@ void FormFuncChoose::stopExamStuff()
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
 //    m_ropeSkipWorker->m_bStartCount = false;
 //    m_situpWorker->m_bStartCount = false;
-    m_volleyballWorker->m_bStartCount = false;
+//    m_volleyballWorker->m_bStartCount = false;
     if (m_curExamMode == ExamModeFromCamera) {
         emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
     } else if (m_curExamMode == ExamModeFromVideo) {
@@ -1792,6 +1882,19 @@ void FormFuncChoose::on_pbShowExamRegin_clicked()
         index = 0;
     } else {
         index = 1;
+    }
+}
+
+
+void FormFuncChoose::on_pbConnectLeiDa_clicked()
+{
+    // chick this button, the rayda data will show on the grid
+
+    if (!m_startShown) {
+        m_startShown = true;
+        connect(m_godlei, &GodLeiLaser::sigHandleReceivedData, this, &FormFuncChoose::handleUpdateReceivedLeidaData);
+//        connect(m_godlei, &GodLeiLaser::sigStudentPositionUpdated, this, &FormFuncChoose::handleUpdateStudentPos);
+
     }
 }
 

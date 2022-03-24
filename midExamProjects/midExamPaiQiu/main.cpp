@@ -1,7 +1,6 @@
-#include "mainwindow.h"
 #include "formlogin.h"
 #include "logindialog.h"
-#include "log/Logger.h"
+#include "Logger.h"
 #include "formfuncchoose.h"
 #include <QApplication>
 #include <QFile>
@@ -52,7 +51,7 @@ int main(int argc, char *argv[])
 
     int ret = a.exec();
     if (ret == RETCODE_RESTART) {
-        // ´«Èë qApp->applicationFilePath()£¬Æô¶¯×Ô¼º
+        // ä¼ å…¥ qApp->applicationFilePath()ï¼Œå¯åŠ¨è‡ªå·±
         QProcess::startDetached(qApp->applicationFilePath(), QStringList());
         return 0;
     }

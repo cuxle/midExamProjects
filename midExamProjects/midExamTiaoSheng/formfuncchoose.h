@@ -6,7 +6,7 @@
 #include "scoremanagemodel.h"
 //#include "studentmanager.h"
 #include <opencv2/opencv.hpp>
-#include "camera/camera.h"
+#include "camera.h"
 #include "socket/client.h"
 //#include "xlsxdocument.h"
 #include "algorithm/skipropeonzeromq.h"

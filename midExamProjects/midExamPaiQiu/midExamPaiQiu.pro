@@ -13,7 +13,11 @@ CONFIG += c++11
 TARGET = midExamPaiQiu
 TEMPLATE = app
 
-#include(./libs/xlsx/qtxlsx.pri)
+SHARED_PATH = ../common
+
+include($$SHARED_PATH/common.pri)
+
+DEFINES += PAIQIU
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -36,34 +40,27 @@ SOURCES += \
     #algorithm/situpworker.cpp \
     algorithm/volleyballinterface.cpp \
     algorithm/volleyballworker.cpp \
-    appconfig.cpp \
-    camera/camera.cpp \
-    camera/csamplecaptureeventhandler.cpp \
-    datamanager.cpp \
-    examprojectbasicinfo.cpp \
-    localstudenttablemodel.cpp \
-    log/Logger.cpp \
-    logindialog.cpp \
+    #appconfig.cpp \
+    #datamanager.cpp \
+    #examprojectbasicinfo.cpp \
+    #localstudenttablemodel.cpp \
+    #logindialog.cpp \
         main.cpp \
-    maincounter.cpp \
-        mainwindow.cpp \
-    formlogin.cpp \
+    #maincounter.cpp \
+    #    mainwindow.cpp \
+    #formlogin.cpp \
     formfuncchoose.cpp \
-    networkServer/networkserver.cpp \
-    schoollisttablemodel.cpp \
-    scoremanagemodel.cpp \
-    settingdialog.cpp \
-    #algorithm/skipropeonzeromq.cpp \
+    #schoollisttablemodel.cpp \
+    #scoremanagemodel.cpp \
+    #settingdialog.cpp \
     socket/client.cpp \
-    #student.cpp \
-    #studentmanager.cpp \
-    videomanage/mat2qtformatmethod.cpp \
-    videomanage/videocaptureworker.cpp \
-    videoReplay/videoreplayworker.cpp \
+    #videomanage/mat2qtformatmethod.cpp \
+    #videomanage/videocaptureworker.cpp \
+    #videoReplay/videoreplayworker.cpp \
     videowidget.cpp
 
 HEADERS += \
-    TmpStudent.h \
+    #TmpStudent.h \
     #algorithm/ShareMemory.h \
     algorithm/algorithmloadbase.h \
     #algorithm/ropeskippinginterface.h \
@@ -72,40 +69,33 @@ HEADERS += \
     #algorithm/situpworker.h \
     algorithm/volleyballinterface.h \
     algorithm/volleyballworker.h \
-    appconfig.h \
-    camera/camera.h \
-    camera/csamplecaptureeventhandler.h \
-    datamanager.h \
-    defines.h \
-    examprojectbasicinfo.h \
-    localstudenttablemodel.h \
-    log/Logger.h \
-    logindialog.h \
-    maincounter.h \
-        mainwindow.h \
-    formlogin.h \
+    #appconfig.h \
+    #datamanager.h \
+    #defines.h \
+    #examprojectbasicinfo.h \
+    #localstudenttablemodel.h \
+    #logindialog.h \
+    #maincounter.h \
+    #    mainwindow.h \
+    #formlogin.h \
     formfuncchoose.h \
-    networkServer/networkserver.h \
-    schoollisttablemodel.h \
-    scoremanagemodel.h \
-    settingdialog.h \
-    singleton.h \
-    #algorithm/skipropeonzeromq.h \
+    #schoollisttablemodel.h \
+    #scoremanagemodel.h \
+    #settingdialog.h \
+    #singleton.h \
     socket/client.h \
-    #student.h \
-    #studentmanager.h \
-    videomanage/mat2qtformatmethod.h \
-    videomanage/videocaptureworker.h \
-    videoReplay/videoreplayworker.h \
-    videowidget.h /
-    libs/videoWrite/videoWriterFFmpeg.h
+    #videomanage/mat2qtformatmethod.h \
+    #videomanage/videocaptureworker.h \
+    #videoReplay/videoreplayworker.h \
+    videowidget.h
+    #libs/videoWrite/videoWriterFFmpeg.h
 
 FORMS += \
-    logindialog.ui \
-        mainwindow.ui \
-    formlogin.ui \
-    formfuncchoose.ui \
-    settingdialog.ui
+    #logindialog.ui \
+    #    mainwindow.ui \
+    #formlogin.ui \
+    formfuncchoose.ui
+    #settingdialog.ui
 
 RESOURCES += \
     res.qrc
@@ -140,12 +130,12 @@ DEPENDPATH += D:/ProgramData/DahengImaging/GalaxySDK/Samples/C++SDK/lib/x64
 
 
 
-win32:CONFIG(release, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410
-else:win32:CONFIG(debug, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410d
-else:unix: LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410
+#win32:CONFIG(release, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410
+#else:win32:CONFIG(debug, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410d
+#else:unix: LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410
 
-INCLUDEPATH += D:/opencv/build/include
-DEPENDPATH += D:/opencv/build/include
+#INCLUDEPATH += D:/opencv/build/include
+#DEPENDPATH += D:/opencv/build/include
 
 INCLUDEPATH += $$PWD/../libs/videoWrite/FFmpeg/include
 INCLUDEPATH += $$PWD/../libs/videoWrite

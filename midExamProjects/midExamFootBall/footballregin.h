@@ -11,12 +11,13 @@ class FootballRegin : public QWidget
     Q_OBJECT
 public:
     explicit FootballRegin(QWidget *parent = nullptr);
+    void updateStudentPointPos(int x, int y);
 public slots:
     void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
-private slots:
-    void handleLeftUpPointSet();
-    void handleRightDownPointSet();
-    void on_plot_customContextMenuRequested(const QPoint &pos);
+//private slots:
+//    void handleLeftUpPointSet();
+//    void handleRightDownPointSet();
+//    void on_plot_customContextMenuRequested(const QPoint &pos);
 
 signals:
 private:
@@ -29,6 +30,7 @@ private:
     QPoint rightBotomPoint;
     QPoint contexPoint;
 
+    QPoint m_studentPos;
     QPoint followPoint;
 
     QVector<QPoint> m_pointPath;
@@ -44,10 +46,6 @@ private:
     // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);
-
-    // QWidget interface
-protected:
-    void contextMenuEvent(QContextMenuEvent *event);
 
     // QWidget interface
 protected:
