@@ -1,5 +1,4 @@
 #include "lidarAnalysis.h"
-#include <QDebug>
 
 lidarAnalysis::lidarAnalysis()
 {
@@ -13,442 +12,534 @@ lidarAnalysis::~lidarAnalysis()
 
 float lidarAnalysis::dist(PointXYZ pt1, PointXYZ pt2)
 {
-    float distance = sqrt((pt1.x - pt2.x)*(pt1.x - pt2.x) + (pt1.y - pt2.y)*(pt1.y - pt2.y));
-    return distance;
+	float distance = sqrt((pt1.x - pt2.x) * (pt1.x - pt2.x) + (pt1.y - pt2.y) * (pt1.y - pt2.y));
+	return distance;
 }
 
 bool lidarAnalysis::normalizeData(PointCloud<PointXYZ>::Ptr cloudPtr)
 {
-    std::vector<pcl::PointXYZ, Eigen::aligned_allocator<pcl::PointXYZ> > pointsArr;
+	std::vector<pcl::PointXYZ, Eigen::aligned_allocator<pcl::PointXYZ> > pointsArr;
 
-    float ratio = 30.0f/abs(m_yMax - m_yMin);
-    m_xBorderMax = (m_xMax - m_xMin)*ratio / 2.0f;
-    m_xBorderMin = -m_xBorderMax;
+	float ratio = 30.0f / abs(m_yMax - m_yMin);
+	m_xBorderMax = (m_xMax - m_xMin) * ratio / 2.0f;
+	m_xBorderMin = -m_xBorderMax;
 
-    for (int i = 0; i < cloudPtr->points.size(); i++)
-    {
-        if (cloudPtr->points[i].x > m_xMin && cloudPtr->points[i].x < m_xMax && cloudPtr->points[i].y > m_yMin && cloudPtr->points[i].y < m_yMax && cloudPtr->points[i].z > m_zMin && cloudPtr->points[i].z < m_zMax)
-        {
-            PointXYZ tempXYZ = cloudPtr->points[i];
-            tempXYZ.x = (tempXYZ.x - (m_xMax + m_xMin)/2.0f)*ratio;
-            tempXYZ.y = (tempXYZ.y - m_yMin)*ratio;
+	for (int i = 0; i < cloudPtr->points.size(); i++)
+	{
+		if (cloudPtr->points[i].x > m_xMin && cloudPtr->points[i].x < m_xMax && cloudPtr->points[i].y > m_yMin && cloudPtr->points[i].y < m_yMax && cloudPtr->points[i].z > m_zMin && cloudPtr->points[i].z < m_zMax)
+		{
+			PointXYZ tempXYZ = cloudPtr->points[i];
+			tempXYZ.x = (tempXYZ.x - (m_xMax + m_xMin) / 2.0f) * ratio;
+			tempXYZ.y = (tempXYZ.y - m_yMin) * ratio;
 
-            if (dist(tempXYZ, m_flag1) > m_radius && dist(tempXYZ, m_flag2) > m_radius && dist(tempXYZ, m_flag3) > m_radius && dist(tempXYZ, m_flag4) > m_radius && dist(tempXYZ, m_flag5) > m_radius)
-            {
-                pointsArr.push_back(tempXYZ);
-            }
-        }
-    }
-//    qDebug() << "abc1:" << pointsArr.size();
-    cloudPtr->points.resize(0);
-//    for (auto &item : pointsArr) {
-//        cloudPtr->points.push_back(item);
-//    }
-    cloudPtr->points = pointsArr;
-//    qDebug() << "abc2:" << cloudPtr->points.size();
-//    cloudPtr->points.insert(cloudPtr->points.end(), pointsArr.begin(), pointsArr.end());
-    cloudPtr->width = 1;
-    cloudPtr->height = cloudPtr->points.size();
+			if (dist(tempXYZ, m_flag1) > m_radius && dist(tempXYZ, m_flag2) > m_radius && dist(tempXYZ, m_flag3) > m_radius && dist(tempXYZ, m_flag4) > m_radius && dist(tempXYZ, m_flag5) > m_radius)
+			{
+				pointsArr.push_back(tempXYZ);
+			}
+		}
+	}
+	cloudPtr->points.resize(0);
+	cloudPtr->points = pointsArr;
+	cloudPtr->width = 1;
+	cloudPtr->height = cloudPtr->points.size();
 
-    return true;
+	return true;
 }
 
-bool lidarAnalysis::removePtsOutOfRegion(float xMin, float xMax, float yMin, float yMax, std::vector<float> pts)
+bool lidarAnalysis::removePtsOutOfRegion(float xMin, float xMax, float yMin, float yMax, vector<float> pts)
 {
 
-    return true;
+	return true;
 }
 
 bool lidarAnalysis::setTestRegion(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
 {
-    m_xMin = xMin;
-    m_xMax = xMax;
-    m_yMin = yMin;
-    m_yMax = yMax;
-    m_zMin = zMin;
-    m_zMax = zMax;
+	m_xMin = xMin;
+	m_xMax = xMax;
+	m_yMin = yMin;
+	m_yMax = yMax;
+	m_zMin = zMin;
+	m_zMax = zMax;
 
-    return true;
+	return true;
 }
 
-int *lidarAnalysis::rand_rgb()
-{
-    //éšæœºäº§ç”Ÿé¢œè‰²
-    int *rgb = new int[3];
-    rgb[0] = rand() % 255;
-    rgb[1] = rand() % 255;
-    rgb[2] = rand() % 255;
-    return rgb;
+int *lidarAnalysis::rand_rgb() {//Ëæ»ú²úÉúÑÕÉ«
+	int *rgb = new int[3];
+	rgb[0] = rand() % 255;
+	rgb[1] = rand() % 255;
+	rgb[2] = rand() % 255;
+	return rgb;
 }
 
-//é‡ç½®è€ƒè¯•å‚æ•°
+//ÖØÖÃ¿¼ÊÔ²ÎÊı
 bool lidarAnalysis::resetExamParams()
 {
-    m_prevRegionID = 0;
-    m_PointLast = PointXYZ(0.0f, 0.0f, 0.0f);
-    m_duration = 0.0;
-    m_inExam = false;
-    m_stepIdx = 0;
-    m_OutCnt = 0;
-    m_trailIdx = 0;
-    m_flagStatus[0] = false;
-    m_flagStatus[1] = false;
-    m_flagStatus[2] = false;
-    m_flagStatus[3] = false;
-    m_flagStatus[4] = false;
-    return true;
+	m_prevRegionID = 0;
+	m_PointLast = PointXYZ(0.0f, 0.0f, 0.0f);
+	m_duration = 0.0;
+	m_inExam = false;
+	m_stepIdx = 0;
+	m_OutCnt = 0;
+	m_trailIdx = 0;
+	m_flagStatus[0] = false;
+	m_flagStatus[1] = false;
+	m_flagStatus[2] = false;
+	m_flagStatus[3] = false;
+	m_flagStatus[4] = false;
+	return true;
 }
 
-//è®¾ç½®è€ƒè¯•å¼€å§‹
+//ÉèÖÃ¿¼ÊÔ¿ªÊ¼
 bool lidarAnalysis::setExamStart(float x, float y)
 {
-    //å¦‚æœæ ‡å¿—ä½å·²ç»æ˜¯è€ƒè¯•ä¸­ï¼Œåˆ™æ— éœ€è®¾ç½®
-    if (m_inExam == true)
-    {
-        return true;
-    }
-    else
-    {
-        if (getRegionID(x, y) > 0)
-        {
-            //å­¦ç”Ÿè¶Šç•ŒçŠ¯è§„ æ— æ³•å¼€å§‹è€ƒè¯•
-            return false;
-        }
-        else
-        {
+	//Èç¹û±êÖ¾Î»ÒÑ¾­ÊÇ¿¼ÊÔÖĞ£¬ÔòÎŞĞèÉèÖÃ
+	if (m_inExam == true)
+	{
+		return true;
+	}
+	else
+	{
+		if (getRegionID(x, y) > 0)
+		{
+			//Ñ§ÉúÔ½½ç·¸¹æ ÎŞ·¨¿ªÊ¼¿¼ÊÔ
+			return false;
+		}
+		else
+		{
+			
 
-
-            m_inExam = true;
-            return true;
-        }
-    }
+			m_inExam = true;
+			return true;
+		}
+	}
 
 }
 
-//è®¾ç½®è€ƒè¯•ç»“æŸæ ‡å¿—
+//ÉèÖÃ¿¼ÊÔ½áÊø±êÖ¾
 bool lidarAnalysis::setExamEnd()
 {
-    //å¦‚æœæ ‡å¿—ä½å·²ç»æ˜¯è€ƒè¯•ç»“æŸï¼Œåˆ™æ— éœ€è®¾ç½®
-    if (m_inExam == false)
-    {
-        return true;
-    }
-    else
-    {
-        m_finish = clock();
-        m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
-        m_inExam = false;
-        return true;
-    }
+	//Èç¹û±êÖ¾Î»ÒÑ¾­ÊÇ¿¼ÊÔ½áÊø£¬ÔòÎŞĞèÉèÖÃ
+	if (m_inExam == false)
+	{
+		return true;
+	}
+	else
+	{
+		m_finish = clock();
+		m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
+		m_inExam = false;
+		return true;
+	}
 }
 
 int lidarAnalysis::getRegionID(float x, float y)
 {
-    if (x < m_xMin || x > m_xMax || y < m_yMin || y > m_yMax)
-    {
-        return 0;
-    }
+	if (x < m_xBorderMin || x > m_xBorderMax || y < m_yBorderMin || y > m_yBorderMax)
+	{
+		return 0;
+	}
 
-    int areaID = y / 5;
-    if (x >= 0)
-    {
-        areaID = areaID * 2 + 2;
-    }
-    else
-    {
-        areaID = areaID * 2 + 1;
-    }
+	int areaID = y / 5;
+	if (x >= 0)
+	{
+		areaID = areaID * 2 + 2;
+	}
+	else
+	{
+		areaID = areaID * 2 + 1;
+	}
 
-    return areaID;
+	return areaID;
 }
 
-//è¿”å›å€¼ 0:æœªå¼€å§‹è€ƒè¯•  1ï¼šè€ƒè¯•è¿›è¡Œä¸­ 2ï¼šè€ƒè¯•æ­£å¸¸ç»“æŸ 3ï¼šè€ƒç”ŸçŠ¯è§„
+//·µ»ØÖµ 0:Î´¿ªÊ¼¿¼ÊÔ  1£º¿¼ÊÔ½øĞĞÖĞ 2£º¿¼ÊÔÕı³£½áÊø 3£º¿¼Éú·¸¹æ
 int lidarAnalysis::tracking(PointXYZ ptPos)
 {
-    //åœ¨è€ƒè¯•ä¸­æ‰åˆ†æç‚¹çš„ä½ç½® ä¸åœ¨è€ƒè¯•åŒºåŸŸå†…ptPosé»˜è®¤ç»™ä¸ª(0,-1)
-    if (m_inExam)
-    {
-        int curID = getRegionID(ptPos.x, ptPos.y);
+	//ÔÚ¿¼ÊÔÖĞ²Å·ÖÎöµãµÄÎ»ÖÃ ²»ÔÚ¿¼ÊÔÇøÓòÄÚptPosÄ¬ÈÏ¸ø¸ö(0,-1)
+	if (m_inExam)
+	{
+		int curID = getRegionID(ptPos.x, ptPos.y);
 
-        //è€ƒç”Ÿè¿›å…¥è€ƒè¯•åŒºåŸŸå†…æ‰å¼€å§‹è®¡æ—¶
-        if (curID > 0 && m_prevRegionID == 0)
-        {
-            m_start = clock();
-            m_prevRegionID = curID;
-            m_stepIdx++;
-        }
+		//¿¼Éú½øÈë¿¼ÊÔÇøÓòÄÚ²Å¿ªÊ¼¼ÆÊ±
+		if (curID > 0 && m_prevRegionID == 0)
+		{
+			m_start = clock();
+			m_prevRegionID = curID;
+			m_stepIdx++;
+		}
 
-        //è¿›å…¥è€ƒè¯•æµç¨‹
-        if(m_stepIdx > 0)
-        {
-            if (curID == 0)
-            {
-                //è¿ç»­ä¸‰å¸§å‡ºåŒºåŸŸï¼Œè¡¨ç¤ºè€ƒè¯•ç»“æŸ
-                if (m_OutCnt == 0)
-                {
-                    m_finish = clock();
-                }
-                m_OutCnt++;
+		//½øÈë¿¼ÊÔÁ÷³Ì
+		if (m_stepIdx > 0)
+		{
+			if (curID == 0)
+			{
+				//Á¬ĞøÈıÖ¡³öÇøÓò£¬±íÊ¾¿¼ÊÔ½áÊø
+				if (m_OutCnt == 0)
+				{
+					m_finish = clock();
+				}
+				m_OutCnt++;
 
-                if (m_OutCnt == 3)
-                {
-                    if (m_flagStatus[0] && m_flagStatus[1] && m_flagStatus[2] && m_flagStatus[3] && m_flagStatus[4])
-                    {
-                        //å¦‚æœ5ä¸ªæ†å­éƒ½ç»•è¿‡äº†
-                        m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
+				if (m_OutCnt == 3)
+				{
+					if (m_flagStatus[0] && m_flagStatus[1] && m_flagStatus[2] && m_flagStatus[3] && m_flagStatus[4])
+					{
+						//Èç¹û5¸ö¸Ë×Ó¶¼ÈÆ¹ıÁË
+						m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
 
-                        if (abs(m_PointLast.y - m_yBorderMax) < abs(m_PointLast.x - m_xBorderMin) && abs(m_PointLast.y - m_yBorderMax) < abs(m_PointLast.x - m_xBorderMax))
-                        {
-                            //å¦‚æœå‡ºæœ‰æ•ˆåŒºåŸŸå‰è·ç¦»åº•çº¿è¿‘ åˆ™æ­£å¸¸è€ƒè¯•ç»“æŸ
-                            return 2;
-                        }
-                        else
-                        {
-                            //è™½ç„¶ç»•è¿‡æ‰€æœ‰çš„æ† ä½†æ˜¯æœ€åæ²¡æœ‰ä»åº•çº¿å‡ºå»
-                            return 3;
-                        }
-                    }
-                    else
-                    {
-                        //çŠ¯è§„ç»“æŸ
-                        m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
-                        return 3;
-                    }
-                }
-            }
-            else if (curID < 3)
-            {
-                m_PointLast = ptPos; //å¤‡ä»½ä¸€ä¸‹åœ¨è€ƒè¯•åŒºåŸŸå†…çš„ç‚¹ä½
-                //åœ¨1-2åŒºåŸŸå†…ä¸å¿…åŒºåˆ†è·¯å¾„,è€ƒç”Ÿä»ç„¶å¯ä»¥æ›´æ¢è·¯å¾„
-                if (m_prevRegionID != curID)
-                {
-                    m_prevRegionID = curID;
-                }
-                m_OutCnt = 0;
+						if (abs(m_PointLast.y - m_yBorderMax) < abs(m_PointLast.x - m_xBorderMin) && abs(m_PointLast.y - m_yBorderMax) < abs(m_PointLast.x - m_xBorderMax))
+						{
+							//Èç¹û³öÓĞĞ§ÇøÓòÇ°¾àÀëµ×Ïß½ü ÔòÕı³£¿¼ÊÔ½áÊø
+							return 2;
+						}
+						else
+						{
+							//ËäÈ»ÈÆ¹ıËùÓĞµÄ¸Ë µ«ÊÇ×îºóÃ»ÓĞ´Óµ×Ïß³öÈ¥
+							return 3;
+						}
+					}
+					else
+					{
+						//·¸¹æ½áÊø
+						m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
+						return 3;
+					}
+				}
+			}
+			else if (curID < 3)
+			{
+				m_PointLast = ptPos; //±¸·İÒ»ÏÂÔÚ¿¼ÊÔÇøÓòÄÚµÄµãÎ»
+				//ÔÚ1-2ÇøÓòÄÚ²»±ØÇø·ÖÂ·¾¶,¿¼ÉúÈÔÈ»¿ÉÒÔ¸ü»»Â·¾¶
+				if (m_prevRegionID != curID)
+				{
+					m_prevRegionID = curID;
+				}
+				m_OutCnt = 0;
 
-            }
-            else
-            {
-                m_PointLast = ptPos; //å¤‡ä»½ä¸€ä¸‹åœ¨è€ƒè¯•åŒºåŸŸå†…çš„ç‚¹ä½
-                if (curID == 4 && m_stepIdx == 1)
-                {
-                    m_trailIdx = 1;
-                    m_stepIdx++;
-                }
-                else if (curID == 3 && m_stepIdx == 1)
-                {
-                    m_trailIdx = 2;
-                    m_stepIdx++;
-                }
+			}
+			else
+			{
+				m_PointLast = ptPos; //±¸·İÒ»ÏÂÔÚ¿¼ÊÔÇøÓòÄÚµÄµãÎ»
+				if (curID == 4 && m_stepIdx == 1)
+				{
+					m_trailIdx = 1;
+					m_stepIdx++;
+				}
+				else if (curID == 3 && m_stepIdx == 1)
+				{
+					m_trailIdx = 2;
+					m_stepIdx++;
+				}
 
-                //èµ°ä¸åŒçš„æ ‡å‡†è½¨è¿¹
-                if (m_trailIdx == 1)
-                {
-                    if (m_prevRegionID != curID)
-                    {
-                        if (m_prevRegionID == trail1[m_stepIdx - 1] && curID == trail1[m_stepIdx])
-                        {
-                            m_flagStatus[m_stepIdx/2] = true;
-                            m_prevRegionID = curID;
-                            m_stepIdx++;
-                        }
-                    }
-                }
-                else if (m_trailIdx == 2)
-                {
-                    if (m_prevRegionID != curID)
-                    {
-                        if (m_prevRegionID == trail2[m_stepIdx - 1] && curID == trail2[m_stepIdx])
-                        {
-                            m_flagStatus[m_stepIdx / 2] = true;
-                            m_prevRegionID = curID;
-                            m_stepIdx++;
-                        }
-                    }
-                }
-                m_OutCnt = 0;
-            }
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+				//×ß²»Í¬µÄ±ê×¼¹ì¼£
+				if (m_trailIdx == 1)
+				{
+					if (m_prevRegionID != curID)
+					{
+						if (m_prevRegionID == trail1[m_stepIdx - 1] && curID == trail1[m_stepIdx])
+						{
+							m_flagStatus[m_stepIdx / 2 - 1] = true;
+							m_prevRegionID = curID;
+							m_stepIdx++;
+						}
+					}
+				}
+				else if (m_trailIdx == 2)
+				{
+					if (m_prevRegionID != curID)
+					{
+						if (m_prevRegionID == trail2[m_stepIdx - 1] && curID == trail2[m_stepIdx])
+						{
+							m_flagStatus[m_stepIdx / 2 - 1] = true;
+							m_prevRegionID = curID;
+							m_stepIdx++;
+						}
+					}
+				}
+				m_OutCnt = 0;
+			}
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 }
 
-void lidarAnalysis::objectDetection(PointCloud<PointXYZ>::Ptr cloudPtr, std::vector<PointXYZ> &objs)
+std::vector<PointXYZ> lidarAnalysis::objectDetection(PointCloud<PointXYZ>::Ptr cloudPtr)
 {
-    std::vector<PointXYZ> objDetected;
+	vector<PointXYZ> objDetected;
+	int nPtMax = 0;
 
+	//ÓÃPCLPointCloud2½â¾öÎÊÌâ
+	PCLPointCloud2::Ptr cloud(new pcl::PCLPointCloud2());
+	toPCLPointCloud2(*cloudPtr, *cloud);
+	
+	//ÌåËØ»¯ÏÂ²ÉÑù
+	VoxelGrid<pcl::PCLPointCloud2> vox;
+	pcl::PCLPointCloud2::Ptr vox_cloud(new pcl::PCLPointCloud2());
+	vox.setInputCloud(cloud);
+	vox.setLeafSize(0.01, 0.01, 0.01);
+	vox.filter(*vox_cloud);
+//	cout << "After Voxel Grid£º" << vox_cloud->fields.size() << endl;
+	
+	//È¥³ıÔëÉùµã
+	StatisticalOutlierRemoval<pcl::PCLPointCloud2> sor;
+	pcl::PCLPointCloud2::Ptr sor_cloud_filtered(new pcl::PCLPointCloud2());
+	sor.setMeanK(10);
+	sor.setInputCloud(vox_cloud);
+	sor.setStddevMulThresh(0.2);
+	sor.filter(*sor_cloud_filtered);
+//	cout << "After Statistical Outlie rRemoval£º" << sor_cloud_filtered->fields.size() << endl;
 
-    int nPtMax = 0;
-//    qDebug() << __func__ << __LINE__;
-    //ä½“ç´ åŒ–ä¸‹é‡‡æ ·
-    VoxelGrid<PointXYZ> vox;
-    PointCloud<PointXYZ>::Ptr vox_cloud(new PointCloud<PointXYZ>);
-    //cout <<    "point cloud size:" << cloudPtr->points.size();
+	//×ª»»ÎªÔ­Ê¼¸ñÊ½Êä³ö
+	PointCloud<PointXYZ>::Ptr sor_cloud(new PointCloud<PointXYZ>);
+	fromPCLPointCloud2(*sor_cloud_filtered, *sor_cloud);
+	cout << "After Statistical Outlie rRemoval£º" << sor_cloud->points.size() << endl;
 
-    vox.setInputCloud(cloudPtr);
+	//Èç¹û·´ÉäµãĞ¡ÓÚ5, ÈÏÎªÇøÓòÄÚÃ»ÓĞÄ¿±êÔò·µ»ØÒ»¸öÄ¬ÈÏµÄ¿¼ÊÔÇøÓòÍâ×ø±ê
+	if (sor_cloud->points.size() < 5)
+	{
+		objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
+		return objDetected;
+	}
 
-    vox.setLeafSize(0.01, 0.01, 0.01);
+	//Å·Ê½¾ÛÀà
+	vector<PointIndices>ece_inlier;
+	search::KdTree<PointXYZ>::Ptr tree(new search::KdTree<PointXYZ>);
+	EuclideanClusterExtraction<PointXYZ> ece;
+	ece.setInputCloud(sor_cloud);
+	ece.setClusterTolerance(0.5);	//ece.setClusterTolerance(0.02);
+	ece.setMinClusterSize(5);		//ece.setMinClusterSize(100);
+	ece.setMaxClusterSize(200);		//ece.setMaxClusterSize(20000);
+	ece.setSearchMethod(tree);
+	ece.extract(ece_inlier);
 
-    qDebug() << __func__ << __LINE__;
+	//¾ÛÀà½á¹ûÕ¹Ê¾
+//	int j = 0;
+//	visualization::PCLVisualizer::Ptr viewer2(new visualization::PCLVisualizer("Result of EuclideanCluster"));
+//	srand((unsigned)time(NULL));
 
-    PointCloud<PointXYZ> pointcloudd = *vox_cloud;
+	//Èç¹û¾ÛÀà³öÀ´µÄÂú×ãÒªÇóµÄÄ¿±êÎª0, Ôò·µ»ØÒ»¸öÇøÓòÍâµÄÄ¬ÈÏÖµ
+	cout << "number of objects£º" << ece_inlier.size() << endl;
+	if (ece_inlier.size() < 1)
+	{
+		objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
+		return objDetected;
+	}
 
-    qDebug() << __func__ << __LINE__;
+	for (int i = 0; i < ece_inlier.size(); i++)
+	{
+		PointCloud<PointXYZ>::Ptr cloud_copy(new PointCloud<PointXYZ>);
+		vector<int> ece_inlier_ext = ece_inlier[i].indices;
+		copyPointCloud(*sor_cloud, ece_inlier_ext, *cloud_copy);//°´ÕÕË÷ÒıÌáÈ¡µãÔÆÊı¾İ
+		
+//		stringstream ss1;
+//		ss1 << "D:\\" << "EuclideanCluster_clouds" << j << ".pcd";
+//		io::savePCDFileASCII(ss1.str(), *ext_cloud);//Å·Ê½¾ÛÀà½á¹ûĞ´³ö
+//		int *rgb1 = rand_rgb();
+//		visualization::PointCloudColorHandlerCustom<PointXYZ>rgb2(cloud_copy, rgb1[0], rgb1[1], rgb1[2]);
+//		delete[]rgb1;
+//		viewer2->addPointCloud(cloud_copy, rgb2, ss1.str());
+//		j++;
 
-    vox.filter(pointcloudd);
-        return;
-    //	cout << "After Voxel Gridï¼š" << vox_cloud->points.size() << endl;
-//    qDebug() << __func__ << __LINE__;
-    //å»é™¤å™ªå£°ç‚¹
-    StatisticalOutlierRemoval<PointXYZ> sor;
-    PointCloud<PointXYZ>::Ptr sor_cloud(new PointCloud<PointXYZ>);
-    sor.setMeanK(10);
-    sor.setInputCloud(vox_cloud);
-    sor.setStddevMulThresh(0.2);
-    PointCloud<PointXYZ> sorr = *sor_cloud;
-    qDebug() << __func__ << __LINE__;
-    sor.filter(sorr);
+		//ÇóÖÊĞÄ
+		PointXYZ centroid = PointXYZ(0.0f, 0.0f, 0.0f);
+		for (int cnt = 0; cnt < cloud_copy->points.size(); cnt++)
+		{
+			centroid.x += cloud_copy->points[cnt].x;
+			centroid.y += cloud_copy->points[cnt].y;
+			centroid.z += cloud_copy->points[cnt].z;
+		}
+		centroid.x = centroid.x / cloud_copy->points.size();
+		centroid.y = centroid.y / cloud_copy->points.size();
+		centroid.z = centroid.z / cloud_copy->points.size();
 
-    //å¦‚æœåå°„ç‚¹å°äº5, è®¤ä¸ºåŒºåŸŸå†…æ²¡æœ‰ç›®æ ‡åˆ™è¿”å›ä¸€ä¸ªé»˜è®¤çš„è€ƒè¯•åŒºåŸŸå¤–åæ ‡
-    if (sor_cloud->points.size() < 5)
-    {
-        objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
-        objs.insert(objs.end(), objDetected.begin(), objDetected.end());
-        return;
-    }
-//    qDebug() << __func__ << __LINE__;
-    /*
-    //å¹³é¢åˆ†å‰²ï¼ˆRANSACï¼‰
-    SACSegmentation<PointXYZ> sac;
-    PointIndices::Ptr inliner(new PointIndices);
-    ModelCoefficients::Ptr coefficients(new ModelCoefficients);
-    PointCloud<PointXYZ>::Ptr sac_cloud(new PointCloud<PointXYZ>);
-    sac.setInputCloud(sor_cloud);
-    sac.setMethodType(SAC_RANSAC);
-    sac.setModelType(SACMODEL_PLANE);
-    sac.setMaxIterations(100);
-    sac.setDistanceThreshold(0.02);
+		if (i > 0)
+		{
+			if (nPtMax < cloud_copy->points.size())
+			{
+				nPtMax = cloud_copy->points.size();
+				PointXYZ temp = objDetected[0];
+				objDetected[0] = centroid;
+				objDetected.push_back(temp);
+			}
+			else
+			{
+				objDetected.push_back(centroid);
+			}
 
-    //æå–å¹³é¢ï¼ˆå±•ç¤ºå¹¶è¾“å‡ºï¼‰
-    PointCloud<PointXYZ>::Ptr ext_cloud(new PointCloud<PointXYZ>);
-    PointCloud<PointXYZ>::Ptr ext_cloud_rest(new PointCloud<PointXYZ>);
-    visualization::PCLVisualizer::Ptr viewer(new visualization::PCLVisualizer("3d view"));
+		}
+		else
+		{
+			nPtMax = cloud_copy->points.size();
+			objDetected.push_back(centroid);
+		}
+	}
 
-    int i = sor_cloud->size(), j = 0;
-    ExtractIndices<PointXYZ> ext;
-    srand((unsigned)time(NULL));//åˆ·æ–°æ—¶é—´çš„ç§å­èŠ‚ç‚¹éœ€è¦æ”¾åœ¨å¾ªç¯ä½“å¤–é¢
-    while (sor_cloud->size()>i*0.3)//å½“æå–çš„ç‚¹æ•°å°äºæ€»æ•°çš„3/10æ—¶ï¼Œè·³å‡ºå¾ªç¯
-    {
-        ext.setInputCloud(sor_cloud);
-        sac.segment(*inliner, *coefficients);
-        if (inliner->indices.size() == 0)
-        {
-            break;
-        }
-        //æŒ‰ç…§ç´¢å¼•æå–ç‚¹äº‘*************
-        ext.setIndices(inliner);
-        ext.setNegative(false);
-        ext.filter(*ext_cloud);
-        ext.setNegative(true);
-        ext.filter(*ext_cloud_rest);
-        //*****************************
-        *sor_cloud = *ext_cloud_rest;
-        stringstream ss;
-        ss << "D:\\" << "ext_plane_clouds" << j << ".pcd";//è·¯å¾„åŠ æ–‡ä»¶åå’Œåç¼€
-        io::savePCDFileASCII(ss.str(), *ext_cloud);//æå–çš„å¹³é¢ç‚¹äº‘å†™å‡º
-        int *rgb = rand_rgb();//éšæœºç”Ÿæˆ0-255çš„é¢œè‰²å€¼
-        visualization::PointCloudColorHandlerCustom<PointXYZ>rgb1(ext_cloud, rgb[0], rgb[1], rgb[2]);//æå–çš„å¹³é¢ä¸åŒå½©è‰²å±•ç¤º
-        delete[]rgb;
-        viewer->addPointCloud(ext_cloud, rgb1, ss.str());
-        j++;
-    }
-    viewer->spinOnce(1000);
-    */
-
-
-
-
-
-    //æ¬§å¼èšç±»
-    std::vector<PointIndices>ece_inlier;
-    search::KdTree<PointXYZ>::Ptr tree(new search::KdTree<PointXYZ>);
-    EuclideanClusterExtraction<PointXYZ> ece;
-    ece.setInputCloud(sor_cloud);
-    ece.setClusterTolerance(0.5);	//ece.setClusterTolerance(0.02);
-    ece.setMinClusterSize(10);		//ece.setMinClusterSize(100);
-    ece.setMaxClusterSize(200);		//ece.setMaxClusterSize(20000);
-    ece.setSearchMethod(tree);
-    ece.extract(ece_inlier);
-
-    //èšç±»ç»“æœå±•ç¤º
-    //	int j = 0;
-    //	visualization::PCLVisualizer::Ptr viewer2(new visualization::PCLVisualizer("Result of EuclideanCluster"));
-    //	srand((unsigned)time(NULL));
-
-    if (ece_inlier.size() < 1)
-    {
-        objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
-        objs.insert(objs.end(), objDetected.begin(), objDetected.end());
-        return;
-    }
-
-
-    for (int i = 0; i < ece_inlier.size(); i++)
-    {
-        PointCloud<PointXYZ>::Ptr cloud_copy(new PointCloud<PointXYZ>);
-        std::vector<int> ece_inlier_ext = ece_inlier[i].indices;
-        copyPointCloud(*sor_cloud, ece_inlier_ext, *cloud_copy);//æŒ‰ç…§ç´¢å¼•æå–ç‚¹äº‘æ•°æ®
-
-        //		stringstream ss1;
-        //		ss1 << "D:\\" << "EuclideanCluster_clouds" << j << ".pcd";
-        //		io::savePCDFileASCII(ss1.str(), *ext_cloud);//æ¬§å¼èšç±»ç»“æœå†™å‡º
-        //		int *rgb1 = rand_rgb();
-        //		visualization::PointCloudColorHandlerCustom<PointXYZ>rgb2(cloud_copy, rgb1[0], rgb1[1], rgb1[2]);
-        //		delete[]rgb1;
-        //		viewer2->addPointCloud(cloud_copy, rgb2, ss1.str());
-        //		j++;
-
-        //æ±‚è´¨å¿ƒ
-        PointXYZ centroid = PointXYZ(0.0f, 0.0f, 0.0f);
-        for (int cnt = 0; cnt < cloud_copy->points.size(); cnt++)
-        {
-            centroid.x += cloud_copy->points[cnt].x;
-            centroid.y += cloud_copy->points[cnt].y;
-            centroid.z += cloud_copy->points[cnt].z;
-        }
-        centroid.x = centroid.x / cloud_copy->points.size();
-        centroid.y = centroid.y / cloud_copy->points.size();
-        centroid.z = centroid.z / cloud_copy->points.size();
-
-        if (i > 0)
-        {
-            if (nPtMax < cloud_copy->points.size())
-            {
-                nPtMax = cloud_copy->points.size();
-                PointXYZ temp = objDetected[0];
-                objDetected[0] = centroid;
-                objDetected.push_back(temp);
-            }
-            else
-            {
-                objDetected.push_back(centroid);
-            }
-
-        }
-        else
-        {
-            nPtMax = cloud_copy->points.size();
-            objDetected.push_back(centroid);
-        }
-    }
-
-    //	viewer2->spin();
-    std::cout << "nPtMax: " << nPtMax <<" " << objDetected.size() << endl;
-    objs.insert(objs.end(), objDetected.begin(), objDetected.end());
-    return;
+//	viewer2->spin();
+	cout << "nPtMax: " << nPtMax << endl;
+	return objDetected;
 
 }
+
+/*
+std::vector<PointXYZ> lidarAnalysis::objectDetection(PointCloud<PointXYZ>::Ptr cloudPtr)
+{
+	vector<PointXYZ> objDetected;
+	int nPtMax = 0;
+
+	//ÌåËØ»¯ÏÂ²ÉÑù
+	VoxelGrid<PointXYZ> vox;
+	PointCloud<PointXYZ>::Ptr vox_cloud(new PointCloud<PointXYZ>);
+	vox.setInputCloud(cloudPtr);
+	vox.setLeafSize(0.01, 0.01, 0.01);
+	vox.filter(*vox_cloud);
+	cout << "After Voxel Grid£º" << vox_cloud->points.size() << endl;
+
+	//È¥³ıÔëÉùµã
+	StatisticalOutlierRemoval<PointXYZ> sor;
+	PointCloud<PointXYZ>::Ptr sor_cloud(new PointCloud<PointXYZ>);
+	sor.setMeanK(10);
+	sor.setInputCloud(vox_cloud);
+	sor.setStddevMulThresh(0.2);
+	sor.filter(*sor_cloud);
+	cout << "After Statistical Outlie rRemoval£º" << sor_cloud->points.size() << endl;
+
+	//Èç¹û·´ÉäµãĞ¡ÓÚ5, ÈÏÎªÇøÓòÄÚÃ»ÓĞÄ¿±êÔò·µ»ØÒ»¸öÄ¬ÈÏµÄ¿¼ÊÔÇøÓòÍâ×ø±ê
+	if (sor_cloud->points.size() < 5)
+	{
+		objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
+		return objDetected;
+	}
+
+	//--------------------
+	//Æ½Ãæ·Ö¸î£¨RANSAC£©
+	SACSegmentation<PointXYZ> sac;
+	PointIndices::Ptr inliner(new PointIndices);
+	ModelCoefficients::Ptr coefficients(new ModelCoefficients);
+	PointCloud<PointXYZ>::Ptr sac_cloud(new PointCloud<PointXYZ>);
+	sac.setInputCloud(sor_cloud);
+	sac.setMethodType(SAC_RANSAC);
+	sac.setModelType(SACMODEL_PLANE);
+	sac.setMaxIterations(100);
+	sac.setDistanceThreshold(0.02);
+
+	//ÌáÈ¡Æ½Ãæ£¨Õ¹Ê¾²¢Êä³ö£©
+	PointCloud<PointXYZ>::Ptr ext_cloud(new PointCloud<PointXYZ>);
+	PointCloud<PointXYZ>::Ptr ext_cloud_rest(new PointCloud<PointXYZ>);
+	visualization::PCLVisualizer::Ptr viewer(new visualization::PCLVisualizer("3d view"));
+
+	int i = sor_cloud->size(), j = 0;
+	ExtractIndices<PointXYZ> ext;
+	srand((unsigned)time(NULL));//Ë¢ĞÂÊ±¼äµÄÖÖ×Ó½ÚµãĞèÒª·ÅÔÚÑ­»·ÌåÍâÃæ
+	while (sor_cloud->size()>i*0.3)//µ±ÌáÈ¡µÄµãÊıĞ¡ÓÚ×ÜÊıµÄ3/10Ê±£¬Ìø³öÑ­»·
+	{
+		ext.setInputCloud(sor_cloud);
+		sac.segment(*inliner, *coefficients);
+		if (inliner->indices.size() == 0)
+		{
+			break;
+		}
+		//°´ÕÕË÷ÒıÌáÈ¡µãÔÆ*************
+		ext.setIndices(inliner);
+		ext.setNegative(false);
+		ext.filter(*ext_cloud);
+		ext.setNegative(true);
+		ext.filter(*ext_cloud_rest);
+		//*****************************
+		*sor_cloud = *ext_cloud_rest;
+		stringstream ss;
+		ss << "D:\\" << "ext_plane_clouds" << j << ".pcd";//Â·¾¶¼ÓÎÄ¼şÃûºÍºó×º
+		io::savePCDFileASCII(ss.str(), *ext_cloud);//ÌáÈ¡µÄÆ½ÃæµãÔÆĞ´³ö
+		int *rgb = rand_rgb();//Ëæ»úÉú³É0-255µÄÑÕÉ«Öµ
+		visualization::PointCloudColorHandlerCustom<PointXYZ>rgb1(ext_cloud, rgb[0], rgb[1], rgb[2]);//ÌáÈ¡µÄÆ½Ãæ²»Í¬²ÊÉ«Õ¹Ê¾
+		delete[]rgb;
+		viewer->addPointCloud(ext_cloud, rgb1, ss.str());
+		j++;
+	}
+	viewer->spinOnce(1000);
+	//--------------------
+
+
+	//Å·Ê½¾ÛÀà
+	vector<PointIndices>ece_inlier;
+	search::KdTree<PointXYZ>::Ptr tree(new search::KdTree<PointXYZ>);
+	EuclideanClusterExtraction<PointXYZ> ece;
+	ece.setInputCloud(sor_cloud);
+	ece.setClusterTolerance(0.5);	//ece.setClusterTolerance(0.02);
+	ece.setMinClusterSize(5);		//ece.setMinClusterSize(100);
+	ece.setMaxClusterSize(200);		//ece.setMaxClusterSize(20000);
+	ece.setSearchMethod(tree);
+	ece.extract(ece_inlier);
+
+	//¾ÛÀà½á¹ûÕ¹Ê¾
+//	int j = 0;
+//	visualization::PCLVisualizer::Ptr viewer2(new visualization::PCLVisualizer("Result of EuclideanCluster"));
+//	srand((unsigned)time(NULL));
+
+	//Èç¹û¾ÛÀà³öÀ´µÄÂú×ãÒªÇóµÄÄ¿±êÎª0, Ôò·µ»ØÒ»¸öÇøÓòÍâµÄÄ¬ÈÏÖµ
+	cout << "number of objects£º" << ece_inlier.size() << endl;
+	if (ece_inlier.size() < 1)
+	{
+		objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
+		return objDetected;
+	}
+
+	for (int i = 0; i < ece_inlier.size(); i++)
+	{
+		PointCloud<PointXYZ>::Ptr cloud_copy(new PointCloud<PointXYZ>);
+		vector<int> ece_inlier_ext = ece_inlier[i].indices;
+		copyPointCloud(*sor_cloud, ece_inlier_ext, *cloud_copy);//°´ÕÕË÷ÒıÌáÈ¡µãÔÆÊı¾İ
+
+//		stringstream ss1;
+//		ss1 << "D:\\" << "EuclideanCluster_clouds" << j << ".pcd";
+//		io::savePCDFileASCII(ss1.str(), *ext_cloud);//Å·Ê½¾ÛÀà½á¹ûĞ´³ö
+//		int *rgb1 = rand_rgb();
+//		visualization::PointCloudColorHandlerCustom<PointXYZ>rgb2(cloud_copy, rgb1[0], rgb1[1], rgb1[2]);
+//		delete[]rgb1;
+//		viewer2->addPointCloud(cloud_copy, rgb2, ss1.str());
+//		j++;
+
+		//ÇóÖÊĞÄ
+		PointXYZ centroid = PointXYZ(0.0f, 0.0f, 0.0f);
+		for (int cnt = 0; cnt < cloud_copy->points.size(); cnt++)
+		{
+			centroid.x += cloud_copy->points[cnt].x;
+			centroid.y += cloud_copy->points[cnt].y;
+			centroid.z += cloud_copy->points[cnt].z;
+		}
+		centroid.x = centroid.x / cloud_copy->points.size();
+		centroid.y = centroid.y / cloud_copy->points.size();
+		centroid.z = centroid.z / cloud_copy->points.size();
+
+		if (i > 0)
+		{
+			if (nPtMax < cloud_copy->points.size())
+			{
+				nPtMax = cloud_copy->points.size();
+				PointXYZ temp = objDetected[0];
+				objDetected[0] = centroid;
+				objDetected.push_back(temp);
+			}
+			else
+			{
+				objDetected.push_back(centroid);
+			}
+
+		}
+		else
+		{
+			nPtMax = cloud_copy->points.size();
+			objDetected.push_back(centroid);
+		}
+	}
+
+	//	viewer2->spin();
+	cout << "nPtMax: " << nPtMax << endl;
+	return objDetected;
+
+}
+*/

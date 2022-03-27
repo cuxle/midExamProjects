@@ -37,6 +37,7 @@
 //#include <qcustomplot.h>
 #include <QAction>
 #include <QVector>
+#include <QTimer>
 
 class QCustomPlot;
 class Camera;
@@ -216,6 +217,19 @@ public slots:
     void handleUpdateNormalizedData();
     void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
 
+private slots:
+    void handleRestLidarToClose();
+
+    void on_pbRotateLeftLeiDa_pressed();
+
+    void handleUpdateLidarAngle();
+
+    void on_pbRotateLeftLeiDa_released();
+
+    void on_pbRotateRightLeiDa_pressed();
+
+    void on_pbRotateRightLeiDa_released();
+
 private:
     enum ExamAction {
         ExamStart,
@@ -233,6 +247,7 @@ private:
     void initTimers();
     void initSocketClient();
     void initVolleyballWorker();
+    void mapFromStdFootGroundToWidget(std::vector<PointXYZ> &objs);
 
     void clearAppConfig();
 
@@ -407,7 +422,13 @@ private:
      bool m_startShown = false;
 
      lidarAnalysis *m_lidaAnalysis = nullptr;
+     bool m_lidarIsOpen = false;
+     QTimer m_lidarWatchDogTimer;
      std::vector<PointXYZ> m_objs;
+
+     QTimer m_turnLidarTimer;
+     float m_currentAngle = 0;
+     float m_deltaAngle = 0.5;
 
 protected:
      void closeEvent(QCloseEvent *event);

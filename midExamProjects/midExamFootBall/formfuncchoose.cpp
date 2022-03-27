@@ -159,6 +159,8 @@ void FormFuncChoose::initGodLeilaser()
     m_godlei->moveToThread(m_laserThread);
     connect(m_laserThread, &QThread::started, m_godlei, &GodLeiLaser::initLaser);
     connect(m_laserThread, &QThread::finished, m_godlei, &GodLeiLaser::destroyLaser);
+//    connect(this, &FormFuncChoose::sigStartCount, this, &FormFuncChoose::handleSta);
+
 //    connect(m_godlei, &GodLeiLaser::sigStudentQiangPao, this, &FormFuncChoose::handleStudentQiangPao);
 //    connect(this, &FormFuncChoose::sigStartCount, m_godlei, &GodLeiLaser::handleStartExam);
 //    connect(this, &FormFuncChoose::sigSetReginRect, m_godlei, &GodLeiLaser::handleSetTestRegin);
@@ -166,6 +168,22 @@ void FormFuncChoose::initGodLeilaser()
     m_laserThread->start();
 
     m_lidaAnalysis = new lidarAnalysis;
+    connect(&m_lidarWatchDogTimer, &QTimer::timeout, this, &FormFuncChoose::handleRestLidarToClose);
+
+//    m_turnLidarTimer.setInernal(500);
+    connect(&m_turnLidarTimer, &QTimer::timeout, this, &FormFuncChoose::handleUpdateLidarAngle);
+}
+
+void FormFuncChoose::handleUpdateLidarAngle()
+{
+    m_currentAngle += m_deltaAngle;
+    qDebug() << __func__ << __LINE__ << m_currentAngle;
+}
+
+void FormFuncChoose::handleRestLidarToClose()
+{
+    m_lidarIsOpen = false;
+    m_lidarWatchDogTimer.stop();
 }
 
 void FormFuncChoose::handleUpdateStudentPos(const QVector<double> &vx, const QVector<double> &vy)
@@ -214,8 +232,8 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
     {
         for (int j = 0; j < (int)GodLeiLaser::lidar_angle[i].size(); j++)
         {
-            sinAngle[i].push_back(sin(GodLeiLaser::lidar_angle[i][j] * PI / 180));
-            cosAngle[i].push_back(cos(GodLeiLaser::lidar_angle[i][j] * PI / 180));
+            sinAngle[i].push_back(sin((GodLeiLaser::lidar_angle[i][j] + m_deltaAngle) * PI / 180));
+            cosAngle[i].push_back(cos((GodLeiLaser::lidar_angle[i][j] + m_deltaAngle) * PI / 180));
         }
     }
 
@@ -223,14 +241,15 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
     {
         for (int j = 0; j < (int)GodLeiLaser::lidar_angle[i].size(); j++)
         {
+            GodLeiLaser::lidar_angle[i][j] += m_currentAngle;
             float tempX = 0.0, tempY = 0.0, tempZ = 0.0;
             tempX = ((GodLeiLaser::lidar_dist[i][j] * cosTheta[i] * cos((GodLeiLaser::lidar_angle[i][j]) * PI / 180)) +
                 (4.376 * cos((14.67 - GodLeiLaser::lidar_angle[i][j]) * PI / 180))) / 100.f;
             tempY = (-((GodLeiLaser::lidar_dist[i][j] * cosTheta[i] * sin(GodLeiLaser::lidar_angle[i][j] * PI / 180))) +
                 (4.376 * sin((14.67 - GodLeiLaser::lidar_angle[i][j]) * PI / 180))) / 100.f;
             tempZ = ((GodLeiLaser::lidar_dist[i][j] * sinTheta[i]) + 0.426) / 100.f;
-            vx.push_back(tempX);
-            vy.push_back(tempY);
+            vx.push_back(tempY);
+            vy.push_back(-tempX);
 //            tempZ = 1;
 //            tempZ = 0;
             cloudData->points.push_back(PointXYZ(tempY, -tempX, tempZ));
@@ -259,7 +278,10 @@ void FormFuncChoose::handleUpdateNormalizedData()
 
 void FormFuncChoose::handleUpdateReceivedLeidaData()
 {
-
+    if (!m_lidarIsOpen) {
+        // long time no receive data , this value will be reset to false
+        m_lidarIsOpen = true;
+    }
 //    qDebug() << __func__ << __LINE__ << GodLeiLaser::lidar_angle.size();
     int i = 0;
     if (GodLeiLaser::lidar_angle.size() > 0)
@@ -282,45 +304,24 @@ void FormFuncChoose::handleUpdateReceivedLeidaData()
         GodLeiLaser::lidar_angle.clear();
         GodLeiLaser::lidar_mtimestamp.clear();
     }
+    m_lidarWatchDogTimer.start(3000);
 }
 
 void FormFuncChoose::showExamRegion()
 {
-    qDebug() << __func__ << __LINE__ << cloud->points.size();
-//    for (int i = 0; i < cloud->points.size(); i ++) {
-//        qDebug() << __func__ << __LINE__ << i << " x:" << cloud->points.at(i)._PointXYZ::x << " y:" << cloud->points.at(i)._PointXYZ::y;
-//    }
-
-    qDebug() << __func__ << __LINE__;
-
-//    qDebug() << __func__ << __LINE__ << pcl::io::savePCDFileASCII("E:/pcd_test" + std::to_string(0) + ".pcd", *cloud);
-
-     qDebug() << __func__ << __LINE__;
-
     m_lidaAnalysis->normalizeData(cloud);
 
-    qDebug() << __func__ << __LINE__ << cloud->points.size();
     //从当前点云中提取跟踪目标（人） 返回的跟踪目标可能会有多个（杆子的反射等异常干扰） 默认返回的第一项objs[0]是最大的跟踪目标, 考试开始后每帧调用
-    std::vector<PointXYZ> objs;
-    m_lidaAnalysis->objectDetection(cloud, objs);
-    qDebug() << __func__ << __LINE__ << objs.size();
+    std::vector<PointXYZ> objs = m_lidaAnalysis->objectDetection(cloud);
     if (objs.size() <= 0) {
         return;
     }
-
-    qDebug() << __func__ << __LINE__ << objs.size();
-//    for (int i = 0; i < objs.size(); i++) {
-//        qDebug() << __func__ << __LINE__ << i << " x:" << objs[i]._PointXYZ::x << " y:" << objs[i]._PointXYZ::y;
-//    }
-//    for (int i = 0; i < objs.size(); i++)
-//    {
-////        qDebug() << "center:" << objs[i];
-//    }
-
+    qDebug() << "obj[0] pos:" << objs[0]._PointXYZ::x << " " << objs[0]._PointXYZ::y;
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     QPoint point = QPoint(keyAxis->coordToPixel(objs[0]._PointXYZ::x), valueAxis->coordToPixel(objs[0]._PointXYZ::y));
-    ui->examRegin->updateStudentPointPos(point.x(), point.y());
+//    ui->examRegin->updateStudentPointPos(point.x(), point.y());
+    ui->examRegin->updateStudentPointPosFromStdFootGround(objs);
     ui->examRegin->update();
 }
 
@@ -571,21 +572,21 @@ void FormFuncChoose::initCommonToolbar()
 
 void FormFuncChoose::handleStartExam()
 {
-    QTimer::singleShot(1000, [&](){
-		if (m_dingPlayer == nullptr || m_mp3Player == nullptr) return;
-        qDebug() << __func__ << __LINE__ << (m_dingPlayer == nullptr);
-        qDebug() << __func__ << __LINE__ << (m_mp3Player == nullptr);
-        m_dingPlayer->stop();
-        m_mp3Player->stop();
-    });
+//    QTimer::singleShot(1000, [&](){
+//		if (m_dingPlayer == nullptr || m_mp3Player == nullptr) return;
+//        qDebug() << __func__ << __LINE__ << (m_dingPlayer == nullptr);
+//        qDebug() << __func__ << __LINE__ << (m_mp3Player == nullptr);
+//        m_dingPlayer->stop();
+//        m_mp3Player->stop();
+//    });
     // 0. update state
     m_curExamState = ExamIsRunning;
 
     // 1. reset 60s
-    m_curTimeLeftMs = m_totalTimeMs;  
+//    m_curTimeLeftMs = m_totalTimeMs;
 
     // 1.5 reset display score
-    resetSkipCounterDisply();
+//    resetSkipCounterDisply();
     // 2. skip rope dll reset count
 //    m_skipRopeZeroMq->resetCount();
 //    m_skipRopeZeroMq->m_bStartCount = true;
@@ -594,7 +595,8 @@ void FormFuncChoose::handleStartExam()
 //    emit sigResetCount();
 //    m_volleyballWorker->m_bStartCount = true;
 
-    emit sigStartCount(true);
+//    emit sigStartCount(true);
+    ui->examRegin->startExam(true);
 
     // 3. start back count 60s倒计时
 
@@ -756,7 +758,7 @@ void FormFuncChoose::startPrepareExam()
         handleStartExam();
     } else {
         // 1."开始" 按钮变为 "停止"
-        ui->pbStartSkip->setText(QCoreApplication::translate("FormFuncChoose", "\345\201\234\346\255\242", nullptr));
+        ui->pbStartSkip->setText("停止");
 
         // 2.清零计数
         resetSkipCounterDisply();
@@ -1408,23 +1410,26 @@ void FormFuncChoose::stopExamStuff()
 
     // 2. 这是设置"开始" XXX
     ui->pbStartSkip->setText("开始");
-//    ui->pbStartSkip->setText(QCoreApplication::translate("FormFuncChoose", "\345\274\200\345\247\213", nullptr));
 
     // stop count in skip rope
-    emit sigStartCount(false);    
+//    emit sigStartCount(false);
+    ui->examRegin->startExam(false);
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
 //    m_ropeSkipWorker->m_bStartCount = false;
 //    m_situpWorker->m_bStartCount = false;
 //    m_volleyballWorker->m_bStartCount = false;
-    if (m_curExamMode == ExamModeFromCamera) {
-        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
-    } else if (m_curExamMode == ExamModeFromVideo) {
-        m_curExamMode = ExamModeInvalid;
-        m_bVideoFileLoaded = false;
-        ui->stkVideoHolder->setCurrentIndex(0);
-        emit sigStopVideoPlay();
-        // TODO 如果视频没有播放完，60s结束了怎么处理呢？我们暂时假定肯定播放完
-    }
+
+    emit sigStartSaveVideo(false, m_videoFileName);
+
+//    if (m_curExamMode == ExamModeFromCamera) {
+//        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
+//    } else if (m_curExamMode == ExamModeFromVideo) {
+//        m_curExamMode = ExamModeInvalid;
+//        m_bVideoFileLoaded = false;
+//        ui->stkVideoHolder->setCurrentIndex(0);
+//        emit sigStopVideoPlay();
+//        // TODO 如果视频没有播放完，60s结束了怎么处理呢？我们暂时假定肯定播放完
+//    }
 
 //    if (m_backCountTimer->isActive()) {
 //        m_backCountTimer->stop();
@@ -1435,62 +1440,68 @@ void FormFuncChoose::stopExamStuff()
     }
 
 //        m_curTimeLeftMs = m_totalTimeMs;
-		m_curForwardSeconds = 0;
+    m_curForwardSeconds = 0;
         setLeftTimeSeconds(0);
-    if (!m_cmdOnline) {
-        if (m_startDelayTimer->isActive()) {
-            m_startDelayTimer->stop();
-        }
+//    if (!m_cmdOnline) {
+//        if (m_startDelayTimer->isActive()) {
+//            m_startDelayTimer->stop();
+//        }
 
-        if (m_enableStartSound) {
-            m_mp3Player->blockSignals(true);
-            QTimer::singleShot(500, [&](){
-                m_mp3Player->stop();
-            });
-    //        m_mp3Player->stop();
-            m_mp3Player->blockSignals(false);
-        }
-    }
+//        if (m_enableStartSound) {
+//            m_mp3Player->blockSignals(true);
+//            QTimer::singleShot(500, [&](){
+//                m_mp3Player->stop();
+//            });
+//    //        m_mp3Player->stop();
+//            m_mp3Player->blockSignals(false);
+//        }
+//    }
 }
 
 void FormFuncChoose::on_pbStartSkip_clicked()
 {
-    // 1. 前提条件 camera is open or video file is loaded
+    // 0. check camera is open and lidar is opened
+    // foot ball exam state
+    // 1. Exam Not Start
+    // 要开始考试
+    // 1.1 确保输入考生考号
 
-//    QString idText = ui->leUserId->text();
-//    if (idText.isEmpty()) {
-//        QMessageBox::warning(this, "Warning", "请输入考生ID");
-//        return;
-//    } else {
-//        m_videoFileName = ui->leUserId->text() + ".avi";
-//    }
+    // 2. Exam Running
+    // 3. Exam Stopped
 
-//    // 1. camera is open or video path is set
-//    // if not "Please open camera or load a video file"
-//    if (!m_camera->bIsOpen()) {
-//        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-////        qDebug() << "Please open camera or load a video file";
-//        return;
-//    }
-    if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
-        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-        return;
-    }
-//    if (!m_bVideoFileLoaded && !m_bCameraIsOpen) {
-//        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-//        return;
-//    }
-
-
-    // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
-    // state  = 准备阶段 or 考试阶段 -> 停止考试
     switch (m_curExamState) {
     case ExamNotStart:
     {
-        m_curExamState = ExamPreparing;
-//        if (m_bCameraIsOpen) {
-//            emit sigUpdateCameraSettings();
-//        }
+        if (!m_bCameraIsOpen) {
+            QMessageBox::warning(this, "Warning", tr("请在考试开始前打开摄像头！"));
+            return;
+        }
+
+        if (!m_lidarIsOpen) {
+            QMessageBox::warning(this, "Warning", tr("请在考试开始前点击连接按钮打开雷达！"));
+            return;
+        }
+
+        // 如果是摄像头读入数据，需要输入学生ID
+        QString idText = ui->leUserId->text();
+        if (idText.isEmpty()) {
+            QMessageBox::warning(this, "Warning", "请输入考生ID");
+            return;
+        }
+
+        m_curExamState = ExamIsRunning;
+
+//        ui->examRegin->startExam(true);
+
+        ui->pbStartSkip->setEnabled(false);
+        QTimer::singleShot(1000, [&](){
+            ui->pbStartSkip->setEnabled(true);
+        });
+        ui->pbStartSkip->setText("停止");
+
+        // start timer
+        handleStartExam();
+        return;
 
         switch (m_curExamMode) {
         case ExamModeFromCamera:
@@ -1535,7 +1546,8 @@ void FormFuncChoose::on_pbStartSkip_clicked()
     case ExamPreparing:
     case ExamIsRunning:
     {
-        recordStudentExamInfo(ExamStopFinish);
+
+//        recordStudentExamInfo(ExamStopFinish);
         stopExamStuff();
         break;
     }
@@ -1895,5 +1907,31 @@ void FormFuncChoose::on_pbConnectLeiDa_clicked()
 //        connect(m_godlei, &GodLeiLaser::sigStudentPositionUpdated, this, &FormFuncChoose::handleUpdateStudentPos);
 
     }
+}
+
+
+void FormFuncChoose::on_pbRotateLeftLeiDa_pressed()
+{
+    m_turnLidarTimer.start(100);
+    m_deltaAngle = -0.2;
+}
+
+
+void FormFuncChoose::on_pbRotateLeftLeiDa_released()
+{
+    m_turnLidarTimer.stop();
+}
+
+
+void FormFuncChoose::on_pbRotateRightLeiDa_pressed()
+{
+    m_turnLidarTimer.start(100);
+    m_deltaAngle = 0.2;
+}
+
+
+void FormFuncChoose::on_pbRotateRightLeiDa_released()
+{
+    m_turnLidarTimer.stop();
 }
 

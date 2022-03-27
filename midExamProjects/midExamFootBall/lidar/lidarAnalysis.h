@@ -1,5 +1,4 @@
 #pragma once
-#pragma execution_character_set("utf-8")
 #ifndef __lidarAnalysis__
 #define __lidarAnalysis__
 
@@ -18,18 +17,21 @@
 
 #include <time.h>
 
-//using namespace std;
+using namespace std;
 using namespace pcl;
 
 class lidarAnalysis
 {
 public:
+	//ÊäÈë±ê¶¨±ß½ç×ø±ê
 	float m_xMin = 0.0f;
 	float m_xMax = 10.0f;
 	float m_yMin = 0.0f;
 	float m_yMax = 30.0f;
 	float m_zMin = -0.5f;
 	float m_zMax = 1.0f;
+
+	//¹éÒ»»¯ºóµÄ±ß½ç
 	float m_xBorderMin = -5.0f;
 	float m_xBorderMax = 5.0f;
 	float m_yBorderMin = 0.0f;
@@ -42,29 +44,29 @@ public:
 	PointXYZ m_flag5 = PointXYZ(0.0f, 25.0f, 2.0f);
 	float m_radius = 0.2f;
 
-	//å‰ååŒºåŸŸID
+	//Ç°ºóÇøÓòID
 	int m_prevRegionID = 0;
 //	int m_currentRegionID = 0;
 //	int m_nextRegionID = 0;
 
-	//ä¸Šä¸€å¸§ç‚¹ä½
+	//ÉÏÒ»Ö¡µãÎ»
 	PointXYZ m_PointLast = PointXYZ(0.0f, 0.0f, 0.0f);
 
-	//è€ƒè¯•å¼€å§‹ç»“æŸæ—¶é—´
+	//¿¼ÊÔ¿ªÊ¼½áÊøÊ±¼ä
 	clock_t m_start, m_finish;
 
-	//è€ƒè¯•è®¡æ—¶
+	//¿¼ÊÔ¼ÆÊ±
 	double m_duration;
 
-	//è€ƒè¯•çŠ¶æ€æ ‡è¯†  ç‚¹å‡»å¼€å§‹è€ƒè¯• inExam = true  ç‚¹å‡»è€ƒè¯•ç»“æŸ inExam = false
+	//¿¼ÊÔ×´Ì¬±êÊ¶  µã»÷¿ªÊ¼¿¼ÊÔ inExam = true  µã»÷¿¼ÊÔ½áÊø inExam = false
 	bool m_inExam = false;
 
 
-	//æ­¥éª¤ç´¢å¼•
+	//²½ÖèË÷Òı
 	int m_stepIdx = 0;
 	int m_OutCnt = 0;
 
-	//æ ‡å‡†è€ƒè¯•è½¨è¿¹
+	//±ê×¼¿¼ÊÔ¹ì¼£
 	int m_trailIdx = 0; //1: trail1  2:trail2
 	int trail1[12] = { 1, 2, 4, 3, 5, 6, 8, 7, 9, 10, 12, 11 };
 	int trail2[12] = { 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11, 12 };
@@ -78,21 +80,21 @@ public:
 	bool setTestRegion(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
 	bool normalizeData(PointCloud<PointXYZ>::Ptr cloudPtr);
 
-	//è®¾ç½®è€ƒè¯•å¼€å§‹ç»“æŸæ ‡å¿—
+	//ÉèÖÃ¿¼ÊÔ¿ªÊ¼½áÊø±êÖ¾
 	bool setExamStart(float x, float y);
 	bool setExamEnd();
 	bool resetExamParams();
 
-    void objectDetection(PointCloud<PointXYZ>::Ptr cloudPtr, std::vector<PointXYZ> &objs);
-    int *rand_rgb();
+	std::vector<PointXYZ> objectDetection(PointCloud<PointXYZ>::Ptr cloudPtr);
+	int *lidarAnalysis::rand_rgb();
 
 
-    bool removePtsOutOfRegion(float xMin, float xMax, float yMin, float yMax, std::vector<float> pts);
+	bool removePtsOutOfRegion(float xMin, float xMax, float yMin, float yMax, vector<float> pts);
 
-	int tracking(PointXYZ ptPos);	//è¿”å›å€¼ 0:æœªå¼€å§‹è€ƒè¯•  1ï¼šè€ƒè¯•è¿›è¡Œä¸­ 2ï¼šè€ƒè¯•æ­£å¸¸ç»“æŸ 3ï¼šè€ƒç”ŸçŠ¯è§„
+	int tracking(PointXYZ ptPos);	//·µ»ØÖµ 0:Î´¿ªÊ¼¿¼ÊÔ  1£º¿¼ÊÔ½øĞĞÖĞ 2£º¿¼ÊÔÕı³£½áÊø 3£º¿¼Éú·¸¹æ
 
 
-	//è·å–å½“å‰æ‰€åœ¨åŒºåŸŸID
+	//»ñÈ¡µ±Ç°ËùÔÚÇøÓòID
 	int getRegionID(float x, float y);
 
 };

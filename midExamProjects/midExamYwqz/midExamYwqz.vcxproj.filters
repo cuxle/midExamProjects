@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\log\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\algorithmloadbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\config\appconfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\camera\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\camera\csamplecaptureeventhandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\datamanager\datamanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="formfuncchoose.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\login\formlogin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\datamanager\localstudenttablemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\login\logindialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\videocapture\mat2qtformatmethod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\networkServer\networkserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\datamanager\schoollisttablemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\datamanager\scoremanagemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\settingdialog\settingdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\situpinterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\situpworker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\videocapture\videocaptureworker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\videoreplay\videoreplayworker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="videowidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\log\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\datamanager\TmpStudent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithm\algorithmloadbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="..\common\config\appconfig.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\camera\camera.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="..\common\camera\camerasetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\camera\csamplecaptureeventhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="..\common\datamanager\datamanager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="formfuncchoose.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\login\formlogin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\datamanager\localstudenttablemodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\login\logindialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="..\common\videocapture\mat2qtformatmethod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="..\common\networkServer\networkserver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\datamanager\schoollisttablemodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\datamanager\scoremanagemodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\settingdialog\settingdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="..\common\utils\singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithm\situpinterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="algorithm\situpworker.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\videocapture\videocaptureworker.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\common\videoreplay\videoreplayworker.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="videowidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="formfuncchoose.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\common\login\formlogin.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\common\login\logindialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\common\settingdialog\settingdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\font\DS-DIGIB-2.ttf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\font\DS-DIGIB.TTF">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\examPage\backStep.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\login\bg.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\cbLock.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\cbUnLock.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\dataDownloadPng.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\dataImportPng.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\dataManage.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\examPage\decreaseBtn.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\sound\ding.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\exam.qss">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\examPage\headPic.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\login\login.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\loginIcon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\settings\loginX.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="res.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="resource\images\mainform\scoreManagePng.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\settings\settingIcon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\settings.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\skipRope.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\sound\skipRopeStart.mp3">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\examPage\startBtn.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\startTestpng.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\examPage\submitBtn.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resource\images\mainform\ywqz.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="logo.rc">
+      <Filter>Distribution Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="logo.rc" />
+  </ItemGroup>
+</Project>

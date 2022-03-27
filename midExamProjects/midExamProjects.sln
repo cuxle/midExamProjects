@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midExamFootBall", "midExamFootBall\midExamFootBall.vcxproj", "{384D0938-0A75-3FD1-B299-91741AF05514}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midExamYwqz", "midExamYwqz\midExamYwqz.vcxproj", "{31767D46-8439-361E-B331-0D1DCB2FFAB4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midExamYtxs", "midExamYtxs\midExamYtxs.vcxproj", "{A7A3A9CA-E9FB-3B82-B2BB-7742ECA5E629}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midExamPaiQiu", "midExamPaiQiu\midExamPaiQiu.vcxproj", "{0D0C85FD-DF35-3722-8D33-6785CDB1938D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midExamTiaoSheng", "midExamTiaoSheng\midExamTiaoSheng.vcxproj", "{4E086809-7AA4-3A0B-BFF3-2E4DBBF89B8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{384D0938-0A75-3FD1-B299-91741AF05514}.Debug|x64.ActiveCfg = Debug|x64
+		{384D0938-0A75-3FD1-B299-91741AF05514}.Debug|x64.Build.0 = Debug|x64
+		{384D0938-0A75-3FD1-B299-91741AF05514}.Release|x64.ActiveCfg = Release|x64
+		{384D0938-0A75-3FD1-B299-91741AF05514}.Release|x64.Build.0 = Release|x64
+		{31767D46-8439-361E-B331-0D1DCB2FFAB4}.Debug|x64.ActiveCfg = Debug|x64
+		{31767D46-8439-361E-B331-0D1DCB2FFAB4}.Debug|x64.Build.0 = Debug|x64
+		{31767D46-8439-361E-B331-0D1DCB2FFAB4}.Release|x64.ActiveCfg = Release|x64
+		{31767D46-8439-361E-B331-0D1DCB2FFAB4}.Release|x64.Build.0 = Release|x64
+		{A7A3A9CA-E9FB-3B82-B2BB-7742ECA5E629}.Debug|x64.ActiveCfg = Debug|x64
+		{A7A3A9CA-E9FB-3B82-B2BB-7742ECA5E629}.Debug|x64.Build.0 = Debug|x64
+		{A7A3A9CA-E9FB-3B82-B2BB-7742ECA5E629}.Release|x64.ActiveCfg = Release|x64
+		{A7A3A9CA-E9FB-3B82-B2BB-7742ECA5E629}.Release|x64.Build.0 = Release|x64
+		{0D0C85FD-DF35-3722-8D33-6785CDB1938D}.Debug|x64.ActiveCfg = Debug|x64
+		{0D0C85FD-DF35-3722-8D33-6785CDB1938D}.Debug|x64.Build.0 = Debug|x64
+		{0D0C85FD-DF35-3722-8D33-6785CDB1938D}.Release|x64.ActiveCfg = Release|x64
+		{0D0C85FD-DF35-3722-8D33-6785CDB1938D}.Release|x64.Build.0 = Release|x64
+		{4E086809-7AA4-3A0B-BFF3-2E4DBBF89B8B}.Debug|x64.ActiveCfg = Debug|x64
+		{4E086809-7AA4-3A0B-BFF3-2E4DBBF89B8B}.Debug|x64.Build.0 = Debug|x64
+		{4E086809-7AA4-3A0B-BFF3-2E4DBBF89B8B}.Release|x64.ActiveCfg = Release|x64
+		{4E086809-7AA4-3A0B-BFF3-2E4DBBF89B8B}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		Qt5Version = Qt5.15
+		SolutionGuid = {0F230464-26FD-49FF-A585-99041AA8416E}
+	EndGlobalSection
+EndGlobal
