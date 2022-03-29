@@ -143,7 +143,7 @@ void VideoCaptureWorker::openSavedFile(const QString &fileName)
         // 设置码率：根据所需的视频大小调整，如果(w * h / 2)得到的视频过大可以改为(w * h / 4)
         int bitrate = (int)(m_width * m_height / 2);
         // 帧率
-        int fps = 30;
+        int fps = 25;
 
         if (!m_videoWriter.isNull() && m_videoWriter->open((char*)fullVideoName.toLatin1().data(), bitrate, fps, m_width, m_height) != 0) {
             qDebug() << "open file failed";

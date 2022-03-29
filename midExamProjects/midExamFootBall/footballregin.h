@@ -29,6 +29,8 @@ public:
     void startExam(bool);
     float m_deltaX = 0;
     float m_deltaY = 0;
+    void setStuMovePathFileName(const QString &newStuPathFileName);
+
 public slots:
     void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
 
@@ -51,9 +53,9 @@ private:
     QPointF m_origin;
 
     QVector<QPointF> m_studentsPoints;
-    QVector<QPoint> m_pointPath;
-    QVector<QPoint> m_stickPos;
-    int minY = 10000000;
+    QVector<QPointF> m_stuPointsPath;
+    QVector<QPointF> m_stickPos;
+    float minY = std::numeric_limits<float>::max();
     bool isLoging;
 
     float m_per_pixelX = 0;
@@ -63,23 +65,16 @@ private:
     bool rightDownOk = false;
 
     bool m_examStarted = false;
+    bool m_exmineStudentInRegin = false;
 
     QPointF m_rectCenter;
     QPointF m_realCenter;
 
-
-
-    // QPaintDevice interface
+    QString m_stuMovePathFileName;
 
     // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);
-
-    // QWidget interface
-protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
 };
 
 #endif // FOOTBALLREGIN_H

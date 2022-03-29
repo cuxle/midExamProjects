@@ -41,7 +41,22 @@ public:
     QString m_probeSize;
     QString m_probeSensitive;
     QString m_baseFrameRefreshSensitive;
+#if FOOTBALL
+    float m_radius = 0.2f;
+    float m_clusterTolerance = 0.5;
+    unsigned int m_minClusterSize = 5;
+    unsigned int m_maxClusterSize = 200;
 
+    int m_examReginTopLeftX = 0;
+    int m_examReginTopLeftY = 0;
+    int m_examReginBottomRightX = 0;
+    int m_examReginBottomRightY = 0;
+    float m_deltaAngle = 0;
+    float m_x_rangeStart = 0;
+    float m_x_rangeEnd = 5;
+    float m_y_rangeStart = 0;
+    float m_y_rangeEnd = 5;
+#endif
     int m_point1x;
     int m_point1y;
 

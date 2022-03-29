@@ -23,7 +23,7 @@ using namespace pcl;
 class lidarAnalysis
 {
 public:
-	//ÊäÈë±ê¶¨±ß½ç×ø±ê
+	//è¾“å…¥æ ‡å®šè¾¹ç•Œåæ ‡
 	float m_xMin = 0.0f;
 	float m_xMax = 10.0f;
 	float m_yMin = 0.0f;
@@ -31,7 +31,7 @@ public:
 	float m_zMin = -0.5f;
 	float m_zMax = 1.0f;
 
-	//¹éÒ»»¯ºóµÄ±ß½ç
+	//å½’ä¸€åŒ–åçš„è¾¹ç•Œ
 	float m_xBorderMin = -5.0f;
 	float m_xBorderMax = 5.0f;
 	float m_yBorderMin = 0.0f;
@@ -42,31 +42,35 @@ public:
 	PointXYZ m_flag3 = PointXYZ(0.0f, 15.0f, 2.0f);
 	PointXYZ m_flag4 = PointXYZ(0.0f, 20.0f, 2.0f);
 	PointXYZ m_flag5 = PointXYZ(0.0f, 25.0f, 2.0f);
-	float m_radius = 0.2f;
 
-	//Ç°ºóÇøÓòID
+    float m_radius = 0.2f;
+    float m_clusterTolerance = 0.5;
+    unsigned int m_minClusterSize = 5;
+    unsigned int m_maxClusterSize = 200;
+
+	//å‰ååŒºåŸŸID
 	int m_prevRegionID = 0;
 //	int m_currentRegionID = 0;
 //	int m_nextRegionID = 0;
 
-	//ÉÏÒ»Ö¡µãÎ»
+	//ä¸Šä¸€å¸§ç‚¹ä½
 	PointXYZ m_PointLast = PointXYZ(0.0f, 0.0f, 0.0f);
 
-	//¿¼ÊÔ¿ªÊ¼½áÊøÊ±¼ä
+	//è€ƒè¯•å¼€å§‹ç»“æŸæ—¶é—´
 	clock_t m_start, m_finish;
 
-	//¿¼ÊÔ¼ÆÊ±
+	//è€ƒè¯•è®¡æ—¶
 	double m_duration;
 
-	//¿¼ÊÔ×´Ì¬±êÊ¶  µã»÷¿ªÊ¼¿¼ÊÔ inExam = true  µã»÷¿¼ÊÔ½áÊø inExam = false
+	//è€ƒè¯•çŠ¶æ€æ ‡è¯†  ç‚¹å‡»å¼€å§‹è€ƒè¯• inExam = true  ç‚¹å‡»è€ƒè¯•ç»“æŸ inExam = false
 	bool m_inExam = false;
 
 
-	//²½ÖèË÷Òı
+	//æ­¥éª¤ç´¢å¼•
 	int m_stepIdx = 0;
 	int m_OutCnt = 0;
 
-	//±ê×¼¿¼ÊÔ¹ì¼£
+	//æ ‡å‡†è€ƒè¯•è½¨è¿¹
 	int m_trailIdx = 0; //1: trail1  2:trail2
 	int trail1[12] = { 1, 2, 4, 3, 5, 6, 8, 7, 9, 10, 12, 11 };
 	int trail2[12] = { 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11, 12 };
@@ -80,7 +84,7 @@ public:
 	bool setTestRegion(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
 	bool normalizeData(PointCloud<PointXYZ>::Ptr cloudPtr);
 
-	//ÉèÖÃ¿¼ÊÔ¿ªÊ¼½áÊø±êÖ¾
+	//è®¾ç½®è€ƒè¯•å¼€å§‹ç»“æŸæ ‡å¿—
 	bool setExamStart(float x, float y);
 	bool setExamEnd();
 	bool resetExamParams();
@@ -91,10 +95,10 @@ public:
 
 	bool removePtsOutOfRegion(float xMin, float xMax, float yMin, float yMax, vector<float> pts);
 
-	int tracking(PointXYZ ptPos);	//·µ»ØÖµ 0:Î´¿ªÊ¼¿¼ÊÔ  1£º¿¼ÊÔ½øĞĞÖĞ 2£º¿¼ÊÔÕı³£½áÊø 3£º¿¼Éú·¸¹æ
+	int tracking(PointXYZ ptPos);	//è¿”å›å€¼ 0:æœªå¼€å§‹è€ƒè¯•  1ï¼šè€ƒè¯•è¿›è¡Œä¸­ 2ï¼šè€ƒè¯•æ­£å¸¸ç»“æŸ 3ï¼šè€ƒç”ŸçŠ¯è§„
 
 
-	//»ñÈ¡µ±Ç°ËùÔÚÇøÓòID
+	//è·å–å½“å‰æ‰€åœ¨åŒºåŸŸID
 	int getRegionID(float x, float y);
 
 };

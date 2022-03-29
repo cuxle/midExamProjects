@@ -10,6 +10,7 @@
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
 #include "TmpStudent.h"
+#include "qcustomplot.h"
 
 #pragma   push_macro("min")
 #pragma   push_macro("max")
@@ -209,6 +210,10 @@ private slots:
 
     void handleUpdateStudentPos(const QVector<double> &vx, const QVector<double> &vy);
 
+    void setValueRange(const QCPRange &range);
+
+    void setKeyRange(const QCPRange &range);
+
 public slots:
     // update point cloud
     void handleUpdateReceivedLeidaData();
@@ -332,6 +337,7 @@ private:
     QString m_videoFileFolder = QDir::homePath();
     QString m_currentUserId;
     QString m_videoFileName;
+    QString m_picPathFileName;
 
 
     QTimer *m_backCountTimer = nullptr;
@@ -370,6 +376,8 @@ private:
     GodLeiLaser *m_godlei = nullptr;
     QThread *m_laserThread = nullptr;
 
+    bool m_exminStudentInRegin = false;
+
 
     const double PI = 3.1415926;
     float const theta[16] = { -15, 1, -13, 3, -11, 5, -9, 7, -7, 9, -5, 11, -3, 13, -1, 15 };
@@ -393,6 +401,7 @@ private:
      void LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData);
      int m_rowsInXlsx = 1;
      QString m_saveVideoFormat = ".mp4";
+     QString m_savePictureFormat = ".png";
 
      QFrame *m_toolBarframe = nullptr;
 

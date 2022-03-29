@@ -97,6 +97,31 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 //        connect(videoWidget, &VideoWidget::sigReginPosChanged, m_volleyballWorker, &VolleyballWorker::handleSetRectPos);
 //        connect(this, &FormFuncChoose::sigVideoWidgetIsLocked, videoWidget, &VideoWidget::handleVideoWidgetIsLocked);
 //    }
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    int m_examReginTopLeftX = m_config.m_examReginTopLeftX;
+    int m_examReginTopLeftY = m_config.m_examReginTopLeftY;
+    int m_examReginBottomRightX = m_config.m_examReginBottomRightX;
+    int m_examReginBottomRightY = m_config.m_examReginBottomRightY;
+
+    float m_x_rangeStart = m_config.m_x_rangeStart;
+    float m_x_rangeEnd = m_config.m_x_rangeEnd;
+    float m_y_rangeStart = m_config.m_y_rangeStart;
+    float m_y_rangeEnd = m_config.m_y_rangeEnd;
+
+    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+    keyAxis->setRange(m_x_rangeStart, m_x_rangeEnd);
+    valueAxis->setRange(m_y_rangeStart, m_y_rangeEnd);
+
+    connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
+
+
+
+    m_currentAngle = m_config.m_deltaAngle;
+    qDebug() << __func__ << __LINE__ << "delta angle:" << m_deltaAngle;
+
+    emit ui->plot->sigRectPointUpdated(QPoint(m_examReginTopLeftX, m_examReginTopLeftY), \
+                                       QPoint(m_examReginBottomRightX, m_examReginBottomRightY));
 }
 
 FormFuncChoose::~FormFuncChoose()
@@ -142,6 +167,38 @@ FormFuncChoose::~FormFuncChoose()
     delete ui;
 }
 
+void FormFuncChoose::setValueRange(const QCPRange &range)
+{
+    qDebug() << __func__ << __LINE__;
+
+//    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+//    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+//    valueAxis->setRange(range);
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+
+    float m_x_rangeStart = m_config.m_x_rangeStart;
+    float m_x_rangeEnd = m_config.m_x_rangeEnd;
+    float m_y_rangeStart = m_config.m_y_rangeStart;
+    float m_y_rangeEnd = m_config.m_y_rangeEnd;
+
+    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+
+    m_config.m_x_rangeStart = keyAxis->range().lower;
+    m_config.m_x_rangeEnd = keyAxis->range().upper;
+
+    m_config.m_y_rangeStart = valueAxis->range().lower;
+    m_config.m_y_rangeEnd = valueAxis->range().upper;
+}
+
+void FormFuncChoose::setKeyRange(const QCPRange &range)
+{
+    qDebug() << __func__ << __LINE__;
+    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+    keyAxis->setRange(range);
+}
+
+
 void FormFuncChoose::initGodLeilaser()
 {
     ui->plot->addGraph();
@@ -149,8 +206,18 @@ void FormFuncChoose::initGodLeilaser()
     ui->plot->graph(0)->setLineStyle(QCPGraph::lsNone);
     ui->plot->graph(0)->setPen(QPen(Qt::green, 3));
 
-    ui->plot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom| QCP::iSelectAxes |
-                                      QCP::iSelectLegend | QCP::iSelectPlottables);
+    ui->plot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom);
+
+    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+
+
+//    connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, valueAxis, &QCPAxis::setRange);
+//    connect<void(QCPAxis::*)(const QCPRange &)>(valueAxis, &QCPAxis::rangeChanged, keyAxis, &QCPAxis::setRange);
+//    connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
+//    connect<void(QCPAxis::*)(const QCPRange &)>(valueAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setKeyRange);
+
+
 
     cloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
 
@@ -178,6 +245,8 @@ void FormFuncChoose::handleUpdateLidarAngle()
 {
     m_currentAngle += m_deltaAngle;
     qDebug() << __func__ << __LINE__ << m_currentAngle;
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    m_config.m_deltaAngle = m_currentAngle;
 }
 
 void FormFuncChoose::handleRestLidarToClose()
@@ -316,6 +385,45 @@ void FormFuncChoose::showExamRegion()
     if (objs.size() <= 0) {
         return;
     }
+    if (m_curExamState == ExamIsRunning) {
+
+        if (m_exminStudentInRegin) {
+            m_exminStudentInRegin = false;
+            //点击考试开始,如果此时考生在考试区域内则提示考生抢跑返回false
+            bool validStart = m_lidaAnalysis->setExamStart(objs[0].x, objs[0].y);
+            if (!validStart) {
+                // student is in the regin when the exam is starting
+                QMessageBox::warning(nullptr, "warning", "请考生在准备区域准备考试!");
+                stopExamStuff();
+                return;
+            }
+        }
+        //点击考试开始成功后,每帧都传入跟踪出来的目标坐标
+        // 返回值
+        // {0:未开始考试  1：考试进行中 2：考试正常结束 3：考生犯规}
+        int status = m_lidaAnalysis->tracking(objs[0]);
+        qDebug() << __func__ << __LINE__ << status;
+        if (status == 0) {
+            // exam not running
+            qDebug() << __func__ << __LINE__ << "exam not running";
+        } else if (status == 1) {
+            // exam running
+            qDebug() << __func__ << __LINE__ << "exam is running";
+
+        } else if (status == 2) {
+            // exam finished normally
+            qDebug() << __func__ << __LINE__ << "exam finished normally";
+            QMessageBox::warning(nullptr, "warning", "考试完成!");
+            stopExamStuff();
+        } else if (status == 3) {
+            // student break the exam rule
+            qDebug() << __func__ << __LINE__ << "exam finished normally";
+            QMessageBox::warning(nullptr, "warning", "考生违规!");
+            stopExamStuff();
+        }
+    }
+
+
     qDebug() << "obj[0] pos:" << objs[0]._PointXYZ::x << " " << objs[0]._PointXYZ::y;
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
@@ -403,6 +511,14 @@ void FormFuncChoose::initUi()
 
 void FormFuncChoose::updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight)
 {
+    qDebug() << __func__ << __LINE__;
+    // save points to config
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    m_config.m_examReginTopLeftX = topLeft.x();
+    m_config.m_examReginTopLeftY = topLeft.y();
+    m_config.m_examReginBottomRightX = bottomRight.x();
+    m_config.m_examReginBottomRightY = bottomRight.y();
+
 //    QPoint tl = mapFromGlobal(topLeft);
 //    QPoint br = mapFromGlobal(bottomRight);
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
@@ -579,6 +695,26 @@ void FormFuncChoose::handleStartExam()
 //        m_dingPlayer->stop();
 //        m_mp3Player->stop();
 //    });
+    // 保存视频名称    
+    m_videoFileName = ui->leUserId->text();
+    QString baseName = m_videoFileName + "_" + QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd-hh-m-ss");
+    m_videoFileName =  baseName + m_saveVideoFormat;
+    QString m_stuMovePathFileName = baseName + m_savePictureFormat;
+    AppConfig &config = Singleton<AppConfig>::GetInstance();
+    if (m_curTmpStudent != nullptr) {
+        m_curTmpStudent->videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
+    }
+    // open this at last, this will cause crash now
+    emit sigStartSaveVideo(true, m_videoFileName); //TODO CRASH
+
+    ui->examRegin->setStuMovePathFileName(m_stuMovePathFileName);
+
+    ui->pbStartSkip->setEnabled(false);
+    QTimer::singleShot(1000, [&](){
+        ui->pbStartSkip->setEnabled(true);
+    });
+    ui->pbStartSkip->setText("停止");
+
     // 0. update state
     m_curExamState = ExamIsRunning;
 
@@ -597,6 +733,7 @@ void FormFuncChoose::handleStartExam()
 
 //    emit sigStartCount(true);
     ui->examRegin->startExam(true);
+    m_exminStudentInRegin = true;
 
     // 3. start back count 60s倒计时
 
@@ -608,7 +745,8 @@ void FormFuncChoose::handleStartExam()
 
 void FormFuncChoose::recordStudentExamInfo(ExamAction action)
 {
-    if (m_curExamMode != ExamModeFromCamera) return;
+    // no exam mode for football
+//    if (m_curExamMode != ExamModeFromCamera) return;
 
     qDebug() << __func__ << __LINE__ << m_curExamCount << action << (m_curTmpStudent == nullptr);
     QString dataTime = QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd hh:mm:ss ddd");
@@ -636,17 +774,22 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
         // save exam score and time
         if (m_curTmpStudent != nullptr) {
             if (m_curExamCount == 1) {
-                m_curTmpStudent->firstScore = m_curSkipCount;
+                // record time for student score seconds
+                m_curTmpStudent->firstScore = m_curForwardSeconds;
                 qDebug() << __func__ << __LINE__ << m_curTmpStudent->firstScore;
                 m_curTmpStudent->examStopFirstTime = dataTime;
             } else if (m_curExamCount == 2) {
-                m_curTmpStudent->secondScore = m_curSkipCount;
+                m_curTmpStudent->secondScore = m_curForwardSeconds;
                 qDebug() << __func__ << __LINE__ << m_curTmpStudent->secondScore;
                 m_curTmpStudent->examStopSecondTime = dataTime;
             } else if (m_curExamCount == 3) {
-                m_curTmpStudent->thirdScore = m_curSkipCount;
+                m_curTmpStudent->thirdScore = m_curForwardSeconds;
                 m_curTmpStudent->examStopThirdTime = dataTime;
             }
+        }
+        if (m_curScoreLabel != nullptr) {
+            QString str = QString("%1:%2").arg(QString::number(m_curForwardSeconds/60), 2, QLatin1Char('0')).arg(QString::number(m_curForwardSeconds%60), 2, QLatin1Char('0'));
+            m_curScoreLabel->setText(str);
         }
         break;
     }
@@ -1411,6 +1554,9 @@ void FormFuncChoose::stopExamStuff()
     // 2. 这是设置"开始" XXX
     ui->pbStartSkip->setText("开始");
 
+    //中停 裁判判犯规等原因
+    bool bEnd = m_lidaAnalysis->setExamEnd();
+
     // stop count in skip rope
 //    emit sigStartCount(false);
     ui->examRegin->startExam(false);
@@ -1441,7 +1587,8 @@ void FormFuncChoose::stopExamStuff()
 
 //        m_curTimeLeftMs = m_totalTimeMs;
     m_curForwardSeconds = 0;
-        setLeftTimeSeconds(0);
+
+    setLeftTimeSeconds(0);
 //    if (!m_cmdOnline) {
 //        if (m_startDelayTimer->isActive()) {
 //            m_startDelayTimer->stop();
@@ -1489,15 +1636,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             return;
         }
 
-        m_curExamState = ExamIsRunning;
-
-//        ui->examRegin->startExam(true);
-
-        ui->pbStartSkip->setEnabled(false);
-        QTimer::singleShot(1000, [&](){
-            ui->pbStartSkip->setEnabled(true);
-        });
-        ui->pbStartSkip->setText("停止");
+        shiftScoreLabel();
 
         // start timer
         handleStartExam();
@@ -1539,7 +1678,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             break;
         }
 
-        shiftScoreLabel();
+
         startPrepareExam();
         break;
     }
@@ -1547,7 +1686,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
     case ExamIsRunning:
     {
 
-//        recordStudentExamInfo(ExamStopFinish);
+        recordStudentExamInfo(ExamStopFinish);
         stopExamStuff();
         break;
     }
@@ -1829,7 +1968,7 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         // TODO update student score info
         ui->pbZhongTing->setEnabled(false);
 
-        QTimer::singleShot(500, [&](){
+        QTimer::singleShot(1000, [&](){
             ui->pbZhongTing->setEnabled(true);
         });
         stopExamStuff();

@@ -78,8 +78,26 @@ void AppConfig::writeConfig()
     settings.setValue("VIDEOSAVEPATH", m_videoSavePath);
     settings.setValue("EXAMTIME", m_examTime);
     settings.endGroup();
+#if FOOTBALL
+    settings.beginGroup("LIDAR");
+    settings.setValue("RADIUS", QString::number(m_radius));
+    settings.setValue("CLUSTER_TOLERANCE", QString::number(m_clusterTolerance));
+    settings.setValue("MIN_CLUSTERSIZE", m_minClusterSize);
+    settings.setValue("MAX_CLUSTERSIZE", m_maxClusterSize);
 
+    settings.setValue("EXAMREGIN_TOPLEFTX", m_examReginTopLeftX);
+    settings.setValue("EXAMREGIN_TOPLEFTY", m_examReginTopLeftY);
+    settings.setValue("EXAMREGIN_DOWNLEFTX", m_examReginBottomRightX);
+    settings.setValue("EXAMREGIN_DOWNLEFTY", m_examReginBottomRightY);
+    settings.setValue("LIDAR_ANGLE", QString::number(m_deltaAngle, 'f'));
 
+    settings.setValue("X_RANGE_START", QString::number(m_x_rangeStart, 'f'));
+    settings.setValue("X_RANGE_END", QString::number(m_x_rangeEnd, 'f'));
+    settings.setValue("Y_RANGE_START", QString::number(m_y_rangeStart, 'f'));
+    settings.setValue("Y_RANGE_END", QString::number(m_y_rangeEnd, 'f'));
+
+    settings.endGroup();
+#endif
     settings.beginGroup("CHECK");
     settings.setValue("ANGLE", m_angleProbe);
     settings.setValue("PROBESIZE", m_probeSize);
@@ -119,6 +137,27 @@ void AppConfig::readConfig()
     m_sendCmdServerIp = settings.value("SENDCMDSERVER", "192.168.0.254").toString();
     m_appMode = settings.value("APPMODE", "OFFLINE").toString();
     settings.endGroup();
+
+#if FOOTBALL
+    settings.beginGroup("LIDAR");
+    m_radius = settings.value("RADIUS", 0.2).toString().toFloat();
+    m_clusterTolerance = settings.value("CLUSTER_TOLERANCE", 0.5).toString().toFloat();
+    m_minClusterSize = settings.value("MIN_CLUSTERSIZE", 5).toUInt();
+    m_maxClusterSize = settings.value("MAX_CLUSTERSIZE", 200).toUInt();
+
+    m_examReginTopLeftX  = settings.value("EXAMREGIN_TOPLEFTX", 0).toInt();
+    m_examReginTopLeftY  = settings.value("EXAMREGIN_TOPLEFTY", 0).toInt();
+    m_examReginBottomRightX  = settings.value("EXAMREGIN_DOWNLEFTX", 0).toInt();
+    m_examReginBottomRightY  = settings.value("EXAMREGIN_DOWNLEFTY", 0).toInt();
+    m_deltaAngle = settings.value("LIDAR_ANGLE", 0).toString().toFloat();
+
+    m_x_rangeStart = settings.value("X_RANGE_START", 0).toString().toFloat();
+    m_x_rangeEnd = settings.value("X_RANGE_END", 5).toString().toFloat();
+    m_y_rangeStart = settings.value("Y_RANGE_START", 0).toString().toFloat();
+    m_y_rangeEnd = settings.value("Y_RANGE_END", 5).toString().toFloat();
+
+    settings.endGroup();
+#endif
     qDebug() << __func__ << __LINE__ << "APPMODE:" << m_appMode;
 
     settings.beginGroup("VIDEO");
@@ -147,7 +186,6 @@ void AppConfig::readConfig()
     settings.setValue("RECTPOINT1X", m_rectPoint1x);
     settings.setValue("RECTPOINT1Y", m_rectPoint1y);
 
-
     qDebug() << __func__ << "POINT1X" << m_point1x;
     qDebug() << __func__ << "POINT1Y" << m_point1y;
 
@@ -164,6 +202,7 @@ void AppConfig::readConfig()
     qDebug() << __func__ << "RectWidth" << m_rectWidth;
 
     settings.endGroup();
+
 
     settings.beginGroup("EXAM");
 //    m_examProject = settings.value("EXAMPROJECT", "排球").toString();

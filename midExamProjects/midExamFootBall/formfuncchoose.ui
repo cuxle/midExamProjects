@@ -32,8 +32,8 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>-320</y>
+     <x>-730</x>
+     <y>30</y>
      <width>2463</width>
      <height>1381</height>
     </rect>
@@ -1799,6 +1799,9 @@ color: rgb(255, 255, 255);</string>
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_27">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QGroupBox" name="gbScoreRecordHeader">
             <property name="minimumSize">
@@ -2005,19 +2008,6 @@ border-top-right-radius: 10px;</string>
               </spacer>
              </item>
              <item>
-              <spacer name="verticalSpacer_32">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <item>
                 <spacer name="horizontalSpacer_29">
@@ -2083,7 +2073,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0</string>
+                     <string>0:00</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2108,7 +2098,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>第一次成绩</string>
+                     <string>第一次时间</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2185,7 +2175,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0</string>
+                     <string>0:00</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2210,7 +2200,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>第二次成绩</string>
+                     <string>第二次时间</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2287,7 +2277,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0</string>
+                     <string>0:00</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2312,7 +2302,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>第三次成绩</string>
+                     <string>第三次时间</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2389,7 +2379,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0</string>
+                     <string>0:00</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2487,7 +2477,7 @@ border-top-right-radius: 10px;</string>
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pbStartSkip">
+                <widget class="QPushButton" name="pbZhongTing">
                  <property name="minimumSize">
                   <size>
                    <width>145</width>
@@ -2495,11 +2485,11 @@ border-top-right-radius: 10px;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">border-image: url(:/resource/images/examPage/startBtn.png);
-font: 25 21pt &quot;Microsoft YaHei&quot;;</string>
+                  <string notr="true">border-image: url(:/resource/images/examPage/decreaseBtn.png);
+font: 25 25.5pt &quot;Microsoft YaHei&quot;;</string>
                  </property>
                  <property name="text">
-                  <string>开始</string>
+                  <string>违规</string>
                  </property>
                 </widget>
                </item>
@@ -2517,7 +2507,7 @@ font: 25 21pt &quot;Microsoft YaHei&quot;;</string>
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pbZhongTing">
+                <widget class="QPushButton" name="pbStartSkip">
                  <property name="minimumSize">
                   <size>
                    <width>145</width>
@@ -2525,11 +2515,11 @@ font: 25 21pt &quot;Microsoft YaHei&quot;;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">border-image: url(:/resource/images/examPage/decreaseBtn.png);
-font: 25 25.5pt &quot;Microsoft YaHei&quot;;</string>
+                  <string notr="true">border-image: url(:/resource/images/examPage/startBtn.png);
+font: 25 21pt &quot;Microsoft YaHei&quot;;</string>
                  </property>
                  <property name="text">
-                  <string>中停</string>
+                  <string>开始</string>
                  </property>
                 </widget>
                </item>
@@ -2559,7 +2549,7 @@ font: 25 25.5pt &quot;Microsoft YaHei&quot;;</string>
 font: 25 21pt &quot;Microsoft YaHei&quot;;</string>
                  </property>
                  <property name="text">
-                  <string>核减</string>
+                  <string>提交</string>
                  </property>
                 </widget>
                </item>
@@ -2577,6 +2567,19 @@ font: 25 21pt &quot;Microsoft YaHei&quot;;</string>
                 </spacer>
                </item>
               </layout>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_32">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
              <item>
               <widget class="QGroupBox" name="gbLeiDaCtrlRegin">

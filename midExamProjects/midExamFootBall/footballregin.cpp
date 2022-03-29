@@ -6,6 +6,13 @@
 #include <QContextMenuEvent>
 #include <QPixmap>
 #include <QPalette>
+#include "appconfig.h"
+#include "singleton.h"
+
+bool floatEqual(float a, float b)
+{
+    return fabs(a - b) <= std::numeric_limits<float>::epsilon();
+}
 
 FootballRegin::FootballRegin(QWidget *parent)
     : QWidget(parent)
@@ -25,16 +32,36 @@ void FootballRegin::updateStudentPointPosFromStdFootGround(std::vector<pcl::Poin
         showPoints = 1;
     }
     for (int i = 0; i < showPoints; i++) {
+        // do not show (0, -1) point
+
+        if (floatEqual(objs[i]._PointXYZ::y, -1) \
+                && floatEqual(objs[i]._PointXYZ::x, 0)) {
+            continue;
+        }
         qDebug() << __func__ << __LINE__ << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
         float x_pixel = objs[i]._PointXYZ::x / m_per_pixelX + m_origin.x();
         float y_pixel = m_origin.y() - objs[i]._PointXYZ::y / m_per_pixelY;
         m_studentsPoints.push_back(QPointF(x_pixel, y_pixel));
+        if (m_examStarted) {
+            m_stuPointsPath.push_back(QPointF(x_pixel, y_pixel));
+            if (y_pixel < minY) {
+                minY = y_pixel;
+            }
+        }
     }
 }
 
 void FootballRegin::startExam(bool started)
 {
     m_examStarted = started;
+    minY = std::numeric_limits<float>::max();
+    // 停止考试了， 要保存考生路径为图片
+    if (!m_examStarted) {
+        m_stuPointsPath.clear();
+        QPixmap pix(this->size());
+        this->render(&pix);
+        pix.save(m_stuMovePathFileName);
+    }
 }
 
 void FootballRegin::updateStudentPointPos(float x, float y)
@@ -68,8 +95,7 @@ void FootballRegin::calculateObsStickPosition()
 
 void FootballRegin::updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight)
 {
-
-
+    qDebug() << __func__ << __LINE__;
      // no trastration
 //     qDebug() << __func__ << __LINE__ << leftUpPoint;
 //     qDebug() << __func__ << __LINE__ << rightBotomPoint;
@@ -127,20 +153,26 @@ void FootballRegin::paintEvent(QPaintEvent *event)
 
 void FootballRegin::showExamStickPos()
 {
-    QPen m_pen3;
-    m_pen3.setWidth(3);
+    QPen m_pen;
+    m_pen.setWidth(3);
     QPainter painterPoint(this);
-    painterPoint.setPen(m_pen3);
+    painterPoint.setPen(m_pen);
     for (int i = 0; i < 5; i++) {
+        QColor color;
         if (minY < m_stickPos[i].y()) {
-            m_pen3.setColor(QColor("red"));
-            painterPoint.setPen(m_pen3);
+            color = QColor("green");
         } else {
-            m_pen3.setColor(QColor("green"));
-            painterPoint.setPen(m_pen3);
+            color = QColor("red");
         }
+        m_pen.setColor(color);
+        painterPoint.setPen(m_pen);
         painterPoint.drawPoint(m_stickPos[i]);
     }
+}
+
+void FootballRegin::setStuMovePathFileName(const QString &newStuPathFileName)
+{
+    m_stuMovePathFileName = newStuPathFileName;
 }
 
 void FootballRegin::showExamStudentPath()
@@ -151,7 +183,7 @@ void FootballRegin::showExamStudentPath()
     m_pen2.setStyle(Qt::SolidLine);
     QPainter painterline(this);
     painterline.setPen(m_pen2);
-    painterline.drawLines(m_pointPath);
+    painterline.drawLines(m_stuPointsPath);
 
 }
 
@@ -177,40 +209,41 @@ void FootballRegin::showExamStudentPoints()
     m_pen.setStyle(Qt::SolidLine);
     QPainter studentPoint(this);
     studentPoint.setPen(m_pen);
-    for (int i = 0; i < m_studentsPoints.size(); i++) {
-        studentPoint.drawPoint(m_studentsPoints.at(i));
-    }
+    studentPoint.drawPoints(&m_studentsPoints[0], m_studentsPoints.size());
+//    for (int i = 0; i < m_studentsPoints.size(); i++) {
+//        studentPoint.drawPoint(m_studentsPoints.at(i));
+//    }
 
 }
 
 
-void FootballRegin::mousePressEvent(QMouseEvent *event)
-{
-    m_pointPath.clear();
-    isLoging = true;
-    QWidget::mousePressEvent(event);
-}
+//void FootballRegin::mousePressEvent(QMouseEvent *event)
+//{
+//    m_stuPointsPath.clear();
+//    isLoging = true;
+//    QWidget::mousePressEvent(event);
+//}
 
-void FootballRegin::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (isLoging) {
-        QPixmap pix(this->size());
-        this->render(&pix);
-        pix.save("test.png");
-    }
-    isLoging = false;
+//void FootballRegin::mouseReleaseEvent(QMouseEvent *event)
+//{
+//    if (isLoging) {
+//        QPixmap pix(this->size());
+//        this->render(&pix);
+//        pix.save("test.png");
+//    }
+//    isLoging = false;
 
-    QWidget::mouseReleaseEvent(event);
-}
+//    QWidget::mouseReleaseEvent(event);
+//}
 
-void FootballRegin::mouseMoveEvent(QMouseEvent *event)
-{
-    if (isLoging) {
-        m_pointPath.push_back(event->pos());
-        if (event->pos().y() < minY) {
-            minY = event->pos().y();
-        }
-        this->update();
-    }
-    QWidget::mouseMoveEvent(event);
-}
+//void FootballRegin::mouseMoveEvent(QMouseEvent *event)
+//{
+//    if (isLoging) {
+//        m_stuPointsPath.push_back(event->pos());
+//        if (event->pos().y() < minY) {
+//            minY = event->pos().y();
+//        }
+//        this->update();
+//    }
+//    QWidget::mouseMoveEvent(event);
+//}

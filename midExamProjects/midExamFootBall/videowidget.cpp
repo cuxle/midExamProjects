@@ -150,7 +150,7 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     }
     painter.drawPixmap(QPoint(), scaledPix);
 
-
+#if YWQZ
     QPen m_pen;
     m_pen.setColor(QColor("green"));
     m_pen.setWidth(3);
@@ -158,7 +158,7 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     QPainter painter1(this);
     painter1.setPen(m_pen);
     painter1.drawRect(m_rect);
-
+#endif
 //    QPen triPen;
 //    triPen.setColor(QColor("red"));
 //    triPen.setWidth(3);
