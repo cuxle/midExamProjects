@@ -234,10 +234,8 @@ void FormFuncChoose::initGodLeilaser()
 //    connect(m_godlei, &GodLeiLaser::sigStudentPositionUpdated, this, &FormFuncChoose::handleUpdateStudentPos);
     m_laserThread->start();
 
-    m_lidaAnalysis = new lidarAnalysis;
-
+    m_lidaAnalysis = new lidarBasketballAnalysis;
     ui->examRegin->setLidarAnalysis(m_lidaAnalysis);
-
     connect(&m_lidarWatchDogTimer, &QTimer::timeout, this, &FormFuncChoose::handleRestLidarToClose);
 
 //    m_turnLidarTimer.setInernal(500);

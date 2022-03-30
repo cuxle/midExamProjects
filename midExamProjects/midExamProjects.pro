@@ -7,7 +7,8 @@ SUBDIRS += midExamFootBall \
           midExamYwqz \
           midExamYtxs \
           midExamPaiQiu \
-          midExamTiaoSheng
+          midExamTiaoSheng \
+          midExamBasketball
 
 
 #SUBDIRS += midExamTiaoSheng \

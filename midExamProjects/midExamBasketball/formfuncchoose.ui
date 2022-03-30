@@ -32,14 +32,14 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>-730</x>
-     <y>30</y>
+     <x>310</x>
+     <y>-230</y>
      <width>2463</width>
      <height>1381</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1167,7 +1167,7 @@ border:1px solid #898698;</string>
                       </size>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">border-image: url(:/resource/images/mainform/football.png);</string>
+                      <string notr="true">border-image: url(:/resource/images/mainform/basketball.png);</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1207,7 +1207,7 @@ border:1px solid #898698;</string>
                       <string notr="true">color: rgb(255, 255, 255);</string>
                      </property>
                      <property name="text">
-                      <string>足球</string>
+                      <string>篮球</string>
                      </property>
                     </widget>
                    </item>

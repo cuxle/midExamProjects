@@ -19,7 +19,7 @@
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/ModelCoefficients.h>
 
-class lidarAnalysis;
+class lidarBasketballAnalysis;
 
 class FootballRegin : public QWidget
 {
@@ -33,7 +33,7 @@ public:
     float m_deltaY = 0;
     void setStuMovePathFileName(const QString &newStuPathFileName);
 
-    void setLidarAnalysis(lidarAnalysis *newLidarAnalysis);
+    void setLidarAnalysis(lidarBasketballAnalysis *newLidarAnalysis);
 
 public slots:
     void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
@@ -56,10 +56,12 @@ private:
     QPoint followPoint;
     QPointF m_origin;
 
+    lidarBasketballAnalysis *m_lidarAnalysis = nullptr;
+
     QVector<QPointF> m_studentsPoints;
     QVector<QPointF> m_stuPointsPath;
     QVector<QPointF> m_stickPos;
-    float minY = std::numeric_limits<float>::max();
+
     bool isLoging;
 
     float m_per_pixelX = 0;
@@ -75,8 +77,6 @@ private:
     QPointF m_realCenter;
 
     QString m_stuMovePathFileName;
-
-    lidarAnalysis *m_lidarAnalysis = nullptr;
 
     // QWidget interface
 protected:

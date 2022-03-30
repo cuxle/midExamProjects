@@ -8,7 +8,7 @@
 #include <QPalette>
 #include "appconfig.h"
 #include "singleton.h"
-#include "lidar/lidarAnalysis.h"
+#include "lidar/lidarBasketballAnalysis.h"
 
 bool floatEqual(float a, float b)
 {
@@ -52,7 +52,6 @@ void FootballRegin::updateStudentPointPosFromStdFootGround(std::vector<pcl::Poin
 void FootballRegin::startExam(bool started)
 {
     m_examStarted = started;
-
     // 停止考试了， 要保存考生路径为图片
     if (!m_examStarted) {
         m_stuPointsPath.clear();
@@ -72,23 +71,25 @@ void FootballRegin::updateStudentPointPos(float x, float y)
 void FootballRegin::calculateObsStickPosition()
 {
     // calculate five pionts of stick value
-    // x is the same
-    int x = (leftUpPoint.x() + rightBotomPoint.x()) / 2;
-    int y0 = leftUpPoint.y();
-    int ylast = rightBotomPoint.y();
-    int diff = (ylast - y0) / 6;
-    int y1 = y0 + diff;
-    int y2 = y1 + diff;
-    int y3 = y2 + diff;
-    int y4 = y3 + diff;
-    int y5 = y4 + diff;
+    float width = rightBotomPoint.x() - leftUpPoint.x();
+    float height =  rightBotomPoint.y() - leftUpPoint.y();
+    float y0 = leftUpPoint.y() + (5.8 / 28) * height;
+    float y1 = leftUpPoint.y() + height * 0.5;
+    float y2 = leftUpPoint.y() + (28 - 5.8) / 28 *height;
+    float x0 = leftUpPoint.x() + (15 - 1.8) / 2 / 15 * width;
+    float x1 = x0 + (1.8) / 15 * width;
+
 
     m_stickPos.clear();
-    m_stickPos.push_back(QPoint(x, y5));
-    m_stickPos.push_back(QPoint(x, y4));
-    m_stickPos.push_back(QPoint(x, y3));
-    m_stickPos.push_back(QPoint(x, y2));
-    m_stickPos.push_back(QPoint(x, y1));
+    m_stickPos.push_back(QPoint(x0, y2));
+    m_stickPos.push_back(QPoint(x1, y2));
+
+    m_stickPos.push_back(QPoint(x0, y1));
+    m_stickPos.push_back(QPoint(x1, y1));
+
+
+    m_stickPos.push_back(QPoint(x0, y0));
+    m_stickPos.push_back(QPoint(x1, y0));
 }
 
 void FootballRegin::updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight)
@@ -166,7 +167,7 @@ void FootballRegin::showExamStickPos()
     }
 }
 
-void FootballRegin::setLidarAnalysis(lidarAnalysis *newLidarAnalysis)
+void FootballRegin::setLidarAnalysis(lidarBasketballAnalysis *newLidarAnalysis)
 {
     m_lidarAnalysis = newLidarAnalysis;
 }
