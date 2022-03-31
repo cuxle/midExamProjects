@@ -36,7 +36,8 @@ public:
     void setLidarAnalysis(lidarBasketballAnalysis *newLidarAnalysis);
 
 public slots:
-    void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
+    void updateRectPointTopLeft(const QPoint &topLeft);
+    void updateRectPointBottomRight(const QPoint &bottomRight);
 
 signals:
 private:
@@ -45,11 +46,12 @@ private:
     void showExamStudentPoints();
     void showExamStudentPath();
     void showExamStickPos();
+    void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
     QRect m_rect;
     QMenu contexMenu;
 
-    QPoint leftUpPoint;
-    QPoint rightBotomPoint;
+    QPoint m_topLeft;
+    QPoint m_bottomRight;
     QPoint contexPoint;
 
     QPointF m_studentPos;

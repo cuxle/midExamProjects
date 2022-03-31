@@ -51,6 +51,12 @@ public:
     int m_examReginTopLeftY = 0;
     int m_examReginBottomRightX = 0;
     int m_examReginBottomRightY = 0;
+
+    int m_rectReginTopLeftX = 0;
+    int m_rectReginTopLeftY = 0;
+    int m_rectReginWidth = 0;
+    int m_rectReginHeight = 0;
+
     float m_deltaAngle = 0;
     float m_x_rangeStart = 0;
     float m_x_rangeEnd = 5;

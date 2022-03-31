@@ -212,7 +212,7 @@ private slots:
 
     void setValueRange(const QCPRange &range);
 
-    void setKeyRange(const QCPRange &range);
+//    void setKeyRange(const QCPRange &range);
 
 public slots:
     // update point cloud
@@ -220,7 +220,8 @@ public slots:
 
     // update normalized football or basketball regin
     void handleUpdateNormalizedData();
-    void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
+    void updateRectPointTopLeft(const QPoint &topLeft);
+    void updateRectPointBottomRight(const QPoint &bottomRight);
 
 private slots:
     void handleRestLidarToClose();
@@ -253,6 +254,7 @@ private:
     void initSocketClient();
     void initVolleyballWorker();
     void mapFromStdFootGroundToWidget(std::vector<PointXYZ> &objs);
+    void startExamWhenStuEnterExamRegin();
 
     void clearAppConfig();
 
@@ -377,6 +379,7 @@ private:
     QThread *m_laserThread = nullptr;
 
     bool m_exminStudentInRegin = false;
+    bool m_examFirstRunning = false;
 
 
     const double PI = 3.1415926;
@@ -438,6 +441,22 @@ private:
      QTimer m_turnLidarTimer;
      float m_currentAngle = 0;
      float m_deltaAngle = 0.5;
+
+     int m_examReginTopLeftX;
+     int m_examReginTopLeftY;
+     int m_examReginBottomRightX;
+     int m_examReginBottomRightY;
+
+
+     int m_rectReginTopLeftX;
+     int m_rectReginTopLeftY;
+     int m_rectReginWidth;
+     int m_rectReginHight;
+
+//     int m_rectReginTopLeftX;
+//     int m_rectReginTopLeftY;
+//     int m_rectReginBottomRightX;
+//     int m_rectReginBottomRightY;
 
 protected:
      void closeEvent(QCloseEvent *event);

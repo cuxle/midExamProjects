@@ -73,9 +73,9 @@ void FootballRegin::calculateObsStickPosition()
 {
     // calculate five pionts of stick value
     // x is the same
-    int x = (leftUpPoint.x() + rightBotomPoint.x()) / 2;
-    int y0 = leftUpPoint.y();
-    int ylast = rightBotomPoint.y();
+    int x = (m_topLeft.x() + m_bottomRight.x()) / 2;
+    int y0 = m_topLeft.y();
+    int ylast = m_bottomRight.y();
     int diff = (ylast - y0) / 6;
     int y1 = y0 + diff;
     int y2 = y1 + diff;
@@ -91,9 +91,29 @@ void FootballRegin::calculateObsStickPosition()
     m_stickPos.push_back(QPoint(x, y1));
 }
 
+void FootballRegin::updateRectPointTopLeft(const QPoint &topLeft)
+{
+    m_topLeft = topLeft;
+    qDebug() << __func__ << __LINE__ << topLeft;
+    leftUpOk = true;
+    if (leftUpOk && rightDownOk) {
+        updateRectPoint(m_topLeft, m_bottomRight);
+    }
+}
+
+void FootballRegin::updateRectPointBottomRight(const QPoint &bottomRight)
+{
+    m_bottomRight = bottomRight;
+    qDebug() << __func__ << __LINE__ << m_bottomRight;
+    rightDownOk = true;
+    if (leftUpOk && rightDownOk) {
+        updateRectPoint(m_topLeft, m_bottomRight);
+    }
+}
+
 void FootballRegin::updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight)
 {
-    qDebug() << __func__ << __LINE__;
+    qDebug() << __func__ << __LINE__ << topLeft << bottomRight;
      // no trastration
 //     qDebug() << __func__ << __LINE__ << leftUpPoint;
 //     qDebug() << __func__ << __LINE__ << rightBotomPoint;
@@ -117,23 +137,21 @@ void FootballRegin::updateRectPoint(const QPoint &topLeft, const QPoint &bottomR
      m_origin.setX((topLeft.x() + bottomRight.x()) / 2.0 + m_deltaX);
      m_origin.setY(bottomRight.y() + m_deltaY);
 
-     leftUpPoint.setX(topLeft.x() + m_deltaX);
-     leftUpPoint.setY(topLeft.y() + m_deltaY);
-     rightBotomPoint.setX(bottomRight.x() + m_deltaX);
-     rightBotomPoint.setY(bottomRight.y() + m_deltaY);
+     m_topLeft.setX(topLeft.x() + m_deltaX);
+     m_topLeft.setY(topLeft.y() + m_deltaY);
+     m_bottomRight.setX(bottomRight.x() + m_deltaX);
+     m_bottomRight.setY(bottomRight.y() + m_deltaY);
 
-     m_rect.setTopLeft(leftUpPoint);
-     m_rect.setBottomRight(rightBotomPoint);
+     m_rect.setTopLeft(m_topLeft);
+     m_rect.setBottomRight(m_bottomRight);
 
      m_per_pixelX = 10.0 / (bottomRight.x() - topLeft.x());
      m_per_pixelY = 30.0 / (bottomRight.y() - topLeft.y());
 
-     leftUpOk = true;
-     rightDownOk = true;
+
      calculateObsStickPosition();
      this->update();
 }
-
 
 void FootballRegin::paintEvent(QPaintEvent *event)
 {
@@ -210,10 +228,9 @@ void FootballRegin::showExamStudentPoints()
     m_pen.setStyle(Qt::SolidLine);
     QPainter studentPoint(this);
     studentPoint.setPen(m_pen);
-    studentPoint.drawPoints(&m_studentsPoints[0], m_studentsPoints.size());
-//    for (int i = 0; i < m_studentsPoints.size(); i++) {
-//        studentPoint.drawPoint(m_studentsPoints.at(i));
-//    }
+    for (int i = 0; i < m_studentsPoints.size(); i++) {
+        studentPoint.drawPoint(m_studentsPoints.at(i));
+    }
 
 }
 

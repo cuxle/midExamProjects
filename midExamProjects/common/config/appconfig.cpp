@@ -85,10 +85,16 @@ void AppConfig::writeConfig()
     settings.setValue("MIN_CLUSTERSIZE", m_minClusterSize);
     settings.setValue("MAX_CLUSTERSIZE", m_maxClusterSize);
 
-    settings.setValue("EXAMREGIN_TOPLEFTX", m_examReginTopLeftX);
-    settings.setValue("EXAMREGIN_TOPLEFTY", m_examReginTopLeftY);
-    settings.setValue("EXAMREGIN_DOWNLEFTX", m_examReginBottomRightX);
-    settings.setValue("EXAMREGIN_DOWNLEFTY", m_examReginBottomRightY);
+    settings.setValue("EXAMREGIN_TOPLEFTX", QString::number(m_examReginTopLeftX));
+    settings.setValue("EXAMREGIN_TOPLEFTY", QString::number(m_examReginTopLeftY));
+    settings.setValue("EXAMREGIN_DOWNLEFTX", QString::number(m_examReginBottomRightX));
+    settings.setValue("EXAMREGIN_DOWNLEFTY", QString::number(m_examReginBottomRightY));
+
+    settings.setValue("RECTREGIN_TOPLEFTX", QString::number(m_rectReginTopLeftX));
+    settings.setValue("RECTREGIN_TOPLEFTY", QString::number(m_rectReginTopLeftY));
+    settings.setValue("RECTREGIN_DOWNLEFTX", QString::number(m_rectReginWidth));
+    settings.setValue("RECTREGIN_DOWNLEFTY", QString::number(m_rectReginHeight));
+
     settings.setValue("LIDAR_ANGLE", QString::number(m_deltaAngle, 'f'));
 
     settings.setValue("X_RANGE_START", QString::number(m_x_rangeStart, 'f'));
@@ -145,10 +151,16 @@ void AppConfig::readConfig()
     m_minClusterSize = settings.value("MIN_CLUSTERSIZE", 5).toUInt();
     m_maxClusterSize = settings.value("MAX_CLUSTERSIZE", 200).toUInt();
 
-    m_examReginTopLeftX  = settings.value("EXAMREGIN_TOPLEFTX", 0).toInt();
-    m_examReginTopLeftY  = settings.value("EXAMREGIN_TOPLEFTY", 0).toInt();
-    m_examReginBottomRightX  = settings.value("EXAMREGIN_DOWNLEFTX", 0).toInt();
-    m_examReginBottomRightY  = settings.value("EXAMREGIN_DOWNLEFTY", 0).toInt();
+    m_examReginTopLeftX  = settings.value("EXAMREGIN_TOPLEFTX", 0).toString().toInt();
+    m_examReginTopLeftY  = settings.value("EXAMREGIN_TOPLEFTY", 0).toString().toInt();
+    m_examReginBottomRightX  = settings.value("EXAMREGIN_DOWNLEFTX", 0).toString().toInt();
+    m_examReginBottomRightY  = settings.value("EXAMREGIN_DOWNLEFTY", 0).toString().toInt();
+
+    m_rectReginTopLeftX  = settings.value("RECTREGIN_TOPLEFTX", 0).toString().toInt();
+    m_rectReginTopLeftY  = settings.value("RECTREGIN_TOPLEFTY", 0).toString().toInt();
+    m_rectReginWidth  = settings.value("RECTREGIN_DOWNLEFTX", 0).toString().toInt();
+    m_rectReginHeight  = settings.value("RECTREGIN_DOWNLEFTY", 0).toString().toInt();
+
     m_deltaAngle = settings.value("LIDAR_ANGLE", 0).toString().toFloat();
 
     m_x_rangeStart = settings.value("X_RANGE_START", 0).toString().toFloat();

@@ -98,30 +98,61 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 //        connect(this, &FormFuncChoose::sigVideoWidgetIsLocked, videoWidget, &VideoWidget::handleVideoWidgetIsLocked);
 //    }
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
-    int m_examReginTopLeftX = m_config.m_examReginTopLeftX;
-    int m_examReginTopLeftY = m_config.m_examReginTopLeftY;
-    int m_examReginBottomRightX = m_config.m_examReginBottomRightX;
-    int m_examReginBottomRightY = m_config.m_examReginBottomRightY;
+    m_examReginTopLeftX = m_config.m_examReginTopLeftX;
+    m_examReginTopLeftY = m_config.m_examReginTopLeftY;
+    m_examReginBottomRightX = m_config.m_examReginBottomRightX;
+    m_examReginBottomRightY = m_config.m_examReginBottomRightY;
+
+    m_rectReginTopLeftX = m_config.m_rectReginTopLeftX;
+    m_rectReginTopLeftY = m_config.m_rectReginTopLeftY;
+    m_rectReginWidth = m_config.m_rectReginWidth;
+    m_rectReginHight = m_config.m_rectReginHeight;
+
+    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftX;
+    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftY;
+    qDebug() << __func__ << __LINE__ << m_rectReginWidth;
+    qDebug() << __func__ << __LINE__ << m_rectReginHight;
+
+
+
+//    m_rectReginTopLeftX = m_config.m_rectReginTopLeftX;
+//    m_rectReginTopLeftY = m_config.m_rectReginTopLeftY;
+//    m_rectReginBottomRightX = m_config.m_rectReginBottomRightX;
+//    m_rectReginBottomRightY = m_config.m_rectReginBottomRightY;
+//    qDebug() << __func__ << __LINE__ << m_examReginTopLeftX;
+//    qDebug() << __func__ << __LINE__ << m_examReginTopLeftY;
+//    qDebug() << __func__ << __LINE__ << m_examReginBottomRightX;
+//    qDebug() << __func__ << __LINE__ << m_examReginBottomRightY;
 
     float m_x_rangeStart = m_config.m_x_rangeStart;
     float m_x_rangeEnd = m_config.m_x_rangeEnd;
     float m_y_rangeStart = m_config.m_y_rangeStart;
     float m_y_rangeEnd = m_config.m_y_rangeEnd;
 
+    qDebug() << __func__ << __LINE__ << m_x_rangeStart;
+    qDebug() << __func__ << __LINE__ << m_x_rangeEnd;
+    qDebug() << __func__ << __LINE__ << m_y_rangeStart;
+    qDebug() << __func__ << __LINE__ << m_y_rangeEnd;
+
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     keyAxis->setRange(m_x_rangeStart, m_x_rangeEnd);
     valueAxis->setRange(m_y_rangeStart, m_y_rangeEnd);
+    m_currentAngle = m_config.m_deltaAngle;
+    qDebug() << __func__ << __LINE__ << "delta angle:" << m_deltaAngle;
 
+// TODO check need or not
     connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
 
 
 
-    m_currentAngle = m_config.m_deltaAngle;
-    qDebug() << __func__ << __LINE__ << "delta angle:" << m_deltaAngle;
-
-    emit ui->plot->sigRectPointUpdated(QPoint(m_examReginTopLeftX, m_examReginTopLeftY), \
-                                       QPoint(m_examReginBottomRightX, m_examReginBottomRightY));
+    QTimer::singleShot(2000, [&](){
+        QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+        keyAxis->axisRect()->setOuterRect(QRect(m_rectReginTopLeftX, m_rectReginTopLeftY, m_rectReginWidth, m_rectReginHight));
+        qDebug() << __func__ << __LINE__ << "outer rect:" << keyAxis->axisRect()->outerRect();
+        emit ui->plot->sigRectPointTopLeftUpdated(QPoint(m_examReginTopLeftX, m_examReginTopLeftY));
+        emit ui->plot->sigRectPointBottomRightUpdated(QPoint(m_examReginBottomRightX, m_examReginBottomRightY));
+    });
 }
 
 FormFuncChoose::~FormFuncChoose()
@@ -176,11 +207,6 @@ void FormFuncChoose::setValueRange(const QCPRange &range)
 //    valueAxis->setRange(range);
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
 
-    float m_x_rangeStart = m_config.m_x_rangeStart;
-    float m_x_rangeEnd = m_config.m_x_rangeEnd;
-    float m_y_rangeStart = m_config.m_y_rangeStart;
-    float m_y_rangeEnd = m_config.m_y_rangeEnd;
-
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
 
@@ -191,12 +217,12 @@ void FormFuncChoose::setValueRange(const QCPRange &range)
     m_config.m_y_rangeEnd = valueAxis->range().upper;
 }
 
-void FormFuncChoose::setKeyRange(const QCPRange &range)
-{
-    qDebug() << __func__ << __LINE__;
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-    keyAxis->setRange(range);
-}
+//void FormFuncChoose::setKeyRange(const QCPRange &range)
+//{
+//    qDebug() << __func__ << __LINE__;
+//    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+//    keyAxis->setRange(range);
+//}
 
 
 void FormFuncChoose::initGodLeilaser()
@@ -412,17 +438,21 @@ void FormFuncChoose::showExamRegion()
         } else if (status == 1) {
             // exam running
             qDebug() << __func__ << __LINE__ << "exam is running";
+            if (m_examFirstRunning) {
+                m_examFirstRunning = false;
+                startExamWhenStuEnterExamRegin();
+            }
 
         } else if (status == 2) {
             // exam finished normally
             qDebug() << __func__ << __LINE__ << "exam finished normally";
-            QMessageBox::warning(nullptr, "warning", "考试完成!");
             stopExamStuff();
+            QMessageBox::warning(nullptr, "warning", "考试完成!");            
         } else if (status == 3) {
             // student break the exam rule
             qDebug() << __func__ << __LINE__ << "exam finished normally";
-            QMessageBox::warning(nullptr, "warning", "考生违规!");
             stopExamStuff();
+            QMessageBox::warning(nullptr, "warning", "考生违规!");            
         }
     }
 
@@ -508,34 +538,67 @@ void FormFuncChoose::initUi()
     // init font database
     initFontDatabase();
 
-    connect(ui->plot, &LidarCloudWidget::sigRectPointUpdated, this, &FormFuncChoose::updateRectPoint);
-    connect(ui->plot, &LidarCloudWidget::sigRectPointUpdated, ui->examRegin, &FootballRegin::updateRectPoint);
+    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, this, &FormFuncChoose::updateRectPointTopLeft);
+    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, this, &FormFuncChoose::updateRectPointBottomRight);
+    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, ui->examRegin, &FootballRegin::updateRectPointTopLeft);
+    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
+
 }
 
-void FormFuncChoose::updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight)
+void FormFuncChoose::updateRectPointTopLeft(const QPoint &topLeft)
 {
-    qDebug() << __func__ << __LINE__;
-    // save points to config
-    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
-    m_config.m_examReginTopLeftX = topLeft.x();
-    m_config.m_examReginTopLeftY = topLeft.y();
-    m_config.m_examReginBottomRightX = bottomRight.x();
-    m_config.m_examReginBottomRightY = bottomRight.y();
+    qDebug() << __func__ << __LINE__ << topLeft;
+
 
 //    QPoint tl = mapFromGlobal(topLeft);
 //    QPoint br = mapFromGlobal(bottomRight);
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+    qDebug() << __func__ << __LINE__ << keyAxis->pixelToCoord((topLeft).x()) << keyAxis->range() << keyAxis->axisRect()->left() << keyAxis->axisRect()->outerRect();
+    qDebug() << __func__ << __LINE__ << valueAxis->pixelToCoord((topLeft).y()) << valueAxis->range() << valueAxis->axisRect()->left() <<  keyAxis->axisRect()->outerRect();
     m_topLeft = QPointF(keyAxis->pixelToCoord((topLeft).x()), valueAxis->pixelToCoord((topLeft).y()));
-    m_bottomRight = QPointF(keyAxis->pixelToCoord((bottomRight).x()), valueAxis->pixelToCoord((bottomRight).y()));
     // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
 //    emit sigSetReginRect(m_topLeft.x(), m_bottomRight.x(), m_topLeft.y(), m_bottomRight.y());
-
+    // save points to config
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    m_config.m_examReginTopLeftX = topLeft.x();
+    m_config.m_examReginTopLeftY = topLeft.y();
 
     float zMin =  -1.2f;
     float zMax = 1.2f;
     qDebug() << "top left:" << m_topLeft << " bottom right:" << m_bottomRight;
-    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(), zMin, zMax);
+    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  zMin, zMax);
+}
+
+void FormFuncChoose::updateRectPointBottomRight(const QPoint &bottomRight)
+{
+    qDebug() << __func__ << __LINE__;
+
+    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+    m_bottomRight = QPointF(keyAxis->pixelToCoord((bottomRight).x()), valueAxis->pixelToCoord((bottomRight).y()));
+    // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
+//    emit sigSetReginRect(m_topLeft.x(), m_bottomRight.x(), m_topLeft.y(), m_bottomRight.y());
+
+    // save points to config
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    m_config.m_examReginBottomRightX = bottomRight.x();
+    m_config.m_examReginBottomRightY = bottomRight.y();
+    m_rectReginTopLeftX = keyAxis->axisRect()->outerRect().topLeft().x();
+    m_rectReginTopLeftY = keyAxis->axisRect()->outerRect().topLeft().y();
+    m_rectReginWidth = keyAxis->axisRect()->outerRect().width();
+    m_rectReginHight = keyAxis->axisRect()->outerRect().height();
+    m_config.m_rectReginTopLeftX = m_rectReginTopLeftX;
+    m_config.m_rectReginTopLeftY = m_rectReginTopLeftY;
+    m_config.m_rectReginWidth = m_rectReginWidth;
+    m_config.m_rectReginHeight = m_rectReginHight;
+
+
+
+    float zMin =  -1.2f;
+    float zMax = 1.2f;
+    qDebug() << "top left:" << m_topLeft << " bottom right:" << m_bottomRight << keyAxis->range();
+    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  zMin, zMax);
 }
 
 //void FormFuncChoose::initExamTimeVersion()
@@ -737,9 +800,11 @@ void FormFuncChoose::handleStartExam()
 //    emit sigStartCount(true);
     ui->examRegin->startExam(true);
     m_exminStudentInRegin = true;
+    m_examFirstRunning = true;
+}
 
-    // 3. start back count 60s倒计时
-
+void FormFuncChoose::startExamWhenStuEnterExamRegin()
+{
     // record start time for exam
     recordStudentExamInfo(ExamStart);
 

@@ -36,7 +36,8 @@ public:
     void setLidarAnalysis(lidarAnalysis *newLidarAnalysis);
 
 public slots:
-    void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
+    void updateRectPointTopLeft(const QPoint &topLeft);
+    void updateRectPointBottomRight(const QPoint &bottomRight);
 
 signals:
 private:
@@ -45,11 +46,12 @@ private:
     void showExamStudentPoints();
     void showExamStudentPath();
     void showExamStickPos();
+    void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
     QRect m_rect;
     QMenu contexMenu;
 
-    QPoint leftUpPoint;
-    QPoint rightBotomPoint;
+    QPoint m_topLeft;
+    QPoint m_bottomRight;
     QPoint contexPoint;
 
     QPointF m_studentPos;
@@ -59,7 +61,7 @@ private:
     QVector<QPointF> m_studentsPoints;
     QVector<QPointF> m_stuPointsPath;
     QVector<QPointF> m_stickPos;
-    float minY = std::numeric_limits<float>::max();
+
     bool isLoging;
 
     float m_per_pixelX = 0;

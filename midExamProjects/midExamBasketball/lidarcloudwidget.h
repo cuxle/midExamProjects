@@ -14,7 +14,8 @@ public:
     explicit LidarCloudWidget(QWidget *parent = nullptr);
     ~LidarCloudWidget();
 signals:
-    void sigRectPointUpdated(const QPoint &topLeft, const QPoint &bottomRight);
+    void sigRectPointTopLeftUpdated(const QPoint &topLeft);
+    void sigRectPointBottomRightUpdated(const QPoint &bottomRight);
 private slots:
     void handleLeftUpPointSet();
     void handleRightDownPointSet();
