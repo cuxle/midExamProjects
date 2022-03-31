@@ -13,11 +13,26 @@
 DataManager::DataManager(QObject *parent)
     : QObject(parent)
 {
+    // old code
     AppConfig &config = Singleton<AppConfig>::GetInstance();
     m_basePath = config.m_videoSavePath;
     initReadTotalStudents();
     initReadLocalStudents();
     initReadLocalExamProjects();
+
+    // by sql
+    initDataBase();
+
+}
+
+void DataManager::initDataBase()
+{
+    // init database
+
+    // create three table
+    // totalStudent
+    // local student
+    // school list
 }
 
 DataManager::~DataManager()

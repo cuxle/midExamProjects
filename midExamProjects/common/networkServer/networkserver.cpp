@@ -503,6 +503,9 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         {
             if (success) {
                 m_schools.clear();
+                while (!m_studentArray.empty()) {
+                    m_studentArray.removeLast();
+                }
                 QJsonArray array = jsonObject["data"].toArray();
                 for (int i = 0; i < array.size(); i++) {
                     QJsonObject schoolObj;
@@ -546,9 +549,9 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                 QJsonArray array = jsonObject["data"].toArray();  // students list
 
                 // clear all student array
-                while (!m_studentArray.empty()) {
-                    m_studentArray.removeLast();
-                }
+//                while (!m_studentArray.empty()) {
+//                    m_studentArray.removeLast();
+//                }
 
                 for (int i = 0; i < array.size(); i++) {
                     m_studentArray.append(array[i].toObject());

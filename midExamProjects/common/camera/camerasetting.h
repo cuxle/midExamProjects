@@ -4,7 +4,7 @@
 #if TIAOSHENG
 
 #define     CAMERA_FRAME_RATE       25
-#define     CAMERA_EXPOSE_TIME      10000
+#define     CAMERA_EXPOSE_TIME      10000.000
 #define     CAMERA_WIHTE_BALANCE    "Continuous"
 #define     CAMERA_GAIN_MODE        "Continuous"
 #define     FRAME_WIDTH             1280
@@ -13,7 +13,7 @@
 #elif YTXS
 
 #define     CAMERA_FRAME_RATE       25
-#define     CAMERA_EXPOSE_TIME      10000
+#define     CAMERA_EXPOSE_TIME      10000.000
 #define     CAMERA_WIHTE_BALANCE    "Continuous"
 #define     CAMERA_GAIN_MODE        "Continuous"
 #define     FRAME_WIDTH             1280
@@ -22,7 +22,7 @@
 #elif YWQZ
 
 #define     CAMERA_FRAME_RATE       25
-#define     CAMERA_EXPOSE_TIME      10000
+#define     CAMERA_EXPOSE_TIME      10000.000
 #define     CAMERA_WIHTE_BALANCE    "Continuous"
 #define     CAMERA_GAIN_MODE        "Continuous"
 #define     FRAME_WIDTH             1280
@@ -32,7 +32,7 @@
 #elif PAIQIU
 
 #define     CAMERA_FRAME_RATE       25
-#define     CAMERA_EXPOSE_TIME      10000
+#define     CAMERA_EXPOSE_TIME      10000.000
 #define     CAMERA_WIHTE_BALANCE    "Continuous"
 #define     CAMERA_GAIN_MODE        "Continuous"
 #define     FRAME_WIDTH             1280
@@ -41,7 +41,7 @@
 #elif FOOTBALL
 
 #define     CAMERA_FRAME_RATE       25
-#define     CAMERA_EXPOSE_TIME      10000
+#define     CAMERA_EXPOSE_TIME      10000.000
 #define     CAMERA_WIHTE_BALANCE    "Continuous"
 #define     CAMERA_GAIN_MODE        "Continuous"
 #define     FRAME_WIDTH             1280

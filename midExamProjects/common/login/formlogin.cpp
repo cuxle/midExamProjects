@@ -48,13 +48,21 @@ FormLogin::FormLogin(QWidget *parent) :
 
 FormLogin::~FormLogin()
 {
+    QString killServerCmd;
+#if YTXS
+    killServerCmd = "taskkill /im server_ytxs.exe /f"
+#endif
+
+#if TIAOSHENG
+    killServerCmd = "taskkill /im server_tiaosheng.exe /f"
+#endif
+
 #if  defined(YTXS) || defined(TIAOSHENG)
     m_skipRopeZeroMqThread->quit();
     m_skipRopeZeroMqThread->wait();
 
     QProcess process(0);
-    process.start("cmd.exe", QStringList()<< "/c" << "taskkill /im server_ytxs.exe /f");
-    //process.start("cmd.exe", QStringList()<< "/c" << "skiprope_server_ori.exe");
+    process.start("cmd.exe", QStringList()<< "/c" << killServerCmd);
     process.waitForStarted();
     process.waitForFinished();
 

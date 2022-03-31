@@ -4,7 +4,8 @@ HEADERS +=  $$PWD/datamanager.h \
 			$$PWD/schoollisttablemodel.h \
 			$$PWD/scoremanagemodel.h \
                         $$PWD/localstudenttablemodel.h \
-                        $$PWD/TmpStudent.h
+                        $$PWD/TmpStudent.h \
+                        $$PWD/initdb.h
 
 			
 

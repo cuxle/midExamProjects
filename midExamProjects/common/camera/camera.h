@@ -26,8 +26,6 @@ public:
 
     QImage *image() const;
 
-    void setFps(int newFps);
-
     bool bIsOpen() const;
 
     void pushImage();
@@ -72,11 +70,9 @@ private:
 
     QImage *m_image = nullptr;
 
-    int m_fps = 30;
-
     // QObject interface
-    int m_nWidth = 1280;
-    int m_nHeight = 1024;
+    int m_nWidth = FRAME_WIDTH;
+    int m_nHeight = FRAME_HEIGHT;
 
     bool m_bIsOpen = false;
     bool m_bIsSnap = false;

@@ -38,7 +38,7 @@ public:
     static void saveJsonToFile(const QByteArray &data, const QString &fileName);
     QJsonDocument readJsonToJsonDoc(const QString &fileName);
     void updateIdCode(const QString &id, const QString &code);
-
+    void initDataBase();
     // zkh, student
     QHash<QString, TmpStudent*> m_totalStudents;  // read from total students json file
     QList<TmpStudent*> m_localExamedStudents;

@@ -69,11 +69,6 @@ void Camera::destoryCamera()
     this->deleteLater();
 }
 
-void Camera::setFps(int newFps)
-{
-    m_fps = newFps;
-}
-
 void Camera::openDevice()
 {
     GxIAPICPP::gxdeviceinfo_vector vectorDeviceInfo;
@@ -153,8 +148,8 @@ void Camera::openDevice()
             std::cout << "GainAuto " << s << std::endl;
 
 
-            m_nWidth = (int64_t)m_objFeatureControlPtr->GetIntFeature("Width")->GetValue();
-            m_nHeight = (int64_t)m_objFeatureControlPtr->GetIntFeature("Height")->GetValue();
+//            m_nWidth = (int64_t)m_objFeatureControlPtr->GetIntFeature("Width")->GetValue();
+//            m_nHeight = (int64_t)m_objFeatureControlPtr->GetIntFeature("Height")->GetValue();
 
             //获取设备流个数
             int nCount = m_objDevicePtr->GetStreamCount();
