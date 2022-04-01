@@ -114,7 +114,7 @@ private slots:
 
     void updateImageDisplay(const QImage &img);
 
-    void handleSkipCountChanged(int skipCount);
+//    void handleSkipCountChanged(int skipCount);
 
     void on_pbStartTest_clicked();
 
@@ -265,7 +265,7 @@ private:
     enum ExamState {
         ExamNotStart,
         ExamPreparing,
-        ExamIsRunning,
+        ExamIsRunning
     };
 
     enum ExamMode {

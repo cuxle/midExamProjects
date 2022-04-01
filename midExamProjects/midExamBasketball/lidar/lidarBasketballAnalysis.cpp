@@ -219,111 +219,117 @@ int lidarBasketballAnalysis::getRegionID(float x, float y)
 //返回值 0:未开始考试  1：考试进行中 2：考试正常结束 3：考生犯规
 int lidarBasketballAnalysis::tracking(PointXYZ ptPos)
 {
-	//在考试中才分析点的位置 不在考试区域内ptPos默认给个(0,-1)
-	if (m_inExam)
-	{
-		int curID = getRegionID(ptPos.x, ptPos.y);
+    //在考试中才分析点的位置 不在考试区域内ptPos默认给个(0,-1)
+    if (m_inExam)
+    {
+        int curID = getRegionID(ptPos.x, ptPos.y);
 
-		//考生进入考试区域内才开始计时
-		if (curID > 0 && m_prevRegionID == 0)
-		{
-			m_start = clock();
-			m_prevRegionID = curID;
-			m_stepIdx++;
-		}
-		
-		//进入考试流程
-		if(m_stepIdx > 0)
-		{
-			if (curID == 0)
-			{
-				//连续三帧出区域，表示考试结束
-				if (m_OutCnt == 0)
-				{
-					m_finish = clock();
-				}
-				m_OutCnt++;
+        //考生进入考试区域内才开始计时
+        if (curID > 0 && m_prevRegionID == 0)
+        {
+            m_start = clock();
+            m_prevRegionID = curID;
+            m_stepIdx++;
+        }
 
-				if (m_OutCnt == 3)
-				{
-					if (m_flagStatus[0] && m_flagStatus[1] && m_flagStatus[2] && m_flagStatus[3] && m_flagStatus[4] && m_flagStatus[5])
-					{
-						//如果6个杆子都绕过了
-						m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
+        //进入考试流程
+        if (m_stepIdx > 0)
+        {
+            if (curID == 0)
+            {
+                //连续三帧出区域，表示考试结束
+                if (m_OutCnt == 0)
+                {
+                    m_finish = clock();
+                }
 
-						if (abs(m_PointLast.y - m_yBorderMin) < abs(m_PointLast.x - m_xBorderMin) && abs(m_PointLast.y - m_yBorderMin) < abs(m_PointLast.x - m_xBorderMax))
-						{
-							//如果出有效区域前距离起/终点线近 则正常考试结束
-							return 2;
-						}
-						else
-						{
-							//虽然绕过所有的杆 但是最后没有从底线出去
-							return 3;
-						}
-					}
-					else
-					{
-						//犯规结束
-						m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
-						return 3;
-					}
-				}
-			}
-			else if (curID == 1)
-			{
-				m_PointLast = ptPos; //备份一下在考试区域内的点位
-				m_OutCnt = 0;
-			}
-			else
-			{
-				m_PointLast = ptPos; //备份一下在考试区域内的点位
-				if (curID == 4 && m_stepIdx == 1)
-				{
-					m_trailIdx = 1;	//走路径1 trail1
-					m_stepIdx++;
-				}
-				else if (curID == 2 && m_stepIdx == 1)
-				{
-					m_trailIdx = 2;	//走路径2 trail2
-					m_stepIdx++;
-				}
+                //只有前一帧的坐标靠近边界区域时才开始计数 防止中间跟踪丢失3帧以上出现误判
+                if (ptPos.y >= m_yBorderMax*0.8 || ptPos.x <= m_xBorderMin*0.6 || ptPos.x >= m_xBorderMax*0.6)
+                {
+                    m_OutCnt++;
+                }
 
-				//走不同的标准轨迹
-				if (m_trailIdx == 1)
-				{
-					if (m_prevRegionID != curID)
-					{
-						if (m_prevRegionID == trail1[m_stepIdx - 2] && curID == trail1[m_stepIdx - 1])
-						{
-							m_stepIdx++;
-							m_flagStatus[m_flagStatusIdx1[m_stepIdx / 3 - 1]] = true;
-							m_prevRegionID = curID;
-						}
-					}
-				}
-				else if (m_trailIdx == 2)
-				{
-					if (m_prevRegionID != curID)
-					{
-						if (m_prevRegionID == trail2[m_stepIdx - 2] && curID == trail2[m_stepIdx - 1])
-						{
-							m_stepIdx++;
-							m_flagStatus[m_flagStatusIdx2[m_stepIdx / 3 - 1]] = true;
-							m_prevRegionID = curID;
-						}
-					}
-				}
-				m_OutCnt = 0;
-			}
-			return 1;
-		}
-		else
-		{
-			return 0;
-		}
-	}
+                if (m_OutCnt == 3)
+                {
+                    if (m_flagStatus[0] && m_flagStatus[1] && m_flagStatus[2] && m_flagStatus[3] && m_flagStatus[4] && m_flagStatus[5])
+                    {
+                        //如果6个杆子都绕过了
+                        m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
+
+                        if (abs(m_PointLast.y - m_yBorderMin) < abs(m_PointLast.x - m_xBorderMin) && abs(m_PointLast.y - m_yBorderMin) < abs(m_PointLast.x - m_xBorderMax))
+                        {
+                            //如果出有效区域前距离起/终点线近 则正常考试结束
+                            return 2;
+                        }
+                        else
+                        {
+                            //虽然绕过所有的杆 但是最后没有从底线出去
+                            return 3;
+                        }
+                    }
+                    else
+                    {
+                        //犯规结束
+                        m_duration = (double)(m_finish - m_start) / CLOCKS_PER_SEC;
+                        return 3;
+                    }
+                }
+            }
+            else if (curID == 1)
+            {
+                m_PointLast = ptPos; //备份一下在考试区域内的点位
+                m_OutCnt = 0;
+            }
+            else
+            {
+                m_PointLast = ptPos; //备份一下在考试区域内的点位
+                if (curID == 4 && m_stepIdx == 1)
+                {
+                    m_trailIdx = 1;	//走路径1 trail1
+                    m_stepIdx++;
+                }
+                else if (curID == 2 && m_stepIdx == 1)
+                {
+                    m_trailIdx = 2;	//走路径2 trail2
+                    m_stepIdx++;
+                }
+
+                //走不同的标准轨迹
+                if (m_trailIdx == 1)
+                {
+                    if (m_prevRegionID != curID)
+                    {
+                        if (m_prevRegionID == trail1[m_stepIdx - 2] && curID == trail1[m_stepIdx - 1])
+                        {
+                            m_stepIdx++;
+                            m_flagStatus[m_flagStatusIdx1[m_stepIdx / 3 - 1]] = true;
+                            m_prevRegionID = curID;
+                        }
+                    }
+                }
+                else if (m_trailIdx == 2)
+                {
+                    if (m_prevRegionID != curID)
+                    {
+                        if (m_prevRegionID == trail2[m_stepIdx - 2] && curID == trail2[m_stepIdx - 1])
+                        {
+                            m_stepIdx++;
+                            m_flagStatus[m_flagStatusIdx2[m_stepIdx / 3 - 1]] = true;
+                            m_prevRegionID = curID;
+                        }
+                    }
+                }
+                m_OutCnt = 0;
+            }
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
+
 
 std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointXYZ>::Ptr cloudPtr)
 {
@@ -444,10 +450,10 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
 	ece.setSearchMethod(tree);
 	ece.extract(ece_inlier);
 
-	//聚类结果展示
-	int j = 0;
-	visualization::PCLVisualizer::Ptr viewer2(new visualization::PCLVisualizer("Result of EuclideanCluster"));
-	srand((unsigned)time(NULL));
+//	聚类结果展示
+//	int j = 0;
+//	visualization::PCLVisualizer::Ptr viewer2(new visualization::PCLVisualizer("Result of EuclideanCluster"));
+//	srand((unsigned)time(NULL));
 
 	//如果聚类出来的满足要求的目标为0, 则返回一个区域外的默认值
     qDebug() << "number of objects:" << ece_inlier.size();
@@ -463,14 +469,14 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
 		vector<int> ece_inlier_ext = ece_inlier[i].indices;
 		copyPointCloud(*sor_cloud, ece_inlier_ext, *cloud_copy);//按照索引提取点云数据
 		
-		stringstream ss1;
-		ss1 << "D:\\" << "EuclideanCluster_clouds" << j << ".pcd";
-//		io::savePCDFileASCII(ss1.str(), *ext_cloud);//欧式聚类结果写出
-		int *rgb1 = rand_rgb();
-		visualization::PointCloudColorHandlerCustom<PointXYZ>rgb2(cloud_copy, rgb1[0], rgb1[1], rgb1[2]);
-		delete[]rgb1;
-		viewer2->addPointCloud(cloud_copy, rgb2, ss1.str());
-		j++;
+//		stringstream ss1;
+//		ss1 << "D:\\" << "EuclideanCluster_clouds" << j << ".pcd";
+////		io::savePCDFileASCII(ss1.str(), *ext_cloud);//欧式聚类结果写出
+//		int *rgb1 = rand_rgb();
+//		visualization::PointCloudColorHandlerCustom<PointXYZ>rgb2(cloud_copy, rgb1[0], rgb1[1], rgb1[2]);
+//		delete[]rgb1;
+//		viewer2->addPointCloud(cloud_copy, rgb2, ss1.str());
+//		j++;
 
 		//求质心
 		PointXYZ centroid = PointXYZ(0.0f, 0.0f, 0.0f);

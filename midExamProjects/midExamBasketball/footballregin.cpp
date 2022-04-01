@@ -61,6 +61,18 @@ void FootballRegin::startExam(bool started)
     }
 }
 
+void FootballRegin::savePath()
+{
+     // 停止考试了， 要保存考生路径为图片
+    if (!m_examStarted) {
+        m_stuPointsPath.clear();
+        QPixmap pix(this->size());
+        this->render(&pix);
+        pix.save(m_stuMovePathFileName);
+        qDebug() << __func__ << __LINE__ << m_stuMovePathFileName;
+    }
+}
+
 void FootballRegin::updateStudentPointPos(float x, float y)
 {
     m_studentPos.setX(x);

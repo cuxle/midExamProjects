@@ -29,6 +29,7 @@ public:
     void updateStudentPointPos(float x, float y);
     void updateStudentPointPosFromStdFootGround(std::vector<pcl::PointXYZ> &objs);
     void startExam(bool);
+    void savePath();
     float m_deltaX = 0;
     float m_deltaY = 0;
     void setStuMovePathFileName(const QString &newStuPathFileName);

@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -2073,7 +2073,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0:00</string>
+                     <string>0</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2175,7 +2175,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0:00</string>
+                     <string>0</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2277,7 +2277,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0:00</string>
+                     <string>0</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -2379,7 +2379,7 @@ border-top-right-radius: 10px;</string>
                      <string notr="true">color: rgb(188, 185, 201);</string>
                     </property>
                     <property name="text">
-                     <string>0:00</string>
+                     <string>0</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>

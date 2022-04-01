@@ -1,6 +1,9 @@
 INCLUDEPATH += $$PWD
 
+QT += sql
+
 HEADERS +=  $$PWD/datamanager.h \
+    $$PWD/datamanagerdb.h \
 			$$PWD/schoollisttablemodel.h \
 			$$PWD/scoremanagemodel.h \
                         $$PWD/localstudenttablemodel.h \
@@ -10,6 +13,7 @@ HEADERS +=  $$PWD/datamanager.h \
 			
 
 SOURCES +=  $$PWD/datamanager.cpp \
+			$$PWD/datamanagerdb.cpp \
 			$$PWD/schoollisttablemodel.cpp \
 			$$PWD/scoremanagemodel.cpp \
 			$$PWD/localstudenttablemodel.cpp

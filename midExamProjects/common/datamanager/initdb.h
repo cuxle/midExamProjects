@@ -79,16 +79,16 @@ QVariant addAuthor(QSqlQuery &q, const QString &name, QDate birthdate)
     return q.lastInsertId();
 }
 
-const auto BOOKS_SQL = QLatin1String(R"(
+const auto SCHOOLS_SQL = QLatin1String(R"(
     create table books(id integer primary key, title varchar, author integer,
                        genre integer, year integer, rating integer)
     )");
 
-const auto AUTHORS_SQL =  QLatin1String(R"(
+const auto STUDENTS_SQL =  QLatin1String(R"(
     create table authors(id integer primary key, name varchar, birthdate date)
     )");
 
-const auto GENRES_SQL = QLatin1String(R"(
+const auto SCORES_SQL = QLatin1String(R"(
     create table genres(id integer primary key, name varchar)
     )");
 
@@ -119,11 +119,11 @@ QSqlError initDb()
         return QSqlError();
 
     QSqlQuery q;
-    if (!q.exec(BOOKS_SQL))
+    if (!q.exec(SCHOOLS_SQL))
         return q.lastError();
-    if (!q.exec(AUTHORS_SQL))
+    if (!q.exec(STUDENTS_SQL))
         return q.lastError();
-    if (!q.exec(GENRES_SQL))
+    if (!q.exec(SCORES_SQL))
         return q.lastError();
 
     if (!q.prepare(INSERT_AUTHOR_SQL))

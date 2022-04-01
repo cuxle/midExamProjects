@@ -206,11 +206,6 @@ void FormFuncChoose::setValueRange(const QCPRange &range)
 //    valueAxis->setRange(range);
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
 
-    float m_x_rangeStart = m_config.m_x_rangeStart;
-    float m_x_rangeEnd = m_config.m_x_rangeEnd;
-    float m_y_rangeStart = m_config.m_y_rangeStart;
-    float m_y_rangeEnd = m_config.m_y_rangeEnd;
-
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
 
@@ -424,8 +419,8 @@ void FormFuncChoose::showExamRegion()
             bool validStart = m_lidaAnalysis->setExamStart(objs[0].x, objs[0].y);
             if (!validStart) {
                 // student is in the regin when the exam is starting
-                QMessageBox::warning(nullptr, "warning", "请考生在准备区域准备考试!");
-                stopExamStuff();
+                // only show break the rule, start this exam again
+                on_pbZhongTing_clicked();
                 return;
             }
         }
@@ -448,13 +443,11 @@ void FormFuncChoose::showExamRegion()
         } else if (status == 2) {
             // exam finished normally
             qDebug() << __func__ << __LINE__ << "exam finished normally";
-            stopExamStuff();
-            QMessageBox::warning(nullptr, "warning", "考试完成!");            
+            on_pbStartSkip_clicked();
         } else if (status == 3) {
             // student break the exam rule
             qDebug() << __func__ << __LINE__ << "exam finished normally";
-            stopExamStuff();
-            QMessageBox::warning(nullptr, "warning", "考生违规!");            
+            on_pbZhongTing_clicked();
         }
     }
 
@@ -763,6 +756,7 @@ void FormFuncChoose::handleStartExam()
 //        m_dingPlayer->stop();
 //        m_mp3Player->stop();
 //    });
+    resetSkipCounterDisply();
     // 保存视频名称    
     m_videoFileName = ui->leUserId->text();
     QString baseName = m_videoFileName + "_" + QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd-hh-m-ss");
@@ -772,6 +766,7 @@ void FormFuncChoose::handleStartExam()
     if (m_curTmpStudent != nullptr) {
         m_curTmpStudent->videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
     }
+    m_stuMovePathFileName = config.m_videoSavePath + "/video/" + m_stuMovePathFileName;
     // open this at last, this will cause crash now
     emit sigStartSaveVideo(true, m_videoFileName); //TODO CRASH
 
@@ -949,11 +944,11 @@ void FormFuncChoose::resetSkipCounterDisply()
             ui->lbScoreThird->setText(QString::number(0));
         }
     }
-    m_curSkipCount = 0;
+//    m_curSkipCount = 0;
 
-    m_skipCountMinus = 0;
+//    m_skipCountMinus = 0;
 
-    handleSkipCountChanged(0);
+//    handleSkipCountChanged(0);
 }
 
 void FormFuncChoose::startPrepareExam()
@@ -1158,7 +1153,6 @@ void FormFuncChoose::updateDisplayTimer()
 
 void FormFuncChoose::saveAndUploadStudentScore()
 {
-    if (m_curExamMode  != ExamModeFromCamera) return;
     // 此时保存考生数据为未上传状态， 等下边与服务器交互完成后，会再次保存
     DataManager &dataManager = Singleton<DataManager>::GetInstance();
     if (m_curTmpStudent != nullptr) {
@@ -1185,7 +1179,7 @@ void FormFuncChoose::saveAndUploadStudentScore()
 
 void FormFuncChoose::clearStudentUiInfo()
 {
-    ui->leUserId->clear();
+//    ui->leUserId->clear();
     ui->leUserGender->clear();
     ui->leUserName->clear();
     ui->leUserSchool->clear();
@@ -1361,22 +1355,22 @@ void FormFuncChoose::updateImageDisplay(const QImage &img)
     }
 }
 
-void FormFuncChoose::handleSkipCountChanged(int skipCount)
-{    
-    if (skipCount != m_skipCountFromDll) {
-        m_skipCountFromDll = skipCount;
-        if (m_curScoreLabel == nullptr) {
-            qDebug() << "m_curScoreLabel == nullptr";
-            return;
-        }
+//void FormFuncChoose::handleSkipCountChanged(int skipCount)
+//{
+//    if (skipCount != m_skipCountFromDll) {
+//        m_skipCountFromDll = skipCount;
+//        if (m_curScoreLabel == nullptr) {
+//            qDebug() << "m_curScoreLabel == nullptr";
+//            return;
+//        }
 
-        m_curSkipCount = skipCount - m_skipCountMinus;
+//        m_curSkipCount = skipCount - m_skipCountMinus;
 
-        m_curScoreLabel->setText(QString::number(m_curSkipCount));
+//        m_curScoreLabel->setText(QString::number(m_curSkipCount));
 
-        handlePlayDingSound();
-    }
-}
+//        handlePlayDingSound();
+//    }
+//}
 
 void FormFuncChoose::on_pbStartTest_clicked()
 {
@@ -1589,7 +1583,7 @@ void FormFuncChoose::startSkipStuff()
     // 2.清零计数
     m_skipCountMinus = 0;
 
-    handleSkipCountChanged(0);
+//    handleSkipCountChanged(0);
 
     // 4. skip rope线程暂时停止工作, 只在60s内计数
     emit sigStartCount(false);
@@ -1614,7 +1608,7 @@ void FormFuncChoose::stopExamStuff()
         if (m_curExamMode == ExamModeFromCamera) {
             saveAndUploadStudentScore();
         }
-        clearStudentUiInfo();
+//        clearStudentUiInfo();
         m_curExamCount = 0;
     }
 
@@ -1627,9 +1621,13 @@ void FormFuncChoose::stopExamStuff()
     //中停 裁判判犯规等原因
     bool bEnd = m_lidaAnalysis->setExamEnd();
 
+    // reset flags so the sticks will show red
+    bool ret = m_lidaAnalysis->resetExamParams();
+    qDebug() << __func__ << __LINE__ << ret;
     // stop count in skip rope
 //    emit sigStartCount(false);
     ui->examRegin->startExam(false);
+    ui->examRegin->savePath();
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
 //    m_ropeSkipWorker->m_bStartCount = false;
 //    m_situpWorker->m_bStartCount = false;
@@ -1708,48 +1706,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
 
         shiftScoreLabel();
 
-        // start timer
         handleStartExam();
-        return;
-
-        switch (m_curExamMode) {
-        case ExamModeFromCamera:
-        {
-            // 如果是摄像头读入数据，需要输入学生ID
-            QString idText = ui->leUserId->text();
-            if (idText.isEmpty()) {
-                QMessageBox::warning(this, "Warning", "请输入考生ID");
-                return;
-            } else {
-                // 保存视频名称
-                m_videoFileName = ui->leUserId->text();
-                m_videoFileName = m_videoFileName + "_" + QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd-hh-m-ss") + m_saveVideoFormat;
-                AppConfig &config = Singleton<AppConfig>::GetInstance();
-                if (m_curTmpStudent != nullptr) {
-                    m_curTmpStudent->videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
-                }
-            }
-            // open this at last, this will cause crash now
-           emit sigStartSaveVideo(true, m_videoFileName); //TODO CRASH
-
-    //        emit sigUpdateCameraSettings();
-            break;
-        }
-
-        case ExamModeFromVideo:
-        {
-            // if video is from video, start play video
-            emit sigStartPlayVideo();
-
-            break;
-        }
-
-        default:
-            break;
-        }
-
-
-        startPrepareExam();
         break;
     }
     case ExamPreparing:
@@ -1851,39 +1808,51 @@ void FormFuncChoose::on_pbOpenLocalVideoFile_clicked()
 
 void FormFuncChoose::on_pbDecreaseScore_clicked()
 {
-    // 更改“核减”功能为“终止” 20211208
-    // 只有在运行中可以核减？
-    // decrease one skip by one click
-//    if (m_curState == ExamIsRunning || m_curState == ExamPreparing) {
-//        ui->pbDecreaseScore->setEnabled(false);
-//        stopExamStuff();
-//        QTimer::singleShot(500, [&](){
-//            ui->pbDecreaseScore->setEnabled(true);
-//        });
-//    }
-//    if (m_curState == ExamIsRunning) {
-//        handleSkipCountChanged(m_curSkipCount - 1);
-//    }
-    m_skipCountMinus++;
-    if (m_curScoreLabel == nullptr) {
-        qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
-        return;
+    ui->pbDecreaseScore->setDisabled(true);
+    QTimer::singleShot(1000, [&](){
+        ui->pbDecreaseScore->setEnabled(true);
+    });
+    // submit score
+    if (m_curExamCount == 0) {
+        saveAndUploadStudentScore();
     }
-    m_curSkipCount = m_skipCountFromDll - m_skipCountMinus;
-    m_curScoreLabel->setText(QString::number(m_curSkipCount));
-//    ui->lbScore->setText(QString::number(m_skipCountFromDll - m_skipCountMinus));
+
+
+//    // 更改“核减”功能为“终止” 20211208
+//    // 只有在运行中可以核减？
+//    // decrease one skip by one click
+////    if (m_curState == ExamIsRunning || m_curState == ExamPreparing) {
+////        ui->pbDecreaseScore->setEnabled(false);
+////        stopExamStuff();
+////        QTimer::singleShot(500, [&](){
+////            ui->pbDecreaseScore->setEnabled(true);
+////        });
+////    }
+////    if (m_curState == ExamIsRunning) {
+////        handleSkipCountChanged(m_curSkipCount - 1);
+////    }
+//    m_skipCountMinus++;
+//    if (m_curScoreLabel == nullptr) {
+//        qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
+//        return;
+//    }
+//    m_curSkipCount = m_skipCountFromDll - m_skipCountMinus;
+//    m_curScoreLabel->setText(QString::number(m_curSkipCount));
+////    ui->lbScore->setText(QString::number(m_skipCountFromDll - m_skipCountMinus));
 }
 
 
 void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
 {
+    clearStudentUiInfo();
+
+    // clear last time score info
+    resetSkipCounterDisply();
+
     ui->pbConfimUserIdBtn->setStyleSheet("background-color: rgb(61, 127, 255);\ncolor: rgb(255, 255, 255);");
     QTimer::singleShot(300, [&](){
         ui->pbConfimUserIdBtn->setStyleSheet("background-color: rgb(61, 127, 255);\ncolor: rgb(0, 0, 0);");
     });
-
-    // 只有用摄像头才需要输入考生id
-    if (m_curExamMode != ExamModeFromCamera) return;
 
     // total aim: create an exam student
     m_currentUserId = ui->leUserId->text();
@@ -1920,11 +1889,11 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
             ui->leUserSchool->setText(m_curTmpStudent->zxmc);
             qDebug() << __func__ << __LINE__ << m_curTmpStudent->id << " assign id:" << tmpStudent->id;
         } else {
-            ui->leUserName->clear();
-            ui->leUserGender->clear();
-            ui->leUserSchool->clear();
+            clearStudentUiInfo();
         }
     }
+
+
 
 //    TmpStudent *student = new TmpStudent;
 //    student->zkh = m_currentUserId;
@@ -1978,7 +1947,7 @@ void FormFuncChoose::initScoreUiDisplay()
     m_curScoreLabel = ui->lbScoreFirst;
 
     m_choosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
-    m_choosenFont.setPixelSize(60);
+    m_choosenFont.setPixelSize(55);
 
     m_notChoosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_notChoosenFont.setPointSize(28);
@@ -2046,7 +2015,7 @@ void FormFuncChoose::on_pbZhongTing_clicked()
             qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
             return;
         }
-        m_curScoreLabel->setText("中停");
+        m_curScoreLabel->setText("犯规");
 //        ui->lbScore->setText("中停");
     }
 }
