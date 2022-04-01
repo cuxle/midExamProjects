@@ -50,11 +50,11 @@ FormLogin::~FormLogin()
 {
     QString killServerCmd;
 #if YTXS
-    killServerCmd = "taskkill /im server_ytxs.exe /f"
+    killServerCmd = "taskkill /im server_ytxs.exe /f";
 #endif
 
 #if TIAOSHENG
-    killServerCmd = "taskkill /im server_tiaosheng.exe /f"
+    killServerCmd = "taskkill /im server_tiaosheng.exe /f";
 #endif
 
 #if  defined(YTXS) || defined(TIAOSHENG)

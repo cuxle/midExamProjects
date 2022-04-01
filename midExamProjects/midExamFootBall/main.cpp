@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     createDataFolder();
-    //Logger::init();
+    Logger::init();
 
     QFile file("://resource/exam.qss");
     bool bOpened = file.open(QFile::ReadOnly);

@@ -63,8 +63,11 @@ public:
 	//标志杆消隐区域
 	float m_radius = 0.2f;
     float m_clusterTolerance = 0.5;
-    unsigned int m_minClusterSize = 5;
-    unsigned int m_maxClusterSize = 200;
+    int m_MinClusterSize = 6;
+    int m_MaxClusterSize = 1000;
+    //最小目标尺寸与距离加权系数
+    float m_ratio = 1.0f;
+
 
 	//前后区域ID
 	int m_prevRegionID = 0;

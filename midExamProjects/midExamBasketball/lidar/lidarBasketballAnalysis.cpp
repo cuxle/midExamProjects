@@ -13,12 +13,12 @@ lidarBasketballAnalysis::lidarBasketballAnalysis()
     // 2.3 ece.setMaxClusterSize(200);		//ece.setMaxClusterSize(20000);
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
     m_radius = m_config.m_radius;
-    m_minClusterSize = m_config.m_minClusterSize;
-    m_maxClusterSize = m_config.m_maxClusterSize;
+    m_MinClusterSize = m_config.m_minClusterSize;
+    m_MaxClusterSize = m_config.m_maxClusterSize;
     m_clusterTolerance = m_config.m_clusterTolerance;
     qDebug() << __func__ << __LINE__ << "m_radius:" << m_radius;
-    qDebug() << __func__ << __LINE__ << "m_minClusterSize:" << m_minClusterSize;
-    qDebug() << __func__ << __LINE__ << "m_maxClusterSize:" << m_maxClusterSize;
+    qDebug() << __func__ << __LINE__ << "m_minClusterSize" << m_MinClusterSize;
+    qDebug() << __func__ << __LINE__ << "m_maxClusterSize" << m_MaxClusterSize;
     qDebug() << __func__ << __LINE__ << "m_clusterTolerance:" << m_clusterTolerance;
 }
 
@@ -439,8 +439,8 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
 	EuclideanClusterExtraction<PointXYZ> ece;
 	ece.setInputCloud(sor_cloud);
     ece.setClusterTolerance(m_clusterTolerance);	//ece.setClusterTolerance(0.02);
-    ece.setMinClusterSize(m_minClusterSize);		//ece.setMinClusterSize(100);
-    ece.setMaxClusterSize(m_maxClusterSize);		//ece.setMaxClusterSize(20000);
+    ece.setMinClusterSize(m_MinClusterSize);		//ece.setMinClusterSize(100);
+    ece.setMaxClusterSize(m_MaxClusterSize);		//ece.setMaxClusterSize(20000);
 	ece.setSearchMethod(tree);
 	ece.extract(ece_inlier);
 
@@ -506,8 +506,18 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
 		}
 	}
 
-	viewer2->spin();
-    qDebug() << "nPtMax: " << nPtMax;
-	return objDetected;
+    //根据距离加权系数约束检测目标的最小尺寸
+    float fDist = abs(m_yBorderMax - objDetected[0].y);
+    float fRatio = fDist / 5.0f * m_ratio + 1.0f;
+    //如果检测到的目标小于加权后的最小目标值,则认为是虚假目标，进行滤除
+    if (nPtMax < fRatio * m_MinClusterSize)
+    {
+        objDetected[0].x = 0.0f;
+        objDetected[0].y = -1.0f;
+        objDetected[0].z = 0.0f;
+    }
 
+//	viewer2->spin();
+    qDebug() << "nPtMax: " << nPtMax;
+    return objDetected;
 }

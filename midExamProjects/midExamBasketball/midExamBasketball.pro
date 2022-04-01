@@ -41,7 +41,7 @@ SOURCES += \
     lidar/godleilaser.cpp \
     lidar/godleilaserdifop.cpp \
     lidar/godleilasermsop.cpp \
-    lidar/lidarAnalysis.cpp \
+    #lidar/lidarAnalysis.cpp \
     lidar/lidarBasketballAnalysis.cpp \
     lidarcloudwidget.cpp \
     qcustomplot.cpp \
@@ -58,7 +58,7 @@ HEADERS += \
     lidar/godleilaser.h \
     lidar/godleilaserdifop.h \
     lidar/godleilasermsop.h \
-    lidar/lidarAnalysis.h \
+    #lidar/lidarAnalysis.h \
     lidar/lidarBasketballAnalysis.h \
     lidarcloudwidget.h \
     qcustomplot.h \

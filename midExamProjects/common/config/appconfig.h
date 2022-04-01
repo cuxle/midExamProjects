@@ -44,8 +44,11 @@ public:
 #if FOOTBALL
     float m_radius = 0.2f;
     float m_clusterTolerance = 0.5;
-    unsigned int m_minClusterSize = 5;
-    unsigned int m_maxClusterSize = 200;
+    int m_minClusterSize = 5;
+    int m_maxClusterSize = 200;
+    float m_zMin = 0;
+    float m_zMax = 0;
+    float m_ratio = 1.0f;
 
     int m_examReginTopLeftX = 0;
     int m_examReginTopLeftY = 0;
