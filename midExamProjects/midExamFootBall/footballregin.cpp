@@ -9,6 +9,7 @@
 #include "appconfig.h"
 #include "singleton.h"
 #include "lidar/lidarAnalysis.h"
+#include <QPainterPath>
 
 bool floatEqual(float a, float b)
 {
@@ -212,9 +213,16 @@ void FootballRegin::showExamStudentPath()
     m_pen2.setColor(QColor("green"));
     m_pen2.setWidth(3);
     m_pen2.setStyle(Qt::SolidLine);
+    QPainterPath path;
+    if (m_stuPointsPath.size() > 0) {
+        path.moveTo(m_stuPointsPath.at(0));
+        for (int i = 1; i < m_stuPointsPath.size(); i++) {
+            path.lineTo(m_stuPointsPath.at(i));
+        }
+    }
     QPainter painterline(this);
     painterline.setPen(m_pen2);
-    painterline.drawLines(m_stuPointsPath);
+    painterline.drawPath(path);
 
 }
 

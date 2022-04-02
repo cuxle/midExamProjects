@@ -442,12 +442,14 @@ void FormFuncChoose::showExamRegion()
 
         } else if (status == 2) {
             // exam finished normally
-            qDebug() << __func__ << __LINE__ << "exam finished normally";
+            qDebug() << __func__ << __LINE__ << "exam finished normally" << status;
             on_pbStartSkip_clicked();
+//            QMessageBox::warning(this, "warning", "exam finished");
         } else if (status == 3) {
             // student break the exam rule
-            qDebug() << __func__ << __LINE__ << "exam finished normally";
+            qDebug() << __func__ << __LINE__ << "exam finished weigui" << status;
             on_pbZhongTing_clicked();
+//            QMessageBox::warning(this, "warning", "exam weigui");
         }
     }
 
@@ -1649,9 +1651,10 @@ void FormFuncChoose::stopExamStuff()
 //        m_backCountTimer->stop();
 //    }
 
-    if (m_forwardCountTimer->isActive()) {
-        m_forwardCountTimer->stop();
-    }
+    m_forwardCountTimer->stop();
+    qDebug() << __func__<< __LINE__ << m_forwardCountTimer->isActive();
+//    QMessageBox::warning(this, "warning", "stop timer");
+
 
 //        m_curTimeLeftMs = m_totalTimeMs;
     m_curForwardSeconds = 0;

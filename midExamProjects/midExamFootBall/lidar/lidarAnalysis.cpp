@@ -16,6 +16,9 @@ lidarAnalysis::lidarAnalysis()
     m_MinClusterSize = m_config.m_minClusterSize;
     m_MaxClusterSize = m_config.m_maxClusterSize;
     m_clusterTolerance = m_config.m_clusterTolerance;
+    m_zMin = m_config.m_zMin;
+    m_zMax = m_config.m_zMax;
+    m_ratio = m_config.m_ratio;
     qDebug() << __func__ << __LINE__ << "m_radius:" << m_radius;
     qDebug() << __func__ << __LINE__ << "m_minClusterSize" << m_MinClusterSize;
     qDebug() << __func__ << __LINE__ << "m_maxClusterSize" << m_MaxClusterSize;
@@ -74,8 +77,8 @@ bool lidarAnalysis::setTestRegion(float xMin, float xMax, float yMin, float yMax
 	m_xMax = xMax;
 	m_yMin = yMin;
 	m_yMax = yMax;
-	m_zMin = zMin;
-	m_zMax = zMax;
+//	m_zMin = zMin;
+//	m_zMax = zMax;
 
 	return true;
 }
@@ -195,10 +198,10 @@ int lidarAnalysis::tracking(PointXYZ ptPos)
                 }
 
                 //只有前一帧的坐标靠近边界区域时才开始计数 防止中间跟踪丢失3帧以上出现误判
-                if (ptPos.y >= m_yBorderMax*0.8 || ptPos.x <= m_xBorderMin*0.6 || ptPos.x >= m_xBorderMax*0.6)
-                {
+//                if (ptPos.y >= m_yBorderMax*0.8 || ptPos.x <= m_xBorderMin*0.6 || ptPos.x >= m_xBorderMax*0.6)
+//                {
                     m_OutCnt++;
-                }
+//                }
 
                 if (m_OutCnt == 3)
                 {
@@ -319,7 +322,7 @@ std::vector<PointXYZ> lidarAnalysis::objectDetection(PointCloud<PointXYZ>::Ptr c
     qDebug() << "After Statistical Outlie rRemoval:" << sor_cloud->points.size();
 
 	//如果反射点小于5, 认为区域内没有目标则返回一个默认的考试区域外坐标
-	if (sor_cloud->points.size() < 5)
+    if (sor_cloud->points.size() < 3)
 	{
 		objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
 		return objDetected;

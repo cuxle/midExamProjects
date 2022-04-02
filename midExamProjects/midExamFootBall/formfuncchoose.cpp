@@ -422,7 +422,7 @@ void FormFuncChoose::showExamRegion()
             bool validStart = m_lidaAnalysis->setExamStart(objs[0].x, objs[0].y);
             if (!validStart) {
                 // student is in the regin when the exam is starting
-                // only show break the rule, start this exam again
+                // judge as foul start
                 on_pbZhongTing_clicked();
                 return;
             }
@@ -445,12 +445,14 @@ void FormFuncChoose::showExamRegion()
 
         } else if (status == 2) {
             // exam finished normally
-            qDebug() << __func__ << __LINE__ << "exam finished normally";
+            qDebug() << __func__ << __LINE__ << "exam finished normally" << status;
             on_pbStartSkip_clicked();
+//            QMessageBox::warning(this, "warning", "exam finished");
         } else if (status == 3) {
             // student break the exam rule
-            qDebug() << __func__ << __LINE__ << "exam finished normally";
+            qDebug() << __func__ << __LINE__ << "exam finished weigui" << status;
             on_pbZhongTing_clicked();
+//            QMessageBox::warning(this, "warning", "exam weigui");
         }
     }
 
@@ -1652,9 +1654,10 @@ void FormFuncChoose::stopExamStuff()
 //        m_backCountTimer->stop();
 //    }
 
-    if (m_forwardCountTimer->isActive()) {
-        m_forwardCountTimer->stop();
-    }
+    m_forwardCountTimer->stop();
+    qDebug() << __func__<< __LINE__ << m_forwardCountTimer->isActive();
+//    QMessageBox::warning(this, "warning", "stop timer");
+
 
 //        m_curTimeLeftMs = m_totalTimeMs;
     m_curForwardSeconds = 0;
@@ -2009,17 +2012,17 @@ void FormFuncChoose::on_pbZhongTing_clicked()
 
         // TODO update student score info
         ui->pbZhongTing->setEnabled(false);
-
         QTimer::singleShot(1000, [&](){
             ui->pbZhongTing->setEnabled(true);
         });
+
         stopExamStuff();
+
         if (m_curScoreLabel == nullptr) {
             qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
             return;
         }
         m_curScoreLabel->setText("犯规");
-//        ui->lbScore->setText("中停");
     }
 }
 
