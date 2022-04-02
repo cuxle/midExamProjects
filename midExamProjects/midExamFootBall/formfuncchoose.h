@@ -333,7 +333,7 @@ private:
 
     int m_curTimeLeftMs = 0;
     const int m_totalTimeMs = 60*1000;
-    const int m_internal = 1000;
+    const int m_internal = 100;
 
 
     QString m_videoFileFolder = QDir::homePath();

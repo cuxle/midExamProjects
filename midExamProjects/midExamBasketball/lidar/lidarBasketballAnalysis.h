@@ -53,12 +53,12 @@ public:
 	//               1               |   5.8m
 	//                               |    |
 	//-------------(0,0)----------------------start line
-	PointXYZ m_flag1 = PointXYZ(-0.9f,  5.8f, 1.2f);
-	PointXYZ m_flag2 = PointXYZ( 0.9f,  5.8f, 1.2f);
-	PointXYZ m_flag3 = PointXYZ(-0.9f, 14.0f, 1.2f);
-	PointXYZ m_flag4 = PointXYZ( 0.9f, 14.0f, 1.2f);
-	PointXYZ m_flag5 = PointXYZ(-0.9f, 22.2f, 1.2f);
-	PointXYZ m_flag6 = PointXYZ( 0.9f, 22.2f, 1.2f);
+    PointXYZ m_flag1 = PointXYZ(-1.8f,  5.8f, 1.2f);
+    PointXYZ m_flag2 = PointXYZ( 1.8f,  5.8f, 1.2f);
+    PointXYZ m_flag3 = PointXYZ(-1.8f, 14.0f, 1.2f);
+    PointXYZ m_flag4 = PointXYZ( 1.8f, 14.0f, 1.2f);
+    PointXYZ m_flag5 = PointXYZ(-1.8f, 22.2f, 1.2f);
+    PointXYZ m_flag6 = PointXYZ( 1.8f, 22.2f, 1.2f);
 
 	//标志杆消隐区域
 	float m_radius = 0.2f;

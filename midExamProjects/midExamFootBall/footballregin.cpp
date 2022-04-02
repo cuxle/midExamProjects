@@ -223,7 +223,6 @@ void FootballRegin::showExamStudentPath()
     QPainter painterline(this);
     painterline.setPen(m_pen2);
     painterline.drawPath(path);
-
 }
 
 void FootballRegin::showExamRegin()

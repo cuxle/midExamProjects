@@ -75,6 +75,7 @@ bool lidarBasketballAnalysis::removePtsOutOfRegion(float xMin, float xMax, float
 
 bool lidarBasketballAnalysis::setTestRegion(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
 {
+    qDebug() << __func__ << __LINE__ << "xMin:" << xMin << " xMax:" << xMax <<" yMin:"<< yMin <<" yMax:"<<  yMax << m_zMin << m_zMax;
 	m_xMin = xMin;
 	m_xMax = xMax;
 	m_yMin = yMin;
@@ -153,67 +154,69 @@ bool lidarBasketballAnalysis::setExamEnd()
 	}
 }
 
+
 int lidarBasketballAnalysis::getRegionID(float x, float y)
 {
-	if (x < m_xBorderMin || x > m_xBorderMax || y < m_yBorderMin || y > m_yBorderMax)
-	{
-		return 0;
-	}
+    if (x < m_xBorderMin || x > m_xBorderMax || y < m_yBorderMin || y > m_yBorderMax)
+    {
+        return 0;
+    }
 
-	int areaID = 0;
+    int areaID = 0;
 
-	if (y < 5.8)
-	{
-		areaID = 1;
-	}
-	else if (y < 14)
-	{
-		if (x < -0.9)
-		{
-			areaID = 2;
-		}
-		else if (x <= 0.9)
-		{
-			areaID = 3;
-		}
-		else
-		{
-			areaID = 4;
-		}
-	}
-	else if (y < 22.2)
-	{
-		if (x < -0.9)
-		{
-			areaID = 5;
-		}
-		else if (x <= 0.9)
-		{
-			areaID = 6;
-		}
-		else
-		{
-			areaID = 7;
-		}
-	}
-	else
-	{
-		if (x < -0.9)
-		{
-			areaID = 8;
-		}
-		else if (x <= 0.9)
-		{
-			areaID = 9;
-		}
-		else
-		{
-			areaID = 10;
-		}
-	}
+    if (y < 5.8)
+    {
+        areaID = 1;
+    }
+    else if (y < 14)
+    {
+        if (x < -1.8)
+        {
+            areaID = 2;
+        }
+        else if (x <= 1.8)
+        {
+            areaID = 3;
+        }
+        else
+        {
+            areaID = 4;
+        }
+    }
+    else if (y < 22.2)
+    {
+        if (x < -1.8)
+        {
+            areaID = 5;
+        }
+        else if (x <= 1.8)
+        {
+            areaID = 6;
+        }
+        else
+        {
+            areaID = 7;
+        }
+    }
+    else
+    {
+        if (x < -1.8)
+        {
+            areaID = 8;
+        }
+        else if (x <= 1.8)
+        {
+            areaID = 9;
+        }
+        else
+        {
+            areaID = 10;
+        }
+    }
 
-	return areaID;
+    return areaID;
 }
+
 
 
 //验证到这里了。。。。。。。。。。。。。。。。。。。。。
@@ -278,7 +281,7 @@ int lidarBasketballAnalysis::tracking(PointXYZ ptPos)
                     }
                 }
             }
-            else if (curID == 1)
+            else if (curID == 1 && m_stepIdx == 1)
             {
                 m_PointLast = ptPos; //备份一下在考试区域内的点位
                 m_OutCnt = 0;

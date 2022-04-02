@@ -858,7 +858,7 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
             }
         }
         if (m_curScoreLabel != nullptr) {
-            QString str = QString("%1:%2").arg(QString::number(m_curForwardSeconds/60), 2, QLatin1Char('0')).arg(QString::number(m_curForwardSeconds%60), 2, QLatin1Char('0'));
+            QString str = QString("%1.%2").arg(QString::number(m_curForwardSeconds/1000), 1, QLatin1Char('0')).arg(QString::number(m_curForwardSeconds%1000/100), 1, QLatin1Char('0'));
             m_curScoreLabel->setText(str);
         }
         break;
@@ -921,9 +921,9 @@ void FormFuncChoose::setVideoName(const QString &newVideoName)
 
 void FormFuncChoose::setLeftTimeSeconds(int forwardSeconds)
 {
-    int mPart = forwardSeconds / 60;
-    int sPart = forwardSeconds % 60;
-    QString text = QString("%1:%2").arg(mPart, 2, 10, QLatin1Char('0')).arg(sPart, 2, 10, QLatin1Char('0'));
+    int sPart = forwardSeconds / 1000;
+    int msPart = forwardSeconds % 1000 / 100;
+    QString text = QString("%1.%2").arg(sPart, 1, 10, QLatin1Char('0')).arg(msPart, 1, 10, QLatin1Char('0'));
     ui->lbCurLeftTimes->setText(text);
 }
 
@@ -1147,7 +1147,7 @@ void FormFuncChoose::shiftScoreLabel()
 
 void FormFuncChoose::updateDisplayTimer()
 {
-    m_curForwardSeconds++;
+    m_curForwardSeconds += 100;
 
     setLeftTimeSeconds(m_curForwardSeconds);
 

@@ -39,9 +39,12 @@ void FootballRegin::updateStudentPointPosFromStdFootGround(std::vector<pcl::Poin
                 && floatEqual(objs[i]._PointXYZ::x, 0)) {
             continue;
         }
-        qDebug() << __func__ << __LINE__ << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
+
+        qDebug() << __func__ << __LINE__ <<"convert before" << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
         float x_pixel = objs[i]._PointXYZ::x / m_per_pixelX + m_origin.x();
         float y_pixel = m_origin.y() - objs[i]._PointXYZ::y / m_per_pixelY;
+        qDebug() << __func__ << __LINE__ <<"convert before" << i << x_pixel << y_pixel;
+
         m_studentsPoints.push_back(QPointF(x_pixel, y_pixel));
         if (m_examStarted) {
             m_stuPointsPath.push_back(QPointF(x_pixel, y_pixel));
@@ -82,14 +85,15 @@ void FootballRegin::updateStudentPointPos(float x, float y)
 
 void FootballRegin::calculateObsStickPosition()
 {
+    qDebug() <<__func__ << m_topLeft << m_bottomRight;
     // calculate five pionts of stick value
     float width = m_bottomRight.x() - m_topLeft.x();
     float height =  m_bottomRight.y() - m_topLeft.y();
     float y0 = m_topLeft.y() + (5.8 / 28) * height;
     float y1 = m_topLeft.y() + height * 0.5;
-    float y2 = m_topLeft.y() + (28 - 5.8) / 28 *height;
-    float x0 = m_topLeft.x() + (15 - 1.8) / 2 / 15 * width;
-    float x1 = x0 + (1.8) / 15 * width;
+    float y2 = m_topLeft.y() + (28 - 5.8) / 28 * height;
+    float x0 = m_topLeft.x() + (15 - 3.6) / 2 / 15 * width;
+    float x1 = x0 + (3.6) / 15 * width;
 
 
     m_stickPos.clear();
@@ -158,8 +162,8 @@ void FootballRegin::updateRectPoint(const QPoint &topLeft, const QPoint &bottomR
      m_rect.setTopLeft(m_topLeft);
      m_rect.setBottomRight(m_bottomRight);
 
-     m_per_pixelX = 10.0 / (bottomRight.x() - topLeft.x());
-     m_per_pixelY = 30.0 / (bottomRight.y() - topLeft.y());
+     m_per_pixelX = 15.0 / (bottomRight.x() - topLeft.x());
+     m_per_pixelY = 28.0 / (bottomRight.y() - topLeft.y());
 
      leftUpOk = true;
      rightDownOk = true;
