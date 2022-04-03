@@ -87,6 +87,7 @@ void AppConfig::writeConfig()
     settings.setValue("Z_MIN", QString::number(m_zMin, 'f'));
     settings.setValue("Z_MAX", QString::number(m_zMax, 'f'));
     settings.setValue("RATIO", QString::number(m_ratio, 'f'));
+    settings.setValue("LIDAR_FACE", m_lidarFace);
 
     settings.setValue("EXAMREGIN_TOPLEFTX", QString::number(m_examReginTopLeftX));
     settings.setValue("EXAMREGIN_TOPLEFTY", QString::number(m_examReginTopLeftY));
@@ -156,6 +157,7 @@ void AppConfig::readConfig()
     m_zMin = settings.value("Z_MIN", -0.5).toString().toFloat();
     m_zMax = settings.value("Z_MAX", 1.0).toString().toFloat();
     m_ratio = settings.value("RATIO", 1.0).toString().toFloat();
+    m_lidarFace = settings.value("LIDAR_FACE", 0).toUInt();
 
 
     m_examReginTopLeftX  = settings.value("EXAMREGIN_TOPLEFTX", 0).toString().toInt();

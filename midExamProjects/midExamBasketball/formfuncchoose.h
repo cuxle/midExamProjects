@@ -446,6 +446,7 @@ private:
      int m_examReginTopLeftY;
      int m_examReginBottomRightX;
      int m_examReginBottomRightY;
+     int m_lidarFace = 0;
 
 
      int m_rectReginTopLeftX;

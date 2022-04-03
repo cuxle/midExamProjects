@@ -107,6 +107,7 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     m_rectReginTopLeftY = m_config.m_rectReginTopLeftY;
     m_rectReginWidth = m_config.m_rectReginWidth;
     m_rectReginHight = m_config.m_rectReginHeight;
+    m_lidarFace = m_config.m_lidarFace;
 
     qDebug() << __func__ << __LINE__ << m_rectReginTopLeftX;
     qDebug() << __func__ << __LINE__ << m_rectReginTopLeftY;
@@ -346,11 +347,24 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
             tempY = (-((GodLeiLaser::lidar_dist[i][j] * cosTheta[i] * sin(GodLeiLaser::lidar_angle[i][j] * PI / 180))) +
                 (4.376 * sin((14.67 - GodLeiLaser::lidar_angle[i][j]) * PI / 180))) / 100.f;
             tempZ = ((GodLeiLaser::lidar_dist[i][j] * sinTheta[i]) + 0.426) / 100.f;
-            vx.push_back(tempY);
-            vy.push_back(-tempX);
+            float destX = -1;
+            float destY = -1;
+
+            if (m_lidarFace == 0) {
+                destX = tempY;
+                destY = -tempX;
+            } else if (m_lidarFace == 1) {
+                destX = -tempX;
+                destY = -tempY;
+            } else if (m_lidarFace == 2) {
+                destX = tempX;
+                destY = tempY;
+            }
+            vx.push_back(destX);
+            vy.push_back(destY);
 //            tempZ = 1;
 //            tempZ = 0;
-            cloudData->points.push_back(PointXYZ(tempY, -tempX, tempZ));
+            cloudData->points.push_back(PointXYZ(destX, destY, tempZ));
 //            qDebug() << __func__ << __LINE__ << cloudData->points.size();
 #ifdef _DEBUG
             outfileDeubg << tempX << ","
