@@ -51,7 +51,7 @@ SOURCES += \
     #localstudenttablemodel.cpp \
     #log/Logger.cpp \
     #logindialog.cpp \
-        main.cpp \
+    #    main.cpp \
     #maincounter.cpp \
     #    mainwindow.cpp \
     #formlogin.cpp \

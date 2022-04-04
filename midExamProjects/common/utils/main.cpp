@@ -1,4 +1,4 @@
-﻿#include "formlogin.h"
+#include "formlogin.h"
 #include "logindialog.h"
 #include "Logger.h"
 #include "formfuncchoose.h"
@@ -9,6 +9,14 @@
 #include <opencv2/imgproc.hpp>
 #include <QDir>
 #include <QProcess>
+
+#if TIAOSHENG
+const QString serverName = "server_tiaosheng.exe";
+#elif YTXS
+const QString serverName = "server_ytxs.exe";
+#else
+
+#endif
 
 void createDataFolder()
 {
@@ -24,20 +32,20 @@ void createDataFolder()
         qDebug() << "data dir exists";
     }
 }
-#if TIAOSHENG
+#if defined(TIAOSHENG) || defined(YTXS)
 void initAlgorithmServer()
 {
     // if server is running, kill the process
     QProcess process1(0);
-    process1.start("cmd.exe", QStringList()<< "/c" << "taskkill /im server_tiaosheng.exe /f");
-    //process.start("cmd.exe", QStringList()<< "/c" << "skiprope_server_ori.exe");
+    QString killCmd = QString("taskkill /im %1 /f").arg(serverName);
+    process1.start("cmd.exe", QStringList()<< "/c" << killCmd);
     process1.waitForStarted();
     process1.waitForFinished();
 
     // start algorithm server
     QProcess process(0);
-    process.start("cmd.exe", QStringList()<< "/c" << "start D://server_tiaosheng.exe");
-    //process.start("cmd.exe", QStringList()<< "/c" << "start ./server20220228.exe");
+    QString startCmd = QString("start D://%1").arg(serverName);
+    process.start("cmd.exe", QStringList()<< "/c" << startCmd);
     process.waitForStarted();
     process.waitForFinished();
 }
@@ -50,7 +58,7 @@ int main(int argc, char *argv[])
 	
     Logger::init();
 	
-#if TIAOSHENG
+#if defined(TIAOSHENG) || defined(YTXS)
     initAlgorithmServer();
 #endif
 

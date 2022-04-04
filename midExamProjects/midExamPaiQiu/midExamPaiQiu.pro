@@ -45,7 +45,7 @@ SOURCES += \
     #examprojectbasicinfo.cpp \
     #localstudenttablemodel.cpp \
     #logindialog.cpp \
-        main.cpp \
+    #    main.cpp \
     #maincounter.cpp \
     #    mainwindow.cpp \
     #formlogin.cpp \

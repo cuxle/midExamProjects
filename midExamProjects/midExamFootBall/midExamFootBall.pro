@@ -44,7 +44,7 @@ SOURCES += \
     lidar/lidarAnalysis.cpp \
     lidarcloudwidget.cpp \
     qcustomplot.cpp \
-        main.cpp \
+    #    main.cpp \
     formfuncchoose.cpp \
     #socket/client.cpp \
     videowidget.cpp
