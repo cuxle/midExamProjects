@@ -9,6 +9,8 @@
 #include <opencv2/imgproc.hpp>
 #include <QDir>
 #include <QProcess>
+#include <QMessageBox>
+#include "license.h"
 
 #if TIAOSHENG
 const QString serverName = "server_tiaosheng.exe";
@@ -54,9 +56,16 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    if (!License::verifyLicenseFromFile("./license.lic")) {
+        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
+        return -1;
+    }
+
     createDataFolder();
 	
     Logger::init();
+
+
 	
 #if defined(TIAOSHENG) || defined(YTXS)
     initAlgorithmServer();
