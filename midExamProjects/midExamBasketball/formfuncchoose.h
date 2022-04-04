@@ -333,7 +333,7 @@ private:
 
     int m_curTimeLeftMs = 0;
     const int m_totalTimeMs = 60*1000;
-    const int m_internal = 100;
+    const int m_internal = 10;
 
 
     QString m_videoFileFolder = QDir::homePath();
@@ -383,7 +383,8 @@ private:
 
 
     const double PI = 3.1415926;
-    float const theta[16] = { -15, 1, -13, 3, -11, 5, -9, 7, -7, 9, -5, 11, -3, 13, -1, 15 };
+    float theta2[16] = { -15, 1, -13, 3, -11, 5, -9, 7, -7, 9, -5, 11, -3, 13, -1, 15 };
+    float theta133[16] = { -10, 0.665, -8.665, 2, -7.33, 3.33, -6, 4.665, -4.665, 6, -3.33, 7.33, -2, 8.665, -0.665, 10 };
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
 
@@ -447,6 +448,7 @@ private:
      int m_examReginBottomRightX;
      int m_examReginBottomRightY;
      int m_lidarFace = 0;
+     int m_lidarType = 0;
 
 
      int m_rectReginTopLeftX;

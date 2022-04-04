@@ -50,6 +50,7 @@ public:
     float m_zMax = 0;
     float m_ratio = 1.0f;
     int m_lidarFace = 0;
+    int m_lidarType = 0;
 
     int m_examReginTopLeftX = 0;
     int m_examReginTopLeftY = 0;

@@ -108,6 +108,7 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     m_rectReginWidth = m_config.m_rectReginWidth;
     m_rectReginHight = m_config.m_rectReginHeight;
     m_lidarFace = m_config.m_lidarFace;
+    m_lidarType = m_config.m_lidarType;
 
     qDebug() << __func__ << __LINE__ << m_rectReginTopLeftX;
     qDebug() << __func__ << __LINE__ << m_rectReginTopLeftY;
@@ -308,6 +309,14 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
 {
     vx.clear();
     vy.clear();
+    float *theta = nullptr;
+    if (m_lidarType == 0) {
+        theta = theta133;
+    } else if (m_lidarType == 1) {
+        theta = theta2;
+    } else {
+        return;
+    }
     using namespace pcl;
     //����16���ߵ�������ֵ
     double cosTheta[16] = { 0 };
@@ -869,8 +878,10 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
             }
         }
         if (m_curScoreLabel != nullptr) {
-            QString str = QString("%1.%2").arg(QString::number(m_curForwardSeconds/1000), 1, QLatin1Char('0')).arg(QString::number(m_curForwardSeconds%1000/100), 1, QLatin1Char('0'));
-            m_curScoreLabel->setText(str);
+            int sPart = m_curForwardSeconds / 1000;
+            int msPart = m_curForwardSeconds % 1000 / 10;
+            QString text = QString("%1.%2").arg(sPart, 1, 10, QLatin1Char('0')).arg(msPart, 2, 10, QLatin1Char('0'));
+            m_curScoreLabel->setText(text);
         }
         break;
     }
@@ -933,8 +944,8 @@ void FormFuncChoose::setVideoName(const QString &newVideoName)
 void FormFuncChoose::setLeftTimeSeconds(int forwardSeconds)
 {
     int sPart = forwardSeconds / 1000;
-    int msPart = forwardSeconds % 1000 / 100;
-    QString text = QString("%1.%2").arg(sPart, 1, 10, QLatin1Char('0')).arg(msPart, 1, 10, QLatin1Char('0'));
+    int msPart = forwardSeconds % 1000 / 10;
+    QString text = QString("%1.%2").arg(sPart, 1, 10, QLatin1Char('0')).arg(msPart, -2, 10, QLatin1Char('0'));
     ui->lbCurLeftTimes->setText(text);
 }
 
@@ -1158,7 +1169,7 @@ void FormFuncChoose::shiftScoreLabel()
 
 void FormFuncChoose::updateDisplayTimer()
 {
-    m_curForwardSeconds += 100;
+    m_curForwardSeconds += 10;
 
     setLeftTimeSeconds(m_curForwardSeconds);
 

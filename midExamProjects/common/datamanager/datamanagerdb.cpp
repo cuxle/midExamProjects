@@ -6,7 +6,7 @@ const auto STUDENTS_SQL =  QLatin1String(R"(
     create table students(id integer primary key, zkh varchar, name varchar,  gender int, zxdm vchar, zxmc vchar))");
 
 const auto SCHOOLS_SQL =  QLatin1String(R"(
-    create table schools(id integer primary key, checked integer, zxdm varchar, zxmc varchar, downloaded integer))");
+    create table schools(id integer primary key AUTO_INCREMENT, checked integer, zxdm varchar, zxmc varchar, downloaded integer))");
 
 
 const auto INSERT_STUDENT_SQL = QLatin1String(R"(

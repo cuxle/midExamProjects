@@ -53,23 +53,39 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
         case Project:
             return m_students[index.row()]->examProjectName;
         case FirstScore:
+        {
 #if defined(FOOTBALL) || defined (BASKETBALL)
-            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(m_students[index.row()]->firstScore);
+            float score = m_students[index.row()]->firstScore;
+            score = score / 1000;
+            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(score);
 #else
             return m_students[index.row()]->midStopFirst ? QVariant("中停") : QVariant(m_students[index.row()]->firstScore);
 #endif
+        }
+
         case SecondScore:
+        {
+
 #if defined(FOOTBALL) || defined (BASKETBALL)
-            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(m_students[index.row()]->secondScore);
+            float score = m_students[index.row()]->secondScore;
+            score = score / 1000;
+            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(score);
 #else
             return m_students[index.row()]->midStopFirst ? QVariant("中停") : QVariant(m_students[index.row()]->secondScore);
 #endif
+        }
+
         case ThirdScore:
+        {
 #if defined(FOOTBALL) || defined (BASKETBALL)
-            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(m_students[index.row()]->thirdScore);
+            float score = m_students[index.row()]->thirdScore;
+            score = score / 1000;
+            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(score);
 #else
             return m_students[index.row()]->midStopFirst ? QVariant("中停") : QVariant(m_students[index.row()]->thirdScore);
 #endif
+        }
+
         case Time:
             return m_students[index.row()]->examStartFirstTime;
         case UploadStatus:
