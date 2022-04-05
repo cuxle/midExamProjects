@@ -93,7 +93,7 @@ void SHAREDMEMORY::SendMat(cv::Mat img, char indexAddress) {
             img.cols * img.rows * img.channels()                   // size of data
         );
     }
-    cout << "write shared mem successful." << endl;
+//    cout << "write shared mem successful." << endl;
 }
 
 

@@ -146,7 +146,8 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
             if (get_data[0] == '-') {
                 qDebug() << "skip rope run filed, restart couter program";
             } else {
-                if(get_data[0] == '0' && get_data[1] != '0')
+//                qDebug() << __func__ << __LINE__ << get_data[0] << get_data[1];
+                if(get_data[0] == '0' && get_data[1] != 0x00)
                 {
                     ding = true;
                 } else {
