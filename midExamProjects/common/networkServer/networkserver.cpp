@@ -584,10 +584,9 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     qDebug() << __func__ << zkh << name << gender << zxdm << zxmc << id;
                     DataManagerDb::addStudent(zkh, name, gender, zxdm, zxmc, id);
                 }
-// /*               if (!m_schoolsToDownloadByZxdm.isEmpty()) {
-//                    sendGetCurrentSchoolStudentsRequest();
-//                } else {
-//                    return;
+                if (!m_schoolsToDownloadByZxdm.isEmpty()) {
+                    sendGetCurrentSchoolStudentsRequest();
+                }
 //                    // save received students data into json file
 //                    if (m_studentArray.size() != 0) {
 //                        QString appPath = QDir::currentPath();
