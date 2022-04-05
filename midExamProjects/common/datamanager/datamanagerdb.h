@@ -7,8 +7,8 @@ class DataManagerDb
 {
 public:
     static QSqlError addSchool(int checked, const QString &zxdm, const QString &zxmc, int downloaded);
-    QSqlError addStudent(const QString &zkh, const QString &name, int gender,
-                    const QString &zxmc, const QString &id);
+    static QSqlError addStudent(const QString &zkh, const QString &name, int gender,
+                    const QString &zxdm, const QString &zxmc, const QString &id);
     QSqlError addScore(const QString &zkh,
                   const QString &name,
                   int gender,
@@ -34,8 +34,8 @@ private:
     static void addSchoolPrivate(QSqlQuery &q, int checked,
                        const QString &zxdm, const QString &zxmc,
                        int downloaded);
-    void addStudentPrivate(QSqlQuery &q, const QString &zkh, const QString &name, int gender,
-                    const QString &zxmc, const QString &id);
+    static void addStudentPrivate(QSqlQuery &q, const QString &zkh, const QString &name, int gender,
+                    const QString &zxdm, const QString &zxmc, const QString &id);
     void addScorePrivate(QSqlQuery &q, const QString &zkh,
                   const QString &name,
                   int gender,

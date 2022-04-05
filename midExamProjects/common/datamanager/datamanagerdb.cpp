@@ -3,15 +3,15 @@
 #include "appconfig.h"
 
 const auto STUDENTS_SQL =  QLatin1String(R"(
-        create table students(id integer primary key, zkh varchar, name varchar,  gender int, zxdm vchar, zxmc vchar))");
+        create table students(zkh varchar(20), name varchar(20),  gender integer, zxdm varchar(20), zxmc varchar(20), id varchar(30)))");
 
 const auto SCHOOLS_SQL =  QLatin1String(R"(
         create table schools(checked integer, zxdm varchar, zxmc varchar, downloaded integer))");
 
 
 const auto INSERT_STUDENT_SQL = QLatin1String(R"(
-        insert into students(zkh, year, name, gender, zxdm, zxmc)
-                          values(?, ?, ?, ?, ?, ?))");
+        insert into students(zkh, name, gender, zxdm, zxmc, id)
+                          values(?, ?, ?, ?, ?,?))");
 
 const auto INSERT_SCHOOL_SQL = QLatin1String(R"(
         insert into schools(checked, zxdm, zxmc, downloaded)
@@ -101,10 +101,11 @@ void DataManagerDb::addSchoolPrivate(QSqlQuery &q, int checked,
 }
 
 void DataManagerDb::addStudentPrivate(QSqlQuery &q, const QString &zkh, const QString &name, int gender,
-                const QString &zxmc, const QString &id) {
+                const QString &zxdm, const QString &zxmc, const QString &id) {
     q.addBindValue(zkh);
     q.addBindValue(name);
     q.addBindValue(gender);
+    q.addBindValue(zxdm);
     q.addBindValue(zxmc);
     q.addBindValue(id);
     q.exec();
@@ -148,12 +149,12 @@ QSqlError DataManagerDb::addSchool(int checked, const QString &zxdm, const QStri
     return QSqlError();
 }
 
-QSqlError DataManagerDb::addStudent(const QString &zkh, const QString &name, int gender, const QString &zxmc, const QString &id)
+QSqlError DataManagerDb::addStudent(const QString &zkh, const QString &name, int gender, const QString &zxdm, const QString &zxmc, const QString &id)
 {
     QSqlQuery q;
     if (!q.prepare(INSERT_STUDENT_SQL))
         return q.lastError();
-    addStudentPrivate(q, zkh, name, gender, zxmc, id);
+    addStudentPrivate(q, zkh, name, gender, zxdm, zxmc, id);
     return QSqlError();
 }
 

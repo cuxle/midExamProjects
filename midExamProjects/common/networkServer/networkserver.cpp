@@ -571,67 +571,80 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                 emit sigSchoolDataDownloaded(true);
                 m_schoolsToDownloadByZxdm.pop_front();
 
-                if (!m_schoolsToDownloadByZxdm.isEmpty()) {
-                    sendGetCurrentSchoolStudentsRequest();
-                } else {
-                    return;
-                    // save received students data into json file
-                    if (m_studentArray.size() != 0) {
-                        QString appPath = QDir::currentPath();
-
-
-                        QJsonObject studentObj;
-                        studentObj["students"] = m_studentArray;
-
-                        QJsonDocument studentDoc;
-                        studentDoc.setObject(studentObj);
-
-                        DataManager &manager = Singleton<DataManager>::GetInstance();
-                        QString totalStudentsFileName = manager.m_basePath + "/data/totalStudents.json";
-                        manager.saveJsonToFile(studentDoc.toJson(), totalStudentsFileName);
-                        manager.initReadTotalStudents();
-                    }
-                }
-
-                return;
-                m_schoolsToDownload.front()->status = 1; // loaded
-                m_schoolsToDownload.pop_front();
-
-                emit sigSchoolDataDownloaded(true);
-                // update interface
-
                 // pasrse all student to joson file
                 QJsonArray array = jsonObject["data"].toArray();  // students list
+                for (int i = 0; i < array.size(); i++) {
+                    QJsonObject obj = array[i].toObject();
+                    QString zkh = obj["zkh"].toString();
+                    QString name = obj["name"].toString();
+                    int gender = obj["gender"].toInt();
+                    QString zxdm = obj["zxdm"].toString();
+                    QString zxmc = obj["zxmc"].toString();
+                    QString id = obj["id"].toString();
+                    qDebug() << __func__ << zkh << name << gender << zxdm << zxmc << id;
+                    DataManagerDb::addStudent(zkh, name, gender, zxdm, zxmc, id);
+                }
+// /*               if (!m_schoolsToDownloadByZxdm.isEmpty()) {
+//                    sendGetCurrentSchoolStudentsRequest();
+//                } else {
+//                    return;
+//                    // save received students data into json file
+//                    if (m_studentArray.size() != 0) {
+//                        QString appPath = QDir::currentPath();
 
-                // clear all student array
-//                while (!m_studentArray.empty()) {
-//                    m_studentArray.removeLast();
+
+//                        QJsonObject studentObj;
+//                        studentObj["students"] = m_studentArray;
+
+//                        QJsonDocument studentDoc;
+//                        studentDoc.setObject(studentObj);
+
+//                        DataManager &manager = Singleton<DataManager>::GetInstance();
+//                        QString totalStudentsFileName = manager.m_basePath + "/data/totalStudents.json";
+//                        manager.saveJsonToFile(studentDoc.toJson(), totalStudentsFileName);
+//                        manager.initReadTotalStudents();
+//                    }
 //                }
 
-                for (int i = 0; i < array.size(); i++) {
-                    m_studentArray.append(array[i].toObject());
-                }
+//                return;
+//                m_schoolsToDownload.front()->status = 1; // loaded
+//                m_schoolsToDownload.pop_front();
 
-                if (!m_schoolsToDownload.isEmpty()) {
-                    sendGetCurrentSchoolStudentsRequest();
-                } else {
-                    // save received students data into json file
-                    if (m_studentArray.size() != 0) {
-                        QString appPath = QDir::currentPath();
+//                emit sigSchoolDataDownloaded(true);
+//                // update interface
+
+//                // pasrse all student to joson file
+//                QJsonArray array = jsonObject["data"].toArray();  // students list
+
+//                // clear all student array
+////                while (!m_studentArray.empty()) {
+////                    m_studentArray.removeLast();
+////                }
+
+//                for (int i = 0; i < array.size(); i++) {
+//                    m_studentArray.append(array[i].toObject());
+//                }
+
+//                if (!m_schoolsToDownload.isEmpty()) {
+//                    sendGetCurrentSchoolStudentsRequest();
+//                } else {
+//                    // save received students data into json file
+//                    if (m_studentArray.size() != 0) {
+//                        QString appPath = QDir::currentPath();
 
 
-                        QJsonObject studentObj;
-                        studentObj["students"] = m_studentArray;
+//                        QJsonObject studentObj;
+//                        studentObj["students"] = m_studentArray;
 
-                        QJsonDocument studentDoc;
-                        studentDoc.setObject(studentObj);
+//                        QJsonDocument studentDoc;
+//                        studentDoc.setObject(studentObj);
 
-                        DataManager &manager = Singleton<DataManager>::GetInstance();
-                        QString totalStudentsFileName = manager.m_basePath + "/data/totalStudents.json";
-                        manager.saveJsonToFile(studentDoc.toJson(), totalStudentsFileName);
-                        manager.initReadTotalStudents();
-                    }
-                }
+//                        DataManager &manager = Singleton<DataManager>::GetInstance();
+//                        QString totalStudentsFileName = manager.m_basePath + "/data/totalStudents.json";
+//                        manager.saveJsonToFile(studentDoc.toJson(), totalStudentsFileName);
+//                        manager.initReadTotalStudents();
+//                    }
+//                }*/
                 break;
             }
 
