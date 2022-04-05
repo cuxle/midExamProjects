@@ -10,7 +10,7 @@
 #include "datamanager.h"
 #include "appconfig.h"
 
-#if defined(YTXS) || defined(TIAOSHENG)
+#if defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
 #include <QProcess>
 #endif
 
@@ -18,7 +18,7 @@ FormLogin::FormLogin(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FormLogin)
 {
-#if defined(YTXS) || defined(TIAOSHENG)
+#if defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
     initRopeSkipWorkerZmq();
 
     QEventLoop loop;
@@ -57,7 +57,11 @@ FormLogin::~FormLogin()
     killServerCmd = "taskkill /im server_tiaosheng.exe /f";
 #endif
 
-#if  defined(YTXS) || defined(TIAOSHENG)
+#if YWQZ
+    killServerCmd = "taskkill /im server_ywqz.exe /f";
+#endif
+
+#if  defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
     m_skipRopeZeroMqThread->quit();
     m_skipRopeZeroMqThread->wait();
 
@@ -71,7 +75,7 @@ FormLogin::~FormLogin()
     delete ui;
 }
 
-#if defined(YTXS) || defined(TIAOSHENG)
+#if defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
 void FormLogin::initRopeSkipWorkerZmq()
 {
     qRegisterMetaType<cv::Mat>("cv::Mat");
@@ -104,7 +108,7 @@ void FormLogin::hanldeLoginStateChanged(bool isLogin)
 void FormLogin::initMainFrm(bool online)
 {
     if (m_frmFuncChoose == nullptr) {
-#if defined(YTXS) || defined(TIAOSHENG)
+#if defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
         m_frmFuncChoose = new FormFuncChoose(online, m_skipRopeZeroMq);
 #else
         m_frmFuncChoose = new FormFuncChoose(online);

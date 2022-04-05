@@ -47,9 +47,10 @@
 #include <QLockFile>
 
 
-FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
+FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDialog *parent) :
     QDialog(parent),
     ui(new Ui::FormFuncChoose),
+    m_skipRopeZeroMq(skipRqopeMq),
     m_isLogin(online)
 {
     ui->setupUi(this);
@@ -57,6 +58,8 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     initUi();
 
     initCameraWorker();
+
+    initSkipRopeZeroMq();
 
     initVideoCaptureWorker();
     // init exam time version
@@ -79,7 +82,6 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 //        initSocketClient();
 //    }
 
-	initSitupWorker();
 
     // init school list
     initSchoolListInterface();
@@ -87,13 +89,13 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     // init local student table
     initStudentsListInterface();
 	
-    VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
-    if (videoWidget != nullptr) {
-        connect(this, &FormFuncChoose::sigOpenCamera, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
-        connect(this, &FormFuncChoose::sigSetPlayVideoName, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
-        connect(videoWidget, &VideoWidget::sigReginPosChanged, m_situpWorker, &SitupWorker::handleSetRectPos);
-        connect(this, &FormFuncChoose::sigVideoWidgetIsLocked, videoWidget, &VideoWidget::handleVideoWidgetIsLocked);
-    }
+//    VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
+//    if (videoWidget != nullptr) {
+//        connect(this, &FormFuncChoose::sigOpenCamera, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
+//        connect(this, &FormFuncChoose::sigSetPlayVideoName, videoWidget, &VideoWidget::handleResetVideoWidgetRatio);
+////        connect(videoWidget, &VideoWidget::sigReginPosChanged, m_situpWorker, &SitupWorker::handleSetRectPos);
+//        connect(this, &FormFuncChoose::sigVideoWidgetIsLocked, videoWidget, &VideoWidget::handleVideoWidgetIsLocked);
+//    }
 }
 
 FormFuncChoose::~FormFuncChoose()
@@ -120,11 +122,7 @@ FormFuncChoose::~FormFuncChoose()
     m_cameraThread->quit();
     m_cameraThread->wait();
 
-
-    m_situpThread->quit();
-    m_situpThread->wait();
-
-
+    qDebug() << __func__ << __LINE__;
     m_videoCaptureThread->quit();
     m_videoCaptureThread->wait();
 
@@ -138,18 +136,17 @@ FormFuncChoose::~FormFuncChoose()
     delete ui;
 }
 
-void FormFuncChoose::initSitupWorker()
+// camera need init before this function
+void FormFuncChoose::initSkipRopeZeroMq()
 {
-    m_situpWorker = new SitupWorker;
-    m_situpThread = new QThread;
-    connect(m_situpThread, &QThread::started, m_situpWorker, &SitupWorker::initlib);
-    connect(m_situpThread, &QThread::finished, m_situpWorker, &SitupWorker::deleteLater);
-    connect(m_camera, &Camera::sigImageCapture, m_situpWorker, &SitupWorker::handleReceiveImage);
-    connect(this, &FormFuncChoose::sigStartCount, m_situpWorker, &SitupWorker::startCount);
-    connect(this, &FormFuncChoose::sigResetCount, m_situpWorker, &SitupWorker::resetCount);
-    connect(m_situpWorker, &SitupWorker::sigSitupCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
-    connect(m_situpWorker, &SitupWorker::sigPlayDingSound, this, &FormFuncChoose::handlePlayDingSound);
-    m_situpThread->start();
+    if (m_camera == nullptr) return;
+    if (m_skipRopeZeroMq == nullptr) return;
+
+    // start skipRopeZeroMq
+    connect(m_camera, &Camera::sigImageCapture, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage);
+    connect(this, &FormFuncChoose::sigStartCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::startCount);
+    connect(this, &FormFuncChoose::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
+    connect(m_skipRopeZeroMq, &SkipRopeOnZeroMq::sigSkipCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
 }
 
 void FormFuncChoose::initUi()
@@ -342,12 +339,8 @@ void FormFuncChoose::handleStartExam()
 
     // 2. skip rope dll reset count
 //    m_skipRopeZeroMq->resetCount();
-//    m_skipRopeZeroMq->m_bStartCount = true;
-//    m_ropeSkipWorker->resetCount();
-//    m_ropeSkipWorker->m_bStartCount = true;
-//    m_situpWorker->resetCount();
-//    m_situpWorker->m_bStartCount = true;
-
+    emit sigResetCount();
+    m_skipRopeZeroMq->m_bStartCount = true;
     emit sigStartCount(true);
 
     // 3. start back count 60s倒计时
@@ -851,10 +844,9 @@ void FormFuncChoose::initVideoPlayer()
         VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
         videoWidget->setPixmap(pix);
     });
-    connect(this, &FormFuncChoose::sigStopVideoPlay, m_videoPlayer, &VideoReplayWorker::handleStopPlayVideo);
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_situpWorker, &SitupWorker::handleReceiveImage2);
-    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_situpWorker, &SitupWorker::resetCount);
-
+	connect(this, &FormFuncChoose::sigStopVideoPlay, m_videoPlayer, &VideoReplayWorker::handleStopPlayVideo);
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
+    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
     // load frame direcetly from videoreplayworker
 //    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
 //    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
@@ -1162,9 +1154,8 @@ void FormFuncChoose::stopExamStuff()
 
     // stop count in skip rope
     emit sigStartCount(false);    
-//    m_skipRopeZeroMq->m_bStartCount = false;
-//    m_ropeSkipWorker->m_bStartCount = false;
-//    m_situpWorker->m_bStartCount = false;
+    m_skipRopeZeroMq->m_bStartCount = false;
+
     if (m_curExamMode == ExamModeFromCamera) {
         emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
     } else if (m_curExamMode == ExamModeFromVideo) {

@@ -1,5 +1,5 @@
 #pragma once 
-// ShareMemory.cpp : ´ËÎÄ¼ş°üº¬ĞÅÏ¢¶¨ÒåSHAREDMEMORÀàµÄÊµÏÖ
+// ShareMemory.cpp : æ­¤æ–‡ä»¶åŒ…å«ä¿¡æ¯å®šä¹‰SHAREDMEMORç±»çš„å®ç°
 // Author : MJJ
 // Update : 2020/11/27
 #ifndef ShareMemory_CPP
@@ -13,7 +13,7 @@ using namespace std;
 
 /*************************************************************************************
 FuncName  :SHAREDMEMORY::~SHAREDMEMORY()
-Desc      :¹¹Ôìº¯Êı´´½¨¹²ÏíÄÚ´æ
+Desc      :æ„é€ å‡½æ•°åˆ›å»ºå…±äº«å†…å­˜
 Input     :None
 Output    :None
 **************************************************************************************/
@@ -27,7 +27,7 @@ SHAREDMEMORY::SHAREDMEMORY() {
         sShareMemName);        //name of mapping object
 
     if (hShareMem) {
-        //  Ó³Éä¶ÔÏóÊÓÍ¼£¬µÃµ½¹²ÏíÄÚ´æÖ¸Õë£¬ÉèÖÃÊı¾İ
+        //  æ˜ å°„å¯¹è±¡è§†å›¾ï¼Œå¾—åˆ°å…±äº«å†…å­˜æŒ‡é’ˆï¼Œè®¾ç½®æ•°æ®
         pBuf = (LPTSTR)MapViewOfFile(
             hShareMem,           //handle to map object
             FILE_MAP_ALL_ACCESS, // read/write permission
@@ -36,7 +36,7 @@ SHAREDMEMORY::SHAREDMEMORY() {
             MEMORY_SIZE);
         cout << "memory size:" << MEMORY_SIZE << endl;
 
-        // ÈôÓ³ÉäÊ§°ÜÍË³ö
+        // è‹¥æ˜ å°„å¤±è´¥é€€å‡º
         if (pBuf == NULL)
         {
             std::cout << "Could not map view of framebuffer file." << GetLastError() << std::endl;
@@ -54,22 +54,22 @@ SHAREDMEMORY::SHAREDMEMORY() {
 
 /*************************************************************************************
 FuncName  :SHAREDMEMORY::~SHAREDMEMORY()
-Desc      :Îö¹¹º¯ÊıÊÍ·Å
+Desc      :ææ„å‡½æ•°é‡Šæ”¾
 Input     :None
 Output    :None
 **************************************************************************************/
 SHAREDMEMORY::~SHAREDMEMORY() {
     std::cout << "unmap shared addr." << std::endl;
-    UnmapViewOfFile(pBuf); //ÊÍ·Å£»
+    UnmapViewOfFile(pBuf); //é‡Šæ”¾ï¼›
     CloseHandle(hShareMem);
 }
 
 /*************************************************************************************
 FuncName  :void SHAREDMEMORY::SendMat(cv::Mat img, char indexAddress)
-Desc      :·¢ËÍMatÊı¾İ
+Desc      :å‘é€Matæ•°æ®
 Input     :
-    Mat img               ·¢ËÍÍ¼Ïñ
-    char indexAddress     ¹²ÏíÄÚ´æÖĞÆğÊ¼Î»ÖÃ£¬ÈôÖ»ÓĞÒ»Â·ÊÓÆµÔòÎŞÆ«ÒÆ
+    Mat img               å‘é€å›¾åƒ
+    char indexAddress     å…±äº«å†…å­˜ä¸­èµ·å§‹ä½ç½®ï¼Œè‹¥åªæœ‰ä¸€è·¯è§†é¢‘åˆ™æ— åç§»
 Output    :None
 **************************************************************************************/
 void SHAREDMEMORY::SendMat(cv::Mat img, char indexAddress) {
@@ -99,10 +99,10 @@ void SHAREDMEMORY::SendMat(cv::Mat img, char indexAddress) {
 
 /*************************************************************************************
 FuncName  :cv::Mat SHAREDMEMORY::ReceiveMat(char indexAddress)
-Desc      :½ÓÊÕMatÊı¾İ
+Desc      :æ¥æ”¶Matæ•°æ®
 Input     :
-    char indexAddress     ¹²ÏíÄÚ´æÖĞÆğÊ¼Î»ÖÃ£¬ÈôÖ»ÓĞÒ»Â·ÊÓÆµÔòÎŞÆ«ÒÆ
-Output    :MatÍ¼Ïñ
+    char indexAddress     å…±äº«å†…å­˜ä¸­èµ·å§‹ä½ç½®ï¼Œè‹¥åªæœ‰ä¸€è·¯è§†é¢‘åˆ™æ— åç§»
+Output    :Matå›¾åƒ
 **************************************************************************************/
 cv::Mat SHAREDMEMORY::ReceiveMat(char indexAddress)
 {
@@ -123,10 +123,10 @@ cv::Mat SHAREDMEMORY::ReceiveMat(char indexAddress)
 
 /*************************************************************************************
 FuncName  :void SHAREDMEMORY::SendStr(cv::Mat img, char indexAddress)
-Desc      :·¢ËÍstrÊı¾İ
+Desc      :å‘é€stræ•°æ®
 Input     :
-    Mat img               ·¢ËÍÍ¼Ïñ
-    char indexAddress     ¹²ÏíÄÚ´æÖĞÆğÊ¼Î»ÖÃ£¬ÈôÖ»ÓĞÒ»Â·ÊÓÆµÔòÎŞÆ«ÒÆ
+    Mat img               å‘é€å›¾åƒ
+    char indexAddress     å…±äº«å†…å­˜ä¸­èµ·å§‹ä½ç½®ï¼Œè‹¥åªæœ‰ä¸€è·¯è§†é¢‘åˆ™æ— åç§»
 Output    :None
 **************************************************************************************/
 void SHAREDMEMORY::SendStr(const char data[]) {
@@ -137,9 +137,9 @@ void SHAREDMEMORY::SendStr(const char data[]) {
 
 /*************************************************************************************
 FuncName  :void SHAREDMEMORY::ReceiveStr()
-Desc      :½ÓÊÕstrÊı¾İ
+Desc      :æ¥æ”¶stræ•°æ®
 Input     :None
-Output    :»ñÈ¡µÄ×Ö·û´®
+Output    :è·å–çš„å­—ç¬¦ä¸²
 **************************************************************************************/
 char* SHAREDMEMORY::ReceiveStr() {
     char* str = (char*)pBuf;

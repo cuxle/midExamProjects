@@ -9,11 +9,10 @@
 #include "camera.h"
 //#include "socket/client.h"
 //#include "xlsxdocument.h"
-//#include "algorithm/situpinterface.h"
+#include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
 #include "TmpStudent.h"
-#include "algorithm/situpworker.h"
 
 class Camera;
 class QThread;
@@ -36,7 +35,7 @@ class FormFuncChoose : public QDialog
     Q_OBJECT
 
 public:
-    explicit FormFuncChoose(bool online, QDialog *parent = 0);
+    explicit FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDialog *parent = 0);
     ~FormFuncChoose();
     enum PageType {
         PageMenu = 0,
@@ -184,6 +183,7 @@ private:
     void initUi();
 //    void initXlsxDcoment();
     void initCameraWorker();
+    void initSkipRopeZeroMq();
 //    void initRopeSkipWorker();
     void initVideoCaptureWorker();
     void initVideoPlayer();
@@ -192,7 +192,7 @@ private:
     void initTimers();
 //    void initSocketClient();
     //void initinitRopeSkipWorkerZmq();
-    void initSitupWorker();
+   // void initSitupWorker();
 
     void clearAppConfig();
 
@@ -251,8 +251,8 @@ private:
     VideoCaptureWorker *m_videoCapture = nullptr;
     QThread *m_videoCaptureThread = nullptr;
 
-    SitupWorker *m_situpWorker = nullptr;
-    QThread *m_situpThread = nullptr;
+    SkipRopeOnZeroMq *m_skipRopeZeroMq = nullptr;
+//    QThread *m_skipRopeZeroMqThread = nullptr;
 
 
     bool m_bStartCapture = true;

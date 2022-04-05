@@ -22,8 +22,22 @@ void SkipRopeOnZeroMq::init()
     contex = zmq_ctx_new();
     responder = zmq_socket(contex, ZMQ_REQ);
     int ret = zmq_connect(responder, "tcp://localhost:5552");
-    if (ret == 0) {
+
+    contex1 = zmq_ctx_new();
+    responder1 = zmq_socket(contex1, ZMQ_REP);
+    int ret1 = zmq_connect(responder1, "tcp://localhost:5553");
+
+    if (ret == 0 && ret1 == 0) {
         qDebug() << "connect local server successfully";
+        memset(get_data, 0x00, 10);
+        zmq_recv(responder1, get_data, 10, 0);
+        qDebug() << "server run successfully";
+        qDebug() << "Start result:" << get_data;
+
+        emit sigContinueRun();
+
+        zmq_send(responder1, "1", 1, 0);
+
         registerClient();
         resetCount();
     } else {
@@ -32,12 +46,23 @@ void SkipRopeOnZeroMq::init()
 
 }
 
+void SkipRopeOnZeroMq::handleDestroyObject()
+{
+    unregisterClient();
+    zmq_disconnect(responder, "tcp://localhost:5552");
+    zmq_close(responder);
+
+    zmq_disconnect(responder1, "tcp://localhost:5553");
+    zmq_close(responder1);
+
+    this->deleteLater();
+}
+
 void SkipRopeOnZeroMq::registerClient()
 {
     //std::string Model = "1";
     Model = "1";
     zmq_send(responder, Model.data(), 1, 0);
-//    char get_data[10] = { 0 };
     memset(get_data, 0x00, 10);
 
     // Note: if not connected to python server,
@@ -55,7 +80,6 @@ void SkipRopeOnZeroMq::registerClient()
 
 void SkipRopeOnZeroMq::unregisterClient()
 {
-    //std::string
     Model = "4";
     zmq_send(responder, Model.data(), 1, 0);
 //    char get_data[10] = { 0 };
@@ -98,7 +122,6 @@ void SkipRopeOnZeroMq::resetCount()
 
 void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
 {
-    qDebug() <<__func__ << __LINE__ << m_bStartCount;
     if (m_bStartCount) {
         //        QImage img = image;
 
@@ -117,8 +140,9 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
             char get_data[10] = { 0 };
             memset(get_data, 0x00, 10);
             zmq_recv(responder, get_data, 10, 0);
+//            qDebug() << __func__ << __LINE__ << "after get data";
             if (get_data[0] == '-') {
-                qDebug() << "skip rope run filed, restart couter program";
+//                qDebug() << "skip rope run filed, restart couter program";
             }
             else{
                 m_count = strtol(get_data, NULL, 10);
@@ -127,7 +151,7 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
         emit sigSkipCountChanged(m_count);
 
 //        m_count = m_ropeSkiplib->CountSkipRope(frame.rows, frame.cols, std::move(frame.data));
-        qDebug() << "skip rope cost time in ms:" << -QDateTime::currentDateTime().msecsTo(baseTime);
+//        qDebug() << "skip rope cost time in ms:" << -QDateTime::currentDateTime().msecsTo(baseTime);
 
 //        qDebug() << "lastcout " << m_lastCount << "count:" << m_count;
 //        if (m_count - m_lastCount >= 10) {
@@ -141,13 +165,13 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
 
 void SkipRopeOnZeroMq::handleReceiveImage2(cv::Mat image)
 {
-    qDebug() << __func__ << __LINE__;
+    //qDebug() << __func__ << __LINE__;
     if (m_bStartCount) {
         //        QImage img = image;
         cv::Mat mat;
         image.copyTo(mat);
-        qDebug() << __LINE__ << __func__;
-        qDebug() << mat.rows << mat.cols;
+//        qDebug() << __LINE__ << __func__;
+//        qDebug() << mat.rows << mat.cols;
 
 //        SHAREDMEMORY sharedmem;
 
@@ -170,6 +194,5 @@ void SkipRopeOnZeroMq::handleReceiveImage2(cv::Mat image)
         //m_count = m_ropeSkiplib->CountSkipRope(mat.rows, mat.cols, mat.data);
         std::cout << "skip count:" << m_count << std::endl;
         emit sigSkipCountChanged(m_count);
-
     }
 }

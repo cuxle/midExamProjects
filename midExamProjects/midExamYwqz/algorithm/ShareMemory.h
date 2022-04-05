@@ -1,5 +1,5 @@
 #pragma once
-// ShareMemory.h : ´ËÎÄ¼ş°üº¬¹²ÏíÄÚ´æÊı¾İ¶¨Òå¡¢´óĞ¡È·¶¨¡¢Î»ÖÃ·ÖÅä¡¢ĞÅÏ¢¶¨Òå
+// ShareMemory.h : æ­¤æ–‡ä»¶åŒ…å«å…±äº«å†…å­˜æ•°æ®å®šä¹‰ã€å¤§å°ç¡®å®šã€ä½ç½®åˆ†é…ã€ä¿¡æ¯å®šä¹‰
 // Author : Jiejing.Ma
 // Update : 2020/11/27
 #ifndef ShareMemory_H
@@ -13,24 +13,24 @@
 
 #include <Windows.h>
 
-//=================================¹²ÏíÄÚ´æÊı¾İ¶¨Òå=================================
+//=================================å…±äº«å†…å­˜æ•°æ®å®šä¹‰=================================
 typedef struct {
     int width;
     int height;
     int type;
-}ImgInf;       //Í¼ÏñĞÅÏ¢
-//=================================¹²ÏíÄÚ´æ´óĞ¡È·¶¨=================================
-// ÎªÍ¼Ïñ·ÖÅä¿Õ¼ä
-#define FRAME_NUMBER         1               // Í¼ÏñÂ·Êı
+}ImgInf;       //å›¾åƒä¿¡æ¯
+//=================================å…±äº«å†…å­˜å¤§å°ç¡®å®š=================================
+// ä¸ºå›¾åƒåˆ†é…ç©ºé—´
+#define FRAME_NUMBER         1               // å›¾åƒè·¯æ•°
 #define FRAME_W              1280
 #define FRAME_H              1024
 #define FRAME_W_H            FRAME_W*FRAME_H
-// Í¼Ïñ·Ö±æÂÊ£º²ÊÉ«Í¼£¨3Í¨µÀ£©+Í¼ÏñĞÅÏ¢½á¹¹Ìå
+// å›¾åƒåˆ†è¾¨ç‡ï¼šå½©è‰²å›¾ï¼ˆ3é€šé“ï¼‰+å›¾åƒä¿¡æ¯ç»“æ„ä½“
 #define FRAME_SIZE           FRAME_W_H*sizeof(unsigned char)*3+sizeof(ImgInf)
 
 #define MEMORY_SIZE          FRAME_NUMBER*FRAME_SIZE
 
-//=================================¹²ÏíÄÚ´æĞÅÏ¢¶¨Òå=================================
+//=================================å…±äº«å†…å­˜ä¿¡æ¯å®šä¹‰=================================
 #define INITSUCCESS      0
 #define CREATEMAPFAILED  1
 #define MAPVIEWFAILED    2
@@ -48,8 +48,8 @@ public:
 public:
     int state;
 private:
-    HANDLE hShareMem;                               //¹²ÏíÄÚ´æ¾ä±ú
-    TCHAR sShareMemName[30] = TEXT("ShareMedia");   // ¹²ÏíÄÚ´æÃû³Æ
+    HANDLE hShareMem;                               //å…±äº«å†…å­˜å¥æŸ„
+    TCHAR sShareMemName[30] = TEXT("ShareMedia");   // å…±äº«å†…å­˜åç§°
     LPCTSTR pBuf;
 };
 

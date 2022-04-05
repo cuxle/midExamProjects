@@ -37,12 +37,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-    #algorithm/ShareMemory.cpp \
+    algorithm/ShareMemory.cpp \
     algorithm/algorithmloadbase.cpp \
     #algorithm/ropeskippinginterface.cpp \
     #algorithm/ropeskipworker.cpp \
-    algorithm/situpinterface.cpp \
-    algorithm/situpworker.cpp \
+    #algorithm/situpinterface.cpp \
+    #algorithm/situpworker.cpp \
     #appconfig.cpp \
     #camera/camera.cpp \
     #camera/csamplecaptureeventhandler.cpp \
@@ -60,7 +60,7 @@ SOURCES += \
     #schoollisttablemodel.cpp \
     #scoremanagemodel.cpp \
     #settingdialog.cpp \
-    #algorithm/skipropeonzeromq.cpp \
+    algorithm/skipropeonzeromq.cpp \
     #socket/client.cpp \
     #student.cpp \
     #studentmanager.cpp \
@@ -71,12 +71,12 @@ SOURCES += \
 
 HEADERS += \
     #TmpStudent.h \
-    #algorithm/ShareMemory.h \
+    algorithm/ShareMemory.h \
     algorithm/algorithmloadbase.h \
     #algorithm/ropeskippinginterface.h \
     #algorithm/ropeskipworker.h \
-    algorithm/situpinterface.h \
-    algorithm/situpworker.h \
+    #algorithm/situpinterface.h \
+    #algorithm/situpworker.h \
     #appconfig.h \
     #camera/camera.h \
     #camera/csamplecaptureeventhandler.h \
@@ -95,7 +95,7 @@ HEADERS += \
     #scoremanagemodel.h \
     #settingdialog.h \
     #singleton.h \
-    #algorithm/skipropeonzeromq.h \
+    algorithm/skipropeonzeromq.h \
     #socket/client.h \
     #student.h \
     #studentmanager.h \

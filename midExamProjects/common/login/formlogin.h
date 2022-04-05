@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "networkserver.h"
 
-#if defined(YTXS) || defined(TIAOSHENG)
+#if defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
 #include "algorithm/skipropeonzeromq.h"
 #include <QThread>
 #endif
@@ -42,7 +42,7 @@ private:
 
     void updateUserNameListInfo(const QString &arg1);
 
-#if defined(YTXS) || defined(TIAOSHENG)
+#if defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
     void initRopeSkipWorkerZmq();
     SkipRopeOnZeroMq *m_skipRopeZeroMq = nullptr;
     QThread *m_skipRopeZeroMqThread = nullptr;

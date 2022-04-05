@@ -813,7 +813,7 @@ void FormFuncChoose::initVideoCaptureWorker()
     connect(m_videoCaptureThread, &QThread::started, m_videoCapture, &VideoCaptureWorker::initWorker);
     connect(m_videoCaptureThread, &QThread::finished, m_videoCapture, &VideoCaptureWorker::destroyWorker);
 //    connect(m_videoCaptureThread, &QThread::finished, m_videoCapture, &VideoCaptureWorker::deleteLater);
-    connect(m_videoCaptureThread, &QThread::finished, m_videoCaptureThread, &QThread::deleteLater);
+//    connect(m_videoCaptureThread, &QThread::finished, m_videoCaptureThread, &QThread::deleteLater);
 
     connect(m_camera, &Camera::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
     connect(this, &FormFuncChoose::sigSetVideoPath, m_videoCapture, &VideoCaptureWorker::setVideoSavePath);

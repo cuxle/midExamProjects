@@ -16,8 +16,9 @@
 const QString serverName = "server_tiaosheng.exe";
 #elif YTXS
 const QString serverName = "server_ytxs.exe";
+#elif YWQZ
+const QString serverName = "server_ywqz.exe";
 #else
-
 #endif
 
 void createDataFolder()
@@ -34,7 +35,7 @@ void createDataFolder()
         qDebug() << "data dir exists";
     }
 }
-#if defined(TIAOSHENG) || defined(YTXS)
+#if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
 void initAlgorithmServer()
 {
     // if server is running, kill the process
@@ -56,18 +57,17 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    if (!License::verifyLicenseFromFile("./license.lic")) {
-        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
-        return -1;
-    }
+//    if (!License::verifyLicenseFromFile("./license.lic")) {
+//        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
+//        return -1;
+//    }
 
     createDataFolder();
 	
     Logger::init();
 
-
 	
-#if defined(TIAOSHENG) || defined(YTXS)
+#if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
     initAlgorithmServer();
 #endif
 

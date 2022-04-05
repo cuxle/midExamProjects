@@ -18,15 +18,20 @@ public:
 
 signals:
     void sigSkipCountChanged(int);
+    void sigContinueRun();
 
 public slots:
     void init();
+    void handleDestroyObject();
 
 private:
     void registerClient();
     void unregisterClient();
     void *contex = nullptr;
     void *responder = nullptr;
+
+    void *contex1 = nullptr;
+    void *responder1 = nullptr;
 
 public slots:
     void startCount(bool);
