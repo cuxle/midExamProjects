@@ -36,9 +36,10 @@
 
 #include "singleton.h"
 #include "networkserver.h"
+#include "datamanagerdb.h"
 
 SchoolListTableModel::SchoolListTableModel(QList<School*> &schools, QObject *parent) :
-    QAbstractTableModel(parent),
+    QSqlTableModel(parent),
     m_schools(schools)
 {
     m_columnCount = 4;
@@ -47,13 +48,13 @@ SchoolListTableModel::SchoolListTableModel(QList<School*> &schools, QObject *par
 int SchoolListTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_schools.count();
+    return QSqlTableModel::rowCount(parent);
 }
 
 int SchoolListTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_columnCount;
+    return QSqlTableModel::columnCount(parent);
 }
 
 QVariant SchoolListTableModel::data(const QModelIndex &index, int role) const
@@ -69,17 +70,23 @@ QVariant SchoolListTableModel::data(const QModelIndex &index, int role) const
         QColor color = Qt::white;
         return QVariant::fromValue(color);
     } else if (role == Qt::CheckStateRole && index.column() == 0) {
-        return m_schools.at(index.row())->checked ? Qt::Checked : Qt::Unchecked;
+        qDebug() << __func__ << __LINE__ << index.row() << index.column() << QSqlTableModel::data(index, role).toInt();
+        return (QSqlTableModel::data(index, Qt::DisplayRole).toInt() == 0) ? Qt::Unchecked : Qt::Checked;
     } else if (role == Qt::DisplayRole) {
         switch (index.column()) {
         case 0:
-            return m_schools.at(index.row())->checked ? QString("选中") : QString("未选中");
+        {
+            int c = QSqlTableModel::data(index, role).toInt();
+            qDebug() << __func__ << __LINE__ << c;
+            return (c == 0) ? QString("未选中") : QString("选中");
+        }
+
         case 1:
-            return m_schools[index.row()]->zxdm;
+            return QSqlTableModel::data(index, role).toString();
         case 2:            
-            return m_schools[index.row()]->schoolName;
+            return QSqlTableModel::data(index, role).toString();
         case 3:
-            return m_schools[index.row()]->status == 0 ? "未下载" : "已下载";
+            return (QSqlTableModel::data(index, role).toUInt() == 0) ? "未下载" : "已下载";
         default:
             break;
         }
@@ -90,36 +97,16 @@ QVariant SchoolListTableModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags SchoolListTableModel::flags(const QModelIndex &index) const
 {
+    Qt::ItemFlags flags = QSqlTableModel::flags(index) & ~Qt::ItemIsEditable;
     if (index.column() == 0) {
-        return QAbstractItemModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;
+        return flags | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;
     }
-    return QAbstractItemModel::flags(index);
-}
-
-void SchoolListTableModel::insertRow(int position, const QModelIndex &parent)
-{
-    updateModel();
-    return;
-    if ((position < 0) || (position >= m_schools.size()))
-        return;
-
-    beginInsertRows(parent, position, position);
-//	XFrameData fd = m_pSendDatas->at(position);
-//    fd.clearFrMsgIndex();
-//	m_pSendDatas->insert(position, fd);
-//    FRCommander::updateFrMsg2Device(fd, m_pro, true);
-
-    endInsertRows();
-}
-
-void SchoolListTableModel::addMapping(QString color, QRect area)
-{
-    m_mapping.insertMulti(color, area);
+    return flags;
 }
 
 void SchoolListTableModel::schoolListDataChanged()
 {
-    insertRow(m_schools.size() - 1);
+    updateModel();
 }
 
 bool SchoolListTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -128,9 +115,27 @@ bool SchoolListTableModel::setData(const QModelIndex &index, const QVariant &val
     case Qt::CheckStateRole:
         qDebug() << __func__ << role;
         if (index.column() == 0) {
-            bool enable = value.toBool();
-            m_schools.at(index.row())->checked = enable;
-            emit dataChanged(index, index);
+            int checked = data(index, Qt::CheckStateRole).toUInt();
+            qDebug() << __func__ << __LINE__ << checked;
+            if (checked == (int)Qt::Checked) {
+                checked = (int)Qt::Unchecked;
+            } else {
+                checked = (int)Qt::Checked;
+            }
+
+            QModelIndex indexZXDM = createIndex(index.row(), index.column() + 1);
+            QVariant zxdm = data(indexZXDM);
+
+            qDebug() << __func__ << __LINE__ << checked;
+//            QString zxdm = data();
+//            m_schools.at(index.row())->checked = enable;
+//            emit dataChanged(index, index);
+            DataManagerDb::updateSchoolCheckedStatus(zxdm.toString(), checked);
+//            QSqlTableModel::setData(index, enable, role);
+//            updateModel();
+            this->select();
+            QVariant afterEnable = data(index, Qt::CheckStateRole);
+            qDebug() << __func__ << __LINE__ << afterEnable;
         }
         break;
     default:
@@ -143,4 +148,6 @@ void SchoolListTableModel::updateModel()
 {
     beginResetModel();
     endResetModel();
+    QModelIndex index = createIndex(0, 0);
+    emit dataChanged(index, index);
 }

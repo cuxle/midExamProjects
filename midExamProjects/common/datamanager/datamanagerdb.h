@@ -1,15 +1,12 @@
 #ifndef DATAMANAGERDB_H
 #define DATAMANAGERDB_H
 
-#include <QObject>
 #include <QtSql>
 
-class DataManagerDb : public QObject
+class DataManagerDb
 {
-    Q_OBJECT
 public:
-    explicit DataManagerDb(QObject *parent = nullptr);
-    QSqlError addSchool(int checked, const QString &zxdm, const QString &zxmc, int downloaded);
+    static QSqlError addSchool(int checked, const QString &zxdm, const QString &zxmc, int downloaded);
     QSqlError addStudent(const QString &zkh, const QString &name, int gender,
                     const QString &zxmc, const QString &id);
     QSqlError addScore(const QString &zkh,
@@ -24,13 +21,17 @@ public:
                   const QString &errorMsg,
                   const QString &onSiteVide);
 
+    static QSqlError updateSchoolDownloadStatus(const QString &zxdm, int downloaded);
+    static QSqlError updateSchoolCheckedStatus(const QString &zxdm, int checked);
+    static void selectSchoolsChecked(QList<QString> &list);
+    static void checkedAllSchools(bool checked);
 
 signals:
 private:
-    QSqlError initDb();
+//    QSqlError initDb();
 
 
-    void addSchoolPrivate(QSqlQuery &q, int checked,
+    static void addSchoolPrivate(QSqlQuery &q, int checked,
                        const QString &zxdm, const QString &zxmc,
                        int downloaded);
     void addStudentPrivate(QSqlQuery &q, const QString &zkh, const QString &name, int gender,

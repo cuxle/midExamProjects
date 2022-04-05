@@ -36,6 +36,7 @@
 #include "settingdialog.h"
 #include "networkserver.h"
 #include "videowidget.h"
+#include "datamanagerdb.h"
 
 
 #include "singleton.h"
@@ -1018,11 +1019,16 @@ void FormFuncChoose::initSchoolListInterface()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
     m_schoolListModel = new SchoolListTableModel(server.schools(),this);
+    m_schoolListModel->setTable("schools");
+//    m_schoolListModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    m_schoolListModel->select();
     ui->tableViewDataDownload->setModel(m_schoolListModel);
     ui->tableViewDataDownload->horizontalHeader()->setHidden(true);
     ui->tableViewDataDownload->verticalHeader()->setHidden(true);
+    handleResizeSchoolListView();
     connect(&server, &NetWorkServer::sigSchoolDataDownloaded, [&](bool changed){
         m_schoolListModel->updateModel();
+        m_schoolListModel->select();
 //        QTimer::singleShot(500, [&](){
 //            for (int col = 0; col < 4; col++)
 //            {
@@ -1032,13 +1038,19 @@ void FormFuncChoose::initSchoolListInterface()
 
     });
     connect(&server, &NetWorkServer::sigSchoolListDataChanged, [&](){
-        for (int col = 0; col < 4; col++)
-        {
-            ui->tableViewDataDownload->setColumnWidth(col, 250);
-        }
+        handleResizeSchoolListView();
+        m_schoolListModel->select();
     });
     connect(&server, &NetWorkServer::sigSchoolListDataChanged, m_schoolListModel, &SchoolListTableModel::schoolListDataChanged);
 
+}
+
+void FormFuncChoose::handleResizeSchoolListView()
+{
+    for (int col = 0; col < 4; col++)
+    {
+        ui->tableViewDataDownload->setColumnWidth(col, 250);
+    }
 }
 
 void FormFuncChoose::initStudentsListInterface()
@@ -1990,6 +2002,9 @@ void FormFuncChoose::on_tableViewDataDownload_clicked(const QModelIndex &index)
 
 void FormFuncChoose::on_cbCheckAll_clicked(bool checked)
 {
+    DataManagerDb::checkedAllSchools(checked);
+    m_schoolListModel->select();
+    return;
     // check all the school data
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
     for (auto item : server.schools()) {
@@ -2140,4 +2155,3 @@ void FormFuncChoose::on_pbRotateRightLeiDa_released()
 {
     m_turnLidarTimer.stop();
 }
-

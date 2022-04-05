@@ -33,9 +33,10 @@
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QHash>
 #include <QtCore/QRect>
+#include <QSqlTableModel>
 #include "networkserver.h"
 
-class SchoolListTableModel : public QAbstractTableModel
+class SchoolListTableModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
@@ -47,9 +48,6 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    void insertRow(int position, const QModelIndex &parent = QModelIndex());
-    void addMapping(QString color, QRect area);
-    void clearMapping() { m_mapping.clear(); }
 public slots:
     void schoolListDataChanged();
 private:

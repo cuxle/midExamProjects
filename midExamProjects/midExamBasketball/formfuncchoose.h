@@ -212,6 +212,8 @@ private slots:
 
     void setValueRange(const QCPRange &range);
 
+    void handleResizeSchoolListView();
+
 //    void setKeyRange(const QCPRange &range);
 
 public slots:
@@ -235,7 +237,6 @@ private slots:
     void on_pbRotateRightLeiDa_pressed();
 
     void on_pbRotateRightLeiDa_released();
-
 private:
     enum ExamAction {
         ExamStart,

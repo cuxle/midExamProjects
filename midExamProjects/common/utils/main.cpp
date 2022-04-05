@@ -11,6 +11,7 @@
 #include <QProcess>
 #include <QMessageBox>
 #include "license.h"
+#include "initdb.h"
 
 #if TIAOSHENG
 const QString serverName = "server_tiaosheng.exe";
@@ -56,14 +57,16 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    if (!License::verifyLicenseFromFile("./license.lic")) {
-        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
-        return -1;
-    }
+//    if (!License::verifyLicenseFromFile("./license.lic")) {
+//        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
+//        return -1;
+//    }
+
+    initDb();
 
     createDataFolder();
 	
-    Logger::init();
+  //  Logger::init();
 
 
 	

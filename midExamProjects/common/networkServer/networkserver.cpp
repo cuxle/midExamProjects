@@ -8,6 +8,7 @@
 #include "singleton.h"
 #include "appconfig.h"
 #include "datamanager.h"
+#include "datamanagerdb.h"
 
 NetWorkServer::NetWorkServer(QObject *parent)
     : QObject(parent)
@@ -123,16 +124,9 @@ void NetWorkServer::sendGetSchoolListRequest()
 
 void NetWorkServer::sendGetCurrentSchoolStudentsRequest()
 {
-    if (m_schoolsToDownload.isEmpty()) return;
+    if (m_schoolsToDownloadByZxdm.isEmpty()) return;
 
-    School *school = m_schoolsToDownload.front();
-    if (school == nullptr) {
-        return;
-    }
-//    m_schoolToDownload.pop_front();
-
-    QString schoolCode = school->zxdm;
-    if (schoolCode.isEmpty()) return;
+    QString zxdm = m_schoolsToDownloadByZxdm.front();
 
     QString requestTail = "/xuetong/business/biz/host/getCandidate";
 
@@ -140,7 +134,7 @@ void NetWorkServer::sendGetCurrentSchoolStudentsRequest()
     QUrl url(req);
 
     QUrlQuery query;
-    query.addQueryItem("zxdm", schoolCode);
+    query.addQueryItem("zxdm", zxdm);
     url.setQuery(query.query());
 
     QNetworkRequest request(url);
@@ -149,17 +143,48 @@ void NetWorkServer::sendGetCurrentSchoolStudentsRequest()
 //    QNetworkRequest request = makeGetSchoolStudentsRequest(schoolCode);
     m_currentRequest = RequestCurrentSchool;
     QNetworkReply* reply = m_netWorkManager->post(request, "");
-    qDebug() << __func__ << __LINE__ << schoolCode.toUtf8();
     Q_UNUSED(reply);
+    return;
+//    if (m_schoolsToDownload.isEmpty()) return;
+
+//    School *school = m_schoolsToDownload.front();
+//    if (school == nullptr) {
+//        return;
+//    }
+////    m_schoolToDownload.pop_front();
+
+//    QString schoolCode = school->zxdm;
+//    if (schoolCode.isEmpty()) return;
+
+//    QString requestTail = "/xuetong/business/biz/host/getCandidate";
+
+//    QString req = m_base + requestTail;
+//    QUrl url(req);
+
+//    QUrlQuery query;
+//    query.addQueryItem("zxdm", schoolCode);
+//    url.setQuery(query.query());
+
+//    QNetworkRequest request(url);
+//    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json;charset=UTF-8");
+
+////    QNetworkRequest request = makeGetSchoolStudentsRequest(schoolCode);
+//    m_currentRequest = RequestCurrentSchool;
+//    QNetworkReply* reply = m_netWorkManager->post(request, "");
+//    qDebug() << __func__ << __LINE__ << schoolCode.toUtf8();
+//    Q_UNUSED(reply);
 }
 
 void NetWorkServer::sendGetAllSchoolStudentsList()
 {
-    for (auto &item : m_schools) {
-        if (item->checked) {
-            m_schoolsToDownload.push_back(item);
-        }
-    }
+    DataManagerDb::selectSchoolsChecked(m_schoolsToDownloadByZxdm);
+    qDebug() << __func__ << m_schoolsToDownloadByZxdm;
+//    return;
+//    for (auto &item : m_schools) {
+//        if (item->checked) {
+//            m_schoolsToDownload.push_back(item);
+//        }
+//    }
     sendGetCurrentSchoolStudentsRequest();
 }
 
@@ -512,6 +537,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     QJsonValue value = array[i];
                     QJsonObject obj = array[i].toObject();
 
+
                     School *school = new School;
                     school->checked = false;
                     school->id = obj["id"].toInt();
@@ -522,6 +548,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     school->updatedTime = obj["updateTime"].toString();
                     school->zxmc = obj["zxmc"].toString();
                     school->status = 0;
+                    DataManagerDb::addSchool(0, school->zxdm, school->zxmc, school->status);
                     m_schools.append(school);
                     emit sigSchoolListDataChanged();
                 }
@@ -539,6 +566,34 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         {
             if (success) {
                 // parse one school student
+                QString zxdm = m_schoolsToDownloadByZxdm.front();
+                DataManagerDb::updateSchoolDownloadStatus(zxdm, 1);
+                emit sigSchoolDataDownloaded(true);
+                m_schoolsToDownloadByZxdm.pop_front();
+
+                if (!m_schoolsToDownloadByZxdm.isEmpty()) {
+                    sendGetCurrentSchoolStudentsRequest();
+                } else {
+                    return;
+                    // save received students data into json file
+                    if (m_studentArray.size() != 0) {
+                        QString appPath = QDir::currentPath();
+
+
+                        QJsonObject studentObj;
+                        studentObj["students"] = m_studentArray;
+
+                        QJsonDocument studentDoc;
+                        studentDoc.setObject(studentObj);
+
+                        DataManager &manager = Singleton<DataManager>::GetInstance();
+                        QString totalStudentsFileName = manager.m_basePath + "/data/totalStudents.json";
+                        manager.saveJsonToFile(studentDoc.toJson(), totalStudentsFileName);
+                        manager.initReadTotalStudents();
+                    }
+                }
+
+                return;
                 m_schoolsToDownload.front()->status = 1; // loaded
                 m_schoolsToDownload.pop_front();
 

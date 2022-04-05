@@ -76,6 +76,7 @@ public:
     void sendUploadStudentScore();
 
     QQueue<School *> m_schoolsToDownload;
+    QQueue<QString> m_schoolsToDownloadByZxdm;
     QList<School *> &schools();
 
     bool isLogin() const;
