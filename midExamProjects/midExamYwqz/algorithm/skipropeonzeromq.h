@@ -19,6 +19,7 @@ public:
 signals:
     void sigSkipCountChanged(int);
     void sigContinueRun();
+    void sigPlayDingSound();
 
 public slots:
     void init();

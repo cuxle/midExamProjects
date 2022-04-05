@@ -147,6 +147,7 @@ void FormFuncChoose::initSkipRopeZeroMq()
     connect(this, &FormFuncChoose::sigStartCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::startCount);
     connect(this, &FormFuncChoose::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
     connect(m_skipRopeZeroMq, &SkipRopeOnZeroMq::sigSkipCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
+    connect(m_skipRopeZeroMq, &SkipRopeOnZeroMq::sigPlayDingSound, this, &FormFuncChoose::handlePlayDingSound);
 }
 
 void FormFuncChoose::initUi()

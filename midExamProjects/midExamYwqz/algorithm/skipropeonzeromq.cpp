@@ -129,10 +129,12 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
 
         QDateTime baseTime = QDateTime::currentDateTime();
 
-//        SHAREDMEMORY sharedmem;
+        //        SHAREDMEMORY sharedmem;
 
         if (sharedmem.state == INITSUCCESS)
         {
+            bool ding = false;
+
             sharedmem.SendMat(frame, FRAME_NUMBER);
 
             std::string Model = "3";
@@ -140,12 +142,28 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
             char get_data[10] = { 0 };
             memset(get_data, 0x00, 10);
             zmq_recv(responder, get_data, 10, 0);
-//            qDebug() << __func__ << __LINE__ << "after get data";
+
             if (get_data[0] == '-') {
-//                qDebug() << "skip rope run filed, restart couter program";
+                qDebug() << "skip rope run filed, restart couter program";
+            } else {
+                if(get_data[0] == '0' && get_data[1] != '0')
+                {
+                    ding = true;
+                } else {
+                    // count 是当前帧传递后获得的计数返回值
+                    // m_count 应该是一个全局的计数值，只有计数变化时才修改
+                    int count = strtol(get_data, NULL, 10);
+                    if(count > m_count)
+                    {
+                        ding = true;
+                        m_count = count;
+                    }
+                }
             }
-            else{
-                m_count = strtol(get_data, NULL, 10);
+
+            if(ding) {
+                //调用声音
+                emit sigPlayDingSound();
             }
         }
         emit sigSkipCountChanged(m_count);
@@ -175,20 +193,39 @@ void SkipRopeOnZeroMq::handleReceiveImage2(cv::Mat image)
 
 //        SHAREDMEMORY sharedmem;
 
-        if (sharedmem.state == INITSUCCESS)
-        {
-            sharedmem.SendMat(image, FRAME_NUMBER);
+        if (sharedmem.state == INITSUCCESS) {
+            bool ding = false;
+
+//            qDebug() << __func__ << __LINE__;
+            sharedmem.SendMat(mat, FRAME_NUMBER);
 
             std::string Model = "3";
             zmq_send(responder, Model.data(), 1, 0);
             char get_data[10] = { 0 };
             memset(get_data, 0x00, 10);
             zmq_recv(responder, get_data, 10, 0);
+
             if (get_data[0] == '-') {
                 qDebug() << "skip rope run filed, restart couter program";
+            } else {
+                if(get_data[0] == '0' && get_data[1] != 0x00)
+                {
+                    ding = true;
+                } else {
+                    // count 是当前帧传递后获得的计数返回值
+                    // m_count 应该是一个全局的计数值，只有计数变化时才修改
+                    int count = strtol(get_data, NULL, 10);
+                    if(count > m_count)
+                    {
+                        ding = true;
+                        m_count = count;
+                    }
+                }
             }
-            else{
-                m_count = strtol(get_data, NULL, 10);
+
+            if(ding) {
+                //调用声音
+                emit sigPlayDingSound();
             }
         }
         //m_count = m_ropeSkiplib->CountSkipRope(mat.rows, mat.cols, mat.data);
