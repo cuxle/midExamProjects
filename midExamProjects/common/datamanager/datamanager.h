@@ -4,23 +4,24 @@
 #include <QObject>
 #include <QHash>
 #include <QQueue>
-#include <TmpStudent.h>
+#include <Student.h>
+#include "datamanagerdb.h"
 
-struct ExampProject {
-    QString name;
-    QString value;
-    QString unit;
-    QString type;
-    bool valid = false;
-};
+//struct ExamProject {
+//    QString name;
+//    QString value;
+//    QString unit;
+//    QString type;
+//    bool valid = false;
+//};
 
-struct IDCode {
-    QString id;
-    QString code;
-    bool operator == (const IDCode &idcode) {
-        return id == idcode.id && code == idcode.code;
-    }
-};
+//struct IDCode {
+//    QString id;
+//    QString code;
+//    bool operator == (const IDCode &idcode) {
+//        return id == idcode.id && code == idcode.code;
+//    }
+//};
 
 class DataManager : public QObject
 {
@@ -40,17 +41,17 @@ public:
     void updateIdCode(const QString &id, const QString &code);
     void initDataBase();
     // zkh, student
-    QHash<QString, TmpStudent*> m_totalStudents;  // read from total students json file
-    QList<TmpStudent*> m_localExamedStudents;
-    TmpStudent *m_curStudent;
+    QHash<QString, Student*> m_totalStudents;  // read from total students json file
+    QList<Student*> m_localExamedStudents;
+    Student *m_curStudent;
 
-    QHash<QString, ExampProject> m_examProjects;
-    QQueue<TmpStudent*> m_uploadStudentQueue;
-    ExampProject m_curExamInfo;
+    QHash<QString, ExamProject> m_examProjects;
+    QQueue<Student*> m_uploadStudentQueue;
+    ExamProject m_curExamInfo;
 
-    QList<IDCode> m_idCodes;
     IDCode m_curIdCode;
 
+    QList<IDCode> m_idCodes;
     QString m_basePath;
 };
 

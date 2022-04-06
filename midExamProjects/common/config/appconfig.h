@@ -41,7 +41,7 @@ public:
     QString m_probeSize;
     QString m_probeSensitive;
     QString m_baseFrameRefreshSensitive;
-#if FOOTBALL
+#if defined(FOOTBALL) || defined(BASKETBALL)
     float m_radius = 0.2f;
     float m_clusterTolerance = 0.5;
     int m_minClusterSize = 5;

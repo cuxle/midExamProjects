@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include "singleton.h"
 #include "datamanager.h"
+#include "datamanagerdb.h"
 #include "appconfig.h"
 
 #if defined(YTXS) || defined(TIAOSHENG)
@@ -142,7 +143,7 @@ void FormLogin::on_pbLoginOnline_clicked()
 //    QString id = ui->leUserNameLogin->text();
     QString code = ui->leUserCode->text();
 
-    DataManager &dataManager = Singleton<DataManager>::GetInstance();
+    DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
     dataManager.updateIdCode(id, code);
 
     initMainFrm(true);

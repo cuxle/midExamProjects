@@ -12,7 +12,7 @@
 //#include "algorithm/situpinterface.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
-#include "TmpStudent.h"
+#include "Student.h"
 #include "algorithm/volleyballworker.h"
 
 class Camera;
@@ -324,7 +324,7 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     TmpStudent *m_curTmpStudent = nullptr;
+     Student *m_curTmpStudent = nullptr;
 
      LocalStudentTableModel *m_studentsModel = nullptr;
      int m_examCount = 1;

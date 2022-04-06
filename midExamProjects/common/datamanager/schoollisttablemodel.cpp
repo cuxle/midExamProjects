@@ -70,14 +70,14 @@ QVariant SchoolListTableModel::data(const QModelIndex &index, int role) const
         QColor color = Qt::white;
         return QVariant::fromValue(color);
     } else if (role == Qt::CheckStateRole && index.column() == 0) {
-        qDebug() << __func__ << __LINE__ << index.row() << index.column() << QSqlTableModel::data(index, role).toInt();
+//        qDebug() << __func__ << __LINE__ << index.row() << index.column() << QSqlTableModel::data(index, role).toInt();
         return (QSqlTableModel::data(index, Qt::DisplayRole).toInt() == 0) ? Qt::Unchecked : Qt::Checked;
     } else if (role == Qt::DisplayRole) {
         switch (index.column()) {
         case 0:
         {
             int c = QSqlTableModel::data(index, role).toInt();
-            qDebug() << __func__ << __LINE__ << c;
+//            qDebug() << __func__ << __LINE__ << c;
             return (c == 0) ? QString("未选中") : QString("选中");
         }
 

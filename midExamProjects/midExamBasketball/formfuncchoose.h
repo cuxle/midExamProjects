@@ -9,7 +9,7 @@
 //#include "socket/client.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
-#include "TmpStudent.h"
+#include "Student.h"
 #include "qcustomplot.h"
 
 #pragma   push_macro("min")
@@ -413,11 +413,13 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     TmpStudent *m_curTmpStudent = nullptr;
+     Student *m_curTmpStudent = nullptr;
+     Student m_curStudent;
 
      LocalStudentTableModel *m_studentsModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
+     QString m_examProjectName;
      QLabel *m_curScoreLabel = nullptr;
      QLabel *m_preScoreLabel = nullptr;
      QFont m_choosenFont;

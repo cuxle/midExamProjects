@@ -964,6 +964,10 @@ void FormFuncChoose::resetSkipCounterDisply()
     // 2.清零计数
     m_skipCountFromDll = 0;
 
+    ui->lbScoreFirst->setText(QString::number(0));
+    ui->lbScoreSecond->setText(QString::number(0));
+    ui->lbScoreThird->setText(QString::number(0));
+
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setText(QString::number(0));
         if (m_curScoreLabel == ui->lbScoreFirst) {
@@ -1884,8 +1888,6 @@ void FormFuncChoose::on_pbDecreaseScore_clicked()
 
 void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
 {
-    clearStudentUiInfo();
-
     // clear last time score info
     resetSkipCounterDisply();
 
@@ -1896,66 +1898,43 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
 
     // total aim: create an exam student
     m_currentUserId = ui->leUserId->text();
-    if (m_currentUserId.isEmpty()) return;
-
-    DataManager &manager = Singleton<DataManager>::GetInstance();
-    // m_curTmpStudent == nullptr means this student has finished score
-    // input id
-    if (m_curTmpStudent != nullptr) {
-        if (m_currentUserId != m_curTmpStudent->zkh) {
-            delete m_curTmpStudent;
-            m_curTmpStudent = nullptr;
-        }
-    }
-    if (m_curTmpStudent == nullptr) {
-        m_curTmpStudent = new TmpStudent;
-        m_curTmpStudent->zkh = m_currentUserId;
-        m_curTmpStudent->uploadStatus = 0; // 未上传
-        m_curTmpStudent->isOnline = m_isLogin;
-        m_curTmpStudent->examProjectName = manager.m_curExamInfo.name;
-        m_curTmpStudent->examCount = m_examCount;
+    if (m_currentUserId.isEmpty()) {
+        QMessageBox::warning(nullptr, "警告:", "请输入考生考号！");
+        return;
     }
 
-    if (m_curTmpStudent != nullptr) {
-        // update ui info
-        if (manager.m_totalStudents.contains(m_currentUserId)) {
-            TmpStudent *tmpStudent = manager.m_totalStudents[m_currentUserId];
-            m_curTmpStudent->gender = tmpStudent->gender;
-            m_curTmpStudent->name = tmpStudent->name;
-            m_curTmpStudent->zxmc = tmpStudent->zxmc;
-            m_curTmpStudent->id = tmpStudent->id;
-            ui->leUserName->setText(m_curTmpStudent->name);
-            ui->leUserGender->setText(m_curTmpStudent->gender == 1 ? "男" : "女");
-            ui->leUserSchool->setText(m_curTmpStudent->zxmc);
-            qDebug() << __func__ << __LINE__ << m_curTmpStudent->id << " assign id:" << tmpStudent->id;
-        } else {
-            clearStudentUiInfo();
-        }
-    }
-
-
-
-//    TmpStudent *student = new TmpStudent;
-//    student->zkh = m_currentUserId;
-//    student->uploadStatus = 0; // 未上传
-//    student->isOnline = m_isLogin;
-//    student->examProjectName = manager.m_curExamInfo.name;
-//    student->examCount = m_examCount;
-//    if (manager.m_totalStudents.contains(m_currentUserId)) {
-//        TmpStudent *tmpStudent = manager.m_totalStudents[m_currentUserId];
-//        student->gender = tmpStudent->gender;
-//        student->name = tmpStudent->name;
-//        student->zxmc = tmpStudent->zxmc;
-//        student->id = tmpStudent->id;
-//        ui->leUserName->setText(student->name);
-//        ui->leUserGender->setText(student->gender == 1 ? "男" : "女");
-//        ui->leUserSchool->setText(student->zxmc);
-//        qDebug() << __func__ << __LINE__ << student->id << " assign id:" << tmpStudent->id;
+//    DataManager &manager = Singleton<DataManager>::GetInstance();
+//    // m_curTmpStudent == nullptr means this student has finished score
+//    // input id
+//    if (m_curTmpStudent != nullptr) {
+//        if (m_currentUserId != m_curTmpStudent->zkh) {
+//            delete m_curTmpStudent;
+//            m_curTmpStudent = nullptr;
+//        }
 //    }
-    // put in score finish action
-//    manager.m_localExamedStudents.push_front(student);
-//    manager.m_uploadStudentQueue.push_back(student);
-    // 单次上传，放入queue中; 3min的timer 上传需要读取本地文件，所有未上传的student都放在queue中
+    if (m_curStudent.zkh == m_currentUserId) {
+        return;
+    }
+    m_curStudent.zkh = m_currentUserId;
+    Student student = DataManagerDb::selectStudentByZkh(m_currentUserId);
+    if (student.isValid) {
+        m_curStudent.name = student.name;
+        m_curStudent.gender = student.gender;
+        m_curStudent.zxdm = student.zxdm;
+        m_curStudent.zxmc = student.zxmc;
+        m_curStudent.id = student.id;
+        m_curStudent.uploadStatus = 0;
+        m_curStudent.isOnline = m_isLogin;
+        DataManagerDb manager = Singleton<DataManagerDb>::GetInstance();
+        m_curStudent.examProjectName = manager.m_curExamInfo.name;
+        m_curStudent.examCount = m_examCount;
+        qDebug() << __func__ << __LINE__ << m_curStudent.examProjectName;
+        ui->leUserName->setText(m_curStudent.name);
+        ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
+        ui->leUserSchool->setText(m_curStudent.zxmc);
+    } else {
+        clearStudentUiInfo();
+    }
 }
 
 
@@ -2030,7 +2009,7 @@ void FormFuncChoose::on_pbGetSchoolList_clicked()
     if (m_isLogin) {
         // send to server get list of all schools
         NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-        server.m_isOnlyLogin = false;
+        server.m_isOnlyLogin = true;
         server.sendLoginInCmdRequest();
         QTimer::singleShot(2000, [&](){
             server.sendGetSchoolListRequest();

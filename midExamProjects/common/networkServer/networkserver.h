@@ -12,7 +12,7 @@
 #include <QQueue>
 #include <QHttpMultiPart>
 
-#include "TmpStudent.h"
+#include "Student.h"
 
 // TODO 1. add login function
 // TODO 2. add download school catgray function

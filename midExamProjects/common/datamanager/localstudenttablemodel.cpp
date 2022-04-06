@@ -5,7 +5,7 @@
 #include <QFont>
 #include <QColor>
 
-LocalStudentTableModel::LocalStudentTableModel(QList<TmpStudent*> &students, QObject *parent) :
+LocalStudentTableModel::LocalStudentTableModel(QList<Student*> &students, QObject *parent) :
     QAbstractTableModel(parent),
     m_students(students)
 {

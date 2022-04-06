@@ -26,7 +26,7 @@
 #define     CAMERA_WIHTE_BALANCE    "Continuous"
 #define     CAMERA_GAIN_MODE        "Continuous"
 #define     FRAME_WIDTH             1280
-#define     FRAME_HEIGHT            960
+#define     FRAME_HEIGHT            1024
 
 
 #elif PAIQIU
@@ -40,6 +40,13 @@
 
 #elif FOOTBALL
 
+#define     CAMERA_FRAME_RATE       25
+#define     CAMERA_EXPOSE_TIME      10000.000
+#define     CAMERA_WIHTE_BALANCE    "Continuous"
+#define     CAMERA_GAIN_MODE        "Continuous"
+#define     FRAME_WIDTH             1280
+#define     FRAME_HEIGHT            1024
+#elif BASKETBALL
 #define     CAMERA_FRAME_RATE       25
 #define     CAMERA_EXPOSE_TIME      10000.000
 #define     CAMERA_WIHTE_BALANCE    "Continuous"

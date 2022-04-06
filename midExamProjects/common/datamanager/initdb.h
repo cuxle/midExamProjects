@@ -56,14 +56,20 @@
 //    m_dataManager = new DataManagerDb;
 
 const auto STUDENTS_SQL =  QLatin1String(R"(
-        create table students(id integer primary key, zkh varchar, name varchar,  gender int, zxdm vchar, zxmc vchar))");
+        create table students(zkh varchar(20), name varchar(20),  gender integer, zxdm varchar(20), zxmc varchar(20), id varchar(30)))");
 
 const auto SCHOOLS_SQL =  QLatin1String(R"(
-        create table schools(checked integer, zxdm varchar, zxmc varchar, downloaded integer))");
+        create table schools(checked integer, zxdm varchar(10) unique, zxmc varchar(15), downloaded integer))");
 
+const auto EXAMPROJECTS_SQL =  QLatin1String(R"(
+        create table examprojects(name varchar(15), type varchar(15), unit varchar(15), value varchar(20)))");
+
+const auto INSERT_EXAMPROJECT_SQL = QLatin1String(R"(
+        insert into examprojects(name, type, unit, value)
+                          values(?, ?, ?, ?))");
 
 const auto INSERT_STUDENT_SQL = QLatin1String(R"(
-        insert into students(zkh, year, name, gender, zxdm, zxmc)
+        insert into students(id, zkh, name, gender, zxdm, zxmc)
                           values(?, ?, ?, ?, ?, ?))");
 
 const auto INSERT_SCHOOL_SQL = QLatin1String(R"(
@@ -71,22 +77,21 @@ const auto INSERT_SCHOOL_SQL = QLatin1String(R"(
                           values(?, ?, ?, ?))");
 
 const auto SCORES_SQL = QLatin1String(R"(
-        create table scores(id integer primary key,
-        zkh varchar,
-        name varchar,
+        create table scores(zkh varchar(20),
+        name varchar(10),
         gender interger,
-        project varchar
-        firstScore varchar,
-        secondScore varchar,
-        thirdScore varchar,
-        examTime varchar,
-        uploadStatus int,
-        errorMsg varchar,
-        onSiteVideo varchar))");
+        project varchar(10)
+        firstScore integer,
+        secondScore integer,
+        thirdScore integer,
+        examTime DATE,
+        uploadStatus integer,
+        errorMsg varchar(40),
+        onSiteVideo varchar(40)))");
 
 const auto INSERT_SCORE_SQL = QLatin1String(R"(
         insert into scores(zkh, name, gender, project, firstScore, secondScore, thirdScore,
-                           examTime, uploadStatus, errorMsg, onSiteVide)
+                           examTime, uploadStatus, errorMsg, onSiteVideo)
                            values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
 
 
@@ -102,9 +107,11 @@ void initDb()
     }
 
     QStringList tables = db.tables();
+    qDebug() << __func__ <<  __LINE__ << tables;
     if (tables.contains("studetns", Qt::CaseInsensitive)
             && tables.contains("schools", Qt::CaseInsensitive)
-            && tables.contains("scores", Qt::CaseInsensitive)) {
+            && tables.contains("scores", Qt::CaseInsensitive)
+            && tables.contains("examprojects", Qt::CaseInsensitive)) {
         qDebug() << db.lastError().text();
         return;
     }
@@ -114,13 +121,16 @@ void initDb()
         //        qDebug() << q.exec("insert into schools values(1, 2, '1234', 'abc', 0)");
         //        qDebug() << q.exec("insert into schools values(3, 3, '1234', 'abc', 0)");
         //        qDebug() << q.exec("insert into schools values(4, 4, '1234', 'abc', 0)");
-        qDebug() << __LINE__ << q.lastError().text();
+        qDebug() << __func__ <<  __LINE__ << q.lastError().text();
     }
 
+    if (!q.exec(EXAMPROJECTS_SQL))
+        qDebug() << __func__ << __LINE__ << q.lastError().text();
     if (!q.exec(STUDENTS_SQL))
-        qDebug() << __LINE__ << q.lastError().text();
+        qDebug() << __func__ << __LINE__ << q.lastError().text();
     if (!q.exec(SCORES_SQL))
-        qDebug() << __LINE__ << q.lastError().text();
+        qDebug() << __func__ << __LINE__ << q.lastError().text();
+
 
 }
 #endif

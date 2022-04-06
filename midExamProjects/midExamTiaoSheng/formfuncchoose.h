@@ -12,7 +12,7 @@
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
-#include "TmpStudent.h"
+#include "Student.h"
 
 class Camera;
 class QThread;
@@ -306,7 +306,7 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     TmpStudent *m_curTmpStudent = nullptr;
+     Student *m_curTmpStudent = nullptr;
 
      LocalStudentTableModel *m_studentsModel = nullptr;
      int m_examCount = 1;

@@ -1899,7 +1899,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         }
     }
     if (m_curTmpStudent == nullptr) {
-        m_curTmpStudent = new TmpStudent;
+        m_curTmpStudent = new Student;
         m_curTmpStudent->zkh = m_currentUserId;
         m_curTmpStudent->uploadStatus = 0; // 未上传
         m_curTmpStudent->isOnline = m_isLogin;
@@ -1910,7 +1910,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     if (m_curTmpStudent != nullptr) {
         // update ui info
         if (manager.m_totalStudents.contains(m_currentUserId)) {
-            TmpStudent *tmpStudent = manager.m_totalStudents[m_currentUserId];
+            Student *tmpStudent = manager.m_totalStudents[m_currentUserId];
             m_curTmpStudent->gender = tmpStudent->gender;
             m_curTmpStudent->name = tmpStudent->name;
             m_curTmpStudent->zxmc = tmpStudent->zxmc;

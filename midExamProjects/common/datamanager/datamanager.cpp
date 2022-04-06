@@ -60,7 +60,7 @@ void DataManager::initReadTotalStudents()
         QString xctyxm1 = oobj["xctyxm1"].toString();
         QString xctyxm2 = oobj["xctyxm2"].toString();
 
-        TmpStudent *student = new TmpStudent;
+        Student *student = new Student;
         QJsonObject obj = array[i].toObject();
         student->zkh = obj["zkh"].toString();
         student->name = obj["name"].toString();
@@ -99,7 +99,7 @@ void DataManager::initReadLocalStudents()
         QString xctyxm1 = oobj["xctyxm1"].toString();
         QString xctyxm2 = oobj["xctyxm2"].toString();
 
-        TmpStudent *student = new TmpStudent;
+        Student *student = new Student;
         QJsonObject obj = array[i].toObject();
         student->zkh = obj["zkh"].toString();
         student->name = obj["name"].toString();
@@ -180,7 +180,7 @@ void DataManager::parseExamProjectJsonDoc(const QJsonDocument &doc)
     QJsonArray array = obj["data"].toArray();
     for (int i = 0; i < array.size(); i++) {
         QJsonObject oobj = array[i].toObject();
-        ExampProject localExamProject;
+        ExamProject localExamProject;
         localExamProject.name = oobj["name"].toString();
         localExamProject.type = oobj["type"].toString();
         localExamProject.unit = oobj["unit"].toString();
@@ -200,7 +200,7 @@ void DataManager::saveLocalStudents()
     QJsonArray array;
     for (int i = 0; i < m_localExamedStudents.size(); i++) {
         QJsonObject localObj;
-        TmpStudent *student = m_localExamedStudents.at(i);
+        Student *student = m_localExamedStudents.at(i);
         localObj["zkh"] = student->zkh;
         localObj["name"] = student->name;
         localObj["gender"] = student->gender;
@@ -285,6 +285,8 @@ QJsonDocument DataManager::readJsonToJsonDoc(const QString &fileName)
 
 void DataManager::updateIdCode(const QString &id, const QString &code)
 {
+    qDebug() << __func__ << __LINE__ << id;
+    qDebug() << __func__ << __LINE__ << code;
     m_curIdCode.id = id;
     m_curIdCode.code = code;
     if (!m_idCodes.contains(m_curIdCode)) {

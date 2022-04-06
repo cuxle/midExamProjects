@@ -3,11 +3,11 @@ INCLUDEPATH += $$PWD
 QT += sql
 
 HEADERS +=  $$PWD/datamanager.h \
+    $$PWD/Student.h \
     $$PWD/datamanagerdb.h \
 			$$PWD/schoollisttablemodel.h \
 			$$PWD/scoremanagemodel.h \
                         $$PWD/localstudenttablemodel.h \
-                        $$PWD/TmpStudent.h \
                         $$PWD/initdb.h
 
 			

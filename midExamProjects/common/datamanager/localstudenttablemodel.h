@@ -6,7 +6,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QRect>
 #include "networkserver.h"
-#include "TmpStudent.h"
+#include "Student.h"
 
 enum TableColumn {
     Zkh,
@@ -27,7 +27,7 @@ class LocalStudentTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit LocalStudentTableModel(QList<TmpStudent*> &schools, QObject *parent = 0);
+    explicit LocalStudentTableModel(QList<Student*> &schools, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -42,7 +42,7 @@ public:
 public slots:
     void schoolListDataChanged();
 private:
-    QList<TmpStudent*> &m_students;
+    QList<Student*> &m_students;
     QList<QVector<qreal> * > m_data;
     QHash<QString, QRect> m_mapping;
     int m_columnCount;

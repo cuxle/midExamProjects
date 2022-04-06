@@ -78,6 +78,7 @@ void NetWorkServer::sendExamProjectRequest()
     QNetworkRequest request = makeExamProjectRequst();
     m_currentRequest = RequestExamProject;
     QNetworkReply* reply = m_netWorkManager->get(request);
+    qDebug() << __func__ << __LINE__;
     Q_UNUSED(reply);
 }
 
@@ -99,7 +100,7 @@ void NetWorkServer::sendHeartBeatRequst()
 
 void NetWorkServer::sendLoginInCmdRequest()
 {
-    DataManager &manager = Singleton<DataManager>::GetInstance();
+    DataManagerDb &manager = Singleton<DataManagerDb>::GetInstance();
 
     QJsonDocument doc;
     QJsonObject obj;
@@ -107,6 +108,9 @@ void NetWorkServer::sendLoginInCmdRequest()
     obj["userName"] = manager.m_curIdCode.id;
     obj["password"] = manager.m_curIdCode.code;
     doc.setObject(obj);
+
+    qDebug() << __func__ << __LINE__ << manager.m_curIdCode.id;
+    qDebug() << __func__ << __LINE__ << manager.m_curIdCode.code;
 
     QNetworkRequest request = makeLoginRequest();
     m_currentRequest = RequestLoginIn;
@@ -119,6 +123,7 @@ void NetWorkServer::sendGetSchoolListRequest()
     QNetworkRequest request = makeGetSchoolListRequest();
     m_currentRequest = RequestSchoolList;
     QNetworkReply* reply = m_netWorkManager->get(request);
+    qDebug() << __func__ << __LINE__ ;
     Q_UNUSED(reply);
 }
 
@@ -270,7 +275,7 @@ void NetWorkServer::sendUploadStudentScore()
         QJsonValue value;
         // get devName from appconfig
         AppConfig &config = Singleton<AppConfig>::GetInstance();
-        TmpStudent *curStudent = dataManager.m_uploadStudentQueue.front();
+        Student *curStudent = dataManager.m_uploadStudentQueue.front();
         if (curStudent == nullptr) {
             qDebug() << __func__ << __LINE__ << "curStudent is null";
             return;
@@ -489,17 +494,18 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         switch (m_currentRequest) {
         case RequestLoginIn:
         {
-            m_isLogin = success;
-            m_loginTime = jsonObject["time"].toString();
+            if (success) {
+                m_isLogin = success;
+                m_loginTime = jsonObject["time"].toString();
 
-            // parse token
-            QJsonObject obj = jsonObject["data"].toObject();
-            m_tokenValue = obj["token"].toString();
+                // parse token
+                QJsonObject obj = jsonObject["data"].toObject();
+                m_tokenValue = obj["token"].toString();
 
-            qDebug() << "m_isLogin:" << m_isLogin;
-            qDebug() << "m_loginTime:" << m_loginTime;
-            qDebug() << "m_currentToken:" << m_tokenValue;
-            if (m_isLogin) {
+                qDebug() << __func__ << __LINE__ << "m_isLogin:" << m_isLogin;
+                qDebug() << __func__ << __LINE__ << "m_loginTime:" << m_loginTime;
+                qDebug() << __func__ << __LINE__ << "m_currentToken:" << m_tokenValue;
+
                 m_loginFailTimes = 0;
                 if (!m_isOnlyLogin) {
                     sendUploadStudentScore();
@@ -761,14 +767,15 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         }
         case RequestExamProject:
         {
+            qDebug() << __func__ << __LINE__;
             // success: true
             if (success) {
                 m_requestExamProjectFailedTimes = 0;
                 // parse exam project to DataManager
-                DataManager &dataManager = Singleton<DataManager>::GetInstance();
+                DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
                 dataManager.parseExamProjectJsonDoc(jsonResponse);
-                QString saveName = "/data/localExamProjects.json";
-                dataManager.saveJsonToFile(jsonResponse.toJson(), dataManager.m_basePath + saveName);
+//                QString saveName = "/data/localExamProjects.json";
+//                dataManager.saveJsonToFile(jsonResponse.toJson(), dataManager.m_basePath + saveName);
                 // start heart beat
                 // another option, no use timer, just use logic between services
 //                if (m_isLogin) {
@@ -795,7 +802,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
 //            qDebug() << __func__ << __LINE__ << "response:" << jsonResponse;
             if (success) {
                 // upload one student score success
-                TmpStudent *student = dataManager.m_uploadStudentQueue.front();
+                Student *student = dataManager.m_uploadStudentQueue.front();
                 QJsonObject dataObj = jsonObject["data"].toObject();
                 student->uploadStatus = dataObj["uploadStatus"].toInt(); // upload 1 success 0 failed
                 dataManager.m_uploadStudentQueue.pop_front();
