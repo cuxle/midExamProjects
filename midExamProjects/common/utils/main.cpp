@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 
 	
 #if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
-    initAlgorithmServer();
+    // initAlgorithmServer();
 #endif
 
     QFile file("://resource/exam.qss");
