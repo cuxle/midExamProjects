@@ -211,7 +211,7 @@ void SkipRopeOnZeroMq::handleReceiveImage2(cv::Mat image)
             } else {
                 if(get_data[0] == '0' && get_data[1] != 0x00)
                 {
-                    ding = true;
+//                    ding = true;
                 } else {
                     // count 是当前帧传递后获得的计数返回值
                     // m_count 应该是一个全局的计数值，只有计数变化时才修改
