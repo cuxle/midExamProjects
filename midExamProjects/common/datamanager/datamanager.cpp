@@ -86,6 +86,7 @@ void DataManager::initReadTotalStudents()
 
 void DataManager::initReadLocalStudents()
 {
+    // read all students in queue
     return;
 //    m_uploadStudentQueue.clear();
 //    m_localExamedStudents.clear();

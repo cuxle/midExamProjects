@@ -34,15 +34,16 @@ FormLogin::FormLogin(QWidget *parent) :
 
 //    connect(&server, &NetWorkServer::sigLoginStateChanged, this, &FormLogin::hanldeLoginStateChanged);
     ui->cmbUserId->lineEdit()->setPlaceholderText("请输入用户名");
+
     QFont font;
     font.setFamily(QString::fromUtf8("Microsoft YaHei"));
     font.setPixelSize(18);
+
     ui->cmbUserId->lineEdit()->setFont(font);
     ui->leUserCode->setFont(font);
+
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-    qDebug() <<  __func__ << __LINE__ << appconfig.m_userNameslist.size();
     for (auto &item : appconfig.m_userNameslist) {
-        qDebug() << item << __func__ << __LINE__;
         ui->cmbUserId->addItem(item);
     }
 }
@@ -147,9 +148,6 @@ void FormLogin::on_pbLoginOnline_clicked()
     dataManager.updateIdCode(id, code);
 
     initMainFrm(true);
-//    NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-//    // send login post
-//    server.sendLoginInCmdRequest(id, code);
 }
 
 void FormLogin::updateUserNameListInfo(const QString &arg1)
@@ -161,5 +159,4 @@ void FormLogin::updateUserNameListInfo(const QString &arg1)
         appconfig.m_userNameslist.removeOne(arg1);
         appconfig.m_userNameslist.push_front(arg1);
     }
-    qDebug() << __func__ << __LINE__ << arg1 << appconfig.m_userNameslist;
 }

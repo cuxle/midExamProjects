@@ -49,31 +49,36 @@ struct ArbitrationEntity {
     int type;
 };
 
+
 class NetWorkServer : public QObject
 {
+
+    Q_OBJECT
+public:
     enum RequestType{
         RequestLoginIn,
         RequestSchoolList,
-        RequestCurrentSchool,
-        RequestSendScore,
+        RequestCheckedSchoolStudents,
+        RequestCurrentSchoolStudents,
         RequestArbitrationList,
         RequestUploadArbitrationVideo,
         RequestHeartBeat,
         RequestExamProject,
+        RequestUploadAllExamedStudentScore,
         RequestUploadStudentScore,
         RequestInvalid
     };
-    Q_OBJECT
-public:
+
     explicit NetWorkServer(QObject *parent = nullptr);
     ~NetWorkServer();
-
+    void requestFor(RequestType type);
     void sendLoginInCmdRequest();
     void sendGetSchoolListRequest();
     void sendGetCurrentSchoolStudentsRequest();
 //    void sendGetCurrentSchoolStudentsRequest(QString schoolCode);
     void sendGetAllSchoolStudentsList();
     void sendUploadStudentScore();
+    void sendUploadAllExamedStudentScore();
 
     QQueue<School *> m_schoolsToDownload;
     QQueue<QString> m_schoolsToDownloadByZxdm;
@@ -104,6 +109,8 @@ private:
     QNetworkRequest makeHeartBeatRequst();
     QNetworkRequest makeExamProjectRequst();
     QNetworkRequest makeUploadStudentScore();
+
+    void handleNextRequest(RequestType type);
 
     void sendExamProjectRequest();
     void sendUploadArbitrationInfoRequst();
@@ -155,7 +162,9 @@ private:
     int m_requestArbitrationListFailedTimes = 0;
     int m_requestUploadArbitrationVideoFailTimes = 0;
     int m_requestHeartBeatFailTimes = 0;
-    int m_loginFailTimes = 0;    
+    int m_loginFailTimes = 0;
+
+    RequestType m_nextRequest = RequestInvalid;
 };
 
 #endif // NETWORKSERVER_H

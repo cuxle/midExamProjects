@@ -52,6 +52,8 @@
 #define INITDB_H
 
 #include <QtSql>
+#include "appconfig.h"
+#include "singleton.h"
 
 //    m_dataManager = new DataManagerDb;
 
@@ -60,6 +62,13 @@ const auto STUDENTS_SQL =  QLatin1String(R"(
 
 const auto SCHOOLS_SQL =  QLatin1String(R"(
         create table schools(checked integer, zxdm varchar(10) unique, zxmc varchar(15), downloaded integer))");
+
+const auto IDS_SQL =  QLatin1String(R"(
+        create table ids(id varchar(10) unique))");
+
+const auto INSERT_IDS_SQL = QLatin1String(R"(
+        insert into ids(id)
+                    values(?))");
 
 const auto EXAMPROJECTS_SQL =  QLatin1String(R"(
         create table examprojects(name varchar(15), type varchar(15), unit varchar(15), value varchar(20)))");
@@ -78,6 +87,7 @@ const auto INSERT_SCHOOL_SQL = QLatin1String(R"(
 
 const auto SCORES_SQL = QLatin1String(R"(
         create table scores(zkh varchar(20),
+        id varchar(30),
         name varchar(10),
         gender interger,
         project varchar(10),
@@ -87,6 +97,7 @@ const auto SCORES_SQL = QLatin1String(R"(
         midStopFirst integer,
         midStopSecond integer,
         midStopThird integer,
+        examCount integer,
         examTime varchar(40),
         firstStartTime varchar(40),
         firstStopTime varchar(40),
@@ -100,16 +111,18 @@ const auto SCORES_SQL = QLatin1String(R"(
         onSiteVideo varchar(40)))");
 
 const auto INSERT_SCORE_SQL = QLatin1String(R"(
-        insert into scores(zkh, name, gender, project, firstScore, secondScore, thirdScore,
-                           midStopFirst, midStopSecond, midStopThird, examTime,  firstStartTime,
+        insert into scores(zkh, id, name, gender, project, firstScore, secondScore, thirdScore,
+                           midStopFirst, midStopSecond, midStopThird, examCount, examTime,  firstStartTime,
         firstStopTime, secondStartTime, secondStopTime, thirdStartTime, thirdStopTime, uploadStatus, isOnline, errorMsg, onSiteVideo)
-                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
-
+                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
 
 void initDb()
 {
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    QString dataFolder = m_config.m_videoSavePath + "/data/";
+    QString dataBaseName = dataFolder + "database.db";
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("database.db");
+    db.setDatabaseName(dataBaseName);
 
     if (!db.open()) {
         qDebug() << __func__ << db.lastError().text();
@@ -129,16 +142,15 @@ void initDb()
 
     QSqlQuery q;
     if (!q.exec(SCHOOLS_SQL)) {
-        //        qDebug() << q.exec("insert into schools values(1, 2, '1234', 'abc', 0)");
-        //        qDebug() << q.exec("insert into schools values(3, 3, '1234', 'abc', 0)");
-        //        qDebug() << q.exec("insert into schools values(4, 4, '1234', 'abc', 0)");
         qDebug() << __func__ <<  __LINE__ << q.lastError().text();
     }
 
     if (!q.exec(EXAMPROJECTS_SQL))
         qDebug() << __func__ << __LINE__ << q.lastError().text();
+
     if (!q.exec(STUDENTS_SQL))
         qDebug() << __func__ << __LINE__ << q.lastError().text();
+
     if (!q.exec(SCORES_SQL))
         qDebug() << __func__ << __LINE__ << q.lastError().text();
 

@@ -5,7 +5,7 @@
 #include <QFont>
 #include <QColor>
 
-LocalStudentTableModel::LocalStudentTableModel(QList<Student*> &students, QObject *parent) :
+LocalStudentTableModel::LocalStudentTableModel(QObject *parent) :
     QSqlTableModel(parent)
 {
 
@@ -202,7 +202,7 @@ QVariant LocalStudentTableModel::headerData(int section, Qt::Orientation orienta
             return QString("第二次成绩 ");
         case ThirdScore:
             return QString("第三次成绩 ");
-        case Time:
+        case ExamTime:
             return QString("时间");
         case UploadStatus:
             return QString("上传状态 ");

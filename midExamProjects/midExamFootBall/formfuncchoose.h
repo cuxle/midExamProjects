@@ -198,7 +198,7 @@ private slots:
 
     void on_leUserId_editingFinished();
 	
-	void handleSendLoginInCmdRequest();
+	void handleUploadExamedStudentsScore();
 
     void handlePlayDingSound();
 
@@ -211,6 +211,8 @@ private slots:
     void handleUpdateStudentPos(const QVector<double> &vx, const QVector<double> &vy);
 
     void setValueRange(const QCPRange &range);
+
+    void handleResizeSchoolListView();
 
 //    void setKeyRange(const QCPRange &range);
 
@@ -413,10 +415,12 @@ private:
      SchoolListTableModel *m_schoolListModel;
 
      Student *m_curTmpStudent = nullptr;
+     Student m_curStudent;
 
      LocalStudentTableModel *m_studentsModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
+     QString m_examProjectName;
      QLabel *m_curScoreLabel = nullptr;
      QLabel *m_preScoreLabel = nullptr;
      QFont m_choosenFont;

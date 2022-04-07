@@ -75,6 +75,8 @@ signals:
     void sigLocalStudentsDataChanged();
 
     void sigStopVideoPlay();
+
+    void sigImageCapture(const QImage &image, int time);
 private slots:
 
     void handleStartExamFromRemote(bool start);
@@ -164,8 +166,10 @@ private slots:
     void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
 
     void on_leUserId_editingFinished();
+	
+	void handleUploadExamedStudentsScore();
 
-    void handleSendLoginInCmdRequest();
+//    void handleSendLoginInCmdRequest();
 
 private:
     enum ExamAction {
@@ -190,12 +194,14 @@ private:
 
     void recordStudentExamInfo(ExamAction action);
 
+    void handleResizeSchoolListView();
+
     Ui::FormFuncChoose *ui;
 
     enum ExamState {
         ExamNotStart,
         ExamPreparing,
-        ExamIsRunning,
+        ExamIsRunning
     };
 
     enum ExamMode {
@@ -219,7 +225,8 @@ private:
     void startPrepareExam();
 
     void initSchoolListInterface();
-    void initStudentsListInterface();
+
+    void initScoreModel();
 
     void shiftScoreLabel();
 
@@ -307,10 +314,12 @@ private:
      SchoolListTableModel *m_schoolListModel;
 
      Student *m_curTmpStudent = nullptr;
+     Student m_curStudent;
 
-     LocalStudentTableModel *m_studentsModel = nullptr;
+     LocalStudentTableModel *m_scoreModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
+     QString m_examProjectName;
      QLabel *m_curScoreLabel = nullptr;
      QLabel *m_preScoreLabel = nullptr;
      QFont m_choosenFont;

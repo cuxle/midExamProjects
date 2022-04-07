@@ -26,7 +26,7 @@
    <string>学通中考体育考试软件</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset resource="../midExamFootBall/res.qrc">
     <normaloff>:/resource/images/mainform/loginIcon.png</normaloff>:/resource/images/mainform/loginIcon.png</iconset>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -2311,7 +2311,7 @@ border-top-right-radius: 10px;</string>
                      </spacer>
                     </item>
                     <item>
-                     <widget class="QLabel" name="lbScore_2">
+                     <widget class="QLabel" name="lbScoreFinal">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
@@ -3661,8 +3661,6 @@ border-radius:4px;</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

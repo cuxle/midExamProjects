@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include "license.h"
 #include "initdb.h"
+#include "appconfig.h"
+#include "singleton.h"
 
 #if TIAOSHENG
 const QString serverName = "server_tiaosheng.exe";
@@ -23,7 +25,10 @@ const QString serverName = "server_ytxs.exe";
 
 void createDataFolder()
 {
-    QDir data("data");
+    // create video data folder
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    QString dataFolder = m_config.m_videoSavePath + "/data/";
+    QDir data(dataFolder);
     qDebug() << data.absolutePath();
     if (!data.exists()) {
         if (data.mkdir(".")) {
@@ -33,6 +38,19 @@ void createDataFolder()
         }
     } else {
         qDebug() << "data dir exists";
+    }
+
+    QString videoFolder = m_config.m_videoSavePath + "/video/";
+    QDir video(videoFolder);
+    qDebug() << video.absolutePath();
+    if (!video.exists()) {
+        if (video.mkdir(".")) {
+            qDebug() << "create video dir successfully";
+        } else {
+            qDebug() << "create video dir failed";
+        }
+    } else {
+        qDebug() << "video dir exists";
     }
 }
 #if defined(TIAOSHENG) || defined(YTXS)
@@ -53,27 +71,9 @@ void initAlgorithmServer()
     process.waitForFinished();
 }
 #endif
-int main(int argc, char *argv[])
+
+void initQss()
 {
-    QApplication a(argc, argv);
-
-//    if (!License::verifyLicenseFromFile("./license.lic")) {
-//        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
-//        return -1;
-//    }
-
-    initDb();
-
-    createDataFolder();
-	
-  //  Logger::init();
-
-
-	
-#if defined(TIAOSHENG) || defined(YTXS)
-    initAlgorithmServer();
-#endif
-
     QFile file("://resource/exam.qss");
     bool bOpened = file.open(QFile::ReadOnly);
     //assert (bOpened == true);
@@ -85,10 +85,32 @@ int main(int argc, char *argv[])
     } else {
         qDebug() << "open file failed";
     }
-//    MainWindow w;
-//    FormLogin loginfrm;
-//    loginfrm.show();
-//    w.show();
+}
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+
+//    if (!License::verifyLicenseFromFile("./license.lic")) {
+//        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
+//        return -1;
+//    }
+
+    createDataFolder();
+
+    initDb();
+
+	
+  //  Logger::init();
+
+
+	
+#if defined(TIAOSHENG) || defined(YTXS)
+    initAlgorithmServer();
+#endif
+
+    initQss();
+
     LoginDialog logDialog;
     logDialog.showNormal();
 

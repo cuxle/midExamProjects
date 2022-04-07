@@ -25,6 +25,7 @@ const auto INSERT_EXAMPROJECT_SQL = QString::fromLocal8Bit(R"(
 
 const auto SCORES_SQL = QLatin1String(R"(
         create table scores(zkh varchar(20),
+        id varchar(30),
         name varchar(10),
         gender interger,
         project varchar(10),
@@ -34,6 +35,7 @@ const auto SCORES_SQL = QLatin1String(R"(
         midStopFirst integer,
         midStopSecond integer,
         midStopThird integer,
+        examCount integer,
         examTime varchar(40),
         firstStartTime varchar(40),
         firstStopTime varchar(40),
@@ -47,10 +49,17 @@ const auto SCORES_SQL = QLatin1String(R"(
         onSiteVideo varchar(40)))");
 
 const auto INSERT_SCORE_SQL = QLatin1String(R"(
-        insert into scores(zkh, name, gender, project, firstScore, secondScore, thirdScore,
-                           midStopFirst, midStopSecond, midStopThird, examTime,  firstStartTime,
+        insert into scores(zkh, id, name, gender, project, firstScore, secondScore, thirdScore,
+                           midStopFirst, midStopSecond, midStopThird, examCount, examTime,  firstStartTime,
         firstStopTime, secondStartTime, secondStopTime, thirdStartTime, thirdStopTime, uploadStatus, isOnline, errorMsg, onSiteVideo)
-                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
+                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
+
+const auto IDS_SQL =  QLatin1String(R"(
+        create table ids(id varchar(10) unique))");
+
+const auto INSERT_IDS_SQL = QLatin1String(R"(
+        insert into ids(id)
+                    values(?))");
 
 QSqlError DataManagerDb::updateSchoolDownloadStatus(const QString &zxdm, int downloaded)
 {
@@ -143,6 +152,7 @@ void DataManagerDb::addScorePrivate(QSqlQuery &q, const Student &student)
 //                                    const QString &onSiteVide)
 {
     q.addBindValue(student.zkh);
+    q.addBindValue(student.id);
     q.addBindValue(student.name);
     q.addBindValue(student.gender);
     q.addBindValue(student.examProjectName);
@@ -152,6 +162,7 @@ void DataManagerDb::addScorePrivate(QSqlQuery &q, const Student &student)
     q.addBindValue(student.midStopFirst);
     q.addBindValue(student.midStopSecond);
     q.addBindValue(student.midStopThird);
+    q.addBindValue(student.examCount);
     q.addBindValue(student.examTime);
     q.addBindValue(student.examStartFirstTime);
     q.addBindValue(student.examStopFirstTime);
@@ -182,38 +193,9 @@ DataManagerDb::DataManagerDb()
         m_curExamInfo.value = project.value;
         m_curExamInfo.unit = project.unit;
         m_curExamInfo.valid = true;
+    } else {
+        qDebug() << __func__ << __LINE__ << "failed to get project info from database";
     }
-}
-
-ExamProject DataManagerDb::selectExamProjectByName(const QString &projectName)
-{
-    ExamProject project;
-    QSqlQuery query;
-    // not working
-    // QString qstr = QString::fromLocal8Bit("SELECT * FROM examprojects where name = %1").arg(projectName);
-
-    QString qstr = QString::fromLocal8Bit("SELECT * FROM examprojects");
-
-    query.prepare(qstr);
-    query.exec();
-    qDebug() << __func__ << __LINE__ <<query.lastError().text();
-    int filedNoPType = query.record().indexOf("type");
-    int filedNoName = query.record().indexOf("name");
-    int filedNoUnit = query.record().indexOf("unit");
-    int filedNoValue = query.record().indexOf("value");
-    while (query.next()) {
-        QString name = query.value(filedNoName).toString();
-        if (name == projectName) {
-            project.name = query.value(filedNoName).toString();
-            project.type = query.value(filedNoPType).toString();
-            project.unit = query.value(filedNoUnit).toString();
-            project.value = query.value(filedNoValue).toString();
-            project.valid = true;
-            qDebug() << __func__ << __LINE__ << project.name << projectName << (project.name == projectName);
-            break;
-        }
-    }
-    return project;
 }
 
 QSqlError DataManagerDb::addSchool(int checked, const QString &zxdm, const QString &zxmc, int downloaded)
@@ -260,6 +242,46 @@ QSqlError DataManagerDb::addScore(const Student &student)
     return QSqlError();
 }
 
+QSqlError DataManagerDb::updateStudentScoreUploadStatus(const Student &student)
+{
+    QSqlQuery query;
+    query.prepare("update scores set uploadStatus=? where examTime=?");
+    query.addBindValue(student.uploadStatus);
+    query.addBindValue(student.examTime);
+    query.exec();
+    qDebug() << __func__ << __LINE__ << student.examTime << student.uploadStatus << query.lastError().text();
+    return query.lastError();
+}
+
+ExamProject DataManagerDb::selectExamProjectByName(const QString &projectName)
+{
+    ExamProject project;
+    QSqlQuery query;
+    // not working
+    // QString qstr = QString::fromLocal8Bit("SELECT * FROM examprojects where name = %1").arg(projectName);
+
+    QString qstr = QString::fromLocal8Bit("SELECT * FROM examprojects");
+
+    query.prepare(qstr);
+    query.exec();
+    int filedNoPType = query.record().indexOf("type");
+    int filedNoName = query.record().indexOf("name");
+    int filedNoUnit = query.record().indexOf("unit");
+    int filedNoValue = query.record().indexOf("value");
+    while (query.next()) {
+        QString name = query.value(filedNoName).toString();
+        if (name == projectName) {
+            project.name = query.value(filedNoName).toString();
+            project.type = query.value(filedNoPType).toString();
+            project.unit = query.value(filedNoUnit).toString();
+            project.value = query.value(filedNoValue).toString();
+            project.valid = true;
+            break;
+        }
+    }
+    return project;
+}
+
 Student DataManagerDb::selectStudentByZkh(const QString &zkh)
 {
     Student student;
@@ -283,16 +305,26 @@ Student DataManagerDb::selectStudentByZkh(const QString &zkh)
         student.id = query.value(filedNoId).toString();
         student.isValid = true;
 
-        qDebug() << __func__ << "name" << student.name;
-        qDebug() << __func__ << "gender" << student.gender;
-        qDebug() << __func__ << "zkh" << student.zkh;
-        qDebug() << __func__ << "zxdm" << student.zxdm;
-        qDebug() << __func__ << "zxmc" << student.zxmc;
-        qDebug() << __func__ << "id" << student.id;
+//        qDebug() << __func__ << "name" << student.name;
+//        qDebug() << __func__ << "gender" << student.gender;
+//        qDebug() << __func__ << "zkh" << student.zkh;
+//        qDebug() << __func__ << "zxdm" << student.zxdm;
+//        qDebug() << __func__ << "zxmc" << student.zxmc;
+//        qDebug() << __func__ << "id" << student.id;
     }
     return student;
 }
 
+QSqlError DataManagerDb::addIdCode(const QString &id)
+{
+    QSqlQuery q;
+    if (!q.prepare(INSERT_IDS_SQL))
+        return q.lastError();
+    q.addBindValue(id);
+    q.exec();
+    qDebug() << __func__ << __LINE__ << q.lastError().text();
+    return QSqlError();
+}
 
 void DataManagerDb::updateIdCode(const QString &id, const QString &code)
 {
@@ -300,7 +332,6 @@ void DataManagerDb::updateIdCode(const QString &id, const QString &code)
     m_curIdCode.code = code;
     if (!m_idCodes.contains(m_curIdCode)) {
         m_idCodes.append(m_curIdCode);
-        qDebug() << "id code append m_idCodes";
     } else {
         qDebug() << "m_idCodes contains id code";
     }
@@ -340,6 +371,59 @@ void DataManagerDb::parseExamProjectJsonDoc(const QJsonDocument &doc)
             m_curExamInfo.value = localExamProject.value;
             m_curExamInfo.valid = true;
         }
+    }
+}
+
+void DataManagerDb::readUnUploadedStudents()
+{
+     // fill m_uploadStudentQueue with not uploaded students
+    QSqlQuery query;
+    QString qstr = QString("SELECT * FROM scores where uploadStatus = %1").arg(QString::number(0));
+    query.prepare(qstr);
+    query.exec();
+
+    int idxExamCount = query.record().indexOf("examCount");
+
+    int idxFirstScore = query.record().indexOf("firstScore");
+    int idxFirstStartTime = query.record().indexOf("firstStartTime");
+    int idxFirstStopTime = query.record().indexOf("firstStopTime");
+
+    int idxSecondScore = query.record().indexOf("secondScore");
+    int idxSecondStartTime = query.record().indexOf("secondStartTime");
+    int idxSecondStopTime = query.record().indexOf("secondStopTime");
+
+    int idxThirdScore = query.record().indexOf("thirdScore");
+    int idxThirdStartTime = query.record().indexOf("thirdStartTime");
+    int idxThirdStopTime = query.record().indexOf("thirdStopTime");
+
+    int idxMidStopFirst = query.record().indexOf("midStopFirst");
+    int idxMidStopSecond = query.record().indexOf("midStopSecond");
+    int idxMidStopThird = query.record().indexOf("midStopThird");
+
+    int idxId = query.record().indexOf("id");
+
+    while (query.next()) {
+        Student student;
+        student.examCount = query.value(idxExamCount).toInt();
+        student.firstScore = query.value(idxFirstScore).toInt();
+        student.examStartFirstTime = query.value(idxFirstStartTime).toString();
+        student.examStopFirstTime = query.value(idxFirstStopTime).toString();
+
+        student.secondScore = query.value(idxSecondScore).toInt();
+        student.examStartSecondTime = query.value(idxSecondStartTime).toString();
+        student.examStopSecondTime = query.value(idxSecondStopTime).toString();
+
+        student.thirdScore = query.value(idxThirdScore).toInt();
+        student.examStartThirdTime = query.value(idxThirdStartTime).toString();
+        student.examStopThirdTime = query.value(idxThirdStopTime).toString();
+
+        student.midStopFirst = query.value(idxMidStopFirst).toBool();
+        student.midStopSecond = query.value(idxMidStopSecond).toBool();
+        student.midStopThird = query.value(idxMidStopThird).toBool();
+
+        student.id = query.value(idxId).toString();
+        student.isValid = true;
+        m_uploadStudentQueue.push_back(student);
     }
 }
 //QSqlError DataManagerDb::initDb()

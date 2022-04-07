@@ -34,7 +34,11 @@ void VideoCaptureWorker::destroyWorker()
     this->deleteLater();
 }
 
+#if TIAOSHENG
+void VideoCaptureWorker::handleReceiveImage(const QImage &image, int time)
+#else
 void VideoCaptureWorker::handleReceiveImage(const QImage &image)
+#endif
 {
     if (m_bSave) {
         /*
@@ -105,6 +109,9 @@ void VideoCaptureWorker::handleReceiveImage(const QImage &image)
 
         if (!m_videoWriter.isNull()) {
 //            m_videoWriter->write(std::move(frame));
+#if TIAOSHENG
+          m_videoWriter->setDownCount(time);
+#endif
             m_videoWriter->write(frame);
         }
 
@@ -117,6 +124,7 @@ void VideoCaptureWorker::handleReceiveImage(const QImage &image)
     }
 }
 
+
 void VideoCaptureWorker::setVideoSavePath(const QString &fileName)
 {
     m_videoPath = fileName;    
@@ -126,6 +134,8 @@ void VideoCaptureWorker::openSavedFile(const QString &fileName)
 {
     if (!m_fileIsOpened) {
         m_videoWriter = QSharedPointer<videoWriterFFmpeg>(new videoWriterFFmpeg);
+        m_videoWriter->setCameraId(3);
+        m_videoWriter->setTimeFlag(true);
 
         AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
         m_videoPath = appconfig.m_videoSavePath + "/video";

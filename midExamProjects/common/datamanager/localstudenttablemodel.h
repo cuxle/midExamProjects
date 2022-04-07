@@ -23,6 +23,7 @@ static QSqlError addScore(const QString &zkh,
 
 enum TableColumn {
     Zkh,
+    Id,
     Name,
     Gender,
     Project,
@@ -32,7 +33,8 @@ enum TableColumn {
     MidStopFirst,
     MidStopSecond,
     MidStopThird,
-    Time,
+    ExamCount,
+    ExamTime,
     ExamFirstStartTime,
     ExamFirstStopTime,
     ExamSecondStartTime,
@@ -49,7 +51,7 @@ class LocalStudentTableModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
-    explicit LocalStudentTableModel(QList<Student*> &schools, QObject *parent = 0);
+    explicit LocalStudentTableModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;

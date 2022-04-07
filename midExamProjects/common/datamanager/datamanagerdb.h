@@ -38,13 +38,14 @@ public:
 //    static QSqlError addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
 //                       bool midStopFist, bool midStopSecond, bool midStopThird, const QString &examTime, int uploadStatus, bool isOnline, const QString &errorMsg, const QString &onSiteVide);
     static QSqlError addScore(const Student &student);
+    static QSqlError updateStudentScoreUploadStatus(const Student &student);
     static QSqlError updateSchoolDownloadStatus(const QString &zxdm, int downloaded);
     static QSqlError updateSchoolCheckedStatus(const QString &zxdm, int checked);
     static void selectSchoolsChecked(QList<QString> &list);
     static void checkedAllSchools(bool checked);
     static Student selectStudentByZkh(const QString &zkh);
     void parseExamProjectJsonDoc(const QJsonDocument &doc);
-
+    void readUnUploadedStudents();
     void updateIdCode(const QString &id, const QString &code);
 
     IDCode m_curIdCode;
@@ -63,6 +64,8 @@ private:
     static void addStudentPrivate(QSqlQuery &q, const QString &zkh, const QString &name, int gender,
                     const QString &zxdm, const QString &zxmc, const QString &id);
     static void addScorePrivate(QSqlQuery &q, const Student &student);
+
+    QSqlError addIdCode(const QString &id);
 //    static void addScorePrivate(QSqlQuery &q,
 //                         const QString &zkh,
 //                         const QString &name,
