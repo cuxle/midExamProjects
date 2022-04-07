@@ -35,9 +35,9 @@ public:
     static QSqlError addStudent(const QString &zkh, const QString &name, int gender,
                     const QString &zxdm, const QString &zxmc, const QString &id);
     static QSqlError addExamproject(const QString &name, const QString &type, const QString &unit,const QString &value);
-    static QSqlError addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
-                       bool midStopFist, bool midStopSecond, bool midStopThird, const QString &examTime, int uploadStatus, bool isOnline, const QString &errorMsg, const QString &onSiteVide);
-
+//    static QSqlError addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
+//                       bool midStopFist, bool midStopSecond, bool midStopThird, const QString &examTime, int uploadStatus, bool isOnline, const QString &errorMsg, const QString &onSiteVide);
+    static QSqlError addScore(const Student &student);
     static QSqlError updateSchoolDownloadStatus(const QString &zxdm, int downloaded);
     static QSqlError updateSchoolCheckedStatus(const QString &zxdm, int checked);
     static void selectSchoolsChecked(QList<QString> &list);
@@ -62,20 +62,21 @@ private:
                        int downloaded);
     static void addStudentPrivate(QSqlQuery &q, const QString &zkh, const QString &name, int gender,
                     const QString &zxdm, const QString &zxmc, const QString &id);
-    static void addScorePrivate(QSqlQuery &q,
-                         const QString &zkh,
-                         const QString &name,
-                         int gender,
-                         const QString &examProject,
-                         int firstScore,
-                         int secondScore,
-                         int thirdScore,
-                         bool midStopFist, bool midStopSecond, bool midStopThird,
-                         const QString &examTime,
-                         int uploadStatus,
-                         bool isOnline,
-                         const QString &errorMsg,
-                         const QString &onSiteVide);
+    static void addScorePrivate(QSqlQuery &q, const Student &student);
+//    static void addScorePrivate(QSqlQuery &q,
+//                         const QString &zkh,
+//                         const QString &name,
+//                         int gender,
+//                         const QString &examProject,
+//                         int firstScore,
+//                         int secondScore,
+//                         int thirdScore,
+//                         bool midStopFist, bool midStopSecond, bool midStopThird,
+//                         const QString &examTime,
+//                         int uploadStatus,
+//                         bool isOnline,
+//                         const QString &errorMsg,
+//                         const QString &onSiteVide);
 
 
 

@@ -803,7 +803,7 @@ void FormFuncChoose::handleStartExam()
         ui->pbStartSkip->setEnabled(true);
     });
     ui->pbStartSkip->setText("停止");
-
+    recordStudentExamInfo(ExamStart);
     // 0. update state
     m_curExamState = ExamIsRunning;
 
@@ -829,7 +829,6 @@ void FormFuncChoose::handleStartExam()
 void FormFuncChoose::startExamWhenStuEnterExamRegin()
 {
     // record start time for exam
-    recordStudentExamInfo(ExamStart);
 
     m_forwardCountTimer->start();
 }
@@ -848,6 +847,7 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
         // record start time for exam
         if (m_curStudent.isValid) {
             if (m_curExamCount == 1) {
+                m_curStudent.examTime = dataTime;
                 m_curStudent.examStartFirstTime = dataTime;
                 qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             } else if (m_curExamCount == 2) {
@@ -1072,6 +1072,14 @@ void FormFuncChoose::initStudentsListInterface()
         ui->tblViewStudentData->setColumnHidden(MidStopFirst, true);
         ui->tblViewStudentData->setColumnHidden(MidStopSecond, true);
         ui->tblViewStudentData->setColumnHidden(MidStopThird, true);
+
+        ui->tblViewStudentData->setColumnHidden(ExamFirstStartTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamFirstStopTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamSecondStartTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamSecondStopTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamThirdStartTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamThirdStopTime, true);
+
         ui->tblViewStudentData->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tblViewStudentData->verticalHeader()->setHidden(true);
         connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, [&](){
@@ -1216,11 +1224,7 @@ void FormFuncChoose::saveAndUploadStudentScore()
                            const QDateTime &examTime, int uploadStatus, const QString &errorMsg, const QString &onSiteVide);
 
          */
-        QSqlError error = DataManagerDb::addScore(m_curStudent.zkh, m_curStudent.name, m_curStudent.gender,
-                                                  m_curStudent.examProjectName, m_curStudent.firstScore, m_curStudent.secondScore,
-                                                  m_curStudent.thirdScore, m_curStudent.midStopFirst, m_curStudent.midStopSecond,
-                                                  m_curStudent.midStopThird, m_curStudent.examTime, m_curStudent.uploadStatus,
-                                                  m_curStudent.isOnline, m_curStudent.errorMsg, m_curStudent.videoPath);
+        QSqlError error = DataManagerDb::addScore(m_curStudent);
         qDebug() << __func__ << __LINE__ << error.text();
 //        dataManager.m_localExamedStudents.push_front(m_curTmpStudent);
         dataManager.m_uploadStudentQueue.push_back(m_curStudent);
@@ -2067,7 +2071,7 @@ void FormFuncChoose::on_pbZhongTing_clicked()
 void FormFuncChoose::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
 {
     qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
-    if (index.column() == 11) {
+    if (index.column() == VideoPath) {
         QString file = index.data().toString();
         QFileInfo fileInfo(file);
         QDir dir(fileInfo.absolutePath());

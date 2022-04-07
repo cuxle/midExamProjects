@@ -101,6 +101,16 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
 //            break;
 //        }
         switch (index.column()) {
+        case Gender:
+        {
+            int gender = QSqlTableModel::data(index).toInt();
+            if (gender == 1) {
+                return QVariant("男");
+            } else if (gender == 2) {
+                return QVariant("女");
+            }
+            break;
+        }
         case FirstScore:
         {
             QModelIndex indexMidStopFirst = createIndex(index.row(), MidStopFirst);
@@ -196,10 +206,10 @@ QVariant LocalStudentTableModel::headerData(int section, Qt::Orientation orienta
             return QString("时间");
         case UploadStatus:
             return QString("上传状态 ");
-        case ErrorMsg:
-            return QString("错误消息");
         case OnlineOffline:
             return QString("在线/离线");
+        case ErrorMsg:
+            return QString("错误消息");        
         case VideoPath:
             return QString("现场视频");
         default:

@@ -33,9 +33,15 @@ enum TableColumn {
     MidStopSecond,
     MidStopThird,
     Time,
+    ExamFirstStartTime,
+    ExamFirstStopTime,
+    ExamSecondStartTime,
+    ExamSecondStopTime,
+    ExamThirdStartTime,
+    ExamThirdStopTime,
     UploadStatus,
-    ErrorMsg,
     OnlineOffline,
+    ErrorMsg,    
     VideoPath
 };
 
