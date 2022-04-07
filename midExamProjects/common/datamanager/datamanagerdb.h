@@ -36,7 +36,7 @@ public:
                     const QString &zxdm, const QString &zxmc, const QString &id);
     static QSqlError addExamproject(const QString &name, const QString &type, const QString &unit,const QString &value);
     static QSqlError addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
-                       bool midStopFist, bool midStopSecond, bool midStopThird, const QString &examTime, int uploadStatus, const QString &errorMsg, const QString &onSiteVide);
+                       bool midStopFist, bool midStopSecond, bool midStopThird, const QString &examTime, int uploadStatus, bool isOnline, const QString &errorMsg, const QString &onSiteVide);
 
     static QSqlError updateSchoolDownloadStatus(const QString &zxdm, int downloaded);
     static QSqlError updateSchoolCheckedStatus(const QString &zxdm, int checked);
@@ -73,6 +73,7 @@ private:
                          bool midStopFist, bool midStopSecond, bool midStopThird,
                          const QString &examTime,
                          int uploadStatus,
+                         bool isOnline,
                          const QString &errorMsg,
                          const QString &onSiteVide);
 

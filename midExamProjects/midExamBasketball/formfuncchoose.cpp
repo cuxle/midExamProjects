@@ -1072,6 +1072,7 @@ void FormFuncChoose::initStudentsListInterface()
         ui->tblViewStudentData->setColumnHidden(MidStopFirst, true);
         ui->tblViewStudentData->setColumnHidden(MidStopSecond, true);
         ui->tblViewStudentData->setColumnHidden(MidStopThird, true);
+        ui->tblViewStudentData->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tblViewStudentData->verticalHeader()->setHidden(true);
         connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, [&](){
             m_studentsModel->updateModel();
@@ -1216,9 +1217,10 @@ void FormFuncChoose::saveAndUploadStudentScore()
 
          */
         QSqlError error = DataManagerDb::addScore(m_curStudent.zkh, m_curStudent.name, m_curStudent.gender,
-                                m_curStudent.examProjectName, m_curStudent.firstScore, m_curStudent.secondScore,
-                                m_curStudent.thirdScore, m_curStudent.midStopFirst, m_curStudent.midStopSecond, m_curStudent.midStopThird, m_curStudent.examTime, m_curStudent.uploadStatus,
-                                m_curStudent.errorMsg, m_curStudent.videoPath);
+                                                  m_curStudent.examProjectName, m_curStudent.firstScore, m_curStudent.secondScore,
+                                                  m_curStudent.thirdScore, m_curStudent.midStopFirst, m_curStudent.midStopSecond,
+                                                  m_curStudent.midStopThird, m_curStudent.examTime, m_curStudent.uploadStatus,
+                                                  m_curStudent.isOnline, m_curStudent.errorMsg, m_curStudent.videoPath);
         qDebug() << __func__ << __LINE__ << error.text();
 //        dataManager.m_localExamedStudents.push_front(m_curTmpStudent);
         dataManager.m_uploadStudentQueue.push_back(m_curStudent);

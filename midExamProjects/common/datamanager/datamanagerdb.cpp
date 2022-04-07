@@ -36,13 +36,14 @@ const auto SCORES_SQL = QLatin1String(R"(
         midStopThird integer,
         examTime varchar(40),
         uploadStatus integer,
+        isOnline integer,
         errorMsg varchar(40),
         onSiteVideo varchar(40)))");
 
 const auto INSERT_SCORE_SQL = QLatin1String(R"(
         insert into scores(zkh, name, gender, project, firstScore, secondScore, thirdScore,
-                           midStopFirst, midStopSecond, midStopThird, examTime, uploadStatus, errorMsg, onSiteVideo)
-                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
+                           midStopFirst, midStopSecond, midStopThird, examTime, uploadStatus, isOnline, errorMsg, onSiteVideo)
+                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
 
 
 QSqlError DataManagerDb::updateSchoolDownloadStatus(const QString &zxdm, int downloaded)
@@ -131,6 +132,7 @@ void DataManagerDb::addScorePrivate(QSqlQuery &q,
                                     bool midStopFist, bool midStopSecond, bool midStopThird,
                                     const QString &examTime,
                                     int uploadStatus,
+                                    bool isOnline,
                                     const QString &errorMsg,
                                     const QString &onSiteVide)
 {
@@ -146,6 +148,7 @@ void DataManagerDb::addScorePrivate(QSqlQuery &q,
     q.addBindValue(midStopThird);
     q.addBindValue(examTime);
     q.addBindValue(uploadStatus);
+    q.addBindValue(isOnline);
     q.addBindValue(errorMsg);
     q.addBindValue(onSiteVide);
     q.exec();
@@ -235,12 +238,12 @@ QSqlError DataManagerDb::addExamproject(const QString &name, const QString &type
 }
 
 QSqlError DataManagerDb::addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
-                                  bool midStopFist, bool midStopSecond, bool midStopThird,const QString &examTime, int uploadStatus, const QString &errorMsg, const QString &onSiteVide)
+                                  bool midStopFist, bool midStopSecond, bool midStopThird,const QString &examTime, int uploadStatus, bool isOnline, const QString &errorMsg, const QString &onSiteVide)
 {
     QSqlQuery q;
     if (!q.prepare(INSERT_SCORE_SQL))
         return q.lastError();
-    addScorePrivate(q, zkh, name, gender, examProject, firstScore, secondScore, thirdScore, midStopFist, midStopSecond, midStopThird, examTime, uploadStatus, errorMsg, onSiteVide);
+    addScorePrivate(q, zkh, name, gender, examProject, firstScore, secondScore, thirdScore, midStopFist, midStopSecond, midStopThird, examTime, uploadStatus, isOnline, errorMsg, onSiteVide);
     return QSqlError();
 }
 

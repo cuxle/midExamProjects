@@ -89,13 +89,14 @@ const auto SCORES_SQL = QLatin1String(R"(
         midStopThird integer,
         examTime varchar(40),
         uploadStatus integer,
+        isOnline integer,
         errorMsg varchar(40),
         onSiteVideo varchar(40)))");
 
 const auto INSERT_SCORE_SQL = QLatin1String(R"(
         insert into scores(zkh, name, gender, project, firstScore, secondScore, thirdScore,
-                           midStopFirst, midStopSecond, midStopThird, examTime, uploadStatus, errorMsg, onSiteVideo)
-                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
+                           midStopFirst, midStopSecond, midStopThird, examTime, uploadStatus, isOnline, errorMsg, onSiteVideo)
+                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
 
 
 void initDb()

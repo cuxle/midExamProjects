@@ -134,6 +134,25 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
             }
             break;
         }
+        case UploadStatus:
+        {
+            int status = QSqlTableModel::data(index).toInt();
+            if (status == 1) {
+                return QVariant("已上传");
+            } else if (status == 0) {
+                return QVariant("未上传");
+            }
+            break;
+        }
+        case OnlineOffline:
+        {
+            int status = QSqlTableModel::data(index).toInt();
+            if (status == 1) {
+                return QVariant("在线");
+            } else if (status == 0) {
+                return QVariant("离线");
+            }
+        }
         default:
             break;
         }
