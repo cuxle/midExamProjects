@@ -281,6 +281,7 @@ void NetWorkServer::sendUploadStudentScore()
             return;
         }
         QJsonArray array;
+        QString dataTextStr = "yyyy-MM-dd hh:mm:ss ddd";
         for (int i = 1; i <= curStudent->examCount; i++) {
             QJsonObject obj;
             obj["examId"] = dataManager.m_curExamInfo.value;

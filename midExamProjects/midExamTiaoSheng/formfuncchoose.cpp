@@ -356,7 +356,8 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
 
     qDebug() << __func__ << __LINE__ << m_curExamCount << action << (m_curTmpStudent == nullptr);
     QString dataTime = QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd hh:mm:ss ddd");
-    switch (action) {   
+//    QDateTime dataTime = QDateTime::currentDateTime().toLocalTime();
+    switch (action) {
     case ExamStart:
     {
         // record start time for exam

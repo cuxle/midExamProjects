@@ -2,6 +2,7 @@
 #define STUDENT_H
 
 #include <QString>
+#include <QDateTime>
 
 class Student {
 public:

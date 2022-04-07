@@ -35,8 +35,8 @@ public:
     static QSqlError addStudent(const QString &zkh, const QString &name, int gender,
                     const QString &zxdm, const QString &zxmc, const QString &id);
     static QSqlError addExamproject(const QString &name, const QString &type, const QString &unit,const QString &value);
-    QSqlError addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
-                       const QDateTime &examTime, int uploadStatus, const QString &errorMsg, const QString &onSiteVide);
+    static QSqlError addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
+                       bool midStopFist, bool midStopSecond, bool midStopThird, const QString &examTime, int uploadStatus, const QString &errorMsg, const QString &onSiteVide);
 
     static QSqlError updateSchoolDownloadStatus(const QString &zxdm, int downloaded);
     static QSqlError updateSchoolCheckedStatus(const QString &zxdm, int checked);
@@ -49,6 +49,7 @@ public:
 
     IDCode m_curIdCode;
     ExamProject m_curExamInfo;
+    QQueue<Student> m_uploadStudentQueue;
 signals:
 private:
 //    QSqlError initDb();
@@ -61,7 +62,7 @@ private:
                        int downloaded);
     static void addStudentPrivate(QSqlQuery &q, const QString &zkh, const QString &name, int gender,
                     const QString &zxdm, const QString &zxmc, const QString &id);
-    void addScorePrivate(QSqlQuery &q,
+    static void addScorePrivate(QSqlQuery &q,
                          const QString &zkh,
                          const QString &name,
                          int gender,
@@ -69,7 +70,8 @@ private:
                          int firstScore,
                          int secondScore,
                          int thirdScore,
-                         const QDateTime &examTime,
+                         bool midStopFist, bool midStopSecond, bool midStopThird,
+                         const QString &examTime,
                          int uploadStatus,
                          const QString &errorMsg,
                          const QString &onSiteVide);

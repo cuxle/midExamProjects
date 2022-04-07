@@ -80,19 +80,22 @@ const auto SCORES_SQL = QLatin1String(R"(
         create table scores(zkh varchar(20),
         name varchar(10),
         gender interger,
-        project varchar(10)
+        project varchar(10),
         firstScore integer,
         secondScore integer,
         thirdScore integer,
-        examTime DATE,
+        midStopFirst integer,
+        midStopSecond integer,
+        midStopThird integer,
+        examTime varchar(40),
         uploadStatus integer,
         errorMsg varchar(40),
         onSiteVideo varchar(40)))");
 
 const auto INSERT_SCORE_SQL = QLatin1String(R"(
         insert into scores(zkh, name, gender, project, firstScore, secondScore, thirdScore,
-                           examTime, uploadStatus, errorMsg, onSiteVideo)
-                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
+                           midStopFirst, midStopSecond, midStopThird, examTime, uploadStatus, errorMsg, onSiteVideo)
+                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
 
 
 void initDb()

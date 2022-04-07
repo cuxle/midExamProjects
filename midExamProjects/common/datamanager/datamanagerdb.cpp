@@ -27,19 +27,22 @@ const auto SCORES_SQL = QLatin1String(R"(
         create table scores(zkh varchar(20),
         name varchar(10),
         gender interger,
-        project varchar(10)
+        project varchar(10),
         firstScore integer,
         secondScore integer,
         thirdScore integer,
-        examTime DATE,
+        midStopFirst integer,
+        midStopSecond integer,
+        midStopThird integer,
+        examTime varchar(40),
         uploadStatus integer,
         errorMsg varchar(40),
         onSiteVideo varchar(40)))");
 
 const auto INSERT_SCORE_SQL = QLatin1String(R"(
         insert into scores(zkh, name, gender, project, firstScore, secondScore, thirdScore,
-                           examTime, uploadStatus, errorMsg, onSiteVideo)
-                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
+                           midStopFirst, midStopSecond, midStopThird, examTime, uploadStatus, errorMsg, onSiteVideo)
+                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
 
 
 QSqlError DataManagerDb::updateSchoolDownloadStatus(const QString &zxdm, int downloaded)
@@ -125,7 +128,8 @@ void DataManagerDb::addScorePrivate(QSqlQuery &q,
                                     int firstScore,
                                     int secondScore,
                                     int thirdScore,
-                                    const QDateTime &examTime,
+                                    bool midStopFist, bool midStopSecond, bool midStopThird,
+                                    const QString &examTime,
                                     int uploadStatus,
                                     const QString &errorMsg,
                                     const QString &onSiteVide)
@@ -137,11 +141,15 @@ void DataManagerDb::addScorePrivate(QSqlQuery &q,
     q.addBindValue(firstScore);
     q.addBindValue(secondScore);
     q.addBindValue(thirdScore);
+    q.addBindValue(midStopFist);
+    q.addBindValue(midStopSecond);
+    q.addBindValue(midStopThird);
     q.addBindValue(examTime);
     q.addBindValue(uploadStatus);
     q.addBindValue(errorMsg);
     q.addBindValue(onSiteVide);
     q.exec();
+    qDebug() << __func__ << __LINE__ << q.lastError().text();
 }
 
 DataManagerDb::DataManagerDb()
@@ -227,12 +235,12 @@ QSqlError DataManagerDb::addExamproject(const QString &name, const QString &type
 }
 
 QSqlError DataManagerDb::addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
-                                  const QDateTime &examTime, int uploadStatus, const QString &errorMsg, const QString &onSiteVide)
+                                  bool midStopFist, bool midStopSecond, bool midStopThird,const QString &examTime, int uploadStatus, const QString &errorMsg, const QString &onSiteVide)
 {
     QSqlQuery q;
     if (!q.prepare(INSERT_SCORE_SQL))
         return q.lastError();
-    addScorePrivate(q, zkh, name, gender, examProject, firstScore, secondScore, thirdScore, examTime, uploadStatus, errorMsg, onSiteVide);
+    addScorePrivate(q, zkh, name, gender, examProject, firstScore, secondScore, thirdScore, midStopFist, midStopSecond, midStopThird, examTime, uploadStatus, errorMsg, onSiteVide);
     return QSqlError();
 }
 

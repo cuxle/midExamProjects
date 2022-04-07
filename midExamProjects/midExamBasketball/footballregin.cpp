@@ -40,10 +40,10 @@ void FootballRegin::updateStudentPointPosFromStdFootGround(std::vector<pcl::Poin
             continue;
         }
 
-        qDebug() << __func__ << __LINE__ <<"convert before" << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
+//        qDebug() << __func__ << __LINE__ <<"convert before" << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
         float x_pixel = objs[i]._PointXYZ::x / m_per_pixelX + m_origin.x();
         float y_pixel = m_origin.y() - objs[i]._PointXYZ::y / m_per_pixelY;
-        qDebug() << __func__ << __LINE__ <<"convert before" << i << x_pixel << y_pixel;
+//        qDebug() << __func__ << __LINE__ <<"convert before" << i << x_pixel << y_pixel;
 
         m_studentsPoints.push_back(QPointF(x_pixel, y_pixel));
         if (m_examStarted) {

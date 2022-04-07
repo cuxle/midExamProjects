@@ -7,6 +7,19 @@
 #include <QtCore/QRect>
 #include "networkserver.h"
 #include "Student.h"
+#include <QSqlTableModel>
+static QSqlError addScore(const QString &zkh,
+                          const QString &name,
+                          int gender,
+                          const QString &examProject,
+                          int firstScore,
+                          int secondScore,
+                          int thirdScore,
+                          bool midStop,
+                          const QDateTime &examTime,
+                          int uploadStatus,
+                          const QString &errorMsg,
+                          const QString &onSiteVide);
 
 enum TableColumn {
     Zkh,
@@ -16,6 +29,9 @@ enum TableColumn {
     FirstScore,
     SecondScore,
     ThirdScore,
+    MidStopFirst,
+    MidStopSecond,
+    MidStopThird,
     Time,
     UploadStatus,
     ErrorMsg,
@@ -23,7 +39,7 @@ enum TableColumn {
     VideoPath
 };
 
-class LocalStudentTableModel : public QAbstractTableModel
+class LocalStudentTableModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
@@ -36,19 +52,12 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
-    void insertRow(int position, const QModelIndex &parent = QModelIndex());
-    void addMapping(QString color, QRect area);
-    void clearMapping() { m_mapping.clear(); }
-public slots:
-    void schoolListDataChanged();
-private:
-    QList<Student*> &m_students;
-    QList<QVector<qreal> * > m_data;
-    QHash<QString, QRect> m_mapping;
-    int m_columnCount;
-    int m_rowCount;
+//    void insertRow(int position, const QModelIndex &parent = QModelIndex());
 
-    // QAbstractItemModel interface
+public slots:
+//    void schoolListDataChanged();
+private:
+    QString dataTextStr = "yyyy-MM-dd hh:mm:ss ddd";
 public:
     void updateModel();
 };
