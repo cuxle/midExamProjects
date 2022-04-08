@@ -7,7 +7,6 @@
 #include <QUrlQuery>
 #include "singleton.h"
 #include "appconfig.h"
-#include "datamanager.h"
 #include "datamanagerdb.h"
 
 NetWorkServer::NetWorkServer(QObject *parent)
@@ -78,33 +77,6 @@ void NetWorkServer::handleNextRequest(RequestType type)
     default:
         break;
     }
-}
-
-void NetWorkServer::initLoginTimer()
-{
-    m_loginTimer = new QTimer(this);
-    connect(m_loginTimer, &QTimer::timeout, this, &NetWorkServer::handleRequsetLoginCmd);
-    m_loginTimer->setInterval(m_loginInternals);
-}
-
-void NetWorkServer::initArbitrationTimer()
-{
-    // when login successfully start this timer
-    m_arbitrationTimer = new QTimer(this);
-    connect(m_arbitrationTimer, &QTimer::timeout, this, &NetWorkServer::sendArbitrationListRequest);
-    m_arbitrationTimer->setInterval(m_arbitratonInternals);
-}
-
-void NetWorkServer::initHeartBeatTimer()
-{
-    m_heartBeatTimer = new QTimer(this);
-    connect(m_heartBeatTimer, &QTimer::timeout, this, &NetWorkServer::sendHeartBeatRequst);
-    m_heartBeatTimer->setInterval(m_heartBeatInternals);
-}
-
-void NetWorkServer::handleRequsetLoginCmd()
-{
-    sendLoginInCmdRequest();
 }
 
 QNetworkRequest NetWorkServer::makeHeartBeatRequst()
@@ -252,12 +224,7 @@ void NetWorkServer::sendUploadStudentScore()
         AppConfig &config = Singleton<AppConfig>::GetInstance();
 
         Student curStudent = dataManager.m_uploadStudentQueue.front();
-        if (!curStudent.isValid) {
-            qDebug() << __func__ << __LINE__ << "curStudent is not valid";
-            return;
-        }
         QJsonArray array;
-        QString dataTextStr = "yyyy-MM-dd hh:mm:ss ddd";
         for (int i = 1; i <= curStudent.examCount; i++) {
             QJsonObject obj;
             obj["examId"] = dataManager.m_curExamInfo.value;
@@ -303,7 +270,6 @@ void NetWorkServer::sendUploadStudentScore()
             qDebug() << "ksId" << curStudent.id;
             qDebug() << "objKsId:" << obj["ksId"];
             qDebug() << "result" << curStudent.firstScore;
-            qDebug() << "resultType" << 1;
             array.append(obj);
         }
 
@@ -368,6 +334,8 @@ void NetWorkServer::sendUploadArbitrationInfoRequst()
         filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\";filename=\""+ m_file.fileName() + "\""));
         filePart.setBody(m_file.readAll());
         multiPart->append(filePart);
+    } else {
+        qDebug() << __func__ << __LINE__ << "open file failed";
     }
 
     QHttpPart idPart;
@@ -503,27 +471,11 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
 
                     DataManagerDb::addSchool(0, zxdm, zxmc, 0);
 
-                    emit sigSchoolListDataChanged();
 
 
-//                    School *school = new School;
-//                    school->checked = false;
-//                    school->id = obj["id"].toInt();
-//                    school->qxdm = obj["qxdm"].toString();
-//                    school->qxmc = obj["qxmc"].toString();
-//                    school->schoolName = obj["zxmc"].toString();
-//                    school->zxdm = obj["zxdm"].toString();
-//                    school->updatedTime = obj["updateTime"].toString();
-//                    school->zxmc = obj["zxmc"].toString();
-//                    school->status = 0;
-//                    DataManagerDb::addSchool(0, zxdm, zxmc, 0);
-//                    m_schools.append(school);
                     emit sigSchoolListDataChanged();
                 }
-//                if (!array.isEmpty()) {
-//                    DataManager &manager = Singleton<DataManager>::GetInstance();
-//                    manager.saveJsonToFile(jsonResponse.toJson(), manager.m_basePath + "/data/schoollist.json");
-//                }
+
                 handleNextRequest(RequestExamProject);
 //                sendExamProjectRequest();
             }
@@ -577,8 +529,8 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     response.devName = obj["devName"].toString();
 
                     // TODO 设备号与本机设备号不一致直接退出
-                    if (response.devName.isEmpty() || response.devName == curDevName) {
-                        qDebug() << __func__ << __LINE__ << "devName not be compatible";
+                    if (response.devName.isEmpty() || response.devName != curDevName) {
+                        qDebug() << __func__ << __LINE__ << response.devName << curDevName << "devName not be compatible";
                         return;
                     }
 
@@ -592,16 +544,20 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     // arbitration id
                     // zkh -> video nums:total, video path
                     // type : video and picture
-                    QString zkh = obj["zkh"].toString();
+                    QString zkh = response.zkh;
 
                     // type 1 视频 2轨迹图
                     // need upload picture
                     if (response.pictureReq == 1) {
-                        QString curStuVideoPath = config.m_videoSavePath + "/data/picture/" + zkh + "/";
+                        QString curStuVideoPath = config.m_videoSavePath + "/video/" + zkh + "/";
                         QDir dir(curStuVideoPath);
+                        QStringList filters;
+                        filters << "*.png";
+                        dir.setNameFilters(filters);
                         // 不存在这个考生视频，直接推出
                         if (!dir.exists()) {
-                            qDebug() << __func__ << __LINE__ << "student not found , continue;";
+                            qDebug() << __func__ << __LINE__ << "student folder not found , continue;";
+                            continue;
                         } else {
                             QStringList pictures = dir.entryList(QDir::Files);
                             ArbitrationEntity entity;
@@ -619,13 +575,17 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     // need upload video
                     if (response.videoReq == 1) {
                         QString curStuVideoPath = config.m_videoSavePath + "/video/" + zkh + "/";
-                        QDir dir(curStuVideoPath);
-                        if (!dir.exists()) {
-                            qDebug() << __func__ << __LINE__ << curStuVideoPath << "student not found , continue;";
 
+                        QDir dir(curStuVideoPath);
+                        QStringList filters;
+                        filters << "*.mp4";
+                        dir.setNameFilters(filters);
+
+                        if (!dir.exists()) {
+                            qDebug() << __func__ << __LINE__ << curStuVideoPath << "student folder not found , continue;";
+                            continue;
                         } else {
                             qDebug() << __func__ << __LINE__ << "student " << zkh << "found;";
-
 
                             QStringList videos = dir.entryList(QDir::Files);
                             ArbitrationEntity entity;
@@ -655,6 +615,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         case RequestUploadArbitrationVideo:
         {
             if (success) {
+                qDebug() << __func__ << __LINE__ << "upload success" << "RequestUploadArbitrationVideo";
                 m_requestUploadArbitrationVideoFailTimes = 0;
                 // post one entity from queue successfully
 
@@ -722,10 +683,13 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     // 失败三次就重新登录了
                     sendUploadStudentScore();
                 } else {
-                    // pop one element
-                    dataManager.m_uploadStudentQueue.pop_front();
+                    // pop one element if this student upload failed > 3 times
+                    if (!dataManager.m_uploadStudentQueue.isEmpty()) {
+                        dataManager.m_uploadStudentQueue.pop_front();
+                    }
                     sendUploadStudentScore();
                     m_sendUploadFailedTimes = 0;
+                    break;
                 }
                 m_sendUploadFailedTimes ++;
             }
@@ -776,6 +740,5 @@ void NetWorkServer::sendArbitrationListRequest()
     QNetworkRequest request = makeGetArbitrationListRequest();
     m_currentRequest = RequestArbitrationList;
     QNetworkReply* reply = m_netWorkManager->post(request, "");
-    qDebug() << __func__ << __LINE__;
     Q_UNUSED(reply);
 }
