@@ -230,7 +230,9 @@ private:
 
     void shiftScoreLabel();
 
-    void resetSkipCounterDisply();
+    void resetSkipCounterBeforeSubExam();
+
+    void resetAllSkipCounterBeforeExam();
 
     void resetScoreLabel();
 

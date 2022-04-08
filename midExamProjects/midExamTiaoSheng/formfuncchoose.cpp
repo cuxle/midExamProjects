@@ -324,7 +324,7 @@ void FormFuncChoose::handleStartExam()
     m_curTimeLeftMs = m_totalTimeMs;  
 
     // 1.5 reset display score
-    resetSkipCounterDisply();
+    resetSkipCounterBeforeSubExam();
 
     // 2. skip rope dll reset count
 //    m_skipRopeZeroMq->resetCount();
@@ -453,24 +453,44 @@ void FormFuncChoose::setLeftTime(int leftTimeMs)
     ui->lbCurLeftTimes->setText(text);
 }
 
-void FormFuncChoose::resetSkipCounterDisply()
+void FormFuncChoose::resetAllSkipCounterBeforeExam()
 {
-    // 2.清零计数
-    m_skipCountFromDll = 0;
-
+    // clear ui
     ui->lbScoreFirst->setText(QString::number(0));
     ui->lbScoreSecond->setText(QString::number(0));
     ui->lbScoreThird->setText(QString::number(0));
     ui->lbScoreFinal->setText(QString::number(0));
 
+//    if (m_curScoreLabel != nullptr) {
+//        m_curScoreLabel->setText(QString::number(0));
+//        if (m_curScoreLabel == ui->lbScoreFirst) {
+//            ui->lbScoreFirst->setText(QString::number(0));
+//            ui->lbScoreSecond->setText(QString::number(0));
+//            ui->lbScoreThird->setText(QString::number(0));
+//        }
+//    }
+
+    // clear skip counter
+    m_skipCountFromDll = 0;
+
+    m_curSkipCount = 0;
+
+    m_skipCountMinus = 0;
+
+    handleSkipCountChanged(0);
+}
+void FormFuncChoose::resetSkipCounterBeforeSubExam()
+{
     if (m_curScoreLabel != nullptr) {
-        m_curScoreLabel->setText(QString::number(0));
         if (m_curScoreLabel == ui->lbScoreFirst) {
             ui->lbScoreFirst->setText(QString::number(0));
             ui->lbScoreSecond->setText(QString::number(0));
             ui->lbScoreThird->setText(QString::number(0));
+            ui->lbScoreFinal->setText(QString::number(0));
         }
     }
+    m_skipCountFromDll = 0;
+
     m_curSkipCount = 0;
 
     m_skipCountMinus = 0;
@@ -491,7 +511,7 @@ void FormFuncChoose::startPrepareExam()
         ui->pbStartSkip->setText("停止");
 
         // 2.清零计数
-        resetSkipCounterDisply();
+        resetSkipCounterBeforeSubExam();
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
@@ -1349,6 +1369,8 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     QTimer::singleShot(300, [&](){
         ui->pbConfimUserIdBtn->setStyleSheet("background-color: rgb(61, 127, 255);\ncolor: rgb(0, 0, 0);");
     });
+
+    resetAllSkipCounterBeforeExam();
 
     // 只有用摄像头才需要输入考生id
     if (m_curExamMode != ExamModeFromCamera) return;

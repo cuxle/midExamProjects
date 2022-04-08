@@ -15,6 +15,7 @@
 #include "appconfig.h"
 #include "singleton.h"
 #include <QStandardPaths>
+#include <WinBase.h>
 
 QString serverLocation;
 #if TIAOSHENG
@@ -63,6 +64,9 @@ void createDataFolder()
 void startServer(const QString &serverFullName)
 {
     // start algorithm server
+    QString cmd = QString("cmd /c %1").arg(serverFullName);
+    WinExec(cmd.toLocal8Bit(), SW_HIDE);
+    return;
     QProcess process(0);
     QString startCmd = QString("start /b %1").arg(serverFullName);
     process.start("cmd.exe", QStringList()<< "/c" << startCmd);
@@ -134,7 +138,7 @@ int main(int argc, char *argv[])
 
     int ret = a.exec();
     #if defined(TIAOSHENG) || defined(YTXS)
-    killServer(serverName);
+//    killServer(serverName);
     #endif
     if (ret == RETCODE_RESTART) {
         QProcess::startDetached(qApp->applicationFilePath(), QStringList());

@@ -36,9 +36,10 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
         return font;
     } else if (role == Qt::TextColorRole) {
         QColor color = Qt::white;
-        if ((index.column() == FirstScore && QSqlTableModel::data(index).toBool()) ||
-                (index.column() == SecondScore && QSqlTableModel::data(index).toBool()) ||
-                (index.column() == ThirdScore && QSqlTableModel::data(index).toBool())) {
+        QModelIndex midStopIndex = createIndex(index.row(), index.column() + 3);
+        if ((index.column() == FirstScore && QSqlTableModel::data(midStopIndex).toBool()) ||
+                (index.column() == SecondScore && QSqlTableModel::data(midStopIndex).toBool()) ||
+                (index.column() == ThirdScore && QSqlTableModel::data(midStopIndex).toBool())) {
             color = Qt::red;
         }
         return QVariant::fromValue(color);
