@@ -14,11 +14,15 @@
 #include "initdb.h"
 #include "appconfig.h"
 #include "singleton.h"
+#include <QStandardPaths>
 
+QString serverLocation;
 #if TIAOSHENG
-const QString serverName = "server_tiaosheng.exe";
+const QString serverName = "server_database01.exe";
+QString serverFullName;
 #elif YTXS
 const QString serverName = "server_ytxs.exe";
+QString serverFullName;
 #else
 
 #endif
@@ -53,22 +57,35 @@ void createDataFolder()
         qDebug() << "video dir exists";
     }
 }
-#if defined(TIAOSHENG) || defined(YTXS)
-void initAlgorithmServer()
-{
-    // if server is running, kill the process
-    QProcess process1(0);
-    QString killCmd = QString("taskkill /im %1 /f").arg(serverName);
-    process1.start("cmd.exe", QStringList()<< "/c" << killCmd);
-    process1.waitForStarted();
-    process1.waitForFinished();
 
+#if defined(TIAOSHENG) || defined(YTXS)
+
+void startServer(const QString &serverFullName)
+{
     // start algorithm server
     QProcess process(0);
-    QString startCmd = QString("start D://%1").arg(serverName);
+    QString startCmd = QString("start /b %1").arg(serverFullName);
     process.start("cmd.exe", QStringList()<< "/c" << startCmd);
     process.waitForStarted();
     process.waitForFinished();
+}
+
+void killServer(const QString &serverName)
+{
+    QString killServerCmd = QString("taskkill /im %1 /f").arg(serverName);
+    QProcess process(0);
+    process.start("cmd.exe", QStringList()<< "/c" << killServerCmd);
+    process.waitForStarted();
+    process.waitForFinished();
+}
+
+void initAlgorithmServer()
+{
+    // if server is running, kill the process
+    killServer(serverName);
+
+    // start algorithm server
+    startServer(serverFullName);
 }
 #endif
 
@@ -87,6 +104,8 @@ void initQss()
     }
 }
 
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -99,13 +118,12 @@ int main(int argc, char *argv[])
     createDataFolder();
 
     initDb();
-
 	
     Logger::init();
-
-
 	
 #if defined(TIAOSHENG) || defined(YTXS)
+    serverLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/server/";
+    serverFullName = serverLocation + serverName;
     initAlgorithmServer();
 #endif
 
@@ -115,6 +133,9 @@ int main(int argc, char *argv[])
     logDialog.showNormal();
 
     int ret = a.exec();
+    #if defined(TIAOSHENG) || defined(YTXS)
+    killServer(serverName);
+    #endif
     if (ret == RETCODE_RESTART) {
         QProcess::startDetached(qApp->applicationFilePath(), QStringList());
         return 0;

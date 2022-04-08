@@ -73,7 +73,7 @@ FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDial
         ui->horizontalSpacer_31->changeSize(0, 0);
     }
 
-    // do not open until load viddeo file
+    // init video play until load viddeo file
     // initVideoPlayer();
 
     // init timers
@@ -93,12 +93,6 @@ FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDial
 
 FormFuncChoose::~FormFuncChoose()
 {
-    if (m_curTmpStudent != nullptr) {
-        delete m_curTmpStudent;
-        m_curTmpStudent = nullptr;
-    }
-
-    qDebug() << __func__ << __LINE__;
     if (m_cmdOnline) {
         m_clientThread->quit();
         m_clientThread->wait();
@@ -180,9 +174,9 @@ void FormFuncChoose::initExamTimeVersion()
     AppConfig &config = Singleton<AppConfig>::GetInstance();
     int examTime = config.m_examTime; // m_examTime 0: 60s; m_examTime 1: 30s
 
-    m_currentMediaFile = examTime == 0 ? m_mediapath60s : m_mediapath30s;
+    m_currentMediaFile = (examTime == 0) ? m_mediapath60s : m_mediapath30s;
 
-    m_totalTimeMs =  examTime == 0 ? 60*1000 : 30*1000;
+    m_totalTimeMs =  (examTime == 0) ? 60*1000 : 30*1000;
 }
 
 void FormFuncChoose::initFontDatabase()
@@ -353,7 +347,6 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
 {
     if (m_curExamMode != ExamModeFromCamera) return;
 
-    qDebug() << __func__ << __LINE__ << m_curExamCount << action << (m_curTmpStudent == nullptr);
     QString dataTime = QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd hh:mm:ss ddd");
 //    QDateTime dataTime = QDateTime::currentDateTime().toLocalTime();
     switch (action) {
@@ -519,7 +512,7 @@ void FormFuncChoose::startPrepareExam()
 void FormFuncChoose::initSchoolListInterface()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    m_schoolListModel = new SchoolListTableModel(server.schools(),this);
+    m_schoolListModel = new SchoolListTableModel(this);
     m_schoolListModel->setTable("schools");
 //    m_schoolListModel->setEditStrategy(QSqlTableModel::OnFieldChange);
     m_schoolListModel->select();
@@ -585,6 +578,14 @@ void FormFuncChoose::initScoreModel()
         m_scoreModel->updateModel();
         m_scoreModel->select();
     }
+}
+
+void FormFuncChoose::resetScoreLabel()
+{
+    ui->lbScoreFirst->clear();
+    ui->lbScoreSecond->clear();
+    ui->lbScoreThird->clear();
+    ui->lbScoreFinal->clear();
 }
 
 void FormFuncChoose::shiftScoreLabel()
@@ -1227,31 +1228,10 @@ void FormFuncChoose::stopExamStuff()
 void FormFuncChoose::on_pbStartSkip_clicked()
 {
     // 1. 前提条件 camera is open or video file is loaded
-
-//    QString idText = ui->leUserId->text();
-//    if (idText.isEmpty()) {
-//        QMessageBox::warning(this, "Warning", "请输入考生ID");
-//        return;
-//    } else {
-//        m_videoFileName = ui->leUserId->text() + ".avi";
-//    }
-
-//    // 1. camera is open or video path is set
-//    // if not "Please open camera or load a video file"
-//    if (!m_camera->bIsOpen()) {
-//        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-////        qDebug() << "Please open camera or load a video file";
-//        return;
-//    }
     if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
         QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
         return;
     }
-//    if (!m_bVideoFileLoaded && !m_bCameraIsOpen) {
-//        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-//        return;
-//    }
-
 
     // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
     // state  = 准备阶段 or 考试阶段 -> 停止考试
@@ -1281,7 +1261,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
                 }
             }
             // open this at last, this will cause crash now
-           emit sigStartSaveVideo(true, m_videoFileName); //TODO CRASH
+           emit sigStartSaveVideo(true, m_videoFileName);
 
     //        emit sigUpdateCameraSettings();
             break;
@@ -1314,68 +1294,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
         break;
 
     }
-
-    return;
-    if (m_bVideoFileLoaded || m_bCameraIsOpen) {
-        // real start
-        // start
-        // if video is from camera start save video
-        if (m_bCameraIsOpen) {
-            // 如果是摄像头读入数据，需要输入学生ID
-            QString idText = ui->leUserId->text();
-            if (idText.isEmpty()) {
-                QMessageBox::warning(this, "Warning", "请输入考生ID");
-                return;
-            } else {
-                // 保存视频名称
-                m_videoFileName = ui->leUserId->text();
-                m_videoFileName = m_videoFileName + "_" + QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd-hh-m-ss") + m_saveVideoFormat;
-                AppConfig &config = Singleton<AppConfig>::GetInstance();
-                if (m_curTmpStudent != nullptr) {
-                    m_curTmpStudent->videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
-                }
-            }
-            // open this at last
-            emit sigStartSaveVideo(true, m_videoFileName);
-        } else if (m_bVideoFileLoaded) {
-            // if video is from video, start play video
-            emit sigStartPlayVideo();
-        }
-
-        // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
-        // state  = 准备阶段 or 考试阶段 -> 停止考试
-        switch (m_curExamState) {
-        case ExamNotStart:
-        {
-            m_curExamState = ExamPreparing;
-            if (m_bCameraIsOpen) {
-                emit sigUpdateCameraSettings();
-            }
-
-            shiftScoreLabel();
-            startPrepareExam();
-            break;
-        }
-        case ExamPreparing:
-        case ExamIsRunning:
-        {
-            recordStudentExamInfo(ExamStopFinish);
-            stopExamStuff();
-            break;
-        }
-        default:
-            break;
-
-        }
-    }
-
-
-
-
-    // 2. after back count 5.4.3.2.1. da
-    // 2.1 start count
-    // 2.2 start capture
-    // 2.3 start 60s back count
 }
 
 
@@ -1439,15 +1357,6 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_currentUserId = ui->leUserId->text();
     if (m_currentUserId.isEmpty()) return;
 
-//    DataManager &manager = Singleton<DataManager>::GetInstance();
-//    // m_curTmpStudent == nullptr means this student has finished score
-//    // input id
-//    if (m_curTmpStudent != nullptr) {
-//        if (m_currentUserId != m_curTmpStudent->zkh) {
-//            delete m_curTmpStudent;
-//            m_curTmpStudent = nullptr;
-//        }
-//    }
     if (m_curStudent.zkh == m_currentUserId) {
         return;
     }

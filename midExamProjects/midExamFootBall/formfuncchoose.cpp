@@ -89,7 +89,7 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     initSchoolListInterface();
 
     // init local student table
-    initStudentsListInterface();
+    initScoreModel();
 	
 //    VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
 //    if (videoWidget != nullptr) {
@@ -137,7 +137,7 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     qDebug() << __func__ << __LINE__ << m_y_rangeStart;
     qDebug() << __func__ << __LINE__ << m_y_rangeEnd;
 
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
+    QCPAxis *keyAxis = this->ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     keyAxis->setRange(m_x_rangeStart, m_x_rangeEnd);
     valueAxis->setRange(m_y_rangeStart, m_y_rangeEnd);
@@ -391,12 +391,6 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
     }
 }
 
-void FormFuncChoose::handleUpdateNormalizedData()
-{
-
-}
-
-
 void FormFuncChoose::handleUpdateReceivedLeidaData()
 {
     if (!m_lidarIsOpen) {
@@ -445,7 +439,7 @@ void FormFuncChoose::showExamRegion()
             bool validStart = m_lidaAnalysis->setExamStart(objs[0].x, objs[0].y);
             if (!validStart) {
                 // student is in the regin when the exam is starting
-                // judge as foul start
+                // only show break the rule, start this exam again
                 on_pbZhongTing_clicked();
                 return;
             }
@@ -787,14 +781,16 @@ void FormFuncChoose::handleStartExam()
     m_videoFileName = ui->leUserId->text();
     QString baseName = m_videoFileName + "_" + QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd-hh-m-ss");
     m_videoFileName =  baseName + m_saveVideoFormat;
+
+    // 保存考生路径图片
     QString m_stuMovePathFileName = baseName + m_savePictureFormat;
     AppConfig &config = Singleton<AppConfig>::GetInstance();
     if (m_curStudent.isValid) {
         m_curStudent.videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
     }
-    m_stuMovePathFileName = config.m_videoSavePath + "/video/" + m_stuMovePathFileName;
+    m_stuMovePathFileName = config.m_videoSavePath + "/video/" + m_stuMovePathFileName.split("_").first() + "/" + m_stuMovePathFileName;
     // open this at last, this will cause crash now
-    emit sigStartSaveVideo(true, m_videoFileName); //TODO CRASH
+    emit sigStartSaveVideo(true, m_videoFileName);
 
     ui->examRegin->setStuMovePathFileName(m_stuMovePathFileName);
 
@@ -803,33 +799,21 @@ void FormFuncChoose::handleStartExam()
         ui->pbStartSkip->setEnabled(true);
     });
     ui->pbStartSkip->setText("停止");
+
     recordStudentExamInfo(ExamStart);
-    // 0. update state
+
     m_curExamState = ExamIsRunning;
 
-    // 1. reset 60s
-//    m_curTimeLeftMs = m_totalTimeMs;
-
-    // 1.5 reset display score
-//    resetSkipCounterDisply();
-    // 2. skip rope dll reset count
-//    m_skipRopeZeroMq->resetCount();
-//    m_skipRopeZeroMq->m_bStartCount = true;
-//    m_ropeSkipWorker->resetCount();
-//    m_ropeSkipWorker->m_bStartCount = true;
-//    emit sigResetCount();
-//    m_volleyballWorker->m_bStartCount = true;
-
-//    emit sigStartCount(true);
     ui->examRegin->startExam(true);
+
     m_exminStudentInRegin = true;
+
     m_examFirstRunning = true;
 }
 
 void FormFuncChoose::startExamWhenStuEnterExamRegin()
 {
     // record start time for exam
-
     m_forwardCountTimer->start();
 }
 
@@ -1024,7 +1008,7 @@ void FormFuncChoose::startPrepareExam()
 void FormFuncChoose::initSchoolListInterface()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    m_schoolListModel = new SchoolListTableModel(server.schools(),this);
+    m_schoolListModel = new SchoolListTableModel(this);
     m_schoolListModel->setTable("schools");
 //    m_schoolListModel->setEditStrategy(QSqlTableModel::OnFieldChange);
     m_schoolListModel->select();
@@ -1061,13 +1045,14 @@ void FormFuncChoose::handleResizeSchoolListView()
     }
 }
 
-void FormFuncChoose::initStudentsListInterface()
+void FormFuncChoose::initScoreModel()
 {
     // 1. init examed student
-    if (m_studentsModel == nullptr) {
-        m_studentsModel = new LocalStudentTableModel(this);
-        m_studentsModel->setTable("scores");
-        ui->tblViewStudentData->setModel(m_studentsModel);
+    if (m_scoreModel == nullptr) {
+        m_scoreModel = new LocalStudentTableModel(this);
+        m_scoreModel->setTable("scores");
+        ui->tblViewStudentData->setModel(m_scoreModel);
+        ui->tblViewStudentData->setColumnHidden(Id, true);
         ui->tblViewStudentData->setColumnHidden(MidStopFirst, true);
         ui->tblViewStudentData->setColumnHidden(MidStopSecond, true);
         ui->tblViewStudentData->setColumnHidden(MidStopThird, true);
@@ -1078,15 +1063,16 @@ void FormFuncChoose::initStudentsListInterface()
         ui->tblViewStudentData->setColumnHidden(ExamSecondStopTime, true);
         ui->tblViewStudentData->setColumnHidden(ExamThirdStartTime, true);
         ui->tblViewStudentData->setColumnHidden(ExamThirdStopTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamCount, true);
 
         ui->tblViewStudentData->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tblViewStudentData->verticalHeader()->setHidden(true);
         connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, [&](){
-            m_studentsModel->updateModel();
-            m_studentsModel->select();
+            m_scoreModel->updateModel();
+            m_scoreModel->select();
         });
-        m_studentsModel->updateModel();
-        m_studentsModel->select();
+        m_scoreModel->updateModel();
+        m_scoreModel->select();
     }
 }
 
@@ -1659,6 +1645,13 @@ void FormFuncChoose::stopExamStuff()
     qDebug() << __func__ << __LINE__ << m_curExamCount << m_examCount;
     if (m_curExamCount == m_examCount) {
         saveAndUploadStudentScore();
+        if (m_curStudent.midStopFirst && m_curStudent.midStopSecond) {
+            ui->lbScoreFinal->setText("犯规");
+        } else if (m_curStudent.midStopFirst && !m_curStudent.midStopSecond) {
+            ui->lbScoreFinal->setText(QString::number(m_curStudent.firstScore/1000.0, 'f', 2));
+        } else if (!m_curStudent.midStopFirst && m_curStudent.midStopSecond) {
+            ui->lbScoreFinal->setText(QString::number(m_curStudent.secondScore/1000.0, 'f', 2));
+        }
         m_curExamCount = 0;
     }
 
@@ -2027,6 +2020,7 @@ void FormFuncChoose::on_pbZhongTing_clicked()
 
         // TODO update student score info
         ui->pbZhongTing->setEnabled(false);
+
         QTimer::singleShot(1000, [&](){
             ui->pbZhongTing->setEnabled(true);
         });

@@ -93,7 +93,6 @@ private slots:
     void requestFinished(QNetworkReply* reply);
     void sendArbitrationListRequest();
     void sendHeartBeatRequst();
-    void handleRequsetLoginCmd();
 
 signals:
     void sigLoginStateChanged(bool loginSucess);

@@ -232,6 +232,8 @@ private:
 
     void resetSkipCounterDisply();
 
+    void resetScoreLabel();
+
 //    ScoreManageModel *m_model = nullptr;
 //    QList<QSharedPointer<StudentItem>> m_students;
 //    StudentManager *m_studentsManager = nullptr;
@@ -313,7 +315,6 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     Student *m_curTmpStudent = nullptr;
      Student m_curStudent;
 
      LocalStudentTableModel *m_scoreModel = nullptr;

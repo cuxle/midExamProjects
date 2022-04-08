@@ -38,11 +38,10 @@
 #include "networkserver.h"
 #include "datamanagerdb.h"
 
-SchoolListTableModel::SchoolListTableModel(QList<School*> &schools, QObject *parent) :
-    QSqlTableModel(parent),
-    m_schools(schools)
+SchoolListTableModel::SchoolListTableModel(QObject *parent) :
+    QSqlTableModel(parent)
 {
-    m_columnCount = 4;
+
 }
 
 int SchoolListTableModel::rowCount(const QModelIndex &parent) const

@@ -1002,7 +1002,7 @@ void FormFuncChoose::startPrepareExam()
 void FormFuncChoose::initSchoolListInterface()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    m_schoolListModel = new SchoolListTableModel(server.schools(),this);
+    m_schoolListModel = new SchoolListTableModel(this);
     m_schoolListModel->setTable("schools");
 //    m_schoolListModel->setEditStrategy(QSqlTableModel::OnFieldChange);
     m_schoolListModel->select();
@@ -2018,7 +2018,9 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         QTimer::singleShot(1000, [&](){
             ui->pbZhongTing->setEnabled(true);
         });
+
         stopExamStuff();
+
         if (m_curScoreLabel == nullptr) {
             qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
             return;

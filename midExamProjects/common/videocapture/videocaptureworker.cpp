@@ -133,12 +133,14 @@ void VideoCaptureWorker::setVideoSavePath(const QString &fileName)
 void VideoCaptureWorker::openSavedFile(const QString &fileName)
 {
     if (!m_fileIsOpened) {
-        m_videoWriter = QSharedPointer<videoWriterFFmpeg>(new videoWriterFFmpeg);
-        m_videoWriter->setCameraId(3);
-        m_videoWriter->setTimeFlag(true);
-
         AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
         m_videoPath = appconfig.m_videoSavePath + "/video";
+
+        m_videoWriter = QSharedPointer<videoWriterFFmpeg>(new videoWriterFFmpeg);
+        m_videoWriter->setCameraId(appconfig.m_deviceId.toInt());
+        m_videoWriter->setTimeFlag(true);
+
+
 
         QString fullVideoFolder = m_videoPath + "/"+ m_fileName.split("_").first();
         QDir dir(fullVideoFolder);

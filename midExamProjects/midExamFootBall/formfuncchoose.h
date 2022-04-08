@@ -219,9 +219,6 @@ private slots:
 public slots:
     // update point cloud
     void handleUpdateReceivedLeidaData();
-
-    // update normalized football or basketball regin
-    void handleUpdateNormalizedData();
     void updateRectPointTopLeft(const QPoint &topLeft);
     void updateRectPointBottomRight(const QPoint &bottomRight);
 
@@ -237,7 +234,6 @@ private slots:
     void on_pbRotateRightLeiDa_pressed();
 
     void on_pbRotateRightLeiDa_released();
-
 private:
     enum ExamAction {
         ExamStart,
@@ -296,7 +292,7 @@ private:
 
     void initSchoolListInterface();
 
-    void initStudentsListInterface();
+    void initScoreModel();
 
     void shiftScoreLabel();
 
@@ -417,7 +413,7 @@ private:
      Student *m_curTmpStudent = nullptr;
      Student m_curStudent;
 
-     LocalStudentTableModel *m_studentsModel = nullptr;
+     LocalStudentTableModel *m_scoreModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
      QString m_examProjectName;
@@ -434,7 +430,7 @@ private:
      QString m_mediaDingPath = "qrc:/resource/sound/ding.wav";
      QMediaPlayer *m_dingPlayer = nullptr;
      QMediaPlayer *m_mp3Player = nullptr;
-     bool m_enableStartSound = true;
+     bool m_enableStartSound = false;
 
      bool m_startShown = false;
 

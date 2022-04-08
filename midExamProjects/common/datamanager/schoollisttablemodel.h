@@ -40,7 +40,7 @@ class SchoolListTableModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
-    explicit SchoolListTableModel(QList<School*> &schools, QObject *parent = 0);
+    explicit SchoolListTableModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -51,13 +51,6 @@ public:
 public slots:
     void schoolListDataChanged();
 private:
-    QList<School*> &m_schools;
-    QList<QVector<qreal> * > m_data;
-    QHash<QString, QRect> m_mapping;
-    int m_columnCount;
-    int m_rowCount;
-
-    // QAbstractItemModel interface
 public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     void updateModel();
