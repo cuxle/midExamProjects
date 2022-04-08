@@ -91,17 +91,17 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-//    if (!License::verifyLicenseFromFile("./license.lic")) {
-//        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
-//        return -1;
-//    }
+    if (!License::verifyLicenseFromFile("./license.lic")) {
+        QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
+        return -1;
+    }
 
     createDataFolder();
 
     initDb();
 
 	
-  //  Logger::init();
+    Logger::init();
 
 
 	
