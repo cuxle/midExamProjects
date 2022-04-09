@@ -39,8 +39,6 @@ void VolleyballWorker::destroylib()
 
 void VolleyballWorker::handleReceiveImage(const QImage &image)
 {
-
-
     if (m_bStartCount) {
         QImage img = image;
         m_count = m_volcntlib->CountVolleyball(img.height(), img.width(), img.bits());
@@ -49,7 +47,7 @@ void VolleyballWorker::handleReceiveImage(const QImage &image)
     }
 }
 
-void VolleyballWorker::handleReceiveImage2(cv::Mat image)
+void VolleyballWorker::handleReceiveMat(const cv::Mat &image)
 {
     if (m_bStartCount) {
 //        QImage img = image;

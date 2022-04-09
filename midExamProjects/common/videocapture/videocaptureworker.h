@@ -27,8 +27,10 @@ public slots:
     void initWorker();
 #if TIAOSHENG
     void handleReceiveImage(const QImage &iamge, int time);
+    void handleReceiveMat(const cv::Mat &mat, int time);
 #else
     void handleReceiveImage(const QImage &iamge);
+    void handleReceiveMat(const cv::Mat &mat);
 #endif
 
     void setVideoSavePath(const QString &fileName);
