@@ -658,7 +658,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
             // TODO format to discuss
             DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
             qDebug() << __func__ << __LINE__ << "upload success:" << success;
-//            qDebug() << __func__ << __LINE__ << "response:" << jsonResponse;
+            qDebug() << __func__ << __LINE__ << "response:" << jsonResponse;
             if (success) {
                 // upload one student score success                
                 Student curStudent = dataManager.m_uploadStudentQueue.front();
@@ -667,6 +667,9 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                 curStudent.uploadStatus = dataObj["uploadStatus"].toInt(); // upload 1 success 0 failed
 
                 DataManagerDb::updateStudentScoreUploadStatus(curStudent);
+
+
+                emit sigStudentScoreUploaded();
 
                 dataManager.m_uploadStudentQueue.pop_front();
                 m_sendUploadFailedTimes = 0;

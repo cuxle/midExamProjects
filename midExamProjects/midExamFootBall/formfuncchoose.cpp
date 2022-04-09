@@ -83,7 +83,6 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 //        initSocketClient();
 //    }
 	
-//	initVolleyballWorker();
 
     // init school list model
     initSchoolListInterface();
@@ -111,10 +110,10 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     m_lidarFace = m_config.m_lidarFace;
     m_lidarType = m_config.m_lidarType;
 
-    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftX;
-    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftY;
-    qDebug() << __func__ << __LINE__ << m_rectReginWidth;
-    qDebug() << __func__ << __LINE__ << m_rectReginHight;
+//    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftX;
+//    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftY;
+//    qDebug() << __func__ << __LINE__ << m_rectReginWidth;
+//    qDebug() << __func__ << __LINE__ << m_rectReginHight;
 
 
 
@@ -132,12 +131,12 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     float m_y_rangeStart = m_config.m_y_rangeStart;
     float m_y_rangeEnd = m_config.m_y_rangeEnd;
 
-    qDebug() << __func__ << __LINE__ << m_x_rangeStart;
-    qDebug() << __func__ << __LINE__ << m_x_rangeEnd;
-    qDebug() << __func__ << __LINE__ << m_y_rangeStart;
-    qDebug() << __func__ << __LINE__ << m_y_rangeEnd;
+//    qDebug() << __func__ << __LINE__ << m_x_rangeStart;
+//    qDebug() << __func__ << __LINE__ << m_x_rangeEnd;
+//    qDebug() << __func__ << __LINE__ << m_y_rangeStart;
+//    qDebug() << __func__ << __LINE__ << m_y_rangeEnd;
 
-    QCPAxis *keyAxis = this->ui->plot->graph(0)->keyAxis();
+    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     keyAxis->setRange(m_x_rangeStart, m_x_rangeEnd);
     valueAxis->setRange(m_y_rangeStart, m_y_rangeEnd);
@@ -145,7 +144,6 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     qDebug() << __func__ << __LINE__ << "delta angle:" << m_deltaAngle;
 
     connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
-
 
 
     QTimer::singleShot(2000, [&](){
@@ -159,12 +157,6 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 
 FormFuncChoose::~FormFuncChoose()
 {
-    if (m_curTmpStudent != nullptr) {
-        delete m_curTmpStudent;
-        m_curTmpStudent = nullptr;
-    }
-
-    qDebug() << __func__ << __LINE__;
 //    if (m_cmdOnline) {
 //        m_clientThread->quit();
 //        m_clientThread->wait();
@@ -177,7 +169,7 @@ FormFuncChoose::~FormFuncChoose()
 //        delete m_mp3Player;
 //    }
 
-    disconnect(m_camera, &Camera::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
+//    disconnect(m_camera, &Camera::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
 
     m_cameraThread->quit();
     m_cameraThread->wait();
@@ -474,7 +466,7 @@ void FormFuncChoose::showExamRegion()
     }
 
 
-    qDebug() << "obj[0] pos:" << objs[0]._PointXYZ::x << " " << objs[0]._PointXYZ::y;
+//    qDebug() << "obj[0] pos:" << objs[0]._PointXYZ::x << " " << objs[0]._PointXYZ::y;
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     QPoint point = QPoint(keyAxis->coordToPixel(objs[0]._PointXYZ::x), valueAxis->coordToPixel(objs[0]._PointXYZ::y));
@@ -1670,7 +1662,7 @@ void FormFuncChoose::stopExamStuff()
     // stop count in skip rope
 //    emit sigStartCount(false);
     ui->examRegin->startExam(false);
-    ui->examRegin->savePath();
+
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
 //    m_ropeSkipWorker->m_bStartCount = false;
 //    m_situpWorker->m_bStartCount = false;
@@ -1693,12 +1685,28 @@ void FormFuncChoose::stopExamStuff()
 //    }
 
     m_forwardCountTimer->stop();
+
     qDebug() << __func__<< __LINE__ << m_forwardCountTimer->isActive();
 //    QMessageBox::warning(this, "warning", "stop timer");
 
 
 //        m_curTimeLeftMs = m_totalTimeMs;
     m_curForwardSeconds = 0;
+
+    QTimer::singleShot(500, [&](){
+        if (m_curScoreLabel == nullptr) {
+            qDebug() << __func__<< __LINE__ << ("m_curScoreLabel is null");
+            return;
+        }
+        QString time = m_curScoreLabel->text();
+        bool isOK = false;
+        time.toFloat(&isOK);
+        if (isOK) {
+            time + "s";
+        }
+        ui->examRegin->savePath(m_curStudent.zkh, time);
+
+    });
 
     setLeftTimeSeconds(0);
 //    if (!m_cmdOnline) {

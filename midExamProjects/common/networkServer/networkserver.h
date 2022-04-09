@@ -98,6 +98,7 @@ signals:
     void sigLoginStateChanged(bool loginSucess);
     void sigSchoolListDataChanged();
     void sigSchoolDataDownloaded(bool);
+    void sigStudentScoreUploaded();
 
 private:
     QNetworkRequest makeLoginRequest();

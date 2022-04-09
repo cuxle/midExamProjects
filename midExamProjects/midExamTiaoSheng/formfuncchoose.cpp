@@ -47,6 +47,8 @@
 
 #include <QLockFile>
 
+#include <QLocale>
+
 
 FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDialog *parent) :
     QDialog(parent),
@@ -346,8 +348,10 @@ void FormFuncChoose::handleStartExam()
 void FormFuncChoose::recordStudentExamInfo(ExamAction action)
 {
     if (m_curExamMode != ExamModeFromCamera) return;
-
-    QString dataTime = QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd hh:mm:ss ddd");
+    QString strFormat = "yyyy-MM-dd hh:mm:ss ddd";
+    QDateTime dateTime = QDateTime::currentDateTime();
+    QLocale local = QLocale::English;
+    QString dataTime = local.toString(dateTime, strFormat);
 //    QDateTime dataTime = QDateTime::currentDateTime().toLocalTime();
     switch (action) {
     case ExamStart:
@@ -591,13 +595,19 @@ void FormFuncChoose::initScoreModel()
 
         ui->tblViewStudentData->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tblViewStudentData->verticalHeader()->setHidden(true);
-        connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, [&](){
-            m_scoreModel->updateModel();
-            m_scoreModel->select();
-        });
-        m_scoreModel->updateModel();
-        m_scoreModel->select();
+
+        connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, this, &FormFuncChoose::handleUpdateScoreModel);
+        NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
+        connect(&server, &NetWorkServer::sigStudentScoreUploaded, this, &FormFuncChoose::handleUpdateScoreModel);
+
+        handleUpdateScoreModel();
     }
+}
+
+void FormFuncChoose::handleUpdateScoreModel()
+{
+    m_scoreModel->updateModel();
+    m_scoreModel->select();
 }
 
 void FormFuncChoose::resetScoreLabel()

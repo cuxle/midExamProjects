@@ -169,6 +169,8 @@ private slots:
 	
 	void handleUploadExamedStudentsScore();
 
+    void handleUpdateScoreModel();
+
 //    void handleSendLoginInCmdRequest();
 
 private:

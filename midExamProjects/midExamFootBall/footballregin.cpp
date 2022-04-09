@@ -6,6 +6,8 @@
 #include <QContextMenuEvent>
 #include <QPixmap>
 #include <QPalette>
+#include <QPainter>
+#include <QPen>
 #include "appconfig.h"
 #include "singleton.h"
 #include "lidar/lidarAnalysis.h"
@@ -40,7 +42,8 @@ void FootballRegin::updateStudentPointPosFromStdFootGround(std::vector<pcl::Poin
                 && floatEqual(objs[i]._PointXYZ::x, 0)) {
             continue;
         }
-        qDebug() << __func__ << __LINE__ << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
+
+//        qDebug() << __func__ << __LINE__ <<"convert before" << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
         float x_pixel = objs[i]._PointXYZ::x / m_per_pixelX + m_origin.x();
         float y_pixel = m_origin.y() - objs[i]._PointXYZ::y / m_per_pixelY;
         m_studentsPoints.push_back(QPointF(x_pixel, y_pixel));
@@ -63,7 +66,7 @@ void FootballRegin::startExam(bool started)
     }
 }
 
-void FootballRegin::savePath()
+void FootballRegin::savePath(const QString &zkh, const QString &time)
 {
      // 停止考试了， 要保存考生路径为图片
     if (!m_examStarted) {
@@ -71,6 +74,19 @@ void FootballRegin::savePath()
         QPixmap pix(this->size());
         this->render(&pix);
         pix.save(m_stuMovePathFileName);
+
+        QPixmap pixmap(m_stuMovePathFileName);
+        QPainter painter(&pixmap);
+        painter.begin(&pixmap);
+        painter.setPen(Qt::red);
+        QFont font;
+        font.setPixelSize(30);
+        font.setFamily("Microsoft YaHei");
+        painter.setFont(font);
+        painter.drawText(QPoint(50, 50), zkh);
+        painter.drawText(QPoint(50, 100), time);
+        painter.end();
+        pixmap.save(m_stuMovePathFileName);
         qDebug() << __func__ << __LINE__ << m_stuMovePathFileName;
     }
 }

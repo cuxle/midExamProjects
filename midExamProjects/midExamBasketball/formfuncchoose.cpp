@@ -49,6 +49,7 @@
 #include "qcustomplot.h"
 
 
+
 FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     QDialog(parent),
     ui(new Ui::FormFuncChoose),
@@ -157,12 +158,6 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 
 FormFuncChoose::~FormFuncChoose()
 {
-    if (m_curTmpStudent != nullptr) {
-        delete m_curTmpStudent;
-        m_curTmpStudent = nullptr;
-    }
-
-    qDebug() << __func__ << __LINE__;
 //    if (m_cmdOnline) {
 //        m_clientThread->quit();
 //        m_clientThread->wait();
@@ -1664,7 +1659,8 @@ void FormFuncChoose::stopExamStuff()
     // stop count in skip rope
 //    emit sigStartCount(false);
     ui->examRegin->startExam(false);
-    ui->examRegin->savePath();
+
+
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
 //    m_ropeSkipWorker->m_bStartCount = false;
 //    m_situpWorker->m_bStartCount = false;
@@ -1693,6 +1689,21 @@ void FormFuncChoose::stopExamStuff()
 
 //        m_curTimeLeftMs = m_totalTimeMs;
     m_curForwardSeconds = 0;
+
+    QTimer::singleShot(500, [&](){
+        if (m_curScoreLabel == nullptr) {
+            qDebug() << __func__<< __LINE__ << ("m_curScoreLabel is null");
+            return;
+        }
+        QString time = m_curScoreLabel->text();
+        bool isOK = false;
+        time.toFloat(&isOK);
+        if (isOK) {
+            time + "s";
+        }
+        ui->examRegin->savePath(m_curStudent.zkh, time);
+
+    });
 
     setLeftTimeSeconds(0);
 //    if (!m_cmdOnline) {

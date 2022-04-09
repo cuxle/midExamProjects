@@ -6,9 +6,12 @@
 #include <QContextMenuEvent>
 #include <QPixmap>
 #include <QPalette>
+#include <QPainter>
+#include <QPen>
 #include "appconfig.h"
 #include "singleton.h"
 #include "lidar/lidarBasketballAnalysis.h"
+#include <QPainterPath>
 
 bool floatEqual(float a, float b)
 {
@@ -64,7 +67,7 @@ void FootballRegin::startExam(bool started)
     }
 }
 
-void FootballRegin::savePath()
+void FootballRegin::savePath(const QString &zkh, const QString &time)
 {
      // 停止考试了， 要保存考生路径为图片
     if (!m_examStarted) {
@@ -72,6 +75,19 @@ void FootballRegin::savePath()
         QPixmap pix(this->size());
         this->render(&pix);
         pix.save(m_stuMovePathFileName);
+
+        QPixmap pixmap(m_stuMovePathFileName);
+        QPainter painter(&pixmap);
+        painter.begin(&pixmap);
+        painter.setPen(Qt::red);
+        QFont font;
+        font.setPixelSize(30);
+        font.setFamily("Microsoft YaHei");
+        painter.setFont(font);
+        painter.drawText(QPoint(50, 50), zkh);
+        painter.drawText(QPoint(50, 100), time);
+        painter.end();
+        pixmap.save(m_stuMovePathFileName);
         qDebug() << __func__ << __LINE__ << m_stuMovePathFileName;
     }
 }
@@ -219,10 +235,16 @@ void FootballRegin::showExamStudentPath()
     m_pen2.setColor(QColor("green"));
     m_pen2.setWidth(3);
     m_pen2.setStyle(Qt::SolidLine);
+    QPainterPath path;
+    if (m_stuPointsPath.size() > 0) {
+        path.moveTo(m_stuPointsPath.at(0));
+        for (int i = 1; i < m_stuPointsPath.size(); i++) {
+            path.lineTo(m_stuPointsPath.at(i));
+        }
+    }
     QPainter painterline(this);
     painterline.setPen(m_pen2);
-    painterline.drawLines(m_stuPointsPath);
-
+    painterline.drawPath(path);
 }
 
 void FootballRegin::showExamRegin()
