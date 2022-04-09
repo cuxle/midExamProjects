@@ -12,7 +12,7 @@
 //#include "algorithm/situpinterface.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
-#include "TmpStudent.h"
+#include "Student.h"
 #include "algorithm/volleyballworker.h"
 
 class Camera;
@@ -169,7 +169,7 @@ private slots:
 
     void on_leUserId_editingFinished();
 	
-	void handleSendLoginInCmdRequest();
+	void handleUploadExamedStudentsScore();
 
     void handlePlayDingSound();
 
@@ -196,6 +196,8 @@ private:
     void clearAppConfig();
 
     void recordStudentExamInfo(ExamAction action);
+
+    void handleResizeSchoolListView();
 
     Ui::FormFuncChoose *ui;
 
@@ -324,11 +326,13 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     TmpStudent *m_curTmpStudent = nullptr;
+     Student *m_curTmpStudent = nullptr;
+     Student m_curStudent;
 
      LocalStudentTableModel *m_studentsModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
+     QString m_examProjectName;
      QLabel *m_curScoreLabel = nullptr;
      QLabel *m_preScoreLabel = nullptr;
      QFont m_choosenFont;

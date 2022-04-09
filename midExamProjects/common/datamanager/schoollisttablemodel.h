@@ -33,13 +33,14 @@
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QHash>
 #include <QtCore/QRect>
+#include <QSqlTableModel>
 #include "networkserver.h"
 
-class SchoolListTableModel : public QAbstractTableModel
+class SchoolListTableModel : public QSqlTableModel
 {
     Q_OBJECT
 public:
-    explicit SchoolListTableModel(QList<School*> &schools, QObject *parent = 0);
+    explicit SchoolListTableModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -47,19 +48,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    void insertRow(int position, const QModelIndex &parent = QModelIndex());
-    void addMapping(QString color, QRect area);
-    void clearMapping() { m_mapping.clear(); }
 public slots:
     void schoolListDataChanged();
 private:
-    QList<School*> &m_schools;
-    QList<QVector<qreal> * > m_data;
-    QHash<QString, QRect> m_mapping;
-    int m_columnCount;
-    int m_rowCount;
-
-    // QAbstractItemModel interface
 public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     void updateModel();

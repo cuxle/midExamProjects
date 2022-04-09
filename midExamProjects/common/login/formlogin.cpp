@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include "singleton.h"
 #include "datamanager.h"
+#include "datamanagerdb.h"
 #include "appconfig.h"
 
 #if defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
@@ -33,45 +34,27 @@ FormLogin::FormLogin(QWidget *parent) :
 
 //    connect(&server, &NetWorkServer::sigLoginStateChanged, this, &FormLogin::hanldeLoginStateChanged);
     ui->cmbUserId->lineEdit()->setPlaceholderText("请输入用户名");
+
     QFont font;
     font.setFamily(QString::fromUtf8("Microsoft YaHei"));
     font.setPixelSize(18);
+
     ui->cmbUserId->lineEdit()->setFont(font);
     ui->leUserCode->setFont(font);
+
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-    qDebug() <<  __func__ << __LINE__ << appconfig.m_userNameslist.size();
     for (auto &item : appconfig.m_userNameslist) {
-        qDebug() << item << __func__ << __LINE__;
         ui->cmbUserId->addItem(item);
     }
 }
 
 FormLogin::~FormLogin()
 {
-    QString killServerCmd;
-#if YTXS
-    killServerCmd = "taskkill /im server_ytxs.exe /f";
-#endif
-
-#if TIAOSHENG
-    killServerCmd = "taskkill /im server_tiaosheng.exe /f";
-#endif
-
-#if YWQZ
-    killServerCmd = "taskkill /im server_ywqz.exe /f";
-#endif
 
 #if  defined(YTXS) || defined(TIAOSHENG) || defined(YWQZ)
     m_skipRopeZeroMqThread->quit();
     m_skipRopeZeroMqThread->wait();
-
-    QProcess process(0);
-    process.start("cmd.exe", QStringList()<< "/c" << killServerCmd);
-    process.waitForStarted();
-    process.waitForFinished();
-
 #endif
-
     delete ui;
 }
 
@@ -146,13 +129,10 @@ void FormLogin::on_pbLoginOnline_clicked()
 //    QString id = ui->leUserNameLogin->text();
     QString code = ui->leUserCode->text();
 
-    DataManager &dataManager = Singleton<DataManager>::GetInstance();
+    DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
     dataManager.updateIdCode(id, code);
 
     initMainFrm(true);
-//    NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-//    // send login post
-//    server.sendLoginInCmdRequest(id, code);
 }
 
 void FormLogin::updateUserNameListInfo(const QString &arg1)
@@ -164,5 +144,4 @@ void FormLogin::updateUserNameListInfo(const QString &arg1)
         appconfig.m_userNameslist.removeOne(arg1);
         appconfig.m_userNameslist.push_front(arg1);
     }
-    qDebug() << __func__ << __LINE__ << arg1 << appconfig.m_userNameslist;
 }

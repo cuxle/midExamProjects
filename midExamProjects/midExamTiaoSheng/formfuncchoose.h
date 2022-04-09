@@ -12,7 +12,7 @@
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
-#include "TmpStudent.h"
+#include "Student.h"
 
 class Camera;
 class QThread;
@@ -75,6 +75,8 @@ signals:
     void sigLocalStudentsDataChanged();
 
     void sigStopVideoPlay();
+
+    void sigImageCapture(const QImage &image, int time);
 private slots:
 
     void handleStartExamFromRemote(bool start);
@@ -164,8 +166,12 @@ private slots:
     void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
 
     void on_leUserId_editingFinished();
+	
+	void handleUploadExamedStudentsScore();
 
-    void handleSendLoginInCmdRequest();
+    void handleUpdateScoreModel();
+
+//    void handleSendLoginInCmdRequest();
 
 private:
     enum ExamAction {
@@ -190,12 +196,14 @@ private:
 
     void recordStudentExamInfo(ExamAction action);
 
+    void handleResizeSchoolListView();
+
     Ui::FormFuncChoose *ui;
 
     enum ExamState {
         ExamNotStart,
         ExamPreparing,
-        ExamIsRunning,
+        ExamIsRunning
     };
 
     enum ExamMode {
@@ -219,11 +227,16 @@ private:
     void startPrepareExam();
 
     void initSchoolListInterface();
-    void initStudentsListInterface();
+
+    void initScoreModel();
 
     void shiftScoreLabel();
 
-    void resetSkipCounterDisply();
+    void resetSkipCounterBeforeSubExam();
+
+    void resetAllSkipCounterBeforeExam();
+
+    void resetScoreLabel();
 
 //    ScoreManageModel *m_model = nullptr;
 //    QList<QSharedPointer<StudentItem>> m_students;
@@ -306,11 +319,12 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     TmpStudent *m_curTmpStudent = nullptr;
+     Student m_curStudent;
 
-     LocalStudentTableModel *m_studentsModel = nullptr;
+     LocalStudentTableModel *m_scoreModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
+     QString m_examProjectName;
      QLabel *m_curScoreLabel = nullptr;
      QLabel *m_preScoreLabel = nullptr;
      QFont m_choosenFont;

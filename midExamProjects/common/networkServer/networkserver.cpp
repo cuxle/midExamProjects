@@ -7,7 +7,7 @@
 #include <QUrlQuery>
 #include "singleton.h"
 #include "appconfig.h"
-#include "datamanager.h"
+#include "datamanagerdb.h"
 
 NetWorkServer::NetWorkServer(QObject *parent)
     : QObject(parent)
@@ -24,31 +24,59 @@ NetWorkServer::~NetWorkServer()
 {
 }
 
-void NetWorkServer::initLoginTimer()
+void NetWorkServer::requestFor(RequestType type)
 {
-    m_loginTimer = new QTimer(this);
-    connect(m_loginTimer, &QTimer::timeout, this, &NetWorkServer::handleRequsetLoginCmd);
-    m_loginTimer->setInterval(m_loginInternals);
-}
-
-void NetWorkServer::initArbitrationTimer()
-{
-    // when login successfully start this timer
-    m_arbitrationTimer = new QTimer(this);
-    connect(m_arbitrationTimer, &QTimer::timeout, this, &NetWorkServer::sendArbitrationListRequest);
-    m_arbitrationTimer->setInterval(m_arbitratonInternals);
-}
-
-void NetWorkServer::initHeartBeatTimer()
-{
-    m_heartBeatTimer = new QTimer(this);
-    connect(m_heartBeatTimer, &QTimer::timeout, this, &NetWorkServer::sendHeartBeatRequst);
-    m_heartBeatTimer->setInterval(m_heartBeatInternals);
-}
-
-void NetWorkServer::handleRequsetLoginCmd()
-{
+    m_nextRequest = type;
     sendLoginInCmdRequest();
+}
+
+void NetWorkServer::handleNextRequest(RequestType type)
+{
+    switch(type) {
+    case RequestLoginIn:
+    {
+        sendLoginInCmdRequest();
+        break;
+    }
+    case RequestSchoolList:
+    {
+        sendGetSchoolListRequest();
+        break;
+    }
+    case RequestCheckedSchoolStudents:
+    {
+        sendGetAllSchoolStudentsList();
+//        sendGetCurrentSchoolStudentsRequest();
+        break;
+    }
+    case RequestArbitrationList:
+    {
+        sendArbitrationListRequest();
+        break;
+    }
+    case RequestUploadArbitrationVideo:
+    {
+        sendUploadArbitrationInfoRequst();
+        break;
+    }
+    case RequestExamProject:
+    {
+        sendExamProjectRequest();
+        break;
+    }
+    case RequestUploadAllExamedStudentScore:
+    {
+        sendUploadAllExamedStudentScore();
+        break;
+    }
+    case RequestUploadStudentScore:
+    {
+        sendUploadStudentScore();
+        break;
+    }   
+    default:
+        break;
+    }
 }
 
 QNetworkRequest NetWorkServer::makeHeartBeatRequst()
@@ -77,6 +105,7 @@ void NetWorkServer::sendExamProjectRequest()
     QNetworkRequest request = makeExamProjectRequst();
     m_currentRequest = RequestExamProject;
     QNetworkReply* reply = m_netWorkManager->get(request);
+    qDebug() << __func__ << __LINE__;
     Q_UNUSED(reply);
 }
 
@@ -98,7 +127,7 @@ void NetWorkServer::sendHeartBeatRequst()
 
 void NetWorkServer::sendLoginInCmdRequest()
 {
-    DataManager &manager = Singleton<DataManager>::GetInstance();
+    DataManagerDb &manager = Singleton<DataManagerDb>::GetInstance();
 
     QJsonDocument doc;
     QJsonObject obj;
@@ -106,6 +135,9 @@ void NetWorkServer::sendLoginInCmdRequest()
     obj["userName"] = manager.m_curIdCode.id;
     obj["password"] = manager.m_curIdCode.code;
     doc.setObject(obj);
+
+    qDebug() << __func__ << __LINE__ << manager.m_curIdCode.id;
+    qDebug() << __func__ << __LINE__ << manager.m_curIdCode.code;
 
     QNetworkRequest request = makeLoginRequest();
     m_currentRequest = RequestLoginIn;
@@ -118,21 +150,15 @@ void NetWorkServer::sendGetSchoolListRequest()
     QNetworkRequest request = makeGetSchoolListRequest();
     m_currentRequest = RequestSchoolList;
     QNetworkReply* reply = m_netWorkManager->get(request);
+    qDebug() << __func__ << __LINE__ ;
     Q_UNUSED(reply);
 }
 
 void NetWorkServer::sendGetCurrentSchoolStudentsRequest()
 {
-    if (m_schoolsToDownload.isEmpty()) return;
+    if (m_schoolsToDownloadByZxdm.isEmpty()) return;
 
-    School *school = m_schoolsToDownload.front();
-    if (school == nullptr) {
-        return;
-    }
-//    m_schoolToDownload.pop_front();
-
-    QString schoolCode = school->zxdm;
-    if (schoolCode.isEmpty()) return;
+    QString zxdm = m_schoolsToDownloadByZxdm.front();
 
     QString requestTail = "/xuetong/business/biz/host/getCandidate";
 
@@ -140,26 +166,21 @@ void NetWorkServer::sendGetCurrentSchoolStudentsRequest()
     QUrl url(req);
 
     QUrlQuery query;
-    query.addQueryItem("zxdm", schoolCode);
+    query.addQueryItem("zxdm", zxdm);
     url.setQuery(query.query());
 
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json;charset=UTF-8");
 
-//    QNetworkRequest request = makeGetSchoolStudentsRequest(schoolCode);
-    m_currentRequest = RequestCurrentSchool;
+    m_currentRequest = RequestCurrentSchoolStudents;
     QNetworkReply* reply = m_netWorkManager->post(request, "");
-    qDebug() << __func__ << __LINE__ << schoolCode.toUtf8();
     Q_UNUSED(reply);
 }
 
 void NetWorkServer::sendGetAllSchoolStudentsList()
 {
-    for (auto &item : m_schools) {
-        if (item->checked) {
-            m_schoolsToDownload.push_back(item);
-        }
-    }
+    DataManagerDb::selectSchoolsChecked(m_schoolsToDownloadByZxdm);
+
     sendGetCurrentSchoolStudentsRequest();
 }
 
@@ -180,104 +201,57 @@ QNetworkRequest NetWorkServer::makeUploadStudentScore()
     1. upload unloaded students
     2. then request arbitration list
 */
+void NetWorkServer::sendUploadAllExamedStudentScore()
+{
+    DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
+    dataManager.readUnUploadedStudents();
+    sendUploadStudentScore();
+}
 
 void NetWorkServer::sendUploadStudentScore()
 {
-//    if (!m_localFileAreadyRead) {
-        // read unUploaded students into m_uploadQueue
-//        QLockFile lockFile(QDir::currentPath() + "/data/lockfile");
-//        if (!lockFile.tryLock(20)) {
-//            QTimer::singleShot(500, [&](){
-//                sendUploadStudentScore();
-//            });
-//            return;
-//        }
-
-
-/*
-        //        QString localStudentsScoreFile = QDir::currentPath() + "/data/localStudentsScore.json";
-//        QJsonDocument docc = manager.readJsonToJsonDoc(localStudentsScoreFile);
-//        QJsonObject objj = docc.object();
-//        QJsonArray arryy = objj["students"].toArray();
-//        for (int i = 0; i < arryy.size(); i++) {
-//            QJsonObject objjj = arryy[i].toObject();
-//            if (objjj["uploadStatus"].toInt() == 0) {
-//                TmpStudent *student = new TmpStudent;
-//                student->zkh = objjj["zkh"].toString();
-//                student->name = objjj["name"].toString();
-//                student->gender = objjj["gender"].toInt();
-//                student->bctyxm = objjj["bctyxm"].toString();
-//                student->xctyxm1 = objjj["xctyxm1"].toString();
-//                student->xctyxm2 = objjj["xctyxm2"].toString();
-//                student->firstScore = objjj["firstScore"].toInt();
-//                student->secondScore = objjj["secondScore"].toInt();
-//                student->thirdScore = objjj["thirdScore"].toInt();
-//                student->examTime = objjj["examTime"].toString();
-//                student->uploadStatus = objjj["uploadStatus"].toInt();
-//                student->errorMsg = objjj["errorMsg"].toString();
-//                student->onSiteVideo = objjj["onSiteVideo"].toString();
-//                student->zxmc = objjj["zxmc"].toString();
-//                // 这个uploadStatus是服务器自己控制的，还是我来控制的，讲道理应该是服务器自己控制的
-//                student->uploadStatus = objjj["uploadStatus"].toInt();
-//                m_uploadStudentQueue.push_back(student);
-//            }
-//        }
-
-//    }
-*/
     //TODO 这里有个问题， DataManager中的queue何时更新呢
     // 1. 重新读取本地json文件
     // 2. 一次考试结束时，更新queue内容
     //TODO 何时保存呢
     // 1. queue 为空时，表示文件里的东西上传完了，可以保存一次
-
-
-    DataManager &dataManager = Singleton<DataManager>::GetInstance();
-    if (m_isNotUploading) {
-        dataManager.initReadLocalStudents();
-    }
-
+    DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
     if (!dataManager.m_uploadStudentQueue.isEmpty()) {
-        m_isNotUploading = false;
         // form the current student upload info
         QJsonDocument doc;
-
         QJsonValue value;
         // get devName from appconfig
         AppConfig &config = Singleton<AppConfig>::GetInstance();
-        TmpStudent *curStudent = dataManager.m_uploadStudentQueue.front();
-        if (curStudent == nullptr) {
-            qDebug() << __func__ << __LINE__ << "curStudent is null";
-            return;
-        }
+
+        Student curStudent = dataManager.m_uploadStudentQueue.front();
         QJsonArray array;
-        for (int i = 1; i <= curStudent->examCount; i++) {
+        for (int i = 1; i <= curStudent.examCount; i++) {
             QJsonObject obj;
             obj["examId"] = dataManager.m_curExamInfo.value;
             if (i == 1) {
                 // 目前跳绳只有一次成绩，只上传firstscore
-                obj["result"] = curStudent->firstScore;
-                obj["gmtEnded"] = curStudent->examStopFirstTime;
-                obj["gmtStarted"] = curStudent->examStartFirstTime;
+                obj["result"] = curStudent.firstScore;
+                obj["gmtEnded"] = curStudent.examStopFirstTime;
+                obj["gmtStarted"] = curStudent.examStartFirstTime;
                 // midStop 是不是也应该有三次
-                obj["other"] = curStudent->midStopFirst ? 1 : 0;
+                obj["other"] = curStudent.midStopFirst ? 1 : 0;
             } else if (i == 2) {
                 // 目前跳绳只有一次成绩，只上传firstscore
-                obj["result"] = curStudent->secondScore;
-                obj["gmtEnded"] = curStudent->examStopSecondTime;
-                obj["gmtStarted"] = curStudent->examStartSecondTime;
+                obj["result"] = curStudent.secondScore;
+                obj["gmtEnded"] = curStudent.examStopSecondTime;
+                obj["gmtStarted"] = curStudent.examStartSecondTime;
                 // midStop 是不是也应该有三次
-                obj["other"] = curStudent->midStopSecond ? 1 : 0;
+                obj["other"] = curStudent.midStopSecond ? 1 : 0;
             } else if (i == 3) {
                 // 目前跳绳只有一次成绩，只上传firstscore
-                obj["result"] = curStudent->thirdScore;
-                obj["gmtEnded"] = curStudent->examStopThirdTime;
-                obj["gmtStarted"] = curStudent->examStartThirdTime;
+                obj["result"] = curStudent.thirdScore;
+                obj["gmtEnded"] = curStudent.examStopThirdTime;
+                obj["gmtStarted"] = curStudent.examStartThirdTime;
                 // midStop 是不是也应该有三次
-                obj["other"] = curStudent->midStopSecond ? 1 : 0;
+                obj["other"] = curStudent.midStopSecond ? 1 : 0;
             }
 
-            obj["ksId"] = curStudent->id;
+            obj["ksId"] = curStudent.id;
 
             //0 人工， 1， 设备， 2， 减考， 3，免考
             obj["resultType"] = 1;
@@ -290,33 +264,23 @@ void NetWorkServer::sendUploadStudentScore()
             // 0, 必考项目; 1, 选考项目
             obj["type"] = 1;
 
-            obj["devName"] = config.m_deviceId.toInt();
-
             qDebug() << "examId" << dataManager.m_curExamInfo.value;
-            qDebug() << "gmtEnded" << curStudent->examStopFirstTime;
-            qDebug() << "gmtStarted" << curStudent->examStartFirstTime;
-            qDebug() << "ksId" << curStudent->id;
+            qDebug() << "gmtEnded" << curStudent.examStopFirstTime;
+            qDebug() << "gmtStarted" << curStudent.examStartFirstTime;
+            qDebug() << "ksId" << curStudent.id;
             qDebug() << "objKsId:" << obj["ksId"];
-            qDebug() << "result" << curStudent->firstScore;
-            qDebug() << "resultType" << 1;
+            qDebug() << "result" << curStudent.firstScore;
             array.append(obj);
         }
 
         doc.setArray(array);
 
-        qDebug() << doc;
+//        qDebug() << doc;
 
         QNetworkRequest request = makeUploadStudentScore();
         m_currentRequest = RequestUploadStudentScore;
         QNetworkReply* reply = m_netWorkManager->post(request, doc.toJson());
         Q_UNUSED(reply);
-    } else {
-        dataManager.saveLocalStudents(); //good
-
-        // 发送视频仲裁列表请求, 20220208 TODO 保存视频太大，暂不上传视频 -- 2022.2.10 已解决
-        sendArbitrationListRequest();
-
-        m_isNotUploading = true;
     }
 }
 
@@ -370,6 +334,8 @@ void NetWorkServer::sendUploadArbitrationInfoRequst()
         filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\";filename=\""+ m_file.fileName() + "\""));
         filePart.setBody(m_file.readAll());
         multiPart->append(filePart);
+    } else {
+        qDebug() << __func__ << __LINE__ << "open file failed";
     }
 
     QHttpPart idPart;
@@ -464,32 +430,20 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         switch (m_currentRequest) {
         case RequestLoginIn:
         {
-            m_isLogin = success;
-            m_loginTime = jsonObject["time"].toString();
+            if (success) {
+                m_isLogin = success;
+                m_loginTime = jsonObject["time"].toString();
 
-            // parse token
-            QJsonObject obj = jsonObject["data"].toObject();
-            m_tokenValue = obj["token"].toString();
+                // parse token
+                QJsonObject obj = jsonObject["data"].toObject();
+                m_tokenValue = obj["token"].toString();
 
-            qDebug() << "m_isLogin:" << m_isLogin;
-            qDebug() << "m_loginTime:" << m_loginTime;
-            qDebug() << "m_currentToken:" << m_tokenValue;
-            if (m_isLogin) {
+                qDebug() << __func__ << __LINE__ << "m_isLogin:" << m_isLogin;
+                qDebug() << __func__ << __LINE__ << "m_loginTime:" << m_loginTime;
+                qDebug() << __func__ << __LINE__ << "m_currentToken:" << m_tokenValue;
+
                 m_loginFailTimes = 0;
-                if (!m_isOnlyLogin) {
-                    sendUploadStudentScore();
-                }
-                // 0. 判断有没有项目文件太麻烦，就每次都发吧
-                // 1. 如果无考试项目文件，发送获取考试项目命令
-//                sendExamProjectRequest();
-//                DataManager &dataManager = Singleton<DataManager>::GetInstance();
-//                if (!dataManager.m_curExamInfo.valid) {
-//                    sendExamProjectRequest();
-//                }
-                // 2. 发送
-
-//                emit sigLoginStateChanged(m_isLogin);
-//                m_loginTimer->stop();
+                handleNextRequest(m_nextRequest);
             } else {
                 // no response also resend TODO
                 if (m_loginFailTimes < 3) {
@@ -511,71 +465,48 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     QJsonObject schoolObj;
                     QJsonValue value = array[i];
                     QJsonObject obj = array[i].toObject();
+//                    int id = obj["id"].toInt();
+                    QString zxmc = obj["zxmc"].toString();
+                    QString zxdm = obj["zxdm"].toString();
 
-                    School *school = new School;
-                    school->checked = false;
-                    school->id = obj["id"].toInt();
-                    school->qxdm = obj["qxdm"].toString();
-                    school->qxmc = obj["qxmc"].toString();
-                    school->schoolName = obj["zxmc"].toString();
-                    school->zxdm = obj["zxdm"].toString();
-                    school->updatedTime = obj["updateTime"].toString();
-                    school->zxmc = obj["zxmc"].toString();
-                    school->status = 0;
-                    m_schools.append(school);
+                    DataManagerDb::addSchool(0, zxdm, zxmc, 0);
+
+
+
                     emit sigSchoolListDataChanged();
                 }
-                if (!array.isEmpty()) {
-                    DataManager &manager = Singleton<DataManager>::GetInstance();
-                    manager.saveJsonToFile(jsonResponse.toJson(), manager.m_basePath + "/data/schoollist.json");
-                }
 
-                sendExamProjectRequest();
+                handleNextRequest(RequestExamProject);
+//                sendExamProjectRequest();
             }
 
             break;
         }
-        case RequestCurrentSchool:
+        case RequestCurrentSchoolStudents:
         {
             if (success) {
                 // parse one school student
-                m_schoolsToDownload.front()->status = 1; // loaded
-                m_schoolsToDownload.pop_front();
-
+                QString zxdm = m_schoolsToDownloadByZxdm.front();
+                DataManagerDb::updateSchoolDownloadStatus(zxdm, 1);
                 emit sigSchoolDataDownloaded(true);
-                // update interface
+                m_schoolsToDownloadByZxdm.pop_front();
 
                 // pasrse all student to joson file
                 QJsonArray array = jsonObject["data"].toArray();  // students list
-
-                // clear all student array
-//                while (!m_studentArray.empty()) {
-//                    m_studentArray.removeLast();
-//                }
-
                 for (int i = 0; i < array.size(); i++) {
-                    m_studentArray.append(array[i].toObject());
+                    QJsonObject obj = array[i].toObject();
+                    QString zkh = obj["zkh"].toString();
+                    QString name = obj["name"].toString();
+                    int gender = obj["gender"].toInt();
+                    QString zxdm = obj["zxdm"].toString();
+                    QString zxmc = obj["zxmc"].toString();
+                    QString id = obj["id"].toString();
+//                    qDebug() << __func__ << zkh << name << gender << zxdm << zxmc << id;
+                    DataManagerDb::addStudent(zkh, name, gender, zxdm, zxmc, id);
                 }
-
-                if (!m_schoolsToDownload.isEmpty()) {
+                if (!m_schoolsToDownloadByZxdm.isEmpty()) {
+//                    handleNextRequest(RequestCurrentSchoolStudents);
                     sendGetCurrentSchoolStudentsRequest();
-                } else {
-                    // save received students data into json file
-                    if (m_studentArray.size() != 0) {
-                        QString appPath = QDir::currentPath();
-
-
-                        QJsonObject studentObj;
-                        studentObj["students"] = m_studentArray;
-
-                        QJsonDocument studentDoc;
-                        studentDoc.setObject(studentObj);
-
-                        DataManager &manager = Singleton<DataManager>::GetInstance();
-                        QString totalStudentsFileName = manager.m_basePath + "/data/totalStudents.json";
-                        manager.saveJsonToFile(studentDoc.toJson(), totalStudentsFileName);
-                        manager.initReadTotalStudents();
-                    }
                 }
                 break;
             }
@@ -598,8 +529,8 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     response.devName = obj["devName"].toString();
 
                     // TODO 设备号与本机设备号不一致直接退出
-                    if (response.devName.isEmpty() || response.devName == curDevName) {
-                        qDebug() << __func__ << __LINE__ << "devName not be compatible";
+                    if (response.devName.isEmpty() || response.devName != curDevName) {
+                        qDebug() << __func__ << __LINE__ << response.devName << curDevName << "devName not be compatible";
                         return;
                     }
 
@@ -613,16 +544,20 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     // arbitration id
                     // zkh -> video nums:total, video path
                     // type : video and picture
-                    QString zkh = obj["zkh"].toString();
+                    QString zkh = response.zkh;
 
                     // type 1 视频 2轨迹图
                     // need upload picture
                     if (response.pictureReq == 1) {
-                        QString curStuVideoPath = config.m_videoSavePath + "/data/picture/" + zkh + "/";
+                        QString curStuVideoPath = config.m_videoSavePath + "/video/" + zkh + "/";
                         QDir dir(curStuVideoPath);
+                        QStringList filters;
+                        filters << "*.png";
+                        dir.setNameFilters(filters);
                         // 不存在这个考生视频，直接推出
                         if (!dir.exists()) {
-                            qDebug() << __func__ << __LINE__ << "student not found , continue;";
+                            qDebug() << __func__ << __LINE__ << "student folder not found , continue;";
+                            continue;
                         } else {
                             QStringList pictures = dir.entryList(QDir::Files);
                             ArbitrationEntity entity;
@@ -640,13 +575,17 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     // need upload video
                     if (response.videoReq == 1) {
                         QString curStuVideoPath = config.m_videoSavePath + "/video/" + zkh + "/";
-                        QDir dir(curStuVideoPath);
-                        if (!dir.exists()) {
-                            qDebug() << __func__ << __LINE__ << curStuVideoPath << "student not found , continue;";
 
+                        QDir dir(curStuVideoPath);
+                        QStringList filters;
+                        filters << "*.mp4";
+                        dir.setNameFilters(filters);
+
+                        if (!dir.exists()) {
+                            qDebug() << __func__ << __LINE__ << curStuVideoPath << "student folder not found , continue;";
+                            continue;
                         } else {
                             qDebug() << __func__ << __LINE__ << "student " << zkh << "found;";
-
 
                             QStringList videos = dir.entryList(QDir::Files);
                             ArbitrationEntity entity;
@@ -676,6 +615,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         case RequestUploadArbitrationVideo:
         {
             if (success) {
+                qDebug() << __func__ << __LINE__ << "upload success" << "RequestUploadArbitrationVideo";
                 m_requestUploadArbitrationVideoFailTimes = 0;
                 // post one entity from queue successfully
 
@@ -694,24 +634,17 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         }
         case RequestExamProject:
         {
-            // success: true
             if (success) {
                 m_requestExamProjectFailedTimes = 0;
                 // parse exam project to DataManager
-                DataManager &dataManager = Singleton<DataManager>::GetInstance();
-                dataManager.parseExamProjectJsonDoc(jsonResponse);
-                QString saveName = "/data/localExamProjects.json";
-                dataManager.saveJsonToFile(jsonResponse.toJson(), dataManager.m_basePath + saveName);
-                // start heart beat
-                // another option, no use timer, just use logic between services
-//                if (m_isLogin) {
-//                    m_heartBeatTimer->start();
-//                }                
+                DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
+                dataManager.parseExamProjectJsonDoc(jsonResponse);             
             } else {
                 // success: false
                 // retry 3 times still failed re login                
                 if (m_requestExamProjectFailedTimes < 3) {
-                    sendExamProjectRequest();
+                    handleNextRequest(RequestExamProject);
+//                    sendExamProjectRequest();
                 }
                 m_requestExamProjectFailedTimes++;
             }
@@ -720,40 +653,46 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         case RequestUploadStudentScore:
         {
             // if request queue is not empty, continue to request
-            // if request queue is empty, transfer to next request
-            DataManager &dataManager = Singleton<DataManager>::GetInstance();
+            // if request queue is empty, transfer to next request            
             // send request upload based on request info list
             // TODO format to discuss
+            DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
             qDebug() << __func__ << __LINE__ << "upload success:" << success;
-//            qDebug() << __func__ << __LINE__ << "response:" << jsonResponse;
+            qDebug() << __func__ << __LINE__ << "response:" << jsonResponse;
             if (success) {
-                // upload one student score success
-                TmpStudent *student = dataManager.m_uploadStudentQueue.front();
+                // upload one student score success                
+                Student curStudent = dataManager.m_uploadStudentQueue.front();
+
                 QJsonObject dataObj = jsonObject["data"].toObject();
-                student->uploadStatus = dataObj["uploadStatus"].toInt(); // upload 1 success 0 failed
+                curStudent.uploadStatus = dataObj["uploadStatus"].toInt(); // upload 1 success 0 failed
+
+                DataManagerDb::updateStudentScoreUploadStatus(curStudent);
+
+
+                emit sigStudentScoreUploaded();
+
                 dataManager.m_uploadStudentQueue.pop_front();
                 m_sendUploadFailedTimes = 0;
 
-                sendUploadStudentScore();
-//                if (!dataManager.m_uploadStudentQueue.isEmpty()) {
-//                    sendUploadStudentScore();
-//                } else {
-//                    dataManager.saveLocalStudents(); //good
-
-//                    // 发送视频仲裁列表请求， 视频过大暂时不发，20220208 TODO
+                if (!dataManager.m_uploadStudentQueue.isEmpty()) {
+                    sendUploadStudentScore();
+                } else {
+                    // 发送视频仲裁列表请求， 视频过大暂时不发，20220208 TODO
+                    handleNextRequest(RequestArbitrationList);
 //                    sendArbitrationListRequest();
-//                }
-
-
+                }
             } else {
                 if (m_sendUploadFailedTimes < 3) {
                     // 失败三次就重新登录了
                     sendUploadStudentScore();
                 } else {
-                    // pop one element
-                    dataManager.m_uploadStudentQueue.pop_front();
+                    // pop one element if this student upload failed > 3 times
+                    if (!dataManager.m_uploadStudentQueue.isEmpty()) {
+                        dataManager.m_uploadStudentQueue.pop_front();
+                    }
                     sendUploadStudentScore();
                     m_sendUploadFailedTimes = 0;
+                    break;
                 }
                 m_sendUploadFailedTimes ++;
             }
@@ -804,6 +743,5 @@ void NetWorkServer::sendArbitrationListRequest()
     QNetworkRequest request = makeGetArbitrationListRequest();
     m_currentRequest = RequestArbitrationList;
     QNetworkReply* reply = m_netWorkManager->post(request, "");
-    qDebug() << __func__ << __LINE__;
     Q_UNUSED(reply);
 }

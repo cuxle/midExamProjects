@@ -52,109 +52,108 @@
 #define INITDB_H
 
 #include <QtSql>
+#include "appconfig.h"
+#include "singleton.h"
 
-void addBook(QSqlQuery &q, const QString &title, int year, const QVariant &authorId,
-             const QVariant &genreId, int rating)
-{
-    q.addBindValue(title);
-    q.addBindValue(year);
-    q.addBindValue(authorId);
-    q.addBindValue(genreId);
-    q.addBindValue(rating);
-    q.exec();
-}
-
-QVariant addGenre(QSqlQuery &q, const QString &name)
-{
-    q.addBindValue(name);
-    q.exec();
-    return q.lastInsertId();
-}
-
-QVariant addAuthor(QSqlQuery &q, const QString &name, QDate birthdate)
-{
-    q.addBindValue(name);
-    q.addBindValue(birthdate);
-    q.exec();
-    return q.lastInsertId();
-}
-
-const auto SCHOOLS_SQL = QLatin1String(R"(
-    create table books(id integer primary key, title varchar, author integer,
-                       genre integer, year integer, rating integer)
-    )");
+//    m_dataManager = new DataManagerDb;
 
 const auto STUDENTS_SQL =  QLatin1String(R"(
-    create table authors(id integer primary key, name varchar, birthdate date)
-    )");
+        create table students(zkh varchar(20), name varchar(20),  gender integer, zxdm varchar(20), zxmc varchar(20), id varchar(30)))");
+
+const auto SCHOOLS_SQL =  QLatin1String(R"(
+        create table schools(checked integer, zxdm varchar(10) unique, zxmc varchar(15), downloaded integer))");
+
+const auto IDS_SQL =  QLatin1String(R"(
+        create table ids(id varchar(10) unique))");
+
+const auto INSERT_IDS_SQL = QLatin1String(R"(
+        insert into ids(id)
+                    values(?))");
+
+const auto EXAMPROJECTS_SQL =  QLatin1String(R"(
+        create table examprojects(name varchar(15), type varchar(15), unit varchar(15), value varchar(20)))");
+
+const auto INSERT_EXAMPROJECT_SQL = QLatin1String(R"(
+        insert into examprojects(name, type, unit, value)
+                          values(?, ?, ?, ?))");
+
+const auto INSERT_STUDENT_SQL = QLatin1String(R"(
+        insert into students(id, zkh, name, gender, zxdm, zxmc)
+                          values(?, ?, ?, ?, ?, ?))");
+
+const auto INSERT_SCHOOL_SQL = QLatin1String(R"(
+        insert into schools(checked, zxdm, zxmc, downloaded)
+                          values(?, ?, ?, ?))");
 
 const auto SCORES_SQL = QLatin1String(R"(
-    create table genres(id integer primary key, name varchar)
-    )");
+        create table scores(zkh varchar(20),
+        id varchar(30),
+        name varchar(10),
+        gender interger,
+        project varchar(10),
+        firstScore integer,
+        secondScore integer,
+        thirdScore integer,
+        midStopFirst integer,
+        midStopSecond integer,
+        midStopThird integer,
+        examCount integer,
+        examTime varchar(40),
+        firstStartTime varchar(40),
+        firstStopTime varchar(40),
+        secondStartTime varchar(40),
+        secondStopTime varchar(40),
+        thirdStartTime varchar(40),
+        thirdStopTime varchar(40),
+        uploadStatus integer,
+        isOnline integer,
+        errorMsg varchar(40),
+        onSiteVideo varchar(40)))");
 
-const auto INSERT_AUTHOR_SQL = QLatin1String(R"(
-    insert into authors(name, birthdate) values(?, ?)
-    )");
+const auto INSERT_SCORE_SQL = QLatin1String(R"(
+        insert into scores(zkh, id, name, gender, project, firstScore, secondScore, thirdScore,
+                           midStopFirst, midStopSecond, midStopThird, examCount, examTime,  firstStartTime,
+        firstStopTime, secondStartTime, secondStopTime, thirdStartTime, thirdStopTime, uploadStatus, isOnline, errorMsg, onSiteVideo)
+                           values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))");
 
-const auto INSERT_BOOK_SQL = QLatin1String(R"(
-    insert into books(title, year, author, genre, rating)
-                      values(?, ?, ?, ?, ?)
-    )");
-
-const auto INSERT_GENRE_SQL = QLatin1String(R"(
-    insert into genres(name) values(?)
-    )");
-
-QSqlError initDb()
+void initDb()
 {
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    QString dataFolder = m_config.m_videoSavePath + "/data/";
+    QString dataBaseName = dataFolder + "database.db";
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(":memory:");
+    db.setDatabaseName(dataBaseName);
 
-    if (!db.open())
-        return db.lastError();
+    if (!db.open()) {
+        qDebug() << __func__ << db.lastError().text();
+    } else {
+        qDebug() << __func__ << "database open successfully";
+    }
 
     QStringList tables = db.tables();
-    if (tables.contains("books", Qt::CaseInsensitive)
-        && tables.contains("authors", Qt::CaseInsensitive))
-        return QSqlError();
+    qDebug() << __func__ <<  __LINE__ << tables;
+    if (tables.contains("studetns", Qt::CaseInsensitive)
+            && tables.contains("schools", Qt::CaseInsensitive)
+            && tables.contains("scores", Qt::CaseInsensitive)
+            && tables.contains("examprojects", Qt::CaseInsensitive)) {
+        qDebug() << db.lastError().text();
+        return;
+    }
 
     QSqlQuery q;
-    if (!q.exec(SCHOOLS_SQL))
-        return q.lastError();
+    if (!q.exec(SCHOOLS_SQL)) {
+        qDebug() << __func__ <<  __LINE__ << q.lastError().text();
+    }
+
+    if (!q.exec(EXAMPROJECTS_SQL))
+        qDebug() << __func__ << __LINE__ << q.lastError().text();
+
     if (!q.exec(STUDENTS_SQL))
-        return q.lastError();
+        qDebug() << __func__ << __LINE__ << q.lastError().text();
+
     if (!q.exec(SCORES_SQL))
-        return q.lastError();
+        qDebug() << __func__ << __LINE__ << q.lastError().text();
 
-    if (!q.prepare(INSERT_AUTHOR_SQL))
-        return q.lastError();
-    QVariant asimovId = addAuthor(q, QLatin1String("Isaac Asimov"), QDate(1920, 2, 1));
-    QVariant greeneId = addAuthor(q, QLatin1String("Graham Greene"), QDate(1904, 10, 2));
-    QVariant pratchettId = addAuthor(q, QLatin1String("Terry Pratchett"), QDate(1948, 4, 28));
 
-    if (!q.prepare(INSERT_GENRE_SQL))
-        return q.lastError();
-    QVariant sfiction = addGenre(q, QLatin1String("Science Fiction"));
-    QVariant fiction = addGenre(q, QLatin1String("Fiction"));
-    QVariant fantasy = addGenre(q, QLatin1String("Fantasy"));
-
-    if (!q.prepare(INSERT_BOOK_SQL))
-        return q.lastError();
-    addBook(q, QLatin1String("Foundation"), 1951, asimovId, sfiction, 3);
-    addBook(q, QLatin1String("Foundation and Empire"), 1952, asimovId, sfiction, 4);
-    addBook(q, QLatin1String("Second Foundation"), 1953, asimovId, sfiction, 3);
-    addBook(q, QLatin1String("Foundation's Edge"), 1982, asimovId, sfiction, 3);
-    addBook(q, QLatin1String("Foundation and Earth"), 1986, asimovId, sfiction, 4);
-    addBook(q, QLatin1String("Prelude to Foundation"), 1988, asimovId, sfiction, 3);
-    addBook(q, QLatin1String("Forward the Foundation"), 1993, asimovId, sfiction, 3);
-    addBook(q, QLatin1String("The Power and the Glory"), 1940, greeneId, fiction, 4);
-    addBook(q, QLatin1String("The Third Man"), 1950, greeneId, fiction, 5);
-    addBook(q, QLatin1String("Our Man in Havana"), 1958, greeneId, fiction, 4);
-    addBook(q, QLatin1String("Guards! Guards!"), 1989, pratchettId, fantasy, 3);
-    addBook(q, QLatin1String("Night Watch"), 2002, pratchettId, fantasy, 3);
-    addBook(q, QLatin1String("Going Postal"), 2004, pratchettId, fantasy, 3);
-
-    return QSqlError();
 }
-
 #endif

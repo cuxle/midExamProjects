@@ -36,6 +36,7 @@
 #include "settingdialog.h"
 #include "networkserver.h"
 #include "videowidget.h"
+#include "datamanagerdb.h"
 
 
 #include "singleton.h"
@@ -82,13 +83,12 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 //        initSocketClient();
 //    }
 	
-//	initVolleyballWorker();
 
     // init school list model
     initSchoolListInterface();
 
     // init local student table
-    initStudentsListInterface();
+    initScoreModel();
 	
 //    VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
 //    if (videoWidget != nullptr) {
@@ -110,10 +110,10 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     m_lidarFace = m_config.m_lidarFace;
     m_lidarType = m_config.m_lidarType;
 
-    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftX;
-    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftY;
-    qDebug() << __func__ << __LINE__ << m_rectReginWidth;
-    qDebug() << __func__ << __LINE__ << m_rectReginHight;
+//    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftX;
+//    qDebug() << __func__ << __LINE__ << m_rectReginTopLeftY;
+//    qDebug() << __func__ << __LINE__ << m_rectReginWidth;
+//    qDebug() << __func__ << __LINE__ << m_rectReginHight;
 
 
 
@@ -131,10 +131,10 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     float m_y_rangeStart = m_config.m_y_rangeStart;
     float m_y_rangeEnd = m_config.m_y_rangeEnd;
 
-    qDebug() << __func__ << __LINE__ << m_x_rangeStart;
-    qDebug() << __func__ << __LINE__ << m_x_rangeEnd;
-    qDebug() << __func__ << __LINE__ << m_y_rangeStart;
-    qDebug() << __func__ << __LINE__ << m_y_rangeEnd;
+//    qDebug() << __func__ << __LINE__ << m_x_rangeStart;
+//    qDebug() << __func__ << __LINE__ << m_x_rangeEnd;
+//    qDebug() << __func__ << __LINE__ << m_y_rangeStart;
+//    qDebug() << __func__ << __LINE__ << m_y_rangeEnd;
 
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
@@ -143,9 +143,7 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     m_currentAngle = m_config.m_deltaAngle;
     qDebug() << __func__ << __LINE__ << "delta angle:" << m_deltaAngle;
 
-// TODO check need or not
     connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
-
 
 
     QTimer::singleShot(2000, [&](){
@@ -159,12 +157,6 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 
 FormFuncChoose::~FormFuncChoose()
 {
-    if (m_curTmpStudent != nullptr) {
-        delete m_curTmpStudent;
-        m_curTmpStudent = nullptr;
-    }
-
-    qDebug() << __func__ << __LINE__;
 //    if (m_cmdOnline) {
 //        m_clientThread->quit();
 //        m_clientThread->wait();
@@ -177,7 +169,7 @@ FormFuncChoose::~FormFuncChoose()
 //        delete m_mp3Player;
 //    }
 
-    disconnect(m_camera, &Camera::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
+//    disconnect(m_camera, &Camera::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
 
     m_cameraThread->quit();
     m_cameraThread->wait();
@@ -391,12 +383,6 @@ void FormFuncChoose::LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData
     }
 }
 
-void FormFuncChoose::handleUpdateNormalizedData()
-{
-
-}
-
-
 void FormFuncChoose::handleUpdateReceivedLeidaData()
 {
     if (!m_lidarIsOpen) {
@@ -445,7 +431,7 @@ void FormFuncChoose::showExamRegion()
             bool validStart = m_lidaAnalysis->setExamStart(objs[0].x, objs[0].y);
             if (!validStart) {
                 // student is in the regin when the exam is starting
-                // judge as foul start
+                // only show break the rule, start this exam again
                 on_pbZhongTing_clicked();
                 return;
             }
@@ -480,7 +466,7 @@ void FormFuncChoose::showExamRegion()
     }
 
 
-    qDebug() << "obj[0] pos:" << objs[0]._PointXYZ::x << " " << objs[0]._PointXYZ::y;
+//    qDebug() << "obj[0] pos:" << objs[0]._PointXYZ::x << " " << objs[0]._PointXYZ::y;
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     QPoint point = QPoint(keyAxis->coordToPixel(objs[0]._PointXYZ::x), valueAxis->coordToPixel(objs[0]._PointXYZ::y));
@@ -680,17 +666,15 @@ void FormFuncChoose::initTimers()
     m_3minsDelayTimer->setInterval(3*60*1000);
 //    m_3minsDelayTimer->setInterval(20*1000);
 //    m_3minsDelayTimer->setInterval(10*1000);
-    connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleSendLoginInCmdRequest);
+    connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleUploadExamedStudentsScore);
     m_3minsDelayTimer->start();
 }
 
 
-void FormFuncChoose::handleSendLoginInCmdRequest()
+void FormFuncChoose::handleUploadExamedStudentsScore()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    server.m_isNotUploading = true; // read local file
-    server.m_isOnlyLogin = false;
-    server.sendLoginInCmdRequest();
+    server.requestFor(NetWorkServer::RequestUploadAllExamedStudentScore);
 }
 
 //void FormFuncChoose::initSocketClient()
@@ -784,19 +768,21 @@ void FormFuncChoose::handleStartExam()
 //        m_dingPlayer->stop();
 //        m_mp3Player->stop();
 //    });
-    resetSkipCounterDisply();
+//    resetSkipCounterDisply();
     // 保存视频名称    
     m_videoFileName = ui->leUserId->text();
     QString baseName = m_videoFileName + "_" + QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd-hh-m-ss");
     m_videoFileName =  baseName + m_saveVideoFormat;
+
+    // 保存考生路径图片
     QString m_stuMovePathFileName = baseName + m_savePictureFormat;
     AppConfig &config = Singleton<AppConfig>::GetInstance();
-    if (m_curTmpStudent != nullptr) {
-        m_curTmpStudent->videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
+    if (m_curStudent.isValid) {
+        m_curStudent.videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
     }
-    m_stuMovePathFileName = config.m_videoSavePath + "/video/" + m_stuMovePathFileName;
+    m_stuMovePathFileName = config.m_videoSavePath + "/video/" + m_stuMovePathFileName.split("_").first() + "/" + m_stuMovePathFileName;
     // open this at last, this will cause crash now
-    emit sigStartSaveVideo(true, m_videoFileName); //TODO CRASH
+    emit sigStartSaveVideo(true, m_videoFileName);
 
     ui->examRegin->setStuMovePathFileName(m_stuMovePathFileName);
 
@@ -806,33 +792,20 @@ void FormFuncChoose::handleStartExam()
     });
     ui->pbStartSkip->setText("停止");
 
-    // 0. update state
+    recordStudentExamInfo(ExamStart);
+
     m_curExamState = ExamIsRunning;
 
-    // 1. reset 60s
-//    m_curTimeLeftMs = m_totalTimeMs;
-
-    // 1.5 reset display score
-//    resetSkipCounterDisply();
-    // 2. skip rope dll reset count
-//    m_skipRopeZeroMq->resetCount();
-//    m_skipRopeZeroMq->m_bStartCount = true;
-//    m_ropeSkipWorker->resetCount();
-//    m_ropeSkipWorker->m_bStartCount = true;
-//    emit sigResetCount();
-//    m_volleyballWorker->m_bStartCount = true;
-
-//    emit sigStartCount(true);
     ui->examRegin->startExam(true);
+
     m_exminStudentInRegin = true;
+
     m_examFirstRunning = true;
 }
 
 void FormFuncChoose::startExamWhenStuEnterExamRegin()
 {
     // record start time for exam
-    recordStudentExamInfo(ExamStart);
-
     m_forwardCountTimer->start();
 }
 
@@ -843,19 +816,21 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
 
     qDebug() << __func__ << __LINE__ << m_curExamCount << action << (m_curTmpStudent == nullptr);
     QString dataTime = QDateTime::currentDateTime().toLocalTime().toString("yyyy-MM-dd hh:mm:ss ddd");
-    switch (action) {   
+//    QDateTime dataTime = QDateTime::currentDateTime().toLocalTime();
+    switch (action) {
     case ExamStart:
     {
         // record start time for exam
-        if (m_curTmpStudent != nullptr) {
+        if (m_curStudent.isValid) {
             if (m_curExamCount == 1) {
-                m_curTmpStudent->examStartFirstTime = dataTime;
+                m_curStudent.examTime = dataTime;
+                m_curStudent.examStartFirstTime = dataTime;
                 qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             } else if (m_curExamCount == 2) {
-                m_curTmpStudent->examStartSecondTime = dataTime;
+                m_curStudent.examStartSecondTime = dataTime;
                 qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             } else if (m_curExamCount == 3) {
-                m_curTmpStudent->examStartThirdTime = dataTime;
+                m_curStudent.examStartThirdTime = dataTime;
                 qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             }
         }
@@ -865,19 +840,19 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
     {
         // when one exam test stoped
         // save exam score and time
-        if (m_curTmpStudent != nullptr) {
+        if (m_curStudent.isValid) {
             if (m_curExamCount == 1) {
                 // record time for student score seconds
-                m_curTmpStudent->firstScore = m_curForwardSeconds;
-                qDebug() << __func__ << __LINE__ << m_curTmpStudent->firstScore;
-                m_curTmpStudent->examStopFirstTime = dataTime;
+                m_curStudent.firstScore = m_curForwardSeconds;
+                qDebug() << __func__ << __LINE__ << m_curStudent.firstScore;
+                m_curStudent.examStopFirstTime = dataTime;
             } else if (m_curExamCount == 2) {
-                m_curTmpStudent->secondScore = m_curForwardSeconds;
-                qDebug() << __func__ << __LINE__ << m_curTmpStudent->secondScore;
-                m_curTmpStudent->examStopSecondTime = dataTime;
+                m_curStudent.secondScore = m_curForwardSeconds;
+                qDebug() << __func__ << __LINE__ << m_curStudent.secondScore;
+                m_curStudent.examStopSecondTime = dataTime;
             } else if (m_curExamCount == 3) {
-                m_curTmpStudent->thirdScore = m_curForwardSeconds;
-                m_curTmpStudent->examStopThirdTime = dataTime;
+                m_curStudent.thirdScore = m_curForwardSeconds;
+                m_curStudent.examStopThirdTime = dataTime;
             }
         }
         if (m_curScoreLabel != nullptr) {
@@ -890,19 +865,19 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
     }
     case ExamMidStop:
     {
-        if (m_curTmpStudent != nullptr) {
+        if (m_curStudent.isValid) {
             if (m_curExamCount == 1) {
-                m_curTmpStudent->midStopFirst = true;
-                m_curTmpStudent->firstScore = m_curSkipCount;
-                m_curTmpStudent->examStopFirstTime = dataTime;
+                m_curStudent.midStopFirst = true;
+                m_curStudent.firstScore = m_curSkipCount;
+                m_curStudent.examStopFirstTime = dataTime;
             } else if (m_curExamCount == 2) {
-                m_curTmpStudent->midStopSecond = true;
-                m_curTmpStudent->secondScore = m_curSkipCount;
-                m_curTmpStudent->examStopSecondTime = dataTime;
+                m_curStudent.midStopSecond = true;
+                m_curStudent.secondScore = m_curSkipCount;
+                m_curStudent.examStopSecondTime = dataTime;
             } else if (m_curExamCount == 3) {
-                m_curTmpStudent->midStopThird = true;
-                m_curTmpStudent->thirdScore = m_curSkipCount;
-                m_curTmpStudent->examStopThirdTime = dataTime;
+                m_curStudent.midStopThird = true;
+                m_curStudent.thirdScore = m_curSkipCount;
+                m_curStudent.examStopThirdTime = dataTime;
             }
         }
         break;
@@ -966,6 +941,11 @@ void FormFuncChoose::resetSkipCounterDisply()
     // 2.清零计数
     m_skipCountFromDll = 0;
 
+    ui->lbScoreFirst->setText(QString::number(0));
+    ui->lbScoreSecond->setText(QString::number(0));
+    ui->lbScoreThird->setText(QString::number(0));
+    ui->lbScoreFinal->setText(QString::number(0));
+
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setText(QString::number(0));
         if (m_curScoreLabel == ui->lbScoreFirst) {
@@ -1020,12 +1000,19 @@ void FormFuncChoose::startPrepareExam()
 void FormFuncChoose::initSchoolListInterface()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    m_schoolListModel = new SchoolListTableModel(server.schools(),this);
+    m_schoolListModel = new SchoolListTableModel(this);
+    m_schoolListModel->setTable("schools");
+//    m_schoolListModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    m_schoolListModel->select();
     ui->tableViewDataDownload->setModel(m_schoolListModel);
+    ui->tableViewDataDownload->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     ui->tableViewDataDownload->horizontalHeader()->setHidden(true);
     ui->tableViewDataDownload->verticalHeader()->setHidden(true);
+    handleResizeSchoolListView();
     connect(&server, &NetWorkServer::sigSchoolDataDownloaded, [&](bool changed){
         m_schoolListModel->updateModel();
+        m_schoolListModel->select();
 //        QTimer::singleShot(500, [&](){
 //            for (int col = 0; col < 4; col++)
 //            {
@@ -1035,28 +1022,49 @@ void FormFuncChoose::initSchoolListInterface()
 
     });
     connect(&server, &NetWorkServer::sigSchoolListDataChanged, [&](){
-        for (int col = 0; col < 4; col++)
-        {
-            ui->tableViewDataDownload->setColumnWidth(col, 250);
-        }
+        handleResizeSchoolListView();
+        m_schoolListModel->select();
     });
     connect(&server, &NetWorkServer::sigSchoolListDataChanged, m_schoolListModel, &SchoolListTableModel::schoolListDataChanged);
 
 }
 
-void FormFuncChoose::initStudentsListInterface()
+void FormFuncChoose::handleResizeSchoolListView()
 {
-    DataManager &manager = Singleton<DataManager>::GetInstance();
+    for (int col = 0; col < 4; col++)
+    {
+        ui->tableViewDataDownload->setColumnWidth(col, 250);
+    }
+}
+
+void FormFuncChoose::initScoreModel()
+{
     // 1. init examed student
-    if (m_studentsModel == nullptr) {
-        qDebug() << __func__ << __LINE__ << manager.m_localExamedStudents.size();
-        m_studentsModel = new LocalStudentTableModel(manager.m_localExamedStudents, this);
-        ui->tblViewStudentData->setModel(m_studentsModel);
+    if (m_scoreModel == nullptr) {
+        m_scoreModel = new LocalStudentTableModel(this);
+        m_scoreModel->setTable("scores");
+        ui->tblViewStudentData->setModel(m_scoreModel);
+        ui->tblViewStudentData->setColumnHidden(Id, true);
+        ui->tblViewStudentData->setColumnHidden(MidStopFirst, true);
+        ui->tblViewStudentData->setColumnHidden(MidStopSecond, true);
+        ui->tblViewStudentData->setColumnHidden(MidStopThird, true);
+
+        ui->tblViewStudentData->setColumnHidden(ExamFirstStartTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamFirstStopTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamSecondStartTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamSecondStopTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamThirdStartTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamThirdStopTime, true);
+        ui->tblViewStudentData->setColumnHidden(ExamCount, true);
+
+        ui->tblViewStudentData->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tblViewStudentData->verticalHeader()->setHidden(true);
         connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, [&](){
-            m_studentsModel->updateModel();
+            m_scoreModel->updateModel();
+            m_scoreModel->select();
         });
-        m_studentsModel->updateModel();
+        m_scoreModel->updateModel();
+        m_scoreModel->select();
     }
 }
 
@@ -1184,25 +1192,17 @@ void FormFuncChoose::updateDisplayTimer()
 void FormFuncChoose::saveAndUploadStudentScore()
 {
     // 此时保存考生数据为未上传状态， 等下边与服务器交互完成后，会再次保存
-    DataManager &dataManager = Singleton<DataManager>::GetInstance();
-    if (m_curTmpStudent != nullptr) {
-        dataManager.m_localExamedStudents.push_front(m_curTmpStudent);
-        dataManager.m_uploadStudentQueue.push_back(m_curTmpStudent);
-        m_curTmpStudent = nullptr;
+    DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
+    if (m_curStudent.isValid) {
+        QSqlError error = DataManagerDb::addScore(m_curStudent);
+        dataManager.m_uploadStudentQueue.push_back(m_curStudent);
+
+        NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
+        server.requestFor(NetWorkServer::RequestUploadStudentScore);
     }
-    dataManager.saveLocalStudents();
     emit sigLocalStudentsDataChanged();
 
     if (m_isLogin) {
-        // save student exam score
-        // upload exam score imediately
-        NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-
-        // code and id should be saved first
-        server.m_isNotUploading = false; // there is one element in the upload queue
-        server.m_isOnlyLogin = false;
-        server.sendLoginInCmdRequest();
-
         m_3minsDelayTimer->start();
     }
 }
@@ -1634,11 +1634,16 @@ void FormFuncChoose::stopExamStuff()
 {
     // 0. exam count count count
     // 这是一个考生的最后一次，记录本地成绩，上传考生成绩到服务器
+    qDebug() << __func__ << __LINE__ << m_curExamCount << m_examCount;
     if (m_curExamCount == m_examCount) {
-        if (m_curExamMode == ExamModeFromCamera) {
-            saveAndUploadStudentScore();
+        saveAndUploadStudentScore();
+        if (m_curStudent.midStopFirst && m_curStudent.midStopSecond) {
+            ui->lbScoreFinal->setText("犯规");
+        } else if (m_curStudent.midStopFirst && !m_curStudent.midStopSecond) {
+            ui->lbScoreFinal->setText(QString::number(m_curStudent.firstScore/1000.0, 'f', 2));
+        } else if (!m_curStudent.midStopFirst && m_curStudent.midStopSecond) {
+            ui->lbScoreFinal->setText(QString::number(m_curStudent.secondScore/1000.0, 'f', 2));
         }
-//        clearStudentUiInfo();
         m_curExamCount = 0;
     }
 
@@ -1657,7 +1662,7 @@ void FormFuncChoose::stopExamStuff()
     // stop count in skip rope
 //    emit sigStartCount(false);
     ui->examRegin->startExam(false);
-    ui->examRegin->savePath();
+
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
 //    m_ropeSkipWorker->m_bStartCount = false;
 //    m_situpWorker->m_bStartCount = false;
@@ -1680,12 +1685,28 @@ void FormFuncChoose::stopExamStuff()
 //    }
 
     m_forwardCountTimer->stop();
+
     qDebug() << __func__<< __LINE__ << m_forwardCountTimer->isActive();
 //    QMessageBox::warning(this, "warning", "stop timer");
 
 
 //        m_curTimeLeftMs = m_totalTimeMs;
     m_curForwardSeconds = 0;
+
+    QTimer::singleShot(500, [&](){
+        if (m_curScoreLabel == nullptr) {
+            qDebug() << __func__<< __LINE__ << ("m_curScoreLabel is null");
+            return;
+        }
+        QString time = m_curScoreLabel->text();
+        bool isOK = false;
+        time.toFloat(&isOK);
+        if (isOK) {
+            time + "s";
+        }
+        ui->examRegin->savePath(m_curStudent.zkh, time);
+
+    });
 
     setLeftTimeSeconds(0);
 //    if (!m_cmdOnline) {
@@ -1844,6 +1865,7 @@ void FormFuncChoose::on_pbDecreaseScore_clicked()
         ui->pbDecreaseScore->setEnabled(true);
     });
     // submit score
+    qDebug() << __func__ << __LINE__ << m_curExamCount;
     if (m_curExamCount == 0) {
         saveAndUploadStudentScore();
     }
@@ -1875,8 +1897,6 @@ void FormFuncChoose::on_pbDecreaseScore_clicked()
 
 void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
 {
-    clearStudentUiInfo();
-
     // clear last time score info
     resetSkipCounterDisply();
 
@@ -1887,66 +1907,45 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
 
     // total aim: create an exam student
     m_currentUserId = ui->leUserId->text();
-    if (m_currentUserId.isEmpty()) return;
-
-    DataManager &manager = Singleton<DataManager>::GetInstance();
-    // m_curTmpStudent == nullptr means this student has finished score
-    // input id
-    if (m_curTmpStudent != nullptr) {
-        if (m_currentUserId != m_curTmpStudent->zkh) {
-            delete m_curTmpStudent;
-            m_curTmpStudent = nullptr;
-        }
-    }
-    if (m_curTmpStudent == nullptr) {
-        m_curTmpStudent = new TmpStudent;
-        m_curTmpStudent->zkh = m_currentUserId;
-        m_curTmpStudent->uploadStatus = 0; // 未上传
-        m_curTmpStudent->isOnline = m_isLogin;
-        m_curTmpStudent->examProjectName = manager.m_curExamInfo.name;
-        m_curTmpStudent->examCount = m_examCount;
+    if (m_currentUserId.isEmpty()) {
+        QMessageBox::warning(nullptr, "警告:", "请输入考生考号！");
+        return;
     }
 
-    if (m_curTmpStudent != nullptr) {
-        // update ui info
-        if (manager.m_totalStudents.contains(m_currentUserId)) {
-            TmpStudent *tmpStudent = manager.m_totalStudents[m_currentUserId];
-            m_curTmpStudent->gender = tmpStudent->gender;
-            m_curTmpStudent->name = tmpStudent->name;
-            m_curTmpStudent->zxmc = tmpStudent->zxmc;
-            m_curTmpStudent->id = tmpStudent->id;
-            ui->leUserName->setText(m_curTmpStudent->name);
-            ui->leUserGender->setText(m_curTmpStudent->gender == 1 ? "男" : "女");
-            ui->leUserSchool->setText(m_curTmpStudent->zxmc);
-            qDebug() << __func__ << __LINE__ << m_curTmpStudent->id << " assign id:" << tmpStudent->id;
-        } else {
-            clearStudentUiInfo();
-        }
-    }
-
-
-
-//    TmpStudent *student = new TmpStudent;
-//    student->zkh = m_currentUserId;
-//    student->uploadStatus = 0; // 未上传
-//    student->isOnline = m_isLogin;
-//    student->examProjectName = manager.m_curExamInfo.name;
-//    student->examCount = m_examCount;
-//    if (manager.m_totalStudents.contains(m_currentUserId)) {
-//        TmpStudent *tmpStudent = manager.m_totalStudents[m_currentUserId];
-//        student->gender = tmpStudent->gender;
-//        student->name = tmpStudent->name;
-//        student->zxmc = tmpStudent->zxmc;
-//        student->id = tmpStudent->id;
-//        ui->leUserName->setText(student->name);
-//        ui->leUserGender->setText(student->gender == 1 ? "男" : "女");
-//        ui->leUserSchool->setText(student->zxmc);
-//        qDebug() << __func__ << __LINE__ << student->id << " assign id:" << tmpStudent->id;
+//    DataManager &manager = Singleton<DataManager>::GetInstance();
+//    // m_curTmpStudent == nullptr means this student has finished score
+//    // input id
+//    if (m_curTmpStudent != nullptr) {
+//        if (m_currentUserId != m_curTmpStudent->zkh) {
+//            delete m_curTmpStudent;
+//            m_curTmpStudent = nullptr;
+//        }
 //    }
-    // put in score finish action
-//    manager.m_localExamedStudents.push_front(student);
-//    manager.m_uploadStudentQueue.push_back(student);
-    // 单次上传，放入queue中; 3min的timer 上传需要读取本地文件，所有未上传的student都放在queue中
+    if (m_curStudent.zkh == m_currentUserId) {
+        return;
+    }
+    m_curStudent.zkh = m_currentUserId;
+    Student student = DataManagerDb::selectStudentByZkh(m_currentUserId);
+    if (student.isValid) {
+        m_curStudent.isValid = true;
+        m_curStudent.name = student.name;
+        m_curStudent.gender = student.gender;
+        m_curStudent.zxdm = student.zxdm;
+        m_curStudent.zxmc = student.zxmc;
+        m_curStudent.id = student.id;
+        m_curStudent.uploadStatus = 0;
+        m_curStudent.isOnline = m_isLogin;
+        DataManagerDb manager = Singleton<DataManagerDb>::GetInstance();
+        m_curStudent.examProjectName = manager.m_curExamInfo.name;
+        m_curStudent.examCount = m_examCount;
+        qDebug() << __func__ << __LINE__ << m_curStudent.examProjectName;
+        ui->leUserName->setText(m_curStudent.name);
+        ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
+        ui->leUserSchool->setText(m_curStudent.zxmc);
+    } else {
+        clearStudentUiInfo();
+    }
+    m_curStudent.isValid = true;
 }
 
 
@@ -1993,13 +1992,8 @@ void FormFuncChoose::on_tableViewDataDownload_clicked(const QModelIndex &index)
 
 void FormFuncChoose::on_cbCheckAll_clicked(bool checked)
 {
-    // check all the school data
-    NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    for (auto item : server.schools()) {
-        item->checked = checked;
-    }
-    m_schoolListModel->updateModel();
-//    server.sendGetCurrentSchoolStudentsRequest();
+    DataManagerDb::checkedAllSchools(checked);
+    m_schoolListModel->select();
 }
 
 
@@ -2008,7 +2002,7 @@ void FormFuncChoose::on_pbStartDownload_clicked()
     // put all students to download in queue
     if (m_isLogin) {
         NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-        server.sendGetAllSchoolStudentsList();
+        server.requestFor(NetWorkServer::RequestCheckedSchoolStudents);
     }
 }
 
@@ -2018,11 +2012,7 @@ void FormFuncChoose::on_pbGetSchoolList_clicked()
     if (m_isLogin) {
         // send to server get list of all schools
         NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-        server.m_isOnlyLogin = false;
-        server.sendLoginInCmdRequest();
-        QTimer::singleShot(2000, [&](){
-            server.sendGetSchoolListRequest();
-        });
+        server.requestFor(NetWorkServer::RequestSchoolList);
     }
 }
 
@@ -2031,12 +2021,14 @@ void FormFuncChoose::on_pbZhongTing_clicked()
     // 更改“核减”功能为“终止” 20211208
     // 只有在运行中可以核减？
     // decrease one skip by one click
-    if (m_curExamState == ExamIsRunning) {
+    // EXAM NOT RUNNING still can be
+//    if (m_curExamState == ExamIsRunning) {
 
         recordStudentExamInfo(ExamMidStop);
 
         // TODO update student score info
         ui->pbZhongTing->setEnabled(false);
+
         QTimer::singleShot(1000, [&](){
             ui->pbZhongTing->setEnabled(true);
         });
@@ -2048,14 +2040,15 @@ void FormFuncChoose::on_pbZhongTing_clicked()
             return;
         }
         m_curScoreLabel->setText("犯规");
-    }
+//        ui->lbScore->setText("中停");
+//    }
 }
 
 
 void FormFuncChoose::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
 {
     qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
-    if (index.column() == 11) {
+    if (index.column() == VideoPath) {
         QString file = index.data().toString();
         QFileInfo fileInfo(file);
         QDir dir(fileInfo.absolutePath());

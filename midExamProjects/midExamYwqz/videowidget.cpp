@@ -152,22 +152,22 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     painter.drawPixmap(QPoint(), scaledPix);
 
 
-    QPen m_pen;
-    m_pen.setColor(QColor("green"));
-    m_pen.setWidth(3);
-    m_pen.setStyle(Qt::DashDotDotLine);
-    QPainter painter1(this);
-    painter1.setPen(m_pen);
-    painter1.drawRect(m_rect);
+//    QPen m_pen;
+//    m_pen.setColor(QColor("green"));
+//    m_pen.setWidth(3);
+//    m_pen.setStyle(Qt::DashDotDotLine);
+//    QPainter painter1(this);
+//    painter1.setPen(m_pen);
+//    painter1.drawRect(m_rect);
 
-    QPen triPen;
-    triPen.setColor(QColor("red"));
-    triPen.setWidth(3);
-    triPen.setStyle(Qt::DashLine);
+//    QPen triPen;
+//    triPen.setColor(QColor("red"));
+//    triPen.setWidth(3);
+//    triPen.setStyle(Qt::DashLine);
 
-    QPainter triPainter(this);
-    triPainter.setPen(triPen);
-    triPainter.drawPolygon(m_triggle);
+//    QPainter triPainter(this);
+//    triPainter.setPen(triPen);
+//    triPainter.drawPolygon(m_triggle);
 
 
     QWidget::paintEvent(event);

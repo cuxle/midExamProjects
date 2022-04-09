@@ -19,10 +19,10 @@ lidarBasketballAnalysis::lidarBasketballAnalysis()
     m_zMin = m_config.m_zMin;
     m_zMax = m_config.m_zMax;
     m_ratio = m_config.m_ratio;
-    qDebug() << __func__ << __LINE__ << "m_radius:" << m_radius;
-    qDebug() << __func__ << __LINE__ << "m_minClusterSize" << m_MinClusterSize;
-    qDebug() << __func__ << __LINE__ << "m_maxClusterSize" << m_MaxClusterSize;
-    qDebug() << __func__ << __LINE__ << "m_clusterTolerance:" << m_clusterTolerance;
+//    qDebug() << __func__ << __LINE__ << "m_radius:" << m_radius;
+//    qDebug() << __func__ << __LINE__ << "m_minClusterSize" << m_MinClusterSize;
+//    qDebug() << __func__ << __LINE__ << "m_maxClusterSize" << m_MaxClusterSize;
+//    qDebug() << __func__ << __LINE__ << "m_clusterTolerance:" << m_clusterTolerance;
 }
 
 lidarBasketballAnalysis::~lidarBasketballAnalysis()
@@ -75,7 +75,7 @@ bool lidarBasketballAnalysis::removePtsOutOfRegion(float xMin, float xMax, float
 
 bool lidarBasketballAnalysis::setTestRegion(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
 {
-    qDebug() << __func__ << __LINE__ << "xMin:" << xMin << " xMax:" << xMax <<" yMin:"<< yMin <<" yMax:"<<  yMax << m_zMin << m_zMax;
+//    qDebug() << __func__ << __LINE__ << "xMin:" << xMin << " xMax:" << xMax <<" yMin:"<< yMin <<" yMax:"<<  yMax << m_zMin << m_zMax;
 	m_xMin = xMin;
 	m_xMax = xMax;
 	m_yMin = yMin;
@@ -384,7 +384,7 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
 	//转换为原始格式输出
 	PointCloud<PointXYZ>::Ptr sor_cloud(new PointCloud<PointXYZ>);
 	fromPCLPointCloud2(*sor_cloud_filtered, *sor_cloud);
-    qDebug() << "After Statistical Outlie rRemoval:" << sor_cloud->points.size();
+//    qDebug() << "After Statistical Outlie rRemoval:" << sor_cloud->points.size();
 
 	//如果反射点小于5, 认为区域内没有目标则返回一个默认的考试区域外坐标
     if (sor_cloud->points.size() < 3)
@@ -462,7 +462,7 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
 //	srand((unsigned)time(NULL));
 
 	//如果聚类出来的满足要求的目标为0, 则返回一个区域外的默认值
-    qDebug() << "number of objects:" << ece_inlier.size();
+//    qDebug() << "number of objects:" << ece_inlier.size();
 	if (ece_inlier.size() < 1)
 	{
 		objDetected.push_back(PointXYZ(0.0f, -1.0f, 0.0f));
@@ -530,6 +530,6 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
     }
 
 //	viewer2->spin();
-    qDebug() << "nPtMax: " << nPtMax;
+//    qDebug() << "nPtMax: " << nPtMax;
     return objDetected;
 }

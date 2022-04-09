@@ -55,8 +55,12 @@ public:
 	~videoWriterFFmpeg();
 	//file_name ,bitrate,frame_rate,width,height
 	int open(char *, int, int, int, int);
+	void setTimeFlag(bool);
+	void setDownCount(int);
+	void setCameraId(int);
 	int write(Mat);
 	void close();
+
 private:
 	IOParam io;
 	int stream_frame_rate;
@@ -72,4 +76,11 @@ private:
 	enum AVPixelFormat src_pix_fmt;//格式对象
 	enum AVPixelFormat dst_pix_fmt;//格式对象
 	int imgwidthlen;//行宽度
+
+	bool gTimeFlag = true;
+	int gDownCount= -1;
+	int  gCameraId = -1;
+	void addTimeStamp(Mat src);
+	void addDownCount(Mat src);
+	void addCameraId(Mat src);
 };

@@ -1,9 +1,17 @@
-﻿#ifndef TMPSTUDENT_H
-#define TMPSTUDENT_H
+﻿#ifndef STUDENT_H
+#define STUDENT_H
 
 #include <QString>
+#include <QDateTime>
 
-struct TmpStudent {
+class Student {
+public:
+    Student()
+        :isValid(false)
+    {
+
+    }
+    bool isValid;
     bool isOnline = false;
     int bcjszt;
     QString bctyxm;

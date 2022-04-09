@@ -9,7 +9,7 @@
 //#include "socket/client.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
-#include "TmpStudent.h"
+#include "Student.h"
 #include "qcustomplot.h"
 
 #pragma   push_macro("min")
@@ -198,7 +198,7 @@ private slots:
 
     void on_leUserId_editingFinished();
 	
-	void handleSendLoginInCmdRequest();
+	void handleUploadExamedStudentsScore();
 
     void handlePlayDingSound();
 
@@ -212,14 +212,13 @@ private slots:
 
     void setValueRange(const QCPRange &range);
 
+    void handleResizeSchoolListView();
+
 //    void setKeyRange(const QCPRange &range);
 
 public slots:
     // update point cloud
     void handleUpdateReceivedLeidaData();
-
-    // update normalized football or basketball regin
-    void handleUpdateNormalizedData();
     void updateRectPointTopLeft(const QPoint &topLeft);
     void updateRectPointBottomRight(const QPoint &bottomRight);
 
@@ -235,7 +234,6 @@ private slots:
     void on_pbRotateRightLeiDa_pressed();
 
     void on_pbRotateRightLeiDa_released();
-
 private:
     enum ExamAction {
         ExamStart,
@@ -294,7 +292,7 @@ private:
 
     void initSchoolListInterface();
 
-    void initStudentsListInterface();
+    void initScoreModel();
 
     void shiftScoreLabel();
 
@@ -412,11 +410,13 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     TmpStudent *m_curTmpStudent = nullptr;
+     Student *m_curTmpStudent = nullptr;
+     Student m_curStudent;
 
-     LocalStudentTableModel *m_studentsModel = nullptr;
+     LocalStudentTableModel *m_scoreModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
+     QString m_examProjectName;
      QLabel *m_curScoreLabel = nullptr;
      QLabel *m_preScoreLabel = nullptr;
      QFont m_choosenFont;
@@ -430,7 +430,7 @@ private:
      QString m_mediaDingPath = "qrc:/resource/sound/ding.wav";
      QMediaPlayer *m_dingPlayer = nullptr;
      QMediaPlayer *m_mp3Player = nullptr;
-     bool m_enableStartSound = true;
+     bool m_enableStartSound = false;
 
      bool m_startShown = false;
 

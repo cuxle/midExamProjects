@@ -78,7 +78,7 @@ void AppConfig::writeConfig()
     settings.setValue("VIDEOSAVEPATH", m_videoSavePath);
     settings.setValue("EXAMTIME", m_examTime);
     settings.endGroup();
-#if FOOTBALL
+#if defined(FOOTBALL) || defined(BASKETBALL)
     settings.beginGroup("LIDAR");
     settings.setValue("RADIUS", QString::number(m_radius));
     settings.setValue("CLUSTER_TOLERANCE", QString::number(m_clusterTolerance));
@@ -149,7 +149,7 @@ void AppConfig::readConfig()
     m_appMode = settings.value("APPMODE", "OFFLINE").toString();
     settings.endGroup();
 
-#if FOOTBALL
+#if defined(FOOTBALL) || defined(BASKETBALL)
     settings.beginGroup("LIDAR");
     m_radius = settings.value("RADIUS", 0.2).toString().toFloat();
     m_clusterTolerance = settings.value("CLUSTER_TOLERANCE", 0.5).toString().toFloat();
@@ -239,6 +239,8 @@ void AppConfig::readConfig()
     m_examProject = "足球";
 #elif YTXS
     m_examProject = "引体向上";
+#elif BASKETBALL
+    m_examProject = "篮球";
 #else
 #endif
     m_examNums = settings.value("EXAMNUMS").toInt();

@@ -28,21 +28,18 @@ bool License::verifyLicenseFromFile(const QString &fileName)
 bool License::verifyLicenseFromCode(const QString &code)
 {
     QString machineCode = getMachineCode();
-    qDebug() << __func__ << __LINE__ << machineCode;
     QString str = "redDog";
     QByteArray ret = encodeByString(machineCode.toLatin1(), str.toLatin1());
     QString retStr;
     retStr.append(ret.toHex());
-    qDebug() << __func__ << __LINE__ << "after encode" << retStr;
+
+    QString str1 = "yellowDog";
+    QByteArray ret1 = encodeByString(retStr.toLatin1(), str1.toLatin1());
 
     QString md5;
     QByteArray localCode;
-    localCode = QCryptographicHash::hash(retStr.toLatin1(), QCryptographicHash::Md5);
+    localCode = QCryptographicHash::hash(ret1, QCryptographicHash::Md5);
     md5.append(localCode.toHex());
-    qDebug() << __func__ << __LINE__ << "after encode" << md5;
-    qDebug() << __func__ << __LINE__ << "compare:" << md5.compare(code);
-    qDebug() << __func__ << __LINE__ << "md5:" << md5;
-    qDebug() << __func__ << __LINE__ << "code:" << code;
     return md5 == code;
 }
 

@@ -25,8 +25,11 @@ public:
 signals:
 public slots:
     void initWorker();
-
+#if TIAOSHENG
+    void handleReceiveImage(const QImage &iamge, int time);
+#else
     void handleReceiveImage(const QImage &iamge);
+#endif
 
     void setVideoSavePath(const QString &fileName);
 
