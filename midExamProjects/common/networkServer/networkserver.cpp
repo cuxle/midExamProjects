@@ -94,6 +94,7 @@ QNetworkRequest NetWorkServer::makeExamProjectRequst()
 {
     QString requestTail = "/xuetong/business/biz/host/project";
     QString req = m_base + requestTail;
+    qDebug() << __func__ << __LINE__ << req;
     QNetworkRequest request;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(m_tokenKey.toUtf8(), m_tokenValue.toUtf8());

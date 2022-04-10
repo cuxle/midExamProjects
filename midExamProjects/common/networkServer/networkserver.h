@@ -117,7 +117,6 @@ private:
     void initLoginTimer();
     void initArbitrationTimer();
     void initHeartBeatTimer();
-    QString makePlatAddress(const QString &tail);
 
     QNetworkAccessManager* m_netWorkManager = nullptr;
 
