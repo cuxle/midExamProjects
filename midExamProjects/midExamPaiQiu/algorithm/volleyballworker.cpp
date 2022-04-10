@@ -39,12 +39,10 @@ void VolleyballWorker::destroylib()
 
 void VolleyballWorker::handleReceiveImage(const QImage &image)
 {
-
-
     if (m_bStartCount) {
         QImage img = image;
         m_count = m_volcntlib->CountVolleyball(img.height(), img.width(), img.bits());
-        std::cout << "skip count:" << m_count << std::endl;
+        qDebug() << __func__ << __LINE__ << "skip count:" << m_count;
         emit sigVolCountChanged(m_count);
     }
 }

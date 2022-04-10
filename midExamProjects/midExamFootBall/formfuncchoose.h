@@ -191,7 +191,7 @@ private slots:
 
     void on_pbZhongTing_clicked();
 
-    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
+//    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
 
     void on_leUserId_editingFinished();
 	
@@ -255,7 +255,7 @@ private:
 
     void recordStudentExamInfo(ExamAction action);
 
-    void handleResizeSchoolListView();
+//    void handleResizeSchoolListView();
 
     Ui::FormFuncChoose *ui;
 

@@ -2,6 +2,10 @@
 #include "ui_scoremanagerform.h"
 #include "networkserver.h"
 #include "singleton.h"
+#include <QFileInfo>
+#include <QDir>
+#include <QDesktopServices>
+#include <QMessageBox>
 
 ScoreManagerForm::ScoreManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -74,3 +78,18 @@ void ScoreManagerForm::on_pbSearch_clicked()
     }
 }
 
+
+void ScoreManagerForm::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
+{
+    qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
+    if (index.column() == VideoPath) {
+        QString file = index.data().toString();
+        QFileInfo fileInfo(file);
+        QDir dir(fileInfo.absolutePath());
+        if (!dir.exists()) {
+            QMessageBox::warning(this, "警告", "文件夹不存在");
+            return;
+        }
+        QDesktopServices::openUrl(fileInfo.absolutePath());
+    }
+}

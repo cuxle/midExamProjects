@@ -20,6 +20,7 @@ public:
 private slots:
     void handleUpdateScoreModel();
     void on_pbSearch_clicked();
+    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
 signals:
     void sigLocalStudentsDataChanged();
 private:

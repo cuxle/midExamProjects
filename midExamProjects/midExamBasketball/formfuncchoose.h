@@ -144,8 +144,6 @@ private slots:
 
     void on_pbGoBackFromScoreManage_clicked();
 
-    void on_pbSearch_clicked();
-
     void on_pbExport_clicked();
 
     void on_pbHome_clicked();
@@ -194,7 +192,7 @@ private slots:
 
     void on_pbZhongTing_clicked();
 
-    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
+//    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
 
     void on_leUserId_editingFinished();
 	

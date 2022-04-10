@@ -1825,7 +1825,7 @@ void FormFuncChoose::on_pbDecreaseScore_clicked()
 void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
 {
     // clear last time score info
-    resetSkipCounterDisply();
+//    resetSkipCounterDisply();
 
     ui->pbConfimUserIdBtn->setStyleSheet("background-color: rgb(61, 127, 255);\ncolor: rgb(255, 255, 255);");
     QTimer::singleShot(300, [&](){
@@ -1961,22 +1961,6 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         m_curScoreLabel->setText("犯规");
 //        ui->lbScore->setText("中停");
 //    }
-}
-
-
-void FormFuncChoose::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
-{
-    qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
-    if (index.column() == VideoPath) {
-        QString file = index.data().toString();
-        QFileInfo fileInfo(file);
-        QDir dir(fileInfo.absolutePath());
-        if (!dir.exists()) {
-            QMessageBox::warning(this, "警告", "文件夹不存在");
-            return;
-        }
-        QDesktopServices::openUrl(fileInfo.absolutePath());
-    }
 }
 
 void FormFuncChoose::on_leUserId_editingFinished()
