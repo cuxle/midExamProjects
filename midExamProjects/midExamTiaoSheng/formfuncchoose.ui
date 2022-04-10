@@ -1196,7 +1196,7 @@ border:1px solid #898698;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_22">
+                    <widget class="QLabel" name="lbProjectName">
                      <property name="font">
                       <font>
                        <family>Microsoft YaHei</family>
@@ -3467,7 +3467,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="leStudentId">
+           <widget class="QLineEdit" name="leStudentZkh">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -3504,7 +3504,7 @@ border:1px solid #898698;</string>
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="dateTimeEdit">
+           <widget class="QDateTimeEdit" name="dataTimeFrom">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -3527,6 +3527,22 @@ border:1px solid #898698;</string>
              <string notr="true">background-color: rgb(42, 38, 66);
 color: rgb(255, 255, 255);
 border:1px solid #898698;</string>
+            </property>
+            <property name="dateTime">
+             <datetime>
+              <hour>0</hour>
+              <minute>0</minute>
+              <second>0</second>
+              <year>2022</year>
+              <month>1</month>
+              <day>1</day>
+             </datetime>
+            </property>
+            <property name="currentSection">
+             <enum>QDateTimeEdit::YearSection</enum>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -3547,7 +3563,7 @@ border:1px solid #898698;</string>
            </widget>
           </item>
           <item>
-           <widget class="QDateTimeEdit" name="dateTimeEdit_2">
+           <widget class="QDateTimeEdit" name="dateTimeTo">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -3570,6 +3586,22 @@ border:1px solid #898698;</string>
              <string notr="true">background-color: rgb(42, 38, 66);
 color: rgb(255, 255, 255);
 border:1px solid #898698;</string>
+            </property>
+            <property name="dateTime">
+             <datetime>
+              <hour>0</hour>
+              <minute>0</minute>
+              <second>0</second>
+              <year>2022</year>
+              <month>1</month>
+              <day>1</day>
+             </datetime>
+            </property>
+            <property name="currentSection">
+             <enum>QDateTimeEdit::DaySection</enum>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
             </property>
            </widget>
           </item>

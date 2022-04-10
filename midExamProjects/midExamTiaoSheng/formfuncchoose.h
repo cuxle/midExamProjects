@@ -12,6 +12,7 @@
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
 #include "localstudenttablemodel.h"
+#include "mysortfilterproxymodel.h"
 #include "Student.h"
 
 class Camera;
@@ -322,6 +323,8 @@ private:
      Student m_curStudent;
 
      LocalStudentTableModel *m_scoreModel = nullptr;
+     MySortFilterProxyModel *m_scoreProxyModel = nullptr;
+
      int m_examCount = 1;
      int m_curExamCount = 0;
      QString m_examProjectName;

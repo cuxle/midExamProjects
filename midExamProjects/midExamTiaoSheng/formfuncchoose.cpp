@@ -579,7 +579,12 @@ void FormFuncChoose::initScoreModel()
     if (m_scoreModel == nullptr) {
         m_scoreModel = new LocalStudentTableModel(this);
         m_scoreModel->setTable("scores");
-        ui->tblViewStudentData->setModel(m_scoreModel);
+
+        m_scoreProxyModel = new MySortFilterProxyModel(this);
+        m_scoreProxyModel->setSourceModel(m_scoreModel);
+
+
+        ui->tblViewStudentData->setModel(m_scoreProxyModel);
         ui->tblViewStudentData->setColumnHidden(Id, true);
         ui->tblViewStudentData->setColumnHidden(MidStopFirst, true);
         ui->tblViewStudentData->setColumnHidden(MidStopSecond, true);
@@ -595,6 +600,11 @@ void FormFuncChoose::initScoreModel()
 
         ui->tblViewStudentData->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tblViewStudentData->verticalHeader()->setHidden(true);
+        ui->tblViewStudentData->setStyleSheet("QHeaderView::section { \
+            background-color: gray; \
+            color: white; \
+            border: 1px solid #6c6c6c; \
+        }");
 
         connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, this, &FormFuncChoose::handleUpdateScoreModel);
         NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
@@ -1116,6 +1126,14 @@ void FormFuncChoose::on_pbGoBackFromScoreManage_clicked()
 void FormFuncChoose::on_pbSearch_clicked()
 {
     // search from model by student id, start date, and end date
+    QString zkh = ui->leStudentZkh->text();
+    QDateTime dateTimeFrom = ui->dataTimeFrom->dateTime();
+    QDateTime dateTimeTo = ui->dateTimeTo->dateTime();
+    if (m_scoreProxyModel != nullptr) {
+        m_scoreProxyModel->setFilterFixedString(zkh);
+        m_scoreProxyModel->setFilterMinimumDate(dateTimeFrom);
+        m_scoreProxyModel->setFilterMaximumDate(dateTimeTo);
+    }
 
 }
 
