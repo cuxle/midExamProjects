@@ -28,7 +28,7 @@ void Camera::openCamera()
         if (m_videoCapture->isOpened()) {
             m_videoCapture->release();
         }
-        m_bIsOpen = m_videoCapture->open(1);
+        m_bIsOpen = m_videoCapture->open(0);
 
         // only open the first one device
         qDebug() << "m_bIsOpen :" << m_bIsOpen;
