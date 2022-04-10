@@ -117,10 +117,11 @@ private:
     void initLoginTimer();
     void initArbitrationTimer();
     void initHeartBeatTimer();
+    QString makePlatAddress(const QString &tail);
 
     QNetworkAccessManager* m_netWorkManager = nullptr;
 
-    const QString m_base = "http://xunlian.55555.io:8030";
+    QString m_base = "http://xunlian.55555.io:8030";
 
     QMap<QString, School*> m_schoolMap; // zxdm 中学代码
     QList<School*> m_schools;
