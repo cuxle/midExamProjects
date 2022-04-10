@@ -14,7 +14,8 @@ NetWorkServer::NetWorkServer(QObject *parent)
 {
     m_netWorkManager = new QNetworkAccessManager(this);
     connect(m_netWorkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)));
-
+    AppConfig &appConfig = Singleton<AppConfig>::GetInstance();
+    m_base = appConfig.m_platAddress;
 //    initLoginTimer();
 //    initArbitrationTimer();
 //    initHeartBeatTimer();
@@ -93,6 +94,7 @@ QNetworkRequest NetWorkServer::makeExamProjectRequst()
 {
     QString requestTail = "/xuetong/business/biz/host/project";
     QString req = m_base + requestTail;
+    qDebug() << __func__ << __LINE__ << req;
     QNetworkRequest request;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(m_tokenKey.toUtf8(), m_tokenValue.toUtf8());
@@ -394,9 +396,11 @@ QNetworkRequest NetWorkServer::makeGetSchoolListRequest()
 
 QNetworkRequest NetWorkServer::makeLoginRequest()
 {
+    QString url = m_base + "/xuetong/business/biz/host/login";
     QNetworkRequest request;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json;charset=UTF-8");
-    request.setUrl(QUrl("http://xunlian.55555.io:8030/xuetong/business/biz/host/login"));
+    request.setUrl(QUrl(url));
+
     return request;
 }
 
