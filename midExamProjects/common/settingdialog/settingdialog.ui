@@ -236,11 +236,11 @@ border:0px;</string>
             <string notr="true"/>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="networkSettingPage">
-            <layout class="QGridLayout" name="gridLayout_3">
-             <item row="0" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_15">
+             <item>
               <widget class="QGroupBox" name="groupBox_3">
                <property name="styleSheet">
                 <string notr="true">border:none;</string>
@@ -248,137 +248,178 @@ border:0px;</string>
                <property name="title">
                 <string/>
                </property>
-               <layout class="QGridLayout" name="gridLayout_4">
-                <item row="0" column="0">
-                 <layout class="QHBoxLayout" name="horizontalLayout_4">
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_4">
-                    <item>
-                     <widget class="QLabel" name="label_6">
-                      <property name="font">
-                       <font>
-                        <family>Microsoft YaHei</family>
-                        <pointsize>12</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: rgb(181, 180, 188);</string>
-                      </property>
-                      <property name="text">
-                       <string>IPC地址:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_7">
-                      <property name="font">
-                       <font>
-                        <family>Microsoft YaHei</family>
-                        <pointsize>12</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: rgb(181, 180, 188);</string>
-                      </property>
-                      <property name="text">
-                       <string>IPC用户名:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_8">
-                      <property name="font">
-                       <font>
-                        <family>Microsoft YaHei</family>
-                        <pointsize>12</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: rgb(181, 180, 188);</string>
-                      </property>
-                      <property name="text">
-                       <string>IPC密码:</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_3">
-                    <property name="spacing">
-                     <number>20</number>
-                    </property>
-                    <item>
-                     <widget class="QLineEdit" name="leIPCAddress">
-                      <property name="minimumSize">
-                       <size>
-                        <width>546</width>
-                        <height>54</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <family>Microsoft YaHei</family>
-                        <pointsize>14</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color: rgb(36, 34, 49);
-color: rgb(255, 255, 255);
-border: 1px solid gray;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="leIPCUserName">
-                      <property name="minimumSize">
-                       <size>
-                        <width>546</width>
-                        <height>54</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <family>Microsoft YaHei</family>
-                        <pointsize>14</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color: rgb(36, 34, 49);
-color: rgb(255, 255, 255);
-border: 1px solid gray;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="leIPCCode">
-                      <property name="minimumSize">
-                       <size>
-                        <width>546</width>
-                        <height>54</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <family>Microsoft YaHei</family>
-                        <pointsize>14</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color: rgb(36, 34, 49);
-color: rgb(255, 255, 255);
-border: 1px solid gray;</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <layout class="QGridLayout" name="gridLayout_4"/>
               </widget>
              </item>
-             <item row="1" column="0">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_3">
+                   <item>
+                    <widget class="QLabel" name="label_6">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>54</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Microsoft YaHei</family>
+                       <pointsize>12</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(181, 180, 188);</string>
+                     </property>
+                     <property name="text">
+                      <string>摄像头:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_8">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>54</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Microsoft YaHei</family>
+                       <pointsize>12</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(181, 180, 188);</string>
+                     </property>
+                     <property name="text">
+                      <string>宽:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_19">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>54</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Microsoft YaHei</family>
+                       <pointsize>12</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(181, 180, 188);</string>
+                     </property>
+                     <property name="text">
+                      <string>高:</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
+                   <item>
+                    <widget class="QComboBox" name="cmbCamera">
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>54</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Microsoft YaHei</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(36, 34, 49);
+color: rgb(255, 255, 255);
+border: 1px solid gray;</string>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>DaHengCamera</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>OpenCVCamera</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="leCameraWidth">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>54</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Microsoft YaHei</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(36, 34, 49);
+color: rgb(255, 255, 255);
+border: 1px solid gray;</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="leCameraHeight">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>54</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Microsoft YaHei</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(36, 34, 49);
+color: rgb(255, 255, 255);
+border: 1px solid gray;</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
               <spacer name="verticalSpacer_4">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>

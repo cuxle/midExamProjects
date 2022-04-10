@@ -5,6 +5,8 @@
 #include <QThread>
 #include <opencv2/opencv.hpp>
 #include "algorithm/ropeskipworker.h"
+#include "appconfig.h"
+#include "singleton.h"
 
 
 Camera::Camera(bool useOpencv, QObject *parent)
@@ -13,6 +15,8 @@ Camera::Camera(bool useOpencv, QObject *parent)
 
 {
     qRegisterMetaType<CameraState>("CameraState");
+    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+    m_cameraIndex = appconfig.m_camera;
 }
 
 Camera::~Camera()
@@ -28,7 +32,7 @@ void Camera::openCamera()
         if (m_videoCapture->isOpened()) {
             m_videoCapture->release();
         }
-        m_bIsOpen = m_videoCapture->open(1);
+        m_bIsOpen = m_videoCapture->open(m_cameraIndex);
 
         // only open the first one device
         qDebug() << "m_bIsOpen :" << m_bIsOpen;

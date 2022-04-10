@@ -35,6 +35,10 @@ void AppConfig::writeConfig()
     settings.setValue("IPCUSERNAME", m_ipcUserName);
     settings.setValue("IPCCODE", m_ipcCode);
 
+    settings.setValue("CAMERA", m_camera);
+    settings.setValue("CAMERA_WIDTH", m_cameraWidth);
+    settings.setValue("CAMERA_HEIGHT", m_cameraHeight);
+
 
     settings.setValue("POINT1X", m_point1x);
     settings.setValue("POINT1Y", m_point1y);
@@ -187,6 +191,10 @@ void AppConfig::readConfig()
     m_ipcAddress = settings.value("IPCADDRESS").toString();
     m_ipcUserName = settings.value("IPCUSERNAME").toString();
     m_ipcCode = settings.value("IPCCODE").toString();
+
+    m_camera = settings.value("CAMERA", 0).toInt();
+    m_cameraWidth = settings.value("CAMERA_WIDTH", 1280).toInt();
+    m_cameraHeight = settings.value("CAMERA_HEIGHT", 1024).toInt();
 
     m_point1x = settings.value("POINT1X", -1).toInt();
     m_point1y = settings.value("POINT1Y", -1).toInt();

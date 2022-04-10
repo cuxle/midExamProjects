@@ -760,7 +760,13 @@ void FormFuncChoose::initCameraWorker()
 {
     qRegisterMetaType<QImage>("QImage");
     qRegisterMetaType<CameraState>("CameraState");
-    m_camera = new Camera();
+    qRegisterMetaType<cv::Mat>("cv::Mat");
+    bool useOpenCvCamera = false;
+    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+    if (appconfig.m_camera == 1) {
+        useOpenCvCamera = true;
+    }
+    m_camera = new Camera(useOpenCvCamera);
     m_cameraThread = new QThread;
     m_camera->moveToThread(m_cameraThread);
     connect(m_cameraThread, &QThread::started, m_camera, &Camera::initCamera);
@@ -769,7 +775,16 @@ void FormFuncChoose::initCameraWorker()
     connect(this, &FormFuncChoose::sigOpenCamera, m_camera, &Camera::openCamera);
     connect(this, &FormFuncChoose::sigCloseCamera, m_camera, &Camera::closeCamera);
     connect(m_camera, &Camera::sigCameraState, this, &FormFuncChoose::handleCameraStateChanged);
-    connect(m_camera, &Camera::sigImageCapture, this, &FormFuncChoose::updateImageDisplay);
+    if (m_camera->isOpencvCam()) {
+        connect(m_camera, &Camera::sigImageCaptureMat, [&](const cv::Mat &mat){
+            QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
+
+            VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
+            videoWidget->setPixmap(pix);
+        });
+    } else {
+        connect(m_camera, &Camera::sigImageCapture, this, &FormFuncChoose::updateImageDisplay);
+    }
     connect(this, &FormFuncChoose::sigUpdateCameraSettings, m_camera, &Camera::updateCameraSettings);
 
     m_cameraThread->start();
@@ -812,6 +827,7 @@ void FormFuncChoose::initCameraWorker()
 
 void FormFuncChoose::initVideoCaptureWorker()
 {
+    qRegisterMetaType<cv::Mat>("cv::Mat");
     // init opencv capture worker
     m_videoCapture = new VideoCaptureWorker;
     m_videoCaptureThread = new QThread;
@@ -821,10 +837,18 @@ void FormFuncChoose::initVideoCaptureWorker()
 //    connect(m_videoCaptureThread, &QThread::finished, m_videoCapture, &VideoCaptureWorker::deleteLater);
 //    connect(m_videoCaptureThread, &QThread::finished, m_videoCaptureThread, &QThread::deleteLater);
 
-    connect(this, &FormFuncChoose::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
-    connect(m_camera, &Camera::sigImageCapture, [&](const QImage &image){
-        emit sigImageCapture(image, m_curTimeLeftMs / 1000);
-    });
+    if (m_camera->isOpencvCam()) {
+        connect(this, &FormFuncChoose::sigImageCaptureMat, m_videoCapture, &VideoCaptureWorker::handleReceiveMat);
+        connect(m_camera, &Camera::sigImageCaptureMat, [&](const cv::Mat &mat){
+            emit sigImageCaptureMat(mat, m_curTimeLeftMs / 1000);
+        });
+    } else {
+        connect(this, &FormFuncChoose::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
+        connect(m_camera, &Camera::sigImageCapture, [&](const QImage &image){
+            emit sigImageCapture(image, m_curTimeLeftMs / 1000);
+        });
+    }
+
     connect(this, &FormFuncChoose::sigSetVideoPath, m_videoCapture, &VideoCaptureWorker::setVideoSavePath);
     connect(this, &FormFuncChoose::sigStartSaveVideo, m_videoCapture, &VideoCaptureWorker::setSaved);
     m_videoCaptureThread->start();

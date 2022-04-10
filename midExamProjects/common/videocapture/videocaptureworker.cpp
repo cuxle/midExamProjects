@@ -94,6 +94,10 @@ void VideoCaptureWorker::openSavedFile(const QString &fileName)
 {
     if (!m_fileIsOpened) {
         AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+
+        m_width = appconfig.m_cameraWidth;
+        m_height = appconfig.m_cameraHeight;
+
         m_videoPath = appconfig.m_videoSavePath + "/video";
 
         m_videoWriter = QSharedPointer<videoWriterFFmpeg>(new videoWriterFFmpeg);

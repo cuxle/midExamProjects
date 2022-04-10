@@ -34,9 +34,15 @@ void SettingDialog::initSettingUIValue()
     ui->leFaceId6Last->setText(appconfig.m_faceIdLastSixNum);
     ui->leSendCmdServerIp->setText(appconfig.m_sendCmdServerIp);
 
-    ui->leIPCAddress->setText(appconfig.m_ipcAddress);
-    ui->leIPCUserName->setText(appconfig.m_ipcUserName);
-    ui->leIPCCode->setText(appconfig.m_ipcCode);
+    if (appconfig.m_camera == 0 || appconfig.m_camera == 1) {
+        ui->cmbCamera->setCurrentIndex(appconfig.m_camera);
+    }
+    ui->leCameraWidth->setText(QString::number(appconfig.m_cameraWidth));
+    ui->leCameraHeight->setText(QString::number(appconfig.m_cameraHeight));
+
+//    ui->leIPCAddress->setText(appconfig.m_ipcAddress);
+//    ui->leIPCUserName->setText(appconfig.m_ipcUserName);
+//    ui->leIPCCode->setText(appconfig.m_ipcCode);
 
     qDebug() << __func__ << "m_examProject" << appconfig.m_examProject;
     qDebug() << __func__ << "m_examNums" << appconfig.m_examNums;
@@ -145,9 +151,12 @@ void SettingDialog::on_buttonBox_accepted()
 
 
 
-    appconfig.m_ipcAddress = ui->leIPCAddress->text();
-    appconfig.m_ipcUserName = ui->leIPCUserName->text();
-    appconfig.m_ipcCode = ui->leIPCCode->text();
+//    appconfig.m_ipcAddress = ui->leIPCAddress->text();
+//    appconfig.m_ipcUserName = ui->leIPCUserName->text();
+//    appconfig.m_ipcCode = ui->leIPCCode->text();
+    appconfig.m_camera = ui->cmbCamera->currentIndex();
+    appconfig.m_cameraWidth = ui->leCameraWidth->text().toInt();
+    appconfig.m_cameraHeight = ui->leCameraHeight->text().toInt();
 
     appconfig.m_examProject = ui->leExamProject->text();
     appconfig.m_examNums = ui->cmbExamTestTimes->currentIndex() + 1;

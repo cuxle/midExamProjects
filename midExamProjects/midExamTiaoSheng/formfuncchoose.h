@@ -77,6 +77,7 @@ signals:
     void sigStopVideoPlay();
 
     void sigImageCapture(const QImage &image, int time);
+    void sigImageCaptureMat(const cv::Mat &mat, int time);
 private slots:
 
     void handleStartExamFromRemote(bool start);

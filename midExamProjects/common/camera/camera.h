@@ -87,6 +87,7 @@ private:
     bool m_bIsColorFilter = false;
 
     bool m_openCvCamera = false;
+    int m_cameraIndex = 0;
     QSharedPointer<cv::VideoCapture> m_videoCapture = nullptr;
     cv::Mat m_frameMat;
     QTimer *m_opencvCameraTimer = nullptr;

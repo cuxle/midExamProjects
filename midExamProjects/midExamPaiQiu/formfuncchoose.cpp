@@ -814,7 +814,11 @@ void FormFuncChoose::initCameraWorker()
     qRegisterMetaType<QImage>("QImage");
     qRegisterMetaType<CameraState>("CameraState");
     qRegisterMetaType<cv::Mat>("cv::Mat");
-    bool useOpenCvCamera = true;
+    bool useOpenCvCamera = false;
+    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+    if (appconfig.m_camera == 1) {
+        useOpenCvCamera = true;
+    }
     m_camera = new Camera(useOpenCvCamera);
     m_cameraThread = new QThread;
     m_camera->moveToThread(m_cameraThread);
@@ -1316,7 +1320,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
                 }
             }
             // open this at last, this will cause crash now
-//           emit sigStartSaveVideo(true, m_videoFileName);
+           emit sigStartSaveVideo(true, m_videoFileName);
 
     //        emit sigUpdateCameraSettings();
             break;
@@ -1538,20 +1542,20 @@ void FormFuncChoose::on_pbZhongTing_clicked()
 }
 
 
-void FormFuncChoose::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
-{
-    qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
-    if (index.column() == VideoPath) {
-        QString file = index.data().toString();
-        QFileInfo fileInfo(file);
-        QDir dir(fileInfo.absolutePath());
-        if (!dir.exists()) {
-            QMessageBox::warning(this, "警告", "文件夹不存在");
-            return;
-        }
-        QDesktopServices::openUrl(fileInfo.absolutePath());
-    }
-}
+//void FormFuncChoose::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
+//{
+//    qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
+//    if (index.column() == VideoPath) {
+//        QString file = index.data().toString();
+//        QFileInfo fileInfo(file);
+//        QDir dir(fileInfo.absolutePath());
+//        if (!dir.exists()) {
+//            QMessageBox::warning(this, "警告", "文件夹不存在");
+//            return;
+//        }
+//        QDesktopServices::openUrl(fileInfo.absolutePath());
+//    }
+//}
 
 void FormFuncChoose::on_leUserId_editingFinished()
 {
