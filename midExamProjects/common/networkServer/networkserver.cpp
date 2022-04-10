@@ -430,7 +430,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         qDebug() << "success:" << jsonObject["success"].toBool();
         qDebug() << "msg:" << jsonObject["msg"].toString();
         qDebug() << "time:" << jsonObject["time"].toString();
-//        qDebug() << "json response:" << jsonResponse;
+        qDebug() << "json response:" << jsonResponse;
         switch (m_currentRequest) {
         case RequestLoginIn:
         {
@@ -535,7 +535,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     // TODO 设备号与本机设备号不一致直接退出
                     if (response.devName.isEmpty() || response.devName != curDevName) {
                         qDebug() << __func__ << __LINE__ << response.devName << curDevName << "devName not be compatible";
-                        return;
+                        continue;
                     }
 
                     response.id = obj["id"].toString();

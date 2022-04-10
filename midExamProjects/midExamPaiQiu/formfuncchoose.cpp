@@ -149,6 +149,7 @@ FormFuncChoose::~FormFuncChoose()
 
 void FormFuncChoose::initVolleyballWorker()
 {
+    qRegisterMetaType<cv::Mat>("cv::Mat");
     m_volleyballWorker = new VolleyballWorker;
     m_volleyballThread = new QThread;
     m_volleyballWorker->moveToThread(m_volleyballThread);
@@ -562,7 +563,7 @@ void FormFuncChoose::startPrepareExam()
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
-        emit sigStartCount(false);
+//        emit sigStartCount(false);
 
         // 5. delay 9.5s, wait the start gun
         m_startDelayTimer->start(); // 倒计时结束开始倒计时60s backCounter
@@ -812,6 +813,7 @@ void FormFuncChoose::initCameraWorker()
 {
     qRegisterMetaType<QImage>("QImage");
     qRegisterMetaType<CameraState>("CameraState");
+    qRegisterMetaType<cv::Mat>("cv::Mat");
     bool useOpenCvCamera = true;
     m_camera = new Camera(useOpenCvCamera);
     m_cameraThread = new QThread;
@@ -874,6 +876,7 @@ void FormFuncChoose::initCameraWorker()
 
 void FormFuncChoose::initVideoCaptureWorker()
 {
+    qRegisterMetaType<cv::Mat>("cv::Mat");
     // init opencv capture worker
     m_videoCapture = new VideoCaptureWorker;
     m_videoCaptureThread = new QThread;
@@ -1313,7 +1316,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
                 }
             }
             // open this at last, this will cause crash now
-           emit sigStartSaveVideo(true, m_videoFileName);
+//           emit sigStartSaveVideo(true, m_videoFileName);
 
     //        emit sigUpdateCameraSettings();
             break;
