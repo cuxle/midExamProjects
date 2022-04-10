@@ -161,7 +161,7 @@ private slots:
 
     void on_pbZhongTing_clicked();
 
-    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
+//    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
 
     void on_leUserId_editingFinished();
 	

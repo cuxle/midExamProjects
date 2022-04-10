@@ -1482,20 +1482,20 @@ void FormFuncChoose::on_pbZhongTing_clicked()
 }
 
 
-void FormFuncChoose::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
-{
-    qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
-    if (index.column() == VideoPath) {
-        QString file = index.data().toString();
-        QFileInfo fileInfo(file);
-        QDir dir(fileInfo.absolutePath());
-        if (!dir.exists()) {
-            QMessageBox::warning(this, "警告", "文件夹不存在");
-            return;
-        }
-        QDesktopServices::openUrl(fileInfo.absolutePath());
-    }
-}
+//void FormFuncChoose::on_tblViewStudentData_doubleClicked(const QModelIndex &index)
+//{
+//    qDebug() << __func__ << __LINE__ << index.row() << index.column() << index.data();
+//    if (index.column() == VideoPath) {
+//        QString file = index.data().toString();
+//        QFileInfo fileInfo(file);
+//        QDir dir(fileInfo.absolutePath());
+//        if (!dir.exists()) {
+//            QMessageBox::warning(this, "警告", "文件夹不存在");
+//            return;
+//        }
+//        QDesktopServices::openUrl(fileInfo.absolutePath());
+//    }
+//}
 
 void FormFuncChoose::on_leUserId_editingFinished()
 {

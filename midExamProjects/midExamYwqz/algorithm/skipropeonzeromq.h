@@ -40,7 +40,7 @@ public slots:
 //    void initlib();
 //    void destroylib();
     void handleReceiveImage(const QImage &image);
-    void handleReceiveMat(cv::Mat image);
+    void handleReceiveMat(const cv::Mat &image);
 
 
 private:
