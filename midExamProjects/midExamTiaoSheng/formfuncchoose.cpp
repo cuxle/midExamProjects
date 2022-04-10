@@ -741,9 +741,7 @@ void FormFuncChoose::updateDisplayTimer()
         recordStudentExamInfo(ExamStopFinish);
 
         stopExamStuff();        
-	
     }
-	return;
 
 }
 

@@ -172,6 +172,8 @@ private slots:
 	void handleUploadExamedStudentsScore();
 
     void handlePlayDingSound();
+	
+	    void handleUpdateScoreModel();
 
     void on_pbLock_toggled(bool checked);
 
@@ -206,7 +208,7 @@ private:
     enum ExamState {
         ExamNotStart,
         ExamPreparing,
-        ExamIsRunning,
+        ExamIsRunning
     };
 
     enum ExamMode {
@@ -232,11 +234,16 @@ private:
     void startPrepareExam();
 
     void initSchoolListInterface();
-    void initStudentsListInterface();
+
+    void initScoreModel();
 
     void shiftScoreLabel();
 
-    void resetSkipCounterDisply();
+    void resetSkipCounterBeforeSubExam();
+
+    void resetAllSkipCounterBeforeExam();
+
+    void resetScoreLabel();
 
 //    ScoreManageModel *m_model = nullptr;
 //    QList<QSharedPointer<StudentItem>> m_students;
@@ -323,10 +330,9 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     Student *m_curTmpStudent = nullptr;
      Student m_curStudent;
 
-     LocalStudentTableModel *m_studentsModel = nullptr;
+     LocalStudentTableModel *m_scoreModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
      QString m_examProjectName;
