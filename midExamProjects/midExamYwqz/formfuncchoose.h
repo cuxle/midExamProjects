@@ -11,9 +11,10 @@
 //#include "xlsxdocument.h"
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
-#include "localstudenttablemodel.h"
+
 #include "Student.h"
 #include "algorithm/situpworker.h"
+#include "scoremanagerform.h"
 
 class Camera;
 class QThread;
@@ -115,7 +116,7 @@ private slots:
 
     void on_pbGoBackFromScoreManage_clicked();
 
-    void on_pbSearch_clicked();
+//    void on_pbSearch_clicked();
 
     void on_pbExport_clicked();
 
@@ -173,7 +174,7 @@ private slots:
 
     void handlePlayDingSound();
 	
-	    void handleUpdateScoreModel();
+//	    void handleUpdateScoreModel();
 
     void on_pbLock_toggled(bool checked);
 
@@ -235,8 +236,6 @@ private:
 
     void initSchoolListInterface();
 
-    void initScoreModel();
-
     void shiftScoreLabel();
 
     void resetSkipCounterBeforeSubExam();
@@ -249,7 +248,6 @@ private:
 //    QList<QSharedPointer<StudentItem>> m_students;
 //    StudentManager *m_studentsManager = nullptr;
 //    QSharedPointer<StudentItem>  m_curStudent;
-
 
     Camera *m_camera = nullptr;
     QThread *m_cameraThread = nullptr;
@@ -332,7 +330,9 @@ private:
 
      Student m_curStudent;
 
-     LocalStudentTableModel *m_scoreModel = nullptr;
+//     LocalStudentTableModel *m_scoreModel = nullptr;
+//     MySortFilterProxyModel *m_scoreProxyModel = nullptr;
+
      int m_examCount = 1;
      int m_curExamCount = 0;
      QString m_examProjectName;

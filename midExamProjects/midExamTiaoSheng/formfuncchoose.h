@@ -11,9 +11,8 @@
 //#include "xlsxdocument.h"
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
-#include "localstudenttablemodel.h"
-#include "mysortfilterproxymodel.h"
 #include "Student.h"
+#include "scoremanagerform.h"
 
 class Camera;
 class QThread;
@@ -114,8 +113,6 @@ private slots:
 
     void on_pbGoBackFromScoreManage_clicked();
 
-    void on_pbSearch_clicked();
-
     void on_pbExport_clicked();
 
     void on_pbHome_clicked();
@@ -170,9 +167,6 @@ private slots:
 	
 	void handleUploadExamedStudentsScore();
 
-    void handleUpdateScoreModel();
-
-//    void handleSendLoginInCmdRequest();
 
 private:
     enum ExamAction {
@@ -228,8 +222,6 @@ private:
     void startPrepareExam();
 
     void initSchoolListInterface();
-
-    void initScoreModel();
 
     void shiftScoreLabel();
 
@@ -321,9 +313,6 @@ private:
      SchoolListTableModel *m_schoolListModel;
 
      Student m_curStudent;
-
-     LocalStudentTableModel *m_scoreModel = nullptr;
-     MySortFilterProxyModel *m_scoreProxyModel = nullptr;
 
      int m_examCount = 1;
      int m_curExamCount = 0;

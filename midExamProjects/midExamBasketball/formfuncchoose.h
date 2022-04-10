@@ -8,8 +8,8 @@
 #include "camera.h"
 //#include "socket/client.h"
 #include "schoollisttablemodel.h"
-#include "localstudenttablemodel.h"
 #include "Student.h"
+#include "scoremanagerform.h"
 #include "qcustomplot.h"
 
 #pragma   push_macro("min")
@@ -292,11 +292,13 @@ private:
 
     void initSchoolListInterface();
 
-    void initScoreModel();
-
     void shiftScoreLabel();
 
-    void resetSkipCounterDisply();
+    void resetSkipCounterBeforeSubExam();
+
+    void resetAllSkipCounterBeforeExam();
+
+    void resetScoreLabel();
 
 //    ScoreManageModel *m_model = nullptr;
 //    QList<QSharedPointer<StudentItem>> m_students;
@@ -410,10 +412,8 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     Student *m_curTmpStudent = nullptr;
      Student m_curStudent;
 
-     LocalStudentTableModel *m_scoreModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
      QString m_examProjectName;

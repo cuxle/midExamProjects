@@ -50,6 +50,8 @@
 #include <QLocale>
 
 
+
+
 FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDialog *parent) :
     QDialog(parent),
     ui(new Ui::FormFuncChoose),
@@ -90,7 +92,7 @@ FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDial
     initSchoolListInterface();
 
     // init local student table
-    initScoreModel();
+//    initScoreModel();
 }
 
 FormFuncChoose::~FormFuncChoose()
@@ -562,43 +564,6 @@ void FormFuncChoose::handleResizeSchoolListView()
     {
         ui->tableViewDataDownload->setColumnWidth(col, 250);
     }
-}
-
-void FormFuncChoose::initScoreModel()
-{
-    // 1. init examed student
-    if (m_scoreModel == nullptr) {
-        m_scoreModel = new LocalStudentTableModel(this);
-        m_scoreModel->setTable("scores");
-        ui->tblViewStudentData->setModel(m_scoreModel);
-        ui->tblViewStudentData->setColumnHidden(Id, true);
-        ui->tblViewStudentData->setColumnHidden(MidStopFirst, true);
-        ui->tblViewStudentData->setColumnHidden(MidStopSecond, true);
-        ui->tblViewStudentData->setColumnHidden(MidStopThird, true);
-
-        ui->tblViewStudentData->setColumnHidden(ExamFirstStartTime, true);
-        ui->tblViewStudentData->setColumnHidden(ExamFirstStopTime, true);
-        ui->tblViewStudentData->setColumnHidden(ExamSecondStartTime, true);
-        ui->tblViewStudentData->setColumnHidden(ExamSecondStopTime, true);
-        ui->tblViewStudentData->setColumnHidden(ExamThirdStartTime, true);
-        ui->tblViewStudentData->setColumnHidden(ExamThirdStopTime, true);
-        ui->tblViewStudentData->setColumnHidden(ExamCount, true);
-
-        ui->tblViewStudentData->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        ui->tblViewStudentData->verticalHeader()->setHidden(true);
-
-        connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, this, &FormFuncChoose::handleUpdateScoreModel);
-        NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-        connect(&server, &NetWorkServer::sigStudentScoreUploaded, this, &FormFuncChoose::handleUpdateScoreModel);
-
-        handleUpdateScoreModel();
-    }
-}
-
-void FormFuncChoose::handleUpdateScoreModel()
-{
-    m_scoreModel->updateModel();
-    m_scoreModel->select();
 }
 
 void FormFuncChoose::resetScoreLabel()
@@ -1100,12 +1065,6 @@ void FormFuncChoose::on_pbGoBackFromScoreManage_clicked()
     m_toolBarframe->setHidden(false);
 }
 
-void FormFuncChoose::on_pbSearch_clicked()
-{
-    // search from model by student id, start date, and end date
-
-}
-
 void FormFuncChoose::on_pbExport_clicked()
 {
     // export data from model to a dictionary
@@ -1363,7 +1322,10 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
 
     // total aim: create an exam student
     m_currentUserId = ui->leUserId->text();
-    if (m_currentUserId.isEmpty()) return;
+    if (m_currentUserId.isEmpty()) {
+        QMessageBox::warning(nullptr, "警告:", "请输入考生考号！");
+        return;
+    }
 
     if (m_curStudent.zkh == m_currentUserId) {
         return;

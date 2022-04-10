@@ -10,8 +10,8 @@
 //#include "xlsxdocument.h"
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
-#include "localstudenttablemodel.h"
 #include "Student.h"
+#include "scoremanagerform.h"
 
 class Camera;
 class QThread;
@@ -113,8 +113,6 @@ private slots:
 
     void on_pbGoBackFromScoreManage_clicked();
 
-    void on_pbSearch_clicked();
-
     void on_pbExport_clicked();
 
     void on_pbHome_clicked();
@@ -203,7 +201,7 @@ private:
     enum ExamState {
         ExamNotStart,
         ExamPreparing,
-        ExamIsRunning,
+        ExamIsRunning
     };
 
     enum ExamMode {
@@ -232,11 +230,13 @@ private:
 
     void initSchoolListInterface();
 
-    void initStudentsListInterface();
-
     void shiftScoreLabel();
 
-    void resetSkipCounterDisply();
+    void resetSkipCounterBeforeSubExam();
+
+    void resetAllSkipCounterBeforeExam();
+
+    void resetScoreLabel();
 
 //    ScoreManageModel *m_model = nullptr;
 //    QList<QSharedPointer<StudentItem>> m_students;
@@ -323,10 +323,8 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     Student *m_curTmpStudent = nullptr;
      Student m_curStudent;
 
-     LocalStudentTableModel *m_studentsModel = nullptr;
      int m_examCount = 1;
      int m_curExamCount = 0;
      QString m_examProjectName;

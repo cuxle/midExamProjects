@@ -67,6 +67,7 @@ SOURCES += \
     #videomanage/mat2qtformatmethod.cpp \
     #videomanage/videocaptureworker.cpp \
     #videoReplay/videoreplayworker.cpp \
+    #scoremanagerform.cpp \
     videowidget.cpp
 
 HEADERS += \
@@ -102,6 +103,7 @@ HEADERS += \
     #videomanage/mat2qtformatmethod.h \
     #videomanage/videocaptureworker.h \
     #videoReplay/videoreplayworker.h \
+    #scoremanagerform.h \
     videowidget.h
     #libs/videoWrite/videoWriterFFmpeg.h
 
@@ -109,7 +111,8 @@ FORMS += \
     #logindialog.ui \
     #    mainwindow.ui \
     #formlogin.ui \
-    formfuncchoose.ui
+    formfuncchoose.ui \
+    #scoremanagerform.ui
     #settingdialog.ui
 
 RESOURCES += \
