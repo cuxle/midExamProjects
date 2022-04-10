@@ -7,8 +7,9 @@
 #include "algorithm/ropeskipworker.h"
 
 
-Camera::Camera(QObject *parent)
-    :QObject(parent)
+Camera::Camera(bool useOpencv, QObject *parent)
+    :QObject(parent),
+      m_openCvCamera(useOpencv)
 
 {
     qRegisterMetaType<CameraState>("CameraState");
@@ -23,50 +24,89 @@ Camera::~Camera()
 
 void Camera::openCamera()
 {
-    openDevice();
-    if (bIsOpen()) {
-        StartSnap(nullptr);
+    if (m_openCvCamera) {
+        if (m_videoCapture->isOpened()) {
+            m_videoCapture->release();
+        }
+        m_bIsOpen = m_videoCapture->open(0);
+
+        // only open the first one device
+        qDebug() << "m_bIsOpen :" << m_bIsOpen;
+
+//            emit sigCameraOpened(true);
+        emit sigCameraState(CameraOpened);
+
+        m_opencvCameraTimer->start(40);
     } else {
-        // send error msg;
+        openDevice();
+        if (bIsOpen()) {
+            StartSnap(nullptr);
+        } else {
+            // send error msg;
+        }
     }
+
 }
 
 void Camera::closeCamera()
 {
-    if (bIsSnap()) {
-        StopSnap();
+    if (m_openCvCamera) {
+        if (m_videoCapture->isOpened()) {
+            m_videoCapture->release();
+        }
+        m_opencvCameraTimer->stop();
+    } else {
+        if (bIsSnap()) {
+            StopSnap();
+        }
+        if (bIsOpen()) {
+            CloseDevice();
+        }
     }
-    if (bIsOpen()) {
-        CloseDevice();
-    }
-}
 
-void Camera::handleSendImage()
-{
-    emit sigImageCapture(*m_image);
 }
 
 void Camera::initCamera()
 {
-    m_pCaptureEventHandler = new CSampleCaptureEventHandler();
-    m_image = new QImage(m_nWidth, m_nHeight, QImage::Format_RGB888);
+    if (m_openCvCamera) {
+        m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture);
+        m_opencvCameraTimer = new QTimer;
+        connect(m_opencvCameraTimer, &QTimer::timeout, this, &Camera::hangleGrabFrameMat);
+    } else {
+        m_pCaptureEventHandler = new CSampleCaptureEventHandler();
+        m_image = new QImage(m_nWidth, m_nHeight, QImage::Format_RGB888);
 
-    // init camera lib
-    try {
-        IGXFactory::GetInstance().Init();
-    } catch (CGalaxyException &e) {
-        qDebug() << "Error Code:" << e.GetErrorCode();
-        qDebug() << "Error Code Description:" << e.what();
+        // init camera lib
+        try {
+            IGXFactory::GetInstance().Init();
+        } catch (CGalaxyException &e) {
+            qDebug() << "Error Code:" << e.GetErrorCode();
+            qDebug() << "Error Code Description:" << e.what();
+        }
     }
+
+}
+
+void Camera::hangleGrabFrameMat()
+{
+    if (m_videoCapture.isNull()) return;
+    bool readFrame = m_videoCapture->read(m_frameMat);
+    qDebug() << __func__ << __LINE__ << readFrame;
+    emit sigImageCaptureMat(m_frameMat);
 }
 
 void Camera::destoryCamera()
 {
     closeCamera();
-    IGXFactory::GetInstance().Uninit();
-    delete m_image;
-    delete m_pCaptureEventHandler;
-    this->deleteLater();
+    if (m_openCvCamera) {
+        delete m_opencvCameraTimer;
+    } else {
+        IGXFactory::GetInstance().Uninit();
+        delete m_image;
+        delete m_pCaptureEventHandler;
+        this->deleteLater();
+    }
+
 }
 
 void Camera::openDevice()
@@ -459,24 +499,33 @@ bool Camera::bIsOpen() const
 
 void Camera::pushImage()
 {
-    // send signal image captured
-    emit sigImageCapture(*m_image);
+    if (m_openCvCamera) {
+        return;
+    } else {
+        // send signal image captured
+        emit sigImageCapture(*m_image);
+    }
 }
 
 void Camera::updateCameraSettings()
 {
-    if (!m_objFeatureControlPtr.IsNull()) {
+    if (m_openCvCamera) {
+        return;
+    } else {
+        if (!m_objFeatureControlPtr.IsNull()) {
 
-        //Set Balance White Mode : Once 。设置白平衡，每次点击开始或者60秒重新计时的时候设置一次
-        m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->SetValue("Continuous");
-        gxstring s = m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->GetValue();
-        std::cout << "BalanceWhiteAuto " << s << std::endl;
+            //Set Balance White Mode : Once 。设置白平衡，每次点击开始或者60秒重新计时的时候设置一次
+            m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->SetValue("Continuous");
+            gxstring s = m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->GetValue();
+            std::cout << "BalanceWhiteAuto " << s << std::endl;
 
-        // Set Gain : Once。设置增益，每次点击开始或者60秒重新计时的时候设置一次
-        m_objFeatureControlPtr->GetEnumFeature("GainSelector")->SetValue("Continuous");
-        m_objFeatureControlPtr->GetEnumFeature("GainAuto")->SetValue("Once");
-        s = m_objFeatureControlPtr->GetEnumFeature("GainAuto")->GetValue();
-        std::cout << "GainAuto " << s << std::endl;
+            // Set Gain : Once。设置增益，每次点击开始或者60秒重新计时的时候设置一次
+            m_objFeatureControlPtr->GetEnumFeature("GainSelector")->SetValue("Continuous");
+            m_objFeatureControlPtr->GetEnumFeature("GainAuto")->SetValue("Once");
+            s = m_objFeatureControlPtr->GetEnumFeature("GainAuto")->GetValue();
+            std::cout << "GainAuto " << s << std::endl;
+        }
+
     }
 }
 

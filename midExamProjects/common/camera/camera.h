@@ -6,6 +6,10 @@
 #include "csamplecaptureeventhandler.h"
 #include "camerasetting.h"
 
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
 class RopeSkipWorker;
 class QImage;
 class QTimer;
@@ -21,9 +25,12 @@ class Camera : public QObject
 {
     Q_OBJECT
 public:
-    Camera(QObject *parent = nullptr);
+    Camera(bool useOpencv = false, QObject *parent = nullptr);
     ~Camera();
 
+    bool isOpencvCam() {
+        return m_openCvCamera;
+    }
     QImage *image() const;
 
     bool bIsOpen() const;
@@ -39,13 +46,14 @@ public slots:
     void openCamera();
     void closeCamera();
 
+private slots:
+    void hangleGrabFrameMat();
 signals:
     void sigImageCapture(const QImage &img);
+    void sigImageCaptureMat(const cv::Mat &mat);
 //    void sigCameraOpened(bool);
     void sigCameraState(CameraState);
 
-private slots:
-    void handleSendImage();
 
 private:
     void openDevice();
@@ -76,7 +84,12 @@ private:
 
     bool m_bIsOpen = false;
     bool m_bIsSnap = false;
-    bool m_bIsColorFilter = false;    
+    bool m_bIsColorFilter = false;
+
+    bool m_openCvCamera = false;
+    QSharedPointer<cv::VideoCapture> m_videoCapture = nullptr;
+    cv::Mat m_frameMat;
+    QTimer *m_opencvCameraTimer = nullptr;
 };
 
 #endif // CAMERA_H

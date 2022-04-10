@@ -154,7 +154,12 @@ void FormFuncChoose::initVolleyballWorker()
     m_volleyballWorker->moveToThread(m_volleyballThread);
     connect(m_volleyballThread, &QThread::started, m_volleyballWorker, &VolleyballWorker::initlib);
     connect(m_volleyballThread, &QThread::finished, m_volleyballWorker, &VolleyballWorker::destroyWorker);
-    connect(m_camera, &Camera::sigImageCapture, m_volleyballWorker, &VolleyballWorker::handleReceiveImage);
+    if (m_camera->isOpencvCam()) {
+        connect(m_camera, &Camera::sigImageCaptureMat, m_volleyballWorker, &VolleyballWorker::handleReceiveMat);
+
+    } else {
+        connect(m_camera, &Camera::sigImageCapture, m_volleyballWorker, &VolleyballWorker::handleReceiveImage);
+    }
 //    connect(this, &FormFuncChoose::sigSendImageFromVideo, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
     connect(this, &FormFuncChoose::sigStartCount, m_volleyballWorker, &VolleyballWorker::startCount);
     connect(this, &FormFuncChoose::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
@@ -807,7 +812,8 @@ void FormFuncChoose::initCameraWorker()
 {
     qRegisterMetaType<QImage>("QImage");
     qRegisterMetaType<CameraState>("CameraState");
-    m_camera = new Camera();
+    bool useOpenCvCamera = true;
+    m_camera = new Camera(useOpenCvCamera);
     m_cameraThread = new QThread;
     m_camera->moveToThread(m_cameraThread);
     connect(m_cameraThread, &QThread::started, m_camera, &Camera::initCamera);
@@ -816,7 +822,16 @@ void FormFuncChoose::initCameraWorker()
     connect(this, &FormFuncChoose::sigOpenCamera, m_camera, &Camera::openCamera);
     connect(this, &FormFuncChoose::sigCloseCamera, m_camera, &Camera::closeCamera);
     connect(m_camera, &Camera::sigCameraState, this, &FormFuncChoose::handleCameraStateChanged);
-    connect(m_camera, &Camera::sigImageCapture, this, &FormFuncChoose::updateImageDisplay);
+    if (m_camera->isOpencvCam()) {
+        connect(m_camera, &Camera::sigImageCaptureMat, [&](const cv::Mat &mat){
+            QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
+
+            VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
+            videoWidget->setPixmap(pix);
+        });
+    } else {
+        connect(m_camera, &Camera::sigImageCapture, this, &FormFuncChoose::updateImageDisplay);
+    }
     connect(this, &FormFuncChoose::sigUpdateCameraSettings, m_camera, &Camera::updateCameraSettings);
 
     m_cameraThread->start();
@@ -868,7 +883,11 @@ void FormFuncChoose::initVideoCaptureWorker()
 //    connect(m_videoCaptureThread, &QThread::finished, m_videoCapture, &VideoCaptureWorker::deleteLater);
 //    connect(m_videoCaptureThread, &QThread::finished, m_videoCaptureThread, &QThread::deleteLater);
 
-    connect(m_camera, &Camera::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
+    if (m_camera->isOpencvCam()) {
+        connect(m_camera, &Camera::sigImageCaptureMat, m_videoCapture, &VideoCaptureWorker::handleReceiveMat);
+    } else {
+        connect(m_camera, &Camera::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
+    }
     connect(this, &FormFuncChoose::sigSetVideoPath, m_videoCapture, &VideoCaptureWorker::setVideoSavePath);
     connect(this, &FormFuncChoose::sigStartSaveVideo, m_videoCapture, &VideoCaptureWorker::setSaved);
     m_videoCaptureThread->start();
@@ -894,7 +913,7 @@ void FormFuncChoose::initVideoPlayer()
 //    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
 //    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
 
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveMat);
     connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
 
     //    connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, [&](bool videoLoaded){

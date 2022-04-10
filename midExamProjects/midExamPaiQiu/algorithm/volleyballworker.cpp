@@ -47,7 +47,7 @@ void VolleyballWorker::handleReceiveImage(const QImage &image)
     }
 }
 
-void VolleyballWorker::handleReceiveImage2(cv::Mat image)
+void VolleyballWorker::handleReceiveMat(const cv::Mat &image)
 {
     if (m_bStartCount) {
 //        QImage img = image;
