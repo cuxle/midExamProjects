@@ -28,11 +28,14 @@ Camera::~Camera()
 
 void Camera::openCamera()
 {
+    qDebug() << "m_bIsOpen :" << m_bIsOpen;
     if (m_openCvCamera) {
-        if (m_videoCapture->isOpened()) {
-            m_videoCapture->release();
-        }
-        m_bIsOpen = m_videoCapture->open(m_cameraIndex);
+//        if (m_videoCapture->isOpened()) {
+//            m_videoCapture->release();
+//        }
+//        m_bIsOpen = m_videoCapture->open(1);
+
+        m_bIsOpen = m_videoCapture->isOpened();
 
         // only open the first one device
         qDebug() << "m_bIsOpen :" << m_bIsOpen;
@@ -73,9 +76,15 @@ void Camera::closeCamera()
 void Camera::initCamera()
 {
     if (m_openCvCamera) {
-        m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture);
+        {
+            qDebug() << __func__ << __LINE__ << "before";
+            cv::VideoCapture vin(1);
+            qDebug() << __func__ << __LINE__ << "after";
+        }
+        m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture(1));
         m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, 1920);
         m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
+        qDebug() << __func__ << __LINE__ << m_videoCapture->isOpened();
         m_opencvCameraTimer = new QTimer;
         connect(m_opencvCameraTimer, &QTimer::timeout, this, &Camera::hangleGrabFrameMat);
     } else {
@@ -96,14 +105,15 @@ void Camera::initCamera()
 void Camera::hangleGrabFrameMat()
 {
     if (m_videoCapture.isNull()) return;
+//       m_videoCapture >> m_frameMat;
     bool readFrame = m_videoCapture->read(m_frameMat);
-    qDebug() << __func__ << __LINE__ << m_frameMat.cols << m_frameMat.rows;
+    if (!readFrame) return;
+//    qDebug() << __func__ << __LINE__ <<readFrame << m_frameMat.cols << m_frameMat.rows;
     // image 是从相机获得的 1920*1080的画面
     // image_roi 获得的roi 是1280*1024
 #if defined (YWQZ) || defined(TIAOSHENG) || defined(YTXS)
-  //  qDebug() << __func__ <<
-//    cv::Mat frameRoi = m_frameMat(cv::Rect(320, 28, 1280, 1024));
-//    frameRoi.copyTo(m_frameMat);
+    cv::Mat frameRoi = m_frameMat(cv::Rect(320, 28, 1280, 1024));
+    frameRoi.copyTo(m_frameMat);
 #else
     //frame.copyTo(m_frameMat);
 #endif

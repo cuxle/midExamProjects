@@ -430,7 +430,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         qDebug() << "success:" << jsonObject["success"].toBool();
         qDebug() << "msg:" << jsonObject["msg"].toString();
         qDebug() << "time:" << jsonObject["time"].toString();
-        qDebug() << "json response:" << jsonResponse;
+//        qDebug() << "json response:" << jsonResponse;
         switch (m_currentRequest) {
         case RequestLoginIn:
         {
@@ -474,8 +474,6 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     QString zxdm = obj["zxdm"].toString();
 
                     DataManagerDb::addSchool(0, zxdm, zxmc, 0);
-
-
 
                     emit sigSchoolListDataChanged();
                 }

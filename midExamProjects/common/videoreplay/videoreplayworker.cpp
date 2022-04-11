@@ -56,7 +56,7 @@ void VideoReplayWorker::startPlayVideo()
 
         frame.copyTo(mat);
 
-        emit sigSendImageFromVideoReplay(mat);
+        emit sigSendMatFromVideoReplay(mat);
 
         int waitDiff = waitTime + QDateTime::currentDateTime().msecsTo(baseTime);
         if (waitDiff > 0) {
@@ -106,7 +106,7 @@ void VideoReplayWorker::gotPlayVideoName(const QString &fileName)
 
     m_fps = m_capture->get(cv::CAP_PROP_FPS);
 
-    emit sigSendImageFromVideoReplay(frame);
+    emit sigSendMatFromVideoReplay(frame);
 
     m_capture->release();
 

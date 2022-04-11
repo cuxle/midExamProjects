@@ -910,7 +910,7 @@ void FormFuncChoose::initVideoPlayer()
     connect(m_videoPlayerThread, &QThread::started, m_videoPlayer, &VideoReplayWorker::init);
     connect(m_videoPlayerThread, &QThread::finished, m_videoPlayer, &VideoReplayWorker::deleteLater);
     connect(this, &FormFuncChoose::sigStartPlayVideo, m_videoPlayer, &VideoReplayWorker::startPlayVideo);
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, [&](const cv::Mat &mat){
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, [&](const cv::Mat &mat){
         QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
         VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
         videoWidget->setPixmap(pix);
@@ -920,7 +920,7 @@ void FormFuncChoose::initVideoPlayer()
 //    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
 //    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
 
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveMat);
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveMat);
     connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
 
     //    connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, [&](bool videoLoaded){

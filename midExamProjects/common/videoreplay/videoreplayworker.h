@@ -19,7 +19,7 @@ public:
 
 signals:
     void sigResetCount(bool);
-    void sigSendImageFromVideoReplay(const cv::Mat &image);
+    void sigSendMatFromVideoReplay(const cv::Mat &image);
     void sigVideoFileLoaded(bool);
 public slots:
     void init();

@@ -89,7 +89,7 @@ const auto SCORES_SQL = QLatin1String(R"(
         create table scores(zkh varchar(20),
         id varchar(30),
         name varchar(10),
-        gender interger,
+        gender integer,
         project varchar(10),
         firstScore integer,
         secondScore integer,

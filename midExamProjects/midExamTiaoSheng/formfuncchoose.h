@@ -84,6 +84,8 @@ private slots:
 
     void updateImageDisplay(const QImage &img);
 
+    void updateImageDisplayMat(const cv::Mat &mat);
+
     void handleSkipCountChanged(int skipCount);
 
     void on_pbStartTest_clicked();
@@ -192,7 +194,7 @@ private:
 
     void recordStudentExamInfo(ExamAction action);
 
-    void handleResizeSchoolListView();
+    void handleUpdateSchoolListView();
 
     Ui::FormFuncChoose *ui;
 

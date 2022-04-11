@@ -44,63 +44,6 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
         }
         return QVariant::fromValue(color);
     } else if (role == Qt::DisplayRole) {
-//        switch (index.column()) {
-////        case Zkh:
-////            return m_students[index.row()]->zkh;
-////        case Name:
-////            return m_students[index.row()]->name;
-//        case Gender:
-//        {
-//            return QSqlTableModel::data(index).toInt() == 1 ? "男" : "女";
-////            return m_students[index.row()]->gender == 1 ? "男" : "女";
-//        }
-
-////        case Project:
-////            return m_students[index.row()]->examProjectName;
-//        case FirstScore:
-//        {
-//#if defined(FOOTBALL) || defined (BASKETBALL)
-//            float score = QSqlTableModel::data(index).toInt();
-//            score = score / 1000;
-//            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(score);
-//#else
-//            return m_students[index.row()]->midStopFirst ? QVariant("中停") : QVariant(m_students[index.row()]->firstScore);
-//#endif
-//        }
-
-//        case SecondScore:
-//        {
-
-//#if defined(FOOTBALL) || defined (BASKETBALL)
-//            float score = m_students[index.row()]->secondScore;
-//            score = score / 1000;
-//            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(score);
-//#else
-//            return m_students[index.row()]->midStopFirst ? QVariant("中停") : QVariant(m_students[index.row()]->secondScore);
-//#endif
-//        }
-
-//        case ThirdScore:
-//        {
-//#if defined(FOOTBALL) || defined (BASKETBALL)
-//            float score = m_students[index.row()]->thirdScore;
-//            score = score / 1000;
-//            return m_students[index.row()]->midStopFirst ? QVariant("犯规") : QVariant(score);
-//#else
-//            return m_students[index.row()]->midStopFirst ? QVariant("中停") : QVariant(m_students[index.row()]->thirdScore);
-//#endif
-//        }
-
-//        case Time:
-//            return QSqlQueryModel::data(index).toDateTime().toString("yyyy-MM-dd hh:mm:ss ddd");
-//            return m_students[index.row()]->examStartFirstTime;
-//        case UploadStatus:
-//            return m_students[index.row()]->uploadStatus == 0 ? "未上传" : "已上传";
-//        case OnlineOffline:
-//            return m_students[index.row()]->isOnline ? "在线" : "离线";
-//        default:
-//            break;
-//        }
         switch (index.column()) {
         case Gender:
         {
@@ -147,7 +90,9 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
         }
         case UploadStatus:
         {
+
             int status = QSqlTableModel::data(index).toInt();
+            qDebug() << __func__ << __LINE__ << index.row() << index.column() << QSqlTableModel::data(index);
             if (status == 1) {
                 return QVariant("已上传");
             } else if (status == 0) {

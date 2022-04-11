@@ -155,6 +155,7 @@ void SettingDialog::on_buttonBox_accepted()
 //    appconfig.m_ipcUserName = ui->leIPCUserName->text();
 //    appconfig.m_ipcCode = ui->leIPCCode->text();
     appconfig.m_camera = ui->cmbCamera->currentIndex();
+    qDebug() << __func__ << __LINE__ << "camera:" << appconfig.m_camera;
     appconfig.m_cameraWidth = ui->leCameraWidth->text().toInt();
     appconfig.m_cameraHeight = ui->leCameraHeight->text().toInt();
 

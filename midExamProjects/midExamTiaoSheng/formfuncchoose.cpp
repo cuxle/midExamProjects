@@ -130,7 +130,11 @@ void FormFuncChoose::initSkipRopeZeroMq()
     if (m_skipRopeZeroMq == nullptr) return;
 
     // start skipRopeZeroMq
-    connect(m_camera, &Camera::sigImageCapture, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage);
+    if (m_camera->isOpencvCam()) {
+        connect(m_camera, &Camera::sigImageCaptureMat, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveMat);
+    } else {
+        connect(m_camera, &Camera::sigImageCapture, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage);
+    }
     connect(this, &FormFuncChoose::sigStartCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::startCount);
     connect(this, &FormFuncChoose::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
     connect(m_skipRopeZeroMq, &SkipRopeOnZeroMq::sigSkipCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
@@ -258,7 +262,6 @@ void FormFuncChoose::handleClientConflict()
 
 void FormFuncChoose::handleClientStatusChanged(Client::ClientState state)
 {
-    qDebug() << __func__ << __LINE__ << state;
     if (state == Client::ClientOnline) {
         ui->lbClientStatus->setText("Online");
         ui->lbClientStatus->setStyleSheet("color: rgb(0, 255, 0);");
@@ -319,16 +322,15 @@ void FormFuncChoose::handleStartExam()
     // 0. update state
     m_curExamState = ExamIsRunning;
 
-    // 1. reset 60s
+    // 1. reset 60s or 30s
     m_curTimeLeftMs = m_totalTimeMs;  
-
-    // 1.5 reset display score
-    resetSkipCounterBeforeSubExam();
 
     // 2. skip rope dll reset count
 //    m_skipRopeZeroMq->resetCount();
     emit sigResetCount();
+
     m_skipRopeZeroMq->m_bStartCount = true;
+
     emit sigStartCount(true);
 
     // 3. start back count 60s倒计时
@@ -469,25 +471,24 @@ void FormFuncChoose::resetAllSkipCounterBeforeExam()
 
     m_skipCountMinus = 0;
 
-    handleSkipCountChanged(0);
+//    handleSkipCountChanged(0);
 }
 void FormFuncChoose::resetSkipCounterBeforeSubExam()
 {
-    if (m_curScoreLabel != nullptr) {
-        if (m_curScoreLabel == ui->lbScoreFirst) {
-            ui->lbScoreFirst->setText(QString::number(0));
-            ui->lbScoreSecond->setText(QString::number(0));
-            ui->lbScoreThird->setText(QString::number(0));
-            ui->lbScoreFinal->setText(QString::number(0));
-        }
+    if (m_curScoreLabel == ui->lbScoreFirst) {
+        ui->lbScoreFirst->setText(QString::number(0));
+        ui->lbScoreSecond->setText(QString::number(0));
+        ui->lbScoreThird->setText(QString::number(0));
+        ui->lbScoreFinal->setText(QString::number(0));
     }
+
     m_skipCountFromDll = 0;
 
     m_curSkipCount = 0;
 
     m_skipCountMinus = 0;
 
-    handleSkipCountChanged(0);
+//    handleSkipCountChanged(0);
 }
 
 void FormFuncChoose::startPrepareExam()
@@ -496,14 +497,14 @@ void FormFuncChoose::startPrepareExam()
         m_3minsDelayTimer->stop();
     }
 
+    // 2.清零计数
+    resetSkipCounterBeforeSubExam();
+
     if (m_cmdOnline) {
         handleStartExam();
     } else {
         // 1."开始" 按钮变为 "停止"
         ui->pbStartSkip->setText("停止");
-
-        // 2.清零计数
-        resetSkipCounterBeforeSubExam();
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
@@ -533,28 +534,17 @@ void FormFuncChoose::initSchoolListInterface()
 
     ui->tableViewDataDownload->horizontalHeader()->setHidden(true);
     ui->tableViewDataDownload->verticalHeader()->setHidden(true);
-    handleResizeSchoolListView();
-    connect(&server, &NetWorkServer::sigSchoolDataDownloaded, [&](bool changed){
-        m_schoolListModel->updateModel();
-        m_schoolListModel->select();
-//        QTimer::singleShot(500, [&](){
-//            for (int col = 0; col < 4; col++)
-//            {
-//               ui->tableViewDataDownload->setColumnWidth(col, 250);
-//            }
-//        });
-
-    });
-    connect(&server, &NetWorkServer::sigSchoolListDataChanged, [&](){
-        handleResizeSchoolListView();
-        m_schoolListModel->select();
-    });
-    connect(&server, &NetWorkServer::sigSchoolListDataChanged, m_schoolListModel, &SchoolListTableModel::schoolListDataChanged);
+    handleUpdateSchoolListView();
+    connect(&server, &NetWorkServer::sigSchoolDataDownloaded, this, &FormFuncChoose::handleUpdateSchoolListView);
+    connect(&server, &NetWorkServer::sigSchoolListDataChanged, this, &FormFuncChoose::handleUpdateSchoolListView);
+//    connect(&server, &NetWorkServer::sigSchoolListDataChanged, m_schoolListModel, &SchoolListTableModel::schoolListDataChanged);
 
 }
 
-void FormFuncChoose::handleResizeSchoolListView()
+void FormFuncChoose::handleUpdateSchoolListView()
 {
+    m_schoolListModel->updateModel();
+    m_schoolListModel->select();
     for (int col = 0; col < 4; col++)
     {
         ui->tableViewDataDownload->setColumnWidth(col, 250);
@@ -776,39 +766,17 @@ void FormFuncChoose::initCameraWorker()
     connect(this, &FormFuncChoose::sigCloseCamera, m_camera, &Camera::closeCamera);
     connect(m_camera, &Camera::sigCameraState, this, &FormFuncChoose::handleCameraStateChanged);
     if (m_camera->isOpencvCam()) {
-        connect(m_camera, &Camera::sigImageCaptureMat, [&](const cv::Mat &mat){
-            QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
-
-            VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
-            videoWidget->setPixmap(pix);
-        });
+        connect(m_camera, &Camera::sigImageCaptureMat, this, &FormFuncChoose::updateImageDisplayMat);
     } else {
         connect(m_camera, &Camera::sigImageCapture, this, &FormFuncChoose::updateImageDisplay);
     }
     connect(this, &FormFuncChoose::sigUpdateCameraSettings, m_camera, &Camera::updateCameraSettings);
 
     m_cameraThread->start();
-    //    m_cameraThread->setPriority(QThread::TimeCriticalPriority);
+    m_cameraThread->setPriority(QThread::TimeCriticalPriority);
 }
 
-
-//void FormFuncChoose::initRopeSkipWorker()
-//{
-//    qRegisterMetaType<cv::Mat>("cv::Mat");
-//    m_ropeSkipWorker = new RopeSkipWorker;
-//    m_ropeSkipThread = new QThread;
-//    m_ropeSkipWorker->moveToThread(m_ropeSkipThread);
-//    connect(m_ropeSkipThread, &QThread::started, m_ropeSkipWorker, &RopeSkipWorker::initSkipRope);
-//    connect(m_ropeSkipThread, &QThread::finished, m_ropeSkipWorker, &RopeSkipWorker::deleteLater);
-//    connect(m_camera, &Camera::sigImageCapture, m_ropeSkipWorker, &RopeSkipWorker::handleReceiveImage);
-//    connect(this, &FormFuncChoose::sigStartCount, m_ropeSkipWorker, &RopeSkipWorker::startCount);
-//    connect(this, &FormFuncChoose::sigResetCount, m_ropeSkipWorker, &RopeSkipWorker::resetCount);
-//    connect(m_ropeSkipWorker, &RopeSkipWorker::sigSkipCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
-//    m_ropeSkipThread->start();
-////    m_ropeSkipThread->setPriority(QThread::TimeCriticalPriority);
-//}
-
-//void FormFuncChoose::initinitRopeSkipWorkerZmq()
+//void FormFuncChoose::initRopeSkipWorkerZmq()
 //{
 //    qRegisterMetaType<cv::Mat>("cv::Mat");
 //    m_skipRopeZeroMq = new SkipRopeOnZeroMq;
@@ -840,12 +808,12 @@ void FormFuncChoose::initVideoCaptureWorker()
     if (m_camera->isOpencvCam()) {
         connect(this, &FormFuncChoose::sigImageCaptureMat, m_videoCapture, &VideoCaptureWorker::handleReceiveMat);
         connect(m_camera, &Camera::sigImageCaptureMat, [&](const cv::Mat &mat){
-            emit sigImageCaptureMat(mat, m_curTimeLeftMs / 1000);
+            emit sigImageCaptureMat(mat, m_curTimeLeftMs / 1000); // add second text for TIAOSHENG
         });
     } else {
         connect(this, &FormFuncChoose::sigImageCapture, m_videoCapture, &VideoCaptureWorker::handleReceiveImage);
         connect(m_camera, &Camera::sigImageCapture, [&](const QImage &image){
-            emit sigImageCapture(image, m_curTimeLeftMs / 1000);
+            emit sigImageCapture(image, m_curTimeLeftMs / 1000); // add second text for TIAOSHENG
         });
     }
 
@@ -863,34 +831,17 @@ void FormFuncChoose::initVideoPlayer()
     m_videoPlayer->moveToThread(m_videoPlayerThread);
     connect(m_videoPlayerThread, &QThread::started, m_videoPlayer, &VideoReplayWorker::init);
     connect(m_videoPlayerThread, &QThread::finished, m_videoPlayer, &VideoReplayWorker::deleteLater);
+
     connect(this, &FormFuncChoose::sigStartPlayVideo, m_videoPlayer, &VideoReplayWorker::startPlayVideo);
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, [&](const cv::Mat &mat){
-        QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
-        VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
-        videoWidget->setPixmap(pix);
-    });
 	connect(this, &FormFuncChoose::sigStopVideoPlay, m_videoPlayer, &VideoReplayWorker::handleStopPlayVideo);
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
+
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, this, &FormFuncChoose::updateImageDisplayMat);
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveMat);
     connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
-    // load frame direcetly from videoreplayworker
-
-//    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_ropeSkipWorker, &RopeSkipWorker::handleReceiveImage2);
-//    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_ropeSkipWorker, &RopeSkipWorker::resetCount);
-
-    //    connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, [&](bool videoLoaded){
-//        m_bVideoFileLoaded = videoLoaded;
-//        if (!m_bVideoFileLoaded) {
-//            QMessageBox::warning(this, "Warning", tr("打开视频失败"));
-//            ui->stkVideoHolder->setCurrentIndex(0);
-
-//        }
-//        qDebug() << "m_bVideoFileLoaded:" << m_bVideoFileLoaded;
-//    });
     connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, this, &FormFuncChoose::handleLoadFileFinished);
     connect(this, &FormFuncChoose::sigSetPlayVideoName, m_videoPlayer, &VideoReplayWorker::gotPlayVideoName);
     m_videoPlayerThread->start();
     m_videoPlayerThread->setPriority(QThread::TimeCriticalPriority);
-    qDebug() << __func__ << __LINE__;
 }
 
 void FormFuncChoose::handleLoadFileFinished(bool loaded)
@@ -909,12 +860,17 @@ void FormFuncChoose::updateImageDisplay(const QImage &img)
     QImage image = img.rgbSwapped();
     QPixmap pix = QPixmap::fromImage(image);
 
-//    QSize LabelSize = ui->lbVideoLabel->size();
-//    pix = pix.scaled(LabelSize, Qt::IgnoreAspectRatio);
     VideoWidget *video = (VideoWidget*)ui->videoWidget;
     if (video != nullptr) {
         video->setPixmap(pix);
     }
+}
+
+void FormFuncChoose::updateImageDisplayMat(const cv::Mat &mat)
+{
+    QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
+    VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
+    videoWidget->setPixmap(pix);
 }
 
 void FormFuncChoose::handleSkipCountChanged(int skipCount)
@@ -1293,7 +1249,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
     }
 }
 
-
 void FormFuncChoose::on_pbOpenLocalVideoFile_clicked()
 {
     if (m_videoPlayer == nullptr) {
@@ -1371,19 +1326,21 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         m_curStudent.zxdm = student.zxdm;
         m_curStudent.zxmc = student.zxmc;
         m_curStudent.id = student.id;
-        m_curStudent.uploadStatus = 0;
-        m_curStudent.isOnline = m_isLogin;
-        DataManagerDb manager = Singleton<DataManagerDb>::GetInstance();
-        m_curStudent.examProjectName = manager.m_curExamInfo.name;
-        m_curStudent.examCount = m_examCount;
-        qDebug() << __func__ << __LINE__ << m_curStudent.examProjectName;
+
         ui->leUserName->setText(m_curStudent.name);
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
         clearStudentUiInfo();
     }
+    m_curStudent.uploadStatus = 0;
+    m_curStudent.isOnline = m_isLogin;
+    DataManagerDb manager = Singleton<DataManagerDb>::GetInstance();
+    m_curStudent.examProjectName = manager.m_curExamInfo.name;
+    m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
+    qDebug() << __func__ << __LINE__ << m_curStudent.zkh;
 }
 
 
