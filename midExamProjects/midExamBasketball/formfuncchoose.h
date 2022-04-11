@@ -114,6 +114,7 @@ private slots:
 
     void updateImageDisplay(const QImage &img);
 
+    void updateImageDisplayMat(const cv::Mat &mat);
 //    void handleSkipCountChanged(int skipCount);
 
     void on_pbStartTest_clicked();
@@ -210,7 +211,6 @@ private slots:
 
     void setValueRange(const QCPRange &range);
 
-    void handleResizeSchoolListView();
 
 //    void setKeyRange(const QCPRange &range);
 
@@ -247,14 +247,14 @@ private:
     void initCommonToolbar();
     void initFontDatabase();
     void initTimers();
-    void initSocketClient();
-    void initVolleyballWorker();
     void mapFromStdFootGroundToWidget(std::vector<PointXYZ> &objs);
     void startExamWhenStuEnterExamRegin();
 
     void clearAppConfig();
 
     void recordStudentExamInfo(ExamAction action);
+
+    void handleUpdateSchoolListView();
 
     Ui::FormFuncChoose *ui;
 
@@ -297,7 +297,6 @@ private:
     void resetAllSkipCounterBeforeExam();
 
     void resetScoreLabel();
-
 //    ScoreManageModel *m_model = nullptr;
 //    QList<QSharedPointer<StudentItem>> m_students;
 //    StudentManager *m_studentsManager = nullptr;

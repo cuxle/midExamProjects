@@ -150,6 +150,7 @@ FormFuncChoose::~FormFuncChoose()
 void FormFuncChoose::initVolleyballWorker()
 {
     qRegisterMetaType<cv::Mat>("cv::Mat");
+	if (m_camera == nullptr) return;
     m_volleyballWorker = new VolleyballWorker;
     m_volleyballThread = new QThread;
     m_volleyballWorker->moveToThread(m_volleyballThread);
@@ -364,9 +365,6 @@ void FormFuncChoose::handleStartExam()
     // 1. reset 60s
     m_curTimeLeftMs = m_totalTimeMs;  
 
-    // 1.5 reset display score
-    resetSkipCounterBeforeSubExam();
-
     // 2. skip rope dll reset count
 //    m_skipRopeZeroMq->resetCount();
 //    m_skipRopeZeroMq->m_bStartCount = true;
@@ -520,25 +518,24 @@ void FormFuncChoose::resetAllSkipCounterBeforeExam()
 
     m_skipCountMinus = 0;
 
-    handleSkipCountChanged(0);
+//    handleSkipCountChanged(0);
 }
 void FormFuncChoose::resetSkipCounterBeforeSubExam()
 {
-    if (m_curScoreLabel != nullptr) {
-        if (m_curScoreLabel == ui->lbScoreFirst) {
-            ui->lbScoreFirst->setText(QString::number(0));
-            ui->lbScoreSecond->setText(QString::number(0));
-            ui->lbScoreThird->setText(QString::number(0));
-            ui->lbScoreFinal->setText(QString::number(0));
-        }
+    if (m_curScoreLabel == ui->lbScoreFirst) {
+        ui->lbScoreFirst->setText(QString::number(0));
+        ui->lbScoreSecond->setText(QString::number(0));
+        ui->lbScoreThird->setText(QString::number(0));
+        ui->lbScoreFinal->setText(QString::number(0));
     }
+
     m_skipCountFromDll = 0;
 
     m_curSkipCount = 0;
 
     m_skipCountMinus = 0;
 
-    handleSkipCountChanged(0);
+//    handleSkipCountChanged(0);
 }
 
 void FormFuncChoose::startPrepareExam()
@@ -552,18 +549,18 @@ void FormFuncChoose::startPrepareExam()
         m_3minsDelayTimer->stop();
     }
 
+    // 2.清零计数
+    resetSkipCounterBeforeSubExam();
+
     if (m_cmdOnline) {
         handleStartExam();
     } else {
         // 1."开始" 按钮变为 "停止"
         ui->pbStartSkip->setText("停止");
 
-        // 2.清零计数
-        resetSkipCounterBeforeSubExam();
-
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
-//        emit sigStartCount(false);
+        emit sigStartCount(false);
 
         // 5. delay 9.5s, wait the start gun
         m_startDelayTimer->start(); // 倒计时结束开始倒计时60s backCounter
@@ -589,28 +586,17 @@ void FormFuncChoose::initSchoolListInterface()
 
     ui->tableViewDataDownload->horizontalHeader()->setHidden(true);
     ui->tableViewDataDownload->verticalHeader()->setHidden(true);
-    handleResizeSchoolListView();
-    connect(&server, &NetWorkServer::sigSchoolDataDownloaded, [&](bool changed){
-        m_schoolListModel->updateModel();
-        m_schoolListModel->select();
-//        QTimer::singleShot(500, [&](){
-//            for (int col = 0; col < 4; col++)
-//            {
-//               ui->tableViewDataDownload->setColumnWidth(col, 250);
-//            }
-//        });
-
-    });
-    connect(&server, &NetWorkServer::sigSchoolListDataChanged, [&](){
-        handleResizeSchoolListView();
-        m_schoolListModel->select();
-    });
-    connect(&server, &NetWorkServer::sigSchoolListDataChanged, m_schoolListModel, &SchoolListTableModel::schoolListDataChanged);
+    handleUpdateSchoolListView();
+    connect(&server, &NetWorkServer::sigSchoolDataDownloaded, this, &FormFuncChoose::handleUpdateSchoolListView);
+    connect(&server, &NetWorkServer::sigSchoolListDataChanged, this, &FormFuncChoose::handleUpdateSchoolListView);
+//    connect(&server, &NetWorkServer::sigSchoolListDataChanged, m_schoolListModel, &SchoolListTableModel::schoolListDataChanged);
 
 }
 
-void FormFuncChoose::handleResizeSchoolListView()
+void FormFuncChoose::handleUpdateSchoolListView()
 {
+    m_schoolListModel->updateModel();
+    m_schoolListModel->select();
     for (int col = 0; col < 4; col++)
     {
         ui->tableViewDataDownload->setColumnWidth(col, 250);
@@ -829,12 +815,7 @@ void FormFuncChoose::initCameraWorker()
     connect(this, &FormFuncChoose::sigCloseCamera, m_camera, &Camera::closeCamera);
     connect(m_camera, &Camera::sigCameraState, this, &FormFuncChoose::handleCameraStateChanged);
     if (m_camera->isOpencvCam()) {
-        connect(m_camera, &Camera::sigImageCaptureMat, [&](const cv::Mat &mat){
-            QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
-
-            VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
-            videoWidget->setPixmap(pix);
-        });
+        connect(m_camera, &Camera::sigImageCaptureMat, this, &FormFuncChoose::updateImageDisplayMat);
     } else {
         connect(m_camera, &Camera::sigImageCapture, this, &FormFuncChoose::updateImageDisplay);
     }
@@ -909,12 +890,10 @@ void FormFuncChoose::initVideoPlayer()
     m_videoPlayer->moveToThread(m_videoPlayerThread);
     connect(m_videoPlayerThread, &QThread::started, m_videoPlayer, &VideoReplayWorker::init);
     connect(m_videoPlayerThread, &QThread::finished, m_videoPlayer, &VideoReplayWorker::deleteLater);
+
     connect(this, &FormFuncChoose::sigStartPlayVideo, m_videoPlayer, &VideoReplayWorker::startPlayVideo);
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, [&](const cv::Mat &mat){
-        QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
-        VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
-        videoWidget->setPixmap(pix);
-    });
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, this, &FormFuncChoose::updateImageDisplayMat);
+
     connect(this, &FormFuncChoose::sigStopVideoPlay, m_videoPlayer, &VideoReplayWorker::handleStopPlayVideo);
     // load frame direcetly from videoreplayworker
 //    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
@@ -923,20 +902,11 @@ void FormFuncChoose::initVideoPlayer()
     connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveMat);
     connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
 
-    //    connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, [&](bool videoLoaded){
-//        m_bVideoFileLoaded = videoLoaded;
-//        if (!m_bVideoFileLoaded) {
-//            QMessageBox::warning(this, "Warning", tr("打开视频失败"));
-//            ui->stkVideoHolder->setCurrentIndex(0);
 
-//        }
-//        qDebug() << "m_bVideoFileLoaded:" << m_bVideoFileLoaded;
-//    });
     connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, this, &FormFuncChoose::handleLoadFileFinished);
     connect(this, &FormFuncChoose::sigSetPlayVideoName, m_videoPlayer, &VideoReplayWorker::gotPlayVideoName);
     m_videoPlayerThread->start();
     m_videoPlayerThread->setPriority(QThread::TimeCriticalPriority);
-    qDebug() << __func__ << __LINE__;
 }
 
 void FormFuncChoose::handleLoadFileFinished(bool loaded)
@@ -955,12 +925,17 @@ void FormFuncChoose::updateImageDisplay(const QImage &img)
     QImage image = img.rgbSwapped();
     QPixmap pix = QPixmap::fromImage(image);
 
-//    QSize LabelSize = ui->lbVideoLabel->size();
-//    pix = pix.scaled(LabelSize, Qt::IgnoreAspectRatio);
     VideoWidget *video = (VideoWidget*)ui->videoWidget;
     if (video != nullptr) {
         video->setPixmap(pix);
     }
+}
+
+void FormFuncChoose::updateImageDisplayMat(const cv::Mat &mat)
+{
+    QPixmap pix = CV2QTFORMAT::cvMatToQPixmap(mat);
+    VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
+    videoWidget->setPixmap(pix);
 }
 
 void FormFuncChoose::handleSkipCountChanged(int skipCount)
@@ -1185,7 +1160,7 @@ void FormFuncChoose::startSkipStuff()
     // 2.清零计数
     m_skipCountMinus = 0;
 
-//    handleSkipCountChanged(0);
+    handleSkipCountChanged(0);
 
     // 4. skip rope线程暂时停止工作, 只在60s内计数
     emit sigStartCount(false);
@@ -1266,31 +1241,10 @@ void FormFuncChoose::stopExamStuff()
 void FormFuncChoose::on_pbStartSkip_clicked()
 {
     // 1. 前提条件 camera is open or video file is loaded
-
-//    QString idText = ui->leUserId->text();
-//    if (idText.isEmpty()) {
-//        QMessageBox::warning(this, "Warning", "请输入考生ID");
-//        return;
-//    } else {
-//        m_videoFileName = ui->leUserId->text() + ".avi";
-//    }
-
-//    // 1. camera is open or video path is set
-//    // if not "Please open camera or load a video file"
-//    if (!m_camera->bIsOpen()) {
-//        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-////        qDebug() << "Please open camera or load a video file";
-//        return;
-//    }
     if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
         QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
         return;
     }
-//    if (!m_bVideoFileLoaded && !m_bCameraIsOpen) {
-//        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-//        return;
-//    }
-
 
     // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
     // state  = 准备阶段 or 考试阶段 -> 停止考试
@@ -1433,19 +1387,21 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         m_curStudent.zxdm = student.zxdm;
         m_curStudent.zxmc = student.zxmc;
         m_curStudent.id = student.id;
-        m_curStudent.uploadStatus = 0;
-        m_curStudent.isOnline = m_isLogin;
-        DataManagerDb manager = Singleton<DataManagerDb>::GetInstance();
-        m_curStudent.examProjectName = manager.m_curExamInfo.name;
-        m_curStudent.examCount = m_examCount;
-        qDebug() << __func__ << __LINE__ << m_curStudent.examProjectName;
+
         ui->leUserName->setText(m_curStudent.name);
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
         clearStudentUiInfo();
     }
+    m_curStudent.uploadStatus = 0;
+    m_curStudent.isOnline = m_isLogin;
+    DataManagerDb manager = Singleton<DataManagerDb>::GetInstance();
+    m_curStudent.examProjectName = manager.m_curExamInfo.name;
+    m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
+    qDebug() << __func__ << __LINE__ << m_curStudent.zkh;
 }
 
 

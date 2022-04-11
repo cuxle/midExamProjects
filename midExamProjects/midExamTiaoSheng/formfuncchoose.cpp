@@ -108,8 +108,7 @@ FormFuncChoose::~FormFuncChoose()
 
     m_cameraThread->quit();
     m_cameraThread->wait();
-
-    qDebug() << __func__ << __LINE__;
+	
     m_videoCaptureThread->quit();
     m_videoCaptureThread->wait();
 

@@ -9,6 +9,7 @@
 //#include "socket/client.h"
 #include "schoollisttablemodel.h"
 #include "Student.h"
+#include "scoremanagerform.h"
 #include "qcustomplot.h"
 
 #pragma   push_macro("min")
@@ -113,6 +114,7 @@ private slots:
 
     void updateImageDisplay(const QImage &img);
 
+    void updateImageDisplayMat(const cv::Mat &mat);
 //    void handleSkipCountChanged(int skipCount);
 
     void on_pbStartTest_clicked();
@@ -209,7 +211,6 @@ private slots:
 
     void setValueRange(const QCPRange &range);
 
-    void handleResizeSchoolListView();
 
 //    void setKeyRange(const QCPRange &range);
 
@@ -246,8 +247,6 @@ private:
     void initCommonToolbar();
     void initFontDatabase();
     void initTimers();
-    void initSocketClient();
-    void initVolleyballWorker();
     void mapFromStdFootGroundToWidget(std::vector<PointXYZ> &objs);
     void startExamWhenStuEnterExamRegin();
 
@@ -255,7 +254,7 @@ private:
 
     void recordStudentExamInfo(ExamAction action);
 
-//    void handleResizeSchoolListView();
+    void handleUpdateSchoolListView();
 
     Ui::FormFuncChoose *ui;
 

@@ -85,6 +85,8 @@ private slots:
 
     void updateImageDisplay(const QImage &img);
 
+    void updateImageDisplayMat(const cv::Mat &mat);
+
     void handleSkipCountChanged(int skipCount);
 
     void on_pbStartTest_clicked();
@@ -195,7 +197,7 @@ private:
 
     void recordStudentExamInfo(ExamAction action);
 
-    void handleResizeSchoolListView();
+    void handleUpdateSchoolListView();
 
     Ui::FormFuncChoose *ui;
 
@@ -326,10 +328,11 @@ private:
 
      SchoolListTableModel *m_schoolListModel;
 
-     Student *m_curTmpStudent = nullptr;
      Student m_curStudent;
 
-     LocalStudentTableModel *m_studentsModel = nullptr;
+//     LocalStudentTableModel *m_scoreModel = nullptr;
+//     MySortFilterProxyModel *m_scoreProxyModel = nullptr;
+
      int m_examCount = 1;
      int m_curExamCount = 0;
      QString m_examProjectName;

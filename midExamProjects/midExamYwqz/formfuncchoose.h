@@ -86,6 +86,8 @@ private slots:
 
     void updateImageDisplay(const QImage &img);
 
+    void updateImageDisplayMat(const cv::Mat &mat);
+
     void handleSkipCountChanged(int skipCount);
 
     void on_pbStartTest_clicked();
@@ -115,8 +117,6 @@ private slots:
     void on_pbGoBackFromDataImport_clicked();
 
     void on_pbGoBackFromScoreManage_clicked();
-
-//    void on_pbSearch_clicked();
 
     void on_pbExport_clicked();
 
@@ -173,8 +173,6 @@ private slots:
 	void handleUploadExamedStudentsScore();
 
     void handlePlayDingSound();
-	
-//	    void handleUpdateScoreModel();
 
     void on_pbLock_toggled(bool checked);
 
@@ -195,14 +193,13 @@ private:
     void initFontDatabase();
     void initTimers();
 //    void initSocketClient();
-    //void initinitRopeSkipWorkerZmq();
-   // void initSitupWorker();
+
 
     void clearAppConfig();
 
     void recordStudentExamInfo(ExamAction action);
 
-    void handleResizeSchoolListView();
+    void handleUpdateSchoolListView();
 
     Ui::FormFuncChoose *ui;
 

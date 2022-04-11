@@ -196,7 +196,7 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
    }
 }
 
-void SkipRopeOnZeroMq::handleReceiveImage2(cv::Mat image)
+void SkipRopeOnZeroMq::handleReceiveMat(cv::Mat image)
 {
     //qDebug() << __func__ << __LINE__;
     if (m_bStartCount) {
