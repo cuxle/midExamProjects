@@ -81,7 +81,7 @@ void Camera::initCamera()
             cv::VideoCapture vin(1);
             qDebug() << __func__ << __LINE__ << "after";
         }
-        m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture(1));
+        m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture(m_cameraIndex));
         m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, 1920);
         m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
         qDebug() << __func__ << __LINE__ << m_videoCapture->isOpened();

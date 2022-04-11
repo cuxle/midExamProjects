@@ -3443,7 +3443,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QWidget" name="pageScoreManager">
     <layout class="QVBoxLayout" name="verticalLayout_7">
      <item>
-      <widget class="ScoreManagerForm" name="widget" native="true"/>
+      <widget class="ScoreManagerForm" name="scoreManagerWidget" native="true"/>
      </item>
     </layout>
    </widget>

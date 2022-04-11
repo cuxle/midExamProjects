@@ -540,6 +540,7 @@ void FormFuncChoose::initUi()
     connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, ui->examRegin, &FootballRegin::updateRectPointTopLeft);
     connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
 
+    connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
 }
 
 void FormFuncChoose::updateRectPointTopLeft(const QPoint &topLeft)

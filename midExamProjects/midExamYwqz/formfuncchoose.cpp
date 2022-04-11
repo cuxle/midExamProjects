@@ -168,6 +168,9 @@ void FormFuncChoose::initUi()
 
     // init font database
     initFontDatabase();
+
+    connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
+
 }
 
 

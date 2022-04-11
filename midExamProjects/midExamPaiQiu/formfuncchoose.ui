@@ -26,7 +26,7 @@
    <string>学通中考体育考试软件</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset resource="../midExamYtxs/res.qrc">
     <normaloff>:/resource/images/mainform/loginIcon.png</normaloff>:/resource/images/mainform/loginIcon.png</iconset>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
@@ -3443,7 +3443,7 @@ color: rgb(255, 255, 255);</string>
    <widget class="QWidget" name="pageScoreManager">
     <layout class="QVBoxLayout" name="verticalLayout_7">
      <item>
-      <widget class="ScoreManagerForm" name="widget" native="true"/>
+      <widget class="ScoreManagerForm" name="scoreManagerWidget" native="true"/>
      </item>
     </layout>
    </widget>
@@ -3463,8 +3463,6 @@ color: rgb(255, 255, 255);</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -168,6 +168,8 @@ void FormFuncChoose::initUi()
 
     // init font database
     initFontDatabase();
+
+    connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
 }
 
 
@@ -589,85 +591,6 @@ void FormFuncChoose::shiftScoreLabel()
     }
 }
 
-//void FormFuncChoose::saveStudentScore()
-//{
-//    /*
-//     * enum StuColumn{
-//    StuStart = 1,
-//    StuID = StuStart,
-//    StuName,
-//    StuNum,
-//    StuGender,
-//    StuSchool,
-//    StuExamItem,
-//    StuScore,
-//    Stu1stScore,
-//    Stu2stScore,
-//    Stu3stScore,
-//    StuExamTime,
-//    StuUploadStatus,
-//    StuErrorInfo,
-//    StuVideoPath,
-//    StuEnd = StuVideoPath
-//     *
-//     */
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    QString m_videoPath = appconfig.m_videoSavePath;
-
-//    m_curStudent->firstScore = m_curSkipCount;
-//    m_curStudent->videoPathOnSite = m_videoPath + "/" + m_curStudent->id;
-
-//    if (m_xlsx == nullptr) return;
-//    m_xlsx->write(m_rowsInXlsx, StuIndex, m_rowsInXlsx - 1);
-//    m_xlsx->write(m_rowsInXlsx, StuName, m_curStudent->name);
-//    m_xlsx->write(m_rowsInXlsx, StuId, m_curStudent->id);
-//    m_xlsx->write(m_rowsInXlsx, StuGender, m_curStudent->gender);
-//    m_xlsx->write(m_rowsInXlsx, StuExamItem, m_curStudent->project);
-//    m_xlsx->write(m_rowsInXlsx, Stu1stScore, m_curStudent->firstScore);
-//    m_xlsx->write(m_rowsInXlsx, Stu2stScore, m_curStudent->secondScore);
-//    m_xlsx->write(m_rowsInXlsx, Stu3stScore, m_curStudent->thirdScore);
-//    m_xlsx->write(m_rowsInXlsx, StuExamTime, m_curStudent->examDate);
-//    m_xlsx->write(m_rowsInXlsx, StuVideoPath, m_curStudent->videoPathOnSite);
-//    m_xlsx->write(m_rowsInXlsx, StuUploadStatus, m_curStudent->uploadStatus);
-//    m_xlsx->write(m_rowsInXlsx, StuErrorInfo, m_curStudent->errorMessage);
-//    m_xlsx->save();
-//    m_rowsInXlsx++;
-//}
-
-//void FormFuncChoose::initXlsxDcoment()
-//{
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    QString m_videoPath = appconfig.m_videoSavePath;
-//    QString xlsxFileName = m_videoPath + "/" + "data.xlsx";
-//    QFile file(xlsxFileName);
-//    m_xlsx = new QXlsx::Document(xlsxFileName);
-//    if (!file.exists()) {
-//        // set file header
-//        /* const QStringList m_xlsxHeader = {"", QStringLiteral("序号 "), QStringLiteral("姓名 "),  QStringLiteral("学号 "), QStringLiteral("性别 "), QStringLiteral("学校 "), QStringLiteral("考试项目 "),
-//                                          QStringLiteral("考试成绩 "), QStringLiteral("第一次考试成绩 "), QStringLiteral("第二次考试成绩 "), QStringLiteral("第三次考试成绩 "),
-//                                          QStringLiteral("考试时间 "), QStringLiteral("上传状态 "), QStringLiteral("错误信息 "), QStringLiteral("视频路径 ")};
-//        */
-//        const QStringList m_xlsxHeader = {"", "Index", "Name", "ID", "Gender", "School", "ExamProject", "Finial Score", "First Score", "Second Score", "Third Score", "Exam Time", "Upload Status", "Error Message", "Video Path"};
-//        int headRow = 1;
-//        for (int i = StuIndex; i <= StuVideoPath; i++) {
-//            m_xlsx->write(headRow, i, m_xlsxHeader.at(i));
-//        }
-//        m_xlsx->save();
-//        m_rowsInXlsx++;
-
-//    } else {
-
-//        while (m_rowsInXlsx) {
-//            QVariant data = m_xlsx->read(m_rowsInXlsx, 1);
-//            if (data.isNull()) {
-//                break;
-//            }
-//            m_rowsInXlsx++;
-//        }
-//    }
-//    qDebug() << __func__ << __LINE__ << m_rowsInXlsx;
-//}
-
 void FormFuncChoose::updateDisplayTimer()
 {
     m_curTimeLeftMs -= m_internal;
@@ -876,7 +799,7 @@ void FormFuncChoose::handleSkipCountChanged(int skipCount)
 {
 
     if (!m_cmdOnline && skipCount == 1) {
-        if (!m_backCountTimer->isActive()) {
+        if (!m_backCountTimer->isActive() && m_curExamState == ExamIsRunning) {
             m_backCountTimer->start();
         }
     }
