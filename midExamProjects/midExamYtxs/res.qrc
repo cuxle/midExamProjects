@@ -28,5 +28,6 @@
         <file>resource/sound/ding.wav</file>
         <file>resource/images/mainform/ytxs.png</file>
         <file>resource/images/mainform/ytxs2.png</file>
+        <file>resource/images/examPage/stopBtn.png</file>
     </qresource>
 </RCC>

@@ -39,7 +39,7 @@ SOURCES += \
     #algorithm/volleyballworker.cpp \
     footballregin.cpp \
     lidar/godleilaser.cpp \
-    lidar/godleilaserdifop.cpp \
+    #lidar/godleilaserdifop.cpp \
     lidar/godleilasermsop.cpp \
     lidar/lidarAnalysis.cpp \
     lidarcloudwidget.cpp \
@@ -55,7 +55,7 @@ HEADERS += \
     #algorithm/volleyballworker.h \
     footballregin.h \
     lidar/godleilaser.h \
-    lidar/godleilaserdifop.h \
+    #lidar/godleilaserdifop.h \
     lidar/godleilasermsop.h \
     lidar/lidarAnalysis.h \
     lidarcloudwidget.h \

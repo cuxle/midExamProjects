@@ -16,7 +16,7 @@ Camera::Camera(bool useOpencv, QObject *parent)
 {
     qRegisterMetaType<CameraState>("CameraState");
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-    m_cameraIndex = appconfig.m_camera;
+    m_cameraIndex = appconfig.m_cameraIndex;
 }
 
 Camera::~Camera()
@@ -34,7 +34,7 @@ void Camera::openCamera()
 //            m_videoCapture->release();
 //        }
 //        m_bIsOpen = m_videoCapture->open(1);
-
+        if (m_videoCapture.isNull()) return;
         m_bIsOpen = m_videoCapture->isOpened();
 
         // only open the first one device
@@ -57,8 +57,8 @@ void Camera::openCamera()
 
 void Camera::closeCamera()
 {
-    if (m_openCvCamera) {
-        if (m_videoCapture->isOpened()) {
+    if (m_openCvCamera) {        
+        if (!m_videoCapture.isNull() && m_videoCapture->isOpened()) {
             m_videoCapture->release();
         }
         m_opencvCameraTimer->stop();
@@ -76,11 +76,6 @@ void Camera::closeCamera()
 void Camera::initCamera()
 {
     if (m_openCvCamera) {
-        {
-            qDebug() << __func__ << __LINE__ << "before";
-            cv::VideoCapture vin(1);
-            qDebug() << __func__ << __LINE__ << "after";
-        }
         m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture(m_cameraIndex));
         m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, 1920);
         m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
@@ -124,7 +119,9 @@ void Camera::destoryCamera()
 {
     closeCamera();
     if (m_openCvCamera) {
-        delete m_opencvCameraTimer;
+        if (m_opencvCameraTimer != nullptr) {
+            delete m_opencvCameraTimer;
+        }
     } else {
         IGXFactory::GetInstance().Uninit();
         delete m_image;

@@ -25,6 +25,7 @@
         <file>resource/images/mainform/cbLock.png</file>
         <file>resource/images/mainform/cbUnLock.png</file>
         <file>resource/images/mainform/paiqiu.png</file>
-	<file>resource/sound/ding.wav</file>
+        <file>resource/sound/ding.wav</file>
+        <file>resource/images/examPage/stopBtn.png</file>
     </qresource>
 </RCC>

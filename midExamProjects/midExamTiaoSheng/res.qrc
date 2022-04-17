@@ -22,5 +22,6 @@
         <file>resource/images/examPage/submitBtn.png</file>
         <file>resource/images/mainform/skipRope.png</file>
         <file>resource/sound/skipRope30s.mp3</file>
+        <file>resource/images/examPage/stopBtn.png</file>
     </qresource>
 </RCC>

@@ -27,7 +27,7 @@ const auto SCORES_SQL = QLatin1String(R"(
         create table scores(zkh varchar(20),
         id varchar(30),
         name varchar(10),
-        gender interger,
+        gender integer,
         project varchar(10),
         firstScore integer,
         secondScore integer,
@@ -198,6 +198,38 @@ DataManagerDb::DataManagerDb()
     }
 }
 
+QSqlError DataManagerDb::addStudentsFromExecl(const QString &execlName)
+{
+    if (execlName.isEmpty()) return QSqlError();
+    QXlsx::Document m_xlsx(execlName);
+
+    qDebug() << __func__ << __LINE__ << execlName;
+
+    QFile file(execlName);
+    if (!file.exists()) {
+        return QSqlError();
+    }
+
+    int m_rowsInXlsx = 2;
+    while (true) {
+        QVariant zkh = m_xlsx.read(m_rowsInXlsx, 1);
+        if (zkh.isNull()) {
+            break;
+        }
+
+        QVariant name = m_xlsx.read(m_rowsInXlsx, 2);
+        QVariant gender = m_xlsx.read(m_rowsInXlsx, 3);
+        QVariant zxdm = m_xlsx.read(m_rowsInXlsx, 4);
+        QVariant zxmc = m_xlsx.read(m_rowsInXlsx, 5);
+        QVariant id = m_xlsx.read(m_rowsInXlsx, 6);
+
+        addStudent(zkh.toString(), name.toString(), gender.toInt(), zxdm.toString(), zxmc.toString(), id.toString());
+
+        m_rowsInXlsx++;
+    }
+    return QSqlError();
+}
+
 QSqlError DataManagerDb::addSchool(int checked, const QString &zxdm, const QString &zxmc, int downloaded)
 {
     QSqlQuery q;
@@ -246,10 +278,10 @@ QSqlError DataManagerDb::updateStudentScoreUploadStatus(const Student &student)
 {
     QSqlQuery query;
     query.prepare("update scores set uploadStatus=? where examTime=?");
-    query.addBindValue(student.uploadStatus);
-    query.addBindValue(student.examTime);
+    query.addBindValue(QString::number(student.uploadStatus));
+    query.addBindValue(student.examStartFirstTime);
     query.exec();
-    qDebug() << __func__ << __LINE__ << student.examTime << student.uploadStatus << query.lastError().text();
+    qDebug() << __func__ << __LINE__ << student.examStartFirstTime << student.uploadStatus << query.lastError().text();
     return query.lastError();
 }
 
@@ -403,11 +435,14 @@ void DataManagerDb::readUnUploadedStudents()
     int idxId = query.record().indexOf("id");
 
     while (query.next()) {
+
         Student student;
         student.examCount = query.value(idxExamCount).toInt();
         student.firstScore = query.value(idxFirstScore).toInt();
         student.examStartFirstTime = query.value(idxFirstStartTime).toString();
         student.examStopFirstTime = query.value(idxFirstStopTime).toString();
+
+        qDebug() << __func__ << __LINE__ << student.examStartFirstTime;
 
         student.secondScore = query.value(idxSecondScore).toInt();
         student.examStartSecondTime = query.value(idxSecondStartTime).toString();

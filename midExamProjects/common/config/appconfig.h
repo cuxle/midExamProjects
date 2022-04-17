@@ -30,6 +30,7 @@ public:
     QString m_ipcUserName;
     QString m_ipcCode;
     int m_camera = 0;
+    int m_cameraIndex = 0;
     int m_cameraWidth = 0;
     int m_cameraHeight = 0;
 

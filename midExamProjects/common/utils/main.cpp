@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 
     initDb();
 	
-//    Logger::init();
+    Logger::init();
 	
 #if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
     serverLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/server/";

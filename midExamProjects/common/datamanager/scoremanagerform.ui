@@ -77,7 +77,7 @@ color: rgb(255, 255, 255);
 border:1px solid #898698;</string>
           </property>
           <property name="text">
-           <string>TEST</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -121,6 +121,16 @@ border:1px solid #898698;</string>
            <string notr="true">background-color: rgb(42, 38, 66);
 color: rgb(255, 255, 255);
 border:1px solid #898698;</string>
+          </property>
+          <property name="dateTime">
+           <datetime>
+            <hour>0</hour>
+            <minute>0</minute>
+            <second>0</second>
+            <year>2022</year>
+            <month>1</month>
+            <day>1</day>
+           </datetime>
           </property>
           <property name="calendarPopup">
            <bool>true</bool>
@@ -167,6 +177,16 @@ border:1px solid #898698;</string>
            <string notr="true">background-color: rgb(42, 38, 66);
 color: rgb(255, 255, 255);
 border:1px solid #898698;</string>
+          </property>
+          <property name="dateTime">
+           <datetime>
+            <hour>0</hour>
+            <minute>0</minute>
+            <second>0</second>
+            <year>2023</year>
+            <month>1</month>
+            <day>1</day>
+           </datetime>
           </property>
           <property name="calendarPopup">
            <bool>true</bool>

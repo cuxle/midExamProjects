@@ -92,7 +92,7 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
         {
 
             int status = QSqlTableModel::data(index).toInt();
-            qDebug() << __func__ << __LINE__ << index.row() << index.column() << QSqlTableModel::data(index);
+//            qDebug() << __func__ << __LINE__ << index.row() << index.column() << QSqlTableModel::data(index);
             if (status == 1) {
                 return QVariant("已上传");
             } else if (status == 0) {

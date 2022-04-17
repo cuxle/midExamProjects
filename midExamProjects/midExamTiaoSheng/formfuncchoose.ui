@@ -26,20 +26,20 @@
    <string>学通中考体育考试软件</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../midExamYtxs/res.qrc">
+   <iconset resource="res.qrc">
     <normaloff>:/resource/images/mainform/loginIcon.png</normaloff>:/resource/images/mainform/loginIcon.png</iconset>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>11</y>
+     <x>40</x>
+     <y>-390</y>
      <width>2318</width>
      <height>1537</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>6</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -195,7 +195,7 @@
               <string notr="true">color: rgb(115, 109, 148);</string>
              </property>
              <property name="text">
-              <string>软件版本:v1.0.0-alpha25</string>
+              <string>软件版本:v1.0.0-beta1</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -3444,6 +3444,8 @@ color: rgb(255, 255, 255);</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

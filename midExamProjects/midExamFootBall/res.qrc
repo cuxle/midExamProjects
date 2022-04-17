@@ -27,5 +27,6 @@
         <file>resource/images/mainform/paiqiu.png</file>
         <file>resource/sound/ding.wav</file>
         <file>resource/images/mainform/football.png</file>
+        <file>resource/images/examPage/stopBtn.png</file>
     </qresource>
 </RCC>

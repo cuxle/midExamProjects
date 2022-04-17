@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QHash>
 #include <QObject>
+#include <QStandardPaths>
+#include <QDir>
 
 QSharedPointer<QFile> Logger::logFile = Q_NULLPTR;
 bool Logger::isInit = false;
@@ -20,10 +22,16 @@ void Logger::init() {
 	if (isInit) {
         return;
 	}
-	
+
+    QString logLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/log/";
+    QDir dir(logLocation);
+    if (!dir.exists()) {
+        dir.mkdir(".");
+    }
+
 	// Create log file
     logFile = QSharedPointer<QFile>(new QFile);
-    logFile->setFileName("./MyLog.log");
+    logFile->setFileName(logLocation + "/MyLog.log");
 
     if (logFile->open(QIODevice::Append | QIODevice::Text)) {
         qDebug() << __func__ << __LINE__ << "open file success";

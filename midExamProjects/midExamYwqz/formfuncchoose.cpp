@@ -50,13 +50,11 @@
 #include <QLocale>
 
 
-
-
 FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDialog *parent) :
     QDialog(parent),
     ui(new Ui::FormFuncChoose),
     m_skipRopeZeroMq(skipRqopeMq),
-    m_isLogin(online)
+    m_isLogin(online) // login is clicked then m_isLogin is true
 {
     ui->setupUi(this);
 	
@@ -106,8 +104,7 @@ FormFuncChoose::~FormFuncChoose()
 
     m_cameraThread->quit();
     m_cameraThread->wait();
-
-    qDebug() << __func__ << __LINE__;
+	
     m_videoCaptureThread->quit();
     m_videoCaptureThread->wait();
 
@@ -500,6 +497,10 @@ void FormFuncChoose::startPrepareExam()
     } else {
         // 1."开始" 按钮变为 "停止"
         ui->pbStartSkip->setText("停止");
+//        ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
+//                                       font: 25 21pt \"Microsoft YaHei\";");
+        ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/stopBtn.png); \
+                                       font: 25 21pt \"Microsoft YaHei\";");
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
@@ -582,87 +583,9 @@ void FormFuncChoose::shiftScoreLabel()
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
         m_curScoreLabel->setFont(m_choosenFont);
+        m_curScoreLabel->setText(QString::number(0));
     }
 }
-
-//void FormFuncChoose::saveStudentScore()
-//{
-//    /*
-//     * enum StuColumn{
-//    StuStart = 1,
-//    StuID = StuStart,
-//    StuName,
-//    StuNum,
-//    StuGender,
-//    StuSchool,
-//    StuExamItem,
-//    StuScore,
-//    Stu1stScore,
-//    Stu2stScore,
-//    Stu3stScore,
-//    StuExamTime,
-//    StuUploadStatus,
-//    StuErrorInfo,
-//    StuVideoPath,
-//    StuEnd = StuVideoPath
-//     *
-//     */
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    QString m_videoPath = appconfig.m_videoSavePath;
-
-//    m_curStudent->firstScore = m_curSkipCount;
-//    m_curStudent->videoPathOnSite = m_videoPath + "/" + m_curStudent->id;
-
-//    if (m_xlsx == nullptr) return;
-//    m_xlsx->write(m_rowsInXlsx, StuIndex, m_rowsInXlsx - 1);
-//    m_xlsx->write(m_rowsInXlsx, StuName, m_curStudent->name);
-//    m_xlsx->write(m_rowsInXlsx, StuId, m_curStudent->id);
-//    m_xlsx->write(m_rowsInXlsx, StuGender, m_curStudent->gender);
-//    m_xlsx->write(m_rowsInXlsx, StuExamItem, m_curStudent->project);
-//    m_xlsx->write(m_rowsInXlsx, Stu1stScore, m_curStudent->firstScore);
-//    m_xlsx->write(m_rowsInXlsx, Stu2stScore, m_curStudent->secondScore);
-//    m_xlsx->write(m_rowsInXlsx, Stu3stScore, m_curStudent->thirdScore);
-//    m_xlsx->write(m_rowsInXlsx, StuExamTime, m_curStudent->examDate);
-//    m_xlsx->write(m_rowsInXlsx, StuVideoPath, m_curStudent->videoPathOnSite);
-//    m_xlsx->write(m_rowsInXlsx, StuUploadStatus, m_curStudent->uploadStatus);
-//    m_xlsx->write(m_rowsInXlsx, StuErrorInfo, m_curStudent->errorMessage);
-//    m_xlsx->save();
-//    m_rowsInXlsx++;
-//}
-
-//void FormFuncChoose::initXlsxDcoment()
-//{
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    QString m_videoPath = appconfig.m_videoSavePath;
-//    QString xlsxFileName = m_videoPath + "/" + "data.xlsx";
-//    QFile file(xlsxFileName);
-//    m_xlsx = new QXlsx::Document(xlsxFileName);
-//    if (!file.exists()) {
-//        // set file header
-//        /* const QStringList m_xlsxHeader = {"", QStringLiteral("序号 "), QStringLiteral("姓名 "),  QStringLiteral("学号 "), QStringLiteral("性别 "), QStringLiteral("学校 "), QStringLiteral("考试项目 "),
-//                                          QStringLiteral("考试成绩 "), QStringLiteral("第一次考试成绩 "), QStringLiteral("第二次考试成绩 "), QStringLiteral("第三次考试成绩 "),
-//                                          QStringLiteral("考试时间 "), QStringLiteral("上传状态 "), QStringLiteral("错误信息 "), QStringLiteral("视频路径 ")};
-//        */
-//        const QStringList m_xlsxHeader = {"", "Index", "Name", "ID", "Gender", "School", "ExamProject", "Finial Score", "First Score", "Second Score", "Third Score", "Exam Time", "Upload Status", "Error Message", "Video Path"};
-//        int headRow = 1;
-//        for (int i = StuIndex; i <= StuVideoPath; i++) {
-//            m_xlsx->write(headRow, i, m_xlsxHeader.at(i));
-//        }
-//        m_xlsx->save();
-//        m_rowsInXlsx++;
-
-//    } else {
-
-//        while (m_rowsInXlsx) {
-//            QVariant data = m_xlsx->read(m_rowsInXlsx, 1);
-//            if (data.isNull()) {
-//                break;
-//            }
-//            m_rowsInXlsx++;
-//        }
-//    }
-//    qDebug() << __func__ << __LINE__ << m_rowsInXlsx;
-//}
 
 void FormFuncChoose::updateDisplayTimer()
 {
@@ -841,9 +764,9 @@ void FormFuncChoose::initVideoPlayer()
     connect(m_videoPlayerThread, &QThread::finished, m_videoPlayer, &VideoReplayWorker::deleteLater);
 
     connect(this, &FormFuncChoose::sigStartPlayVideo, m_videoPlayer, &VideoReplayWorker::startPlayVideo);
-    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, this, &FormFuncChoose::updateImageDisplayMat);
 	connect(this, &FormFuncChoose::sigStopVideoPlay, m_videoPlayer, &VideoReplayWorker::handleStopPlayVideo);
 
+    connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, this, &FormFuncChoose::updateImageDisplayMat);
     connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveMat);
     connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
     connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, this, &FormFuncChoose::handleLoadFileFinished);
@@ -1011,12 +934,9 @@ void FormFuncChoose::on_pbDataDownload_clicked()
 
 void FormFuncChoose::on_pbDataImport_clicked()
 {
-    // import data from a execl
-    QString foldName = QFileDialog::getExistingDirectory(this, "Open Folder");
-    if (foldName.isEmpty()) {
-        return;
-    }
-    // load data from folder
+    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+    QString execl = QFileDialog::getOpenFileName(this, "Open Execl", appconfig.m_videoSavePath, tr("Xlsx Files (*.xlsx)"));
+    DataManagerDb::addStudentsFromExecl(execl);
 }
 
 void FormFuncChoose::on_pbScoreManage_clicked()
@@ -1096,7 +1016,7 @@ void FormFuncChoose::on_pbOpenIpc_clicked()
 void FormFuncChoose::startSkipStuff()
 {
     // 1."开始" 按钮变为 "停止"
-    ui->pbStartSkip->setText(QCoreApplication::translate("FormFuncChoose", "\345\201\234\346\255\242", nullptr));
+    ui->pbStartSkip->setText("停止");
 
     // 2.清零计数
     m_skipCountMinus = 0;
@@ -1131,6 +1051,8 @@ void FormFuncChoose::stopExamStuff()
 
     // 2. 这是设置"开始" XXX
     ui->pbStartSkip->setText("开始");
+    ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
+                                   font: 25 21pt \"Microsoft YaHei\";");
 //    ui->pbStartSkip->setText(QCoreApplication::translate("FormFuncChoose", "\345\274\200\345\247\213", nullptr));
 
     // stop count in skip rope
@@ -1332,8 +1254,6 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
-
-    qDebug() << __func__ << __LINE__ << m_curStudent.zkh;
 }
 
 

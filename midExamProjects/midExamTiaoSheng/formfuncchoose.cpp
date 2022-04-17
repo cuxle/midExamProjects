@@ -54,7 +54,7 @@ FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDial
     QDialog(parent),
     ui(new Ui::FormFuncChoose),
     m_skipRopeZeroMq(skipRqopeMq),
-    m_isLogin(online)
+    m_isLogin(online) // login is clicked then m_isLogin is true
 {
     ui->setupUi(this);
 
@@ -108,7 +108,7 @@ FormFuncChoose::~FormFuncChoose()
 
     m_cameraThread->quit();
     m_cameraThread->wait();
-	
+
     m_videoCaptureThread->quit();
     m_videoCaptureThread->wait();
 
@@ -324,7 +324,7 @@ void FormFuncChoose::handleStartExam()
     m_curExamState = ExamIsRunning;
 
     // 1. reset 60s or 30s
-    m_curTimeLeftMs = m_totalTimeMs;  
+    m_curTimeLeftMs = m_totalTimeMs;
 
     // 2. skip rope dll reset count
 //    m_skipRopeZeroMq->resetCount();
@@ -506,6 +506,10 @@ void FormFuncChoose::startPrepareExam()
     } else {
         // 1."开始" 按钮变为 "停止"
         ui->pbStartSkip->setText("停止");
+//        ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
+//                                       font: 25 21pt \"Microsoft YaHei\";");
+        ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/stopBtn.png); \
+                                       font: 25 21pt \"Microsoft YaHei\";");
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
@@ -566,7 +570,7 @@ void FormFuncChoose::shiftScoreLabel()
     m_preScoreLabel = m_curScoreLabel;
     if (m_examCount > m_curExamCount) {
         // cur = 0
-        if (m_curExamCount == 0) {            
+        if (m_curExamCount == 0) {
             m_curScoreLabel = ui->lbScoreFirst;
         } else if (m_curExamCount == 1) {
         // cur = 1
@@ -588,6 +592,7 @@ void FormFuncChoose::shiftScoreLabel()
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
         m_curScoreLabel->setFont(m_choosenFont);
+        m_curScoreLabel->setText(QString::number(0));
     }
 }
 
@@ -603,7 +608,7 @@ void FormFuncChoose::updateDisplayTimer()
 
         recordStudentExamInfo(ExamStopFinish);
 
-        stopExamStuff();        
+        stopExamStuff();
     }
 
 }
@@ -755,7 +760,7 @@ void FormFuncChoose::initVideoPlayer()
     connect(m_videoPlayerThread, &QThread::finished, m_videoPlayer, &VideoReplayWorker::deleteLater);
 
     connect(this, &FormFuncChoose::sigStartPlayVideo, m_videoPlayer, &VideoReplayWorker::startPlayVideo);
-	connect(this, &FormFuncChoose::sigStopVideoPlay, m_videoPlayer, &VideoReplayWorker::handleStopPlayVideo);
+    connect(this, &FormFuncChoose::sigStopVideoPlay, m_videoPlayer, &VideoReplayWorker::handleStopPlayVideo);
 
     connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, this, &FormFuncChoose::updateImageDisplayMat);
     connect(m_videoPlayer, &VideoReplayWorker::sigSendMatFromVideoReplay, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveMat);
@@ -778,7 +783,7 @@ void FormFuncChoose::handleLoadFileFinished(bool loaded)
 }
 
 void FormFuncChoose::updateImageDisplay(const QImage &img)
-{    
+{
     QImage image = img.rgbSwapped();
     QPixmap pix = QPixmap::fromImage(image);
 
@@ -819,7 +824,7 @@ void FormFuncChoose::handleSkipCountChanged(int skipCount)
 
 void FormFuncChoose::on_pbStartTest_clicked()
 {
-    // 显示 学生信息， 登录， 视频采集，成绩互动   
+    // 显示 学生信息， 登录， 视频采集，成绩互动
     ui->stackedWidget->setCurrentIndex(PageTest);
 
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
@@ -927,24 +932,21 @@ void FormFuncChoose::on_pbBackMenu_clicked()
 
 void FormFuncChoose::on_pbDataDownload_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(PageDataDownload);   
+    ui->stackedWidget->setCurrentIndex(PageDataDownload);
 }
 
 void FormFuncChoose::on_pbDataImport_clicked()
 {
-    // import data from a execl
-    QString foldName = QFileDialog::getExistingDirectory(this, "Open Folder");
-    if (foldName.isEmpty()) {
-        return;
-    }
-    // load data from folder
+    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+    QString execl = QFileDialog::getOpenFileName(this, "Open Execl", appconfig.m_videoSavePath, tr("Xlsx Files (*.xlsx)"));
+    DataManagerDb::addStudentsFromExecl(execl);
 }
 
 void FormFuncChoose::on_pbScoreManage_clicked()
 {
     // parse students json file into this qtable widget
     // qtable widget is enougth
-    qDebug() << __func__ << __LINE__;    
+    qDebug() << __func__ << __LINE__;
     qDebug() << __func__ << __LINE__;
     ui->stackedWidget->setCurrentIndex(PageScoreManage);
     m_toolBarframe->setHidden(true);
@@ -1017,7 +1019,7 @@ void FormFuncChoose::on_pbOpenIpc_clicked()
 void FormFuncChoose::startSkipStuff()
 {
     // 1."开始" 按钮变为 "停止"
-    ui->pbStartSkip->setText(QCoreApplication::translate("FormFuncChoose", "\345\201\234\346\255\242", nullptr));
+    ui->pbStartSkip->setText("停止");
 
     // 2.清零计数
     m_skipCountMinus = 0;
@@ -1054,10 +1056,12 @@ void FormFuncChoose::stopExamStuff()
 
     // 2. 这是设置"开始" XXX
     ui->pbStartSkip->setText("开始");
+    ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
+                                   font: 25 21pt \"Microsoft YaHei\";");
 //    ui->pbStartSkip->setText(QCoreApplication::translate("FormFuncChoose", "\345\274\200\345\247\213", nullptr));
 
     // stop count in skip rope
-    emit sigStartCount(false);    
+    emit sigStartCount(false);
     m_skipRopeZeroMq->m_bStartCount = false;
 
     if (m_curExamMode == ExamModeFromCamera) {
@@ -1069,13 +1073,6 @@ void FormFuncChoose::stopExamStuff()
         emit sigStopVideoPlay();
         // TODO 如果视频没有播放完，60s结束了怎么处理呢？我们暂时假定肯定播放完
     }
-
-
-//    if (m_bVideoFileLoaded) {
-//        m_bVideoFileLoaded = false;
-//        ui->stkVideoHolder->setCurrentIndex(0);
-//        // TODO 如果视频没有播放完，60s结束了怎么处理呢？我们暂时假定肯定播放完
-//    }
 
     if (m_backCountTimer->isActive()) {
         m_backCountTimer->stop();
@@ -1161,7 +1158,8 @@ void FormFuncChoose::on_pbStartSkip_clicked()
     case ExamPreparing:
     case ExamIsRunning:
     {
-        recordStudentExamInfo(ExamStopFinish);
+//        recordStudentExamInfo(ExamStopFinish);
+        m_curExamCount--;
         stopExamStuff();
         break;
     }
@@ -1261,8 +1259,6 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
-
-    qDebug() << __func__ << __LINE__ << m_curStudent.zkh;
 }
 
 

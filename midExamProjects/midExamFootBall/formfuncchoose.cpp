@@ -381,15 +381,10 @@ void FormFuncChoose::handleUpdateReceivedLeidaData()
         // long time no receive data , this value will be reset to false
         m_lidarIsOpen = true;
     }
-//    qDebug() << __func__ << __LINE__ << GodLeiLaser::lidar_angle.size();
-    int i = 0;
+
     if (GodLeiLaser::lidar_angle.size() > 0)
     {
-        i++;
-        //			PointCloud<PointXYZ>::Ptr cloud(new PointCloud<PointXYZ>);
-
         LidarParsing(cloud);
-//        qDebug() << __func__ << __LINE__ << cloud->points.size();
         if (ui->stkWidgetExamCloudRegin->currentIndex() == 0) {
             showCustomPlot();
         } else {
@@ -434,10 +429,8 @@ void FormFuncChoose::showExamRegion()
         int status = m_lidaAnalysis->tracking(objs[0]);
         if (status == 0) {
             // exam not running
-//            qDebug() << __func__ << __LINE__ << "exam not running";
         } else if (status == 1) {
             // exam running
-//            qDebug() << __func__ << __LINE__ << "exam is running";
             if (m_examFirstRunning) {
                 m_examFirstRunning = false;
                 startExamWhenStuEnterExamRegin();
@@ -445,23 +438,12 @@ void FormFuncChoose::showExamRegion()
 
         } else if (status == 2) {
             // exam finished normally
-//            qDebug() << __func__ << __LINE__ << "exam finished normally" << status;
             on_pbStartSkip_clicked();
-//            QMessageBox::warning(this, "warning", "exam finished");
         } else if (status == 3) {
             // student break the exam rule
-            qDebug() << __func__ << __LINE__ << "exam finished weigui" << status;
             on_pbZhongTing_clicked();
-//            QMessageBox::warning(this, "warning", "exam weigui");
         }
     }
-
-
-//    qDebug() << "obj[0] pos:" << objs[0]._PointXYZ::x << " " << objs[0]._PointXYZ::y;
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-    QPoint point = QPoint(keyAxis->coordToPixel(objs[0]._PointXYZ::x), valueAxis->coordToPixel(objs[0]._PointXYZ::y));
-//    ui->examRegin->updateStudentPointPos(point.x(), point.y());
     ui->examRegin->updateStudentPointPosFromStdFootGround(objs);
     ui->examRegin->update();
 }
@@ -476,35 +458,6 @@ void FormFuncChoose::showCustomPlot()
     ui->plot->replot();
     ui->plot->update();
 }
-
-//void FormFuncChoose::initSitupWorker()
-//{
-//    m_situpWorker = new SitupWorker;
-//    m_situpThread = new QThread;
-//    connect(m_situpThread, &QThread::started, m_situpWorker, &SitupWorker::initlib);
-//    connect(m_situpThread, &QThread::finished, m_situpWorker, &SitupWorker::deleteLater);
-//    connect(m_camera, &Camera::sigImageCapture, m_situpWorker, &SitupWorker::handleReceiveImage);
-//    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_situpWorker, &SitupWorker::handleReceiveImage2);
-//    connect(this, &FormFuncChoose::sigStartCount, m_situpWorker, &SitupWorker::startCount);
-//    connect(this, &FormFuncChoose::sigResetCount, m_situpWorker, &SitupWorker::resetCount);
-//    connect(m_situpWorker, &SitupWorker::sigSitupCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
-//    m_situpThread->start();
-//}
-
-//void FormFuncChoose::initVolleyballWorker()
-//{
-//    m_volleyballWorker = new VolleyballWorker;
-//    m_volleyballThread = new QThread;
-//    m_volleyballWorker->moveToThread(m_volleyballThread);
-//    connect(m_volleyballThread, &QThread::started, m_volleyballWorker, &VolleyballWorker::initlib);
-//    connect(m_volleyballThread, &QThread::finished, m_volleyballWorker, &VolleyballWorker::destroyWorker);
-//    connect(m_camera, &Camera::sigImageCapture, m_volleyballWorker, &VolleyballWorker::handleReceiveImage);
-////    connect(this, &FormFuncChoose::sigSendImageFromVideo, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
-//    connect(this, &FormFuncChoose::sigStartCount, m_volleyballWorker, &VolleyballWorker::startCount);
-//    connect(this, &FormFuncChoose::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
-//    connect(m_volleyballWorker, &VolleyballWorker::sigVolCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
-//    m_volleyballThread->start();
-//}
 
 void FormFuncChoose::initUi()
 {
@@ -524,12 +477,6 @@ void FormFuncChoose::initUi()
     ui->stkVideoHolder->setCurrentIndex(0);
     ui->stkWidgetExamCloudRegin->setCurrentIndex(0);
 
-    // no cmd online mode for ytxs
-    // read m_online from settings
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    m_cmdOnline = appconfig.m_appMode == "ONLINE";
-//    qDebug() << __func__ << "m_online:" << m_cmdOnline;
-
     ui->pbStartSkip->setHidden(m_cmdOnline);
     ui->lbClientStatus->setHidden(!m_cmdOnline);
     ui->pbOpenLocalVideoFile->setHidden(m_cmdOnline);
@@ -543,23 +490,14 @@ void FormFuncChoose::initUi()
     connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
 
     connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
-
 }
 
 void FormFuncChoose::updateRectPointTopLeft(const QPoint &topLeft)
 {
-    qDebug() << __func__ << __LINE__ << topLeft;
-
-
-//    QPoint tl = mapFromGlobal(topLeft);
-//    QPoint br = mapFromGlobal(bottomRight);
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-    qDebug() << __func__ << __LINE__ << keyAxis->pixelToCoord((topLeft).x()) << keyAxis->range() << keyAxis->axisRect()->left() << keyAxis->axisRect()->outerRect();
-    qDebug() << __func__ << __LINE__ << valueAxis->pixelToCoord((topLeft).y()) << valueAxis->range() << valueAxis->axisRect()->left() <<  keyAxis->axisRect()->outerRect();
     m_topLeft = QPointF(keyAxis->pixelToCoord((topLeft).x()), valueAxis->pixelToCoord((topLeft).y()));
     // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
-//    emit sigSetReginRect(m_topLeft.x(), m_bottomRight.x(), m_topLeft.y(), m_bottomRight.y());
     // save points to config
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
     m_config.m_examReginTopLeftX = topLeft.x();
@@ -573,13 +511,10 @@ void FormFuncChoose::updateRectPointTopLeft(const QPoint &topLeft)
 
 void FormFuncChoose::updateRectPointBottomRight(const QPoint &bottomRight)
 {
-    qDebug() << __func__ << __LINE__;
-
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
     m_bottomRight = QPointF(keyAxis->pixelToCoord((bottomRight).x()), valueAxis->pixelToCoord((bottomRight).y()));
     // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
-//    emit sigSetReginRect(m_topLeft.x(), m_bottomRight.x(), m_topLeft.y(), m_bottomRight.y());
 
     // save points to config
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
@@ -602,16 +537,6 @@ void FormFuncChoose::updateRectPointBottomRight(const QPoint &bottomRight)
     m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  zMin, zMax);
 }
 
-//void FormFuncChoose::initExamTimeVersion()
-//{
-//    AppConfig &config = Singleton<AppConfig>::GetInstance();
-//    int examTime = config.m_examTime; // m_examTime 0: 60s; m_examTime 1: 30s
-
-//    m_currentMediaFile = examTime == 0 ? m_mediapath60s : m_mediapath30s;
-
-//    m_totalTimeMs =  examTime == 0 ? 60*1000 : 30*1000;
-//}
-
 void FormFuncChoose::initFontDatabase()
 {
     int id = QFontDatabase::addApplicationFont(":/resource/font/DS-DIGIB.TTF");
@@ -632,13 +557,7 @@ void FormFuncChoose::initTimers()
     });
     m_curLocalTimer->start();
 
-//    setLeftTime(m_totalTimeMs);
     setLeftTimeSeconds(0);
-
-//    m_backCountTimer = new QTimer(this);
-//    m_backCountTimer->setInterval(m_internal);
-//    connect(m_backCountTimer, &QTimer::timeout, this, &FormFuncChoose::updateDisplayTimer);
-//    m_backCountTimer->setTimerType(Qt::PreciseTimer);
 
     m_forwardCountTimer = new QTimer(this);
     m_forwardCountTimer->setInterval(m_internal);
@@ -668,43 +587,6 @@ void FormFuncChoose::handleUploadExamedStudentsScore()
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
     server.requestFor(NetWorkServer::RequestUploadAllExamedStudentScore);
 }
-
-//void FormFuncChoose::initSocketClient()
-//{
-//    qRegisterMetaType<Client::ClientState>("Client::ClientState");
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    int id = appconfig.m_deviceId.toInt();
-//    QString ip = appconfig.m_platAddress;
-//    m_client = new Client(id, ip);
-//    m_clientThread = new QThread;
-//    m_client->moveToThread(m_clientThread);
-//    connect(m_clientThread, &QThread::started, m_client, &Client::initClient);
-//    connect(m_clientThread, &QThread::finished, m_client, &Client::destroyClient);
-////    connect(m_clientThread, &QThread::finished, m_client, &Client::deleteLater);
-//    connect(m_client, &Client::sigStartTest, this, &FormFuncChoose::handleStartExamFromRemote);
-//    connect(m_client, &Client::sigClientStatusChanged, this, &FormFuncChoose::handleClientStatusChanged);
-//    connect(m_client, &Client::sigClientConflict, this, &FormFuncChoose::handleClientConflict);
-//    m_clientThread->start();
-////    m_client->updateState(Client::ClientRunning);
-//}
-
-//void FormFuncChoose::handleClientConflict()
-//{
-//    QMessageBox::warning(nullptr, tr("Warning!"), tr("id 已经被占用，请重新配置id"));
-//}
-
-//void FormFuncChoose::handleClientStatusChanged(Client::ClientState state)
-//{
-//    qDebug() << __func__ << __LINE__ << state;
-//    if (state == Client::ClientOnline) {
-//        ui->lbClientStatus->setText("Online");
-//        ui->lbClientStatus->setStyleSheet("color: rgb(0, 255, 0);");
-//    } else if (state == Client::ClientOffline) {
-//        ui->lbClientStatus->setText("Offline");
-//        ui->lbClientStatus->setStyleSheet("color: rgb(255, 0, 0);");
-//    }
-//}
-
 
 void FormFuncChoose::initCommonToolbar()
 {
@@ -753,6 +635,21 @@ void FormFuncChoose::initCommonToolbar()
 
 void FormFuncChoose::handleStartExam()
 {
+    // switch button status
+    ui->pbStartSkip->setEnabled(false);
+    QTimer::singleShot(1000, [&](){
+        ui->pbStartSkip->setEnabled(true);
+    });
+    ui->pbStartSkip->setText("停止");
+    ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/stopBtn.png); \
+                                   font: 25 21pt \"Microsoft YaHei\";");
+
+    // 1.5 reset display score
+    resetSkipCounterBeforeSubExam();
+
+    recordStudentExamInfo(ExamStart);
+
+    m_curExamState = ExamIsRunning;
 
     // 保存视频名称    
     m_videoFileName = ui->leUserId->text();
@@ -766,23 +663,11 @@ void FormFuncChoose::handleStartExam()
         m_curStudent.videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
     }
     m_stuMovePathFileName = config.m_videoSavePath + "/video/" + m_stuMovePathFileName.split("_").first() + "/" + m_stuMovePathFileName;
-    // open this at last, this will cause crash now
-    emit sigStartSaveVideo(true, m_videoFileName);
-
     ui->examRegin->setStuMovePathFileName(m_stuMovePathFileName);
 
-    ui->pbStartSkip->setEnabled(false);
-    QTimer::singleShot(1000, [&](){
-        ui->pbStartSkip->setEnabled(true);
-    });
-    ui->pbStartSkip->setText("停止");
+    // start capture video
+    emit sigStartSaveVideo(true, m_videoFileName);
 
-    // 1.5 reset display score
-    resetSkipCounterBeforeSubExam();
-	
-    recordStudentExamInfo(ExamStart);
-
-    m_curExamState = ExamIsRunning;
 
     ui->examRegin->startExam(true);
 
@@ -813,13 +698,10 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
             if (m_curExamCount == 1) {
                 m_curStudent.examTime = dataTime;
                 m_curStudent.examStartFirstTime = dataTime;
-                qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             } else if (m_curExamCount == 2) {
                 m_curStudent.examStartSecondTime = dataTime;
-                qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             } else if (m_curExamCount == 3) {
                 m_curStudent.examStartThirdTime = dataTime;
-                qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             }
         }
         break;
@@ -832,11 +714,9 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
             if (m_curExamCount == 1) {
                 // record time for student score seconds
                 m_curStudent.firstScore = m_curForwardSeconds;
-                qDebug() << __func__ << __LINE__ << m_curStudent.firstScore;
                 m_curStudent.examStopFirstTime = dataTime;
             } else if (m_curExamCount == 2) {
                 m_curStudent.secondScore = m_curForwardSeconds;
-                qDebug() << __func__ << __LINE__ << m_curStudent.secondScore;
                 m_curStudent.examStopSecondTime = dataTime;
             } else if (m_curExamCount == 3) {
                 m_curStudent.thirdScore = m_curForwardSeconds;
@@ -961,11 +841,6 @@ void FormFuncChoose::resetSkipCounterBeforeSubExam()
 
 void FormFuncChoose::startPrepareExam()
 {
-    // update positon
-    VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
-    if (videoWidget != nullptr) {
-        videoWidget->updateAlgorithmPos();
-    }
     if (m_isLogin) {
         m_3minsDelayTimer->stop();
     }
@@ -978,6 +853,10 @@ void FormFuncChoose::startPrepareExam()
     } else {
         // 1."开始" 按钮变为 "停止"
         ui->pbStartSkip->setText("停止");
+//        ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
+//                                       font: 25 21pt \"Microsoft YaHei\";");
+        ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/stopBtn.png); \
+                                       font: 25 21pt \"Microsoft YaHei\";");
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
@@ -1060,87 +939,9 @@ void FormFuncChoose::shiftScoreLabel()
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
         m_curScoreLabel->setFont(m_choosenFont);
+        m_curScoreLabel->setText(QString::number(0));
     }
 }
-
-//void FormFuncChoose::saveStudentScore()
-//{
-//    /*
-//     * enum StuColumn{
-//    StuStart = 1,
-//    StuID = StuStart,
-//    StuName,
-//    StuNum,
-//    StuGender,
-//    StuSchool,
-//    StuExamItem,
-//    StuScore,
-//    Stu1stScore,
-//    Stu2stScore,
-//    Stu3stScore,
-//    StuExamTime,
-//    StuUploadStatus,
-//    StuErrorInfo,
-//    StuVideoPath,
-//    StuEnd = StuVideoPath
-//     *
-//     */
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    QString m_videoPath = appconfig.m_videoSavePath;
-
-//    m_curStudent->firstScore = m_curSkipCount;
-//    m_curStudent->videoPathOnSite = m_videoPath + "/" + m_curStudent->id;
-
-//    if (m_xlsx == nullptr) return;
-//    m_xlsx->write(m_rowsInXlsx, StuIndex, m_rowsInXlsx - 1);
-//    m_xlsx->write(m_rowsInXlsx, StuName, m_curStudent->name);
-//    m_xlsx->write(m_rowsInXlsx, StuId, m_curStudent->id);
-//    m_xlsx->write(m_rowsInXlsx, StuGender, m_curStudent->gender);
-//    m_xlsx->write(m_rowsInXlsx, StuExamItem, m_curStudent->project);
-//    m_xlsx->write(m_rowsInXlsx, Stu1stScore, m_curStudent->firstScore);
-//    m_xlsx->write(m_rowsInXlsx, Stu2stScore, m_curStudent->secondScore);
-//    m_xlsx->write(m_rowsInXlsx, Stu3stScore, m_curStudent->thirdScore);
-//    m_xlsx->write(m_rowsInXlsx, StuExamTime, m_curStudent->examDate);
-//    m_xlsx->write(m_rowsInXlsx, StuVideoPath, m_curStudent->videoPathOnSite);
-//    m_xlsx->write(m_rowsInXlsx, StuUploadStatus, m_curStudent->uploadStatus);
-//    m_xlsx->write(m_rowsInXlsx, StuErrorInfo, m_curStudent->errorMessage);
-//    m_xlsx->save();
-//    m_rowsInXlsx++;
-//}
-
-//void FormFuncChoose::initXlsxDcoment()
-//{
-//    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-//    QString m_videoPath = appconfig.m_videoSavePath;
-//    QString xlsxFileName = m_videoPath + "/" + "data.xlsx";
-//    QFile file(xlsxFileName);
-//    m_xlsx = new QXlsx::Document(xlsxFileName);
-//    if (!file.exists()) {
-//        // set file header
-//        /* const QStringList m_xlsxHeader = {"", QStringLiteral("序号 "), QStringLiteral("姓名 "),  QStringLiteral("学号 "), QStringLiteral("性别 "), QStringLiteral("学校 "), QStringLiteral("考试项目 "),
-//                                          QStringLiteral("考试成绩 "), QStringLiteral("第一次考试成绩 "), QStringLiteral("第二次考试成绩 "), QStringLiteral("第三次考试成绩 "),
-//                                          QStringLiteral("考试时间 "), QStringLiteral("上传状态 "), QStringLiteral("错误信息 "), QStringLiteral("视频路径 ")};
-//        */
-//        const QStringList m_xlsxHeader = {"", "Index", "Name", "ID", "Gender", "School", "ExamProject", "Finial Score", "First Score", "Second Score", "Third Score", "Exam Time", "Upload Status", "Error Message", "Video Path"};
-//        int headRow = 1;
-//        for (int i = StuIndex; i <= StuVideoPath; i++) {
-//            m_xlsx->write(headRow, i, m_xlsxHeader.at(i));
-//        }
-//        m_xlsx->save();
-//        m_rowsInXlsx++;
-
-//    } else {
-
-//        while (m_rowsInXlsx) {
-//            QVariant data = m_xlsx->read(m_rowsInXlsx, 1);
-//            if (data.isNull()) {
-//                break;
-//            }
-//            m_rowsInXlsx++;
-//        }
-//    }
-//    qDebug() << __func__ << __LINE__ << m_rowsInXlsx;
-//}
 
 void FormFuncChoose::updateDisplayTimer()
 {
@@ -1181,10 +982,6 @@ void FormFuncChoose::clearStudentUiInfo()
 
 void FormFuncChoose::closeEvent(QCloseEvent *event)
 {
-    qDebug() << __func__ << __LINE__;
-//    if (m_curExamState == ExamIsRunning) {
-//        stopExamStuff();
-//    }
     emit sigStartSaveVideo(false);
     //QThread::msleep(2*1000);
     emit sigCloseCamera();
@@ -1203,14 +1000,6 @@ void FormFuncChoose::initMediaPlayer()
         m_dingPlayer = new QMediaPlayer(this);
         m_dingPlayer->setMedia(QUrl(m_mediaDingPath));
         m_dingPlayer->setVolume(100);
-
-//	    connect(m_mp3Player, &QMediaPlayer::stateChanged, [&](QMediaPlayer::State newState){
-//	       if (newState == QMediaPlayer::StoppedState) {
-//	           if (m_bCameraIsOpen) {
-//	               emit sigStartSaveVideo(false);
-//	           }
-//	       }
-//	        });
     }
 
 }
@@ -1244,40 +1033,6 @@ void FormFuncChoose::initCameraWorker()
     m_cameraThread->start();
 //    m_cameraThread->setPriority(QThread::TimeCriticalPriority);
 }
-
-
-//void FormFuncChoose::initRopeSkipWorker()
-//{
-//    qRegisterMetaType<cv::Mat>("cv::Mat");
-//    m_ropeSkipWorker = new RopeSkipWorker;
-//    m_ropeSkipThread = new QThread;
-//    m_ropeSkipWorker->moveToThread(m_ropeSkipThread);
-//    connect(m_ropeSkipThread, &QThread::started, m_ropeSkipWorker, &RopeSkipWorker::initSkipRope);
-//    connect(m_ropeSkipThread, &QThread::finished, m_ropeSkipWorker, &RopeSkipWorker::deleteLater);
-//    connect(m_camera, &Camera::sigImageCapture, m_ropeSkipWorker, &RopeSkipWorker::handleReceiveImage);
-//    connect(this, &FormFuncChoose::sigStartCount, m_ropeSkipWorker, &RopeSkipWorker::startCount);
-//    connect(this, &FormFuncChoose::sigResetCount, m_ropeSkipWorker, &RopeSkipWorker::resetCount);
-//    connect(m_ropeSkipWorker, &RopeSkipWorker::sigSkipCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
-//    m_ropeSkipThread->start();
-////    m_ropeSkipThread->setPriority(QThread::TimeCriticalPriority);
-//}
-
-//void FormFuncChoose::initinitRopeSkipWorkerZmq()
-//{
-//    qRegisterMetaType<cv::Mat>("cv::Mat");
-//    m_skipRopeZeroMq = new SkipRopeOnZeroMq;
-//    m_skipRopeZeroMqThread = new QThread;
-//    m_skipRopeZeroMq->moveToThread(m_skipRopeZeroMqThread);
-//    connect(m_skipRopeZeroMqThread, &QThread::started, m_skipRopeZeroMq, &SkipRopeOnZeroMq::init);
-//    connect(m_skipRopeZeroMqThread, &QThread::finished, m_skipRopeZeroMq, &SkipRopeOnZeroMq::deleteLater);
-//    connect(m_camera, &Camera::sigImageCapture, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage);
-////    connect(this, &FormFuncChoose::sigSendMatFrame, m_skipRopeZeroMq, &SkipRopeOnZeroMq::handleReceiveImage2);
-//    connect(this, &FormFuncChoose::sigStartCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::startCount);
-//    connect(this, &FormFuncChoose::sigResetCount, m_skipRopeZeroMq, &SkipRopeOnZeroMq::resetCount);
-//    connect(m_skipRopeZeroMq, &SkipRopeOnZeroMq::sigSkipCountChanged, this, &FormFuncChoose::handleSkipCountChanged);
-//    m_skipRopeZeroMqThread->start();
-
-//}
 
 void FormFuncChoose::initVideoCaptureWorker()
 {
@@ -1317,15 +1072,6 @@ void FormFuncChoose::initVideoPlayer()
 //    connect(m_videoPlayer, &VideoReplayWorker::sigSendImageFromVideoReplay, m_volleyballWorker, &VolleyballWorker::handleReceiveImage2);
 //    connect(m_videoPlayer, &VideoReplayWorker::sigResetCount, m_volleyballWorker, &VolleyballWorker::resetCount);
 
-    //    connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, [&](bool videoLoaded){
-//        m_bVideoFileLoaded = videoLoaded;
-//        if (!m_bVideoFileLoaded) {
-//            QMessageBox::warning(this, "Warning", tr("打开视频失败"));
-//            ui->stkVideoHolder->setCurrentIndex(0);
-
-//        }
-//        qDebug() << "m_bVideoFileLoaded:" << m_bVideoFileLoaded;
-//    });
     connect(m_videoPlayer, &VideoReplayWorker::sigVideoFileLoaded, this, &FormFuncChoose::handleLoadFileFinished);
     connect(this, &FormFuncChoose::sigSetPlayVideoName, m_videoPlayer, &VideoReplayWorker::gotPlayVideoName);
     m_videoPlayerThread->start();
@@ -1360,22 +1106,6 @@ void FormFuncChoose::updateImageDisplayMat(const cv::Mat &mat)
     VideoWidget *videoWidget = (VideoWidget*)ui->videoWidget;
     videoWidget->setPixmap(pix);
 }
-//void FormFuncChoose::handleSkipCountChanged(int skipCount)
-//{
-//    if (skipCount != m_skipCountFromDll) {
-//        m_skipCountFromDll = skipCount;
-//        if (m_curScoreLabel == nullptr) {
-//            qDebug() << "m_curScoreLabel == nullptr";
-//            return;
-//        }
-
-//        m_curSkipCount = skipCount - m_skipCountMinus;
-
-//        m_curScoreLabel->setText(QString::number(m_curSkipCount));
-
-//        handlePlayDingSound();
-//    }
-//}
 
 void FormFuncChoose::on_pbStartTest_clicked()
 {
@@ -1415,11 +1145,6 @@ void FormFuncChoose::on_pbSetup_clicked()
     m_settingDialog->exec();
 }
 
-//void FormFuncChoose::on_pbStepBack_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbExit_clicked()
 {
     this->close();
@@ -1427,7 +1152,6 @@ void FormFuncChoose::on_pbExit_clicked()
 
 void FormFuncChoose::on_pbMainForm_clicked()
 {
-
     // 1. page = 0 Menu, exit;
     // 2. page = 1 Test, go to Menu
     // 3. page = PageDataManage, go to Menu
@@ -1480,11 +1204,6 @@ void FormFuncChoose::on_pbBackMenu_clicked()
     ui->stackedWidget->setCurrentIndex(PageMenu);
 }
 
-//void FormFuncChoose::on_pbBackMenu_2_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbDataDownload_clicked()
 {
     ui->stackedWidget->setCurrentIndex(PageDataDownload);   
@@ -1492,20 +1211,15 @@ void FormFuncChoose::on_pbDataDownload_clicked()
 
 void FormFuncChoose::on_pbDataImport_clicked()
 {
-    // import data from a execl
-    QString foldName = QFileDialog::getExistingDirectory(this, "Open Folder");
-    if (foldName.isEmpty()) {
-        return;
-    }
-    // load data from folder
+    AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+    QString execl = QFileDialog::getOpenFileName(this, "Open Execl", appconfig.m_videoSavePath, tr("Xlsx Files (*.xlsx)"));
+    DataManagerDb::addStudentsFromExecl(execl);
 }
 
 void FormFuncChoose::on_pbScoreManage_clicked()
 {
     // parse students json file into this qtable widget
     // qtable widget is enougth
-    qDebug() << __func__ << __LINE__;    
-    qDebug() << __func__ << __LINE__;
     ui->stackedWidget->setCurrentIndex(PageScoreManage);
     m_toolBarframe->setHidden(true);
 }
@@ -1577,7 +1291,7 @@ void FormFuncChoose::on_pbOpenIpc_clicked()
 void FormFuncChoose::startSkipStuff()
 {
     // 1."开始" 按钮变为 "停止"
-    ui->pbStartSkip->setText(QCoreApplication::translate("FormFuncChoose", "\345\201\234\346\255\242", nullptr));
+    ui->pbStartSkip->setText("停止");
 
     // 2.清零计数
     m_skipCountMinus = 0;
@@ -1603,7 +1317,6 @@ void FormFuncChoose::stopExamStuff()
 {
     // 0. exam count count count
     // 这是一个考生的最后一次，记录本地成绩，上传考生成绩到服务器
-    qDebug() << __func__ << __LINE__ << m_curExamCount << m_examCount;
     if (m_curExamCount == m_examCount) {
         saveAndUploadStudentScore();
         if (m_curStudent.midStopFirst && m_curStudent.midStopSecond) {
@@ -1621,6 +1334,8 @@ void FormFuncChoose::stopExamStuff()
 
     // 2. 这是设置"开始" XXX
     ui->pbStartSkip->setText("开始");
+	ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
+                                   font: 25 21pt \"Microsoft YaHei\";");
 
     //中停 裁判判犯规等原因
     bool bEnd = m_lidaAnalysis->setExamEnd();
@@ -1678,20 +1393,6 @@ void FormFuncChoose::stopExamStuff()
     });
 
     setLeftTimeSeconds(0);
-//    if (!m_cmdOnline) {
-//        if (m_startDelayTimer->isActive()) {
-//            m_startDelayTimer->stop();
-//        }
-
-//        if (m_enableStartSound) {
-//            m_mp3Player->blockSignals(true);
-//            QTimer::singleShot(500, [&](){
-//                m_mp3Player->stop();
-//            });
-//    //        m_mp3Player->stop();
-//            m_mp3Player->blockSignals(false);
-//        }
-//    }
 }
 
 void FormFuncChoose::on_pbStartSkip_clicked()
@@ -1733,7 +1434,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
     case ExamPreparing:
     case ExamIsRunning:
     {
-
         recordStudentExamInfo(ExamStopFinish);
         stopExamStuff();
         break;
@@ -1844,8 +1544,6 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
-
-    qDebug() << __func__ << __LINE__ << m_curStudent.zkh;
 }
 
 
