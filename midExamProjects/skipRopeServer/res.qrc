@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/skipRopeOffline.png</file>
+        <file>resource/skipRopeOnline.png</file>
+        <file>resource/resume.png</file>
+        <file>resource/start.png</file>
+        <file>resource/lastGroup.png</file>
+        <file>resource/nextGroup.png</file>
+        <file>resource/exam.qss</file>
+        <file>resource/loginIcon.png</file>
+        <file>resource/backStep.png</file>
+        <file>resource/font/DS-DIGIB.TTF</file>
+        <file>resource/font/DS-DIGIB-2.ttf</file>
+        <file>resource/sound/skipRope60s.mp3</file>
+        <file>resource/sound/skipRope30s.mp3</file>
+    </qresource>
+</RCC>

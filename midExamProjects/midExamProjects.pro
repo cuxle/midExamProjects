@@ -8,7 +8,10 @@ SUBDIRS += midExamFootBall \
           midExamYtxs \
           midExamPaiQiu \
           midExamTiaoSheng \
-          midExamBasketball
+          midExamBasketball \
+          licenseDemo \
+          licenseDemoP \
+          skipRopeServer
 
 
 #SUBDIRS += midExamTiaoSheng \
