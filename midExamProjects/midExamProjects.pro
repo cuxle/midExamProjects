@@ -9,8 +9,8 @@ SUBDIRS += midExamFootBall \
           midExamPaiQiu \
           midExamTiaoSheng \
           midExamBasketball \
-          licenseDemo \
-          licenseDemoP \
+          machineCodeProducer \
+          licenseGenerator \
           skipRopeServer
 
 
