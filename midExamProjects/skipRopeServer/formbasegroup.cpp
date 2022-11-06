@@ -87,7 +87,6 @@ void FormBaseGroup::setItemId(int id)
 {
     m_itemId = id;
     QString itemNum = "  " + QString::number(id);
-    qDebug() << __func__ << __LINE__ << itemNum << m_itemId;
     this->m_lbItemNum->setText(itemNum);
 }
 
@@ -98,19 +97,16 @@ int FormBaseGroup::itemId() const
 
 void FormBaseGroup::setItemState(ClientState newState)
 {
-
     m_state = newState;
     switch (m_state)
     {
     case ClientOnline:
         m_lbItemIcon->setStyleSheet(QString::fromUtf8("background-color: rgb(42, 38, 66);border-image: url(:/resource/skipRopeOnline.png);"));
         m_lbItemStateText->setText("在线");
-            qDebug() << __func__ << __LINE__ << "设置在线";
         break;
     case ClientOffline:
         m_lbItemIcon->setStyleSheet(QString::fromUtf8("background-color: rgb(42, 38, 66);border-image: url(:/resource/skipRopeOffline.png);"));
         m_lbItemStateText->setText("离线");
-            qDebug() << __func__ << __LINE__ << m_itemId << "设置离线";
         break;
     case ClientHasStudent:
         break;

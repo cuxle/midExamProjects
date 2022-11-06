@@ -906,6 +906,22 @@ border-top-right-radius: 10px;</string>
            </property>
           </spacer>
          </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <family>Microsoft YaHei UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(85, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>V1.0.0-beta2</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

@@ -16,8 +16,8 @@ Client::Client(QList<FormBaseGroup*> *uiClientsBox, QObject *parent)
     m_clients.append(this);
    // QTimer::singleShot(1000, [&](){
         m_watchDog = new QTimer(this);
-        connect(m_watchDog, &QTimer::timeout, this, &Client::handleWathdogTimeout);
-        m_watchDog->setInterval(1000);
+    connect(m_watchDog, &QTimer::timeout, this, &Client::handleWathdogTimeout);
+    m_watchDog->setInterval(1000);
         m_watchDog->start();
    // });
 
@@ -64,8 +64,8 @@ void Client::setTcpSocket(QTcpSocket *newTcpSocket)
     m_in.setDevice(m_tcpSocket);
     m_in.setVersion(QDataStream::Qt_5_15);
     //QObject::connect(newTcpSocket, &QAbstractSocket::disconnected, qobject_cast<QObject*>(m_tcpSocket), &QObject::deleteLater);
-    m_ip = m_tcpSocket->localAddress();
-    m_port = m_tcpSocket->localPort();
+    m_ip = m_tcpSocket->peerAddress();
+    m_port = m_tcpSocket->peerPort();
     connect(m_tcpSocket, &QAbstractSocket::readyRead, this, &Client::handleSocketReadyRead);
 
 //    connect(newClient, &Client::sigStateChanged, this, &Widget::handleClientStateChanged);

@@ -309,12 +309,12 @@ void Widget::handleNewClientConnection()
     // new connection come in
     QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
 
-    QHostAddress address = clientConnection->localAddress();
-    quint16 port = clientConnection->localPort();
+    QHostAddress address = clientConnection->peerAddress();
+    quint16 port = clientConnection->peerPort();
 
 
-    qDebug() << __func__ << __LINE__ << clientConnection->localAddress();
-    qDebug() << __func__ << __LINE__ << clientConnection->localPort();
+    qDebug() << __func__ << __LINE__ << clientConnection->peerAddress();
+    qDebug() << __func__ << __LINE__ << clientConnection->peerPort();
 
     for (auto &item : Client::m_clients) {
         qDebug() << item->ip() << item->port();
