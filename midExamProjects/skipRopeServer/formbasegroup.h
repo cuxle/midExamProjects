@@ -32,11 +32,11 @@ public:
     ClientState state() const;
 
 private:
-     QLabel *m_lbItemNum;
-     QLabel *m_lbItemIcon;
-     QLabel *m_lbItemStateText;
-     int m_itemId = -1;
-     ClientState m_state = ClientInvalid;
+    QLabel *m_lbItemNum;
+    QLabel *m_lbItemIcon;
+    QLabel *m_lbItemStateText;
+    int m_itemId = -1;
+    ClientState m_state = ClientInvalid;
 };
 
 #endif // FORMBASEGROUP_H

@@ -270,7 +270,9 @@ void Widget::initClientsBox()
 
 void Widget::setItemId(FormBaseGroup *gb, int id)
 {
-    gb->setItemId(id);
+    if (gb != nullptr) {
+        gb->setItemId(id);
+    }
 }
 
 void Widget::initServer()
@@ -282,6 +284,8 @@ void Widget::initServer()
                               tr("Unable to start the server: %1.")
                               .arg(tcpServer->errorString()));
         close();
+
+        m_appInitFailureType = AppInitServerFailed;
         return;
     }
 //! [0]
@@ -289,10 +293,14 @@ void Widget::initServer()
     QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
     // use the first non-localhost IPv4 address
     for (int i = 0; i < ipAddressesList.size(); ++i) {
-        if (ipAddressesList.at(i) != QHostAddress::LocalHost &&
-            ipAddressesList.at(i).toIPv4Address()) {
-            ipAddress = ipAddressesList.at(i).toString();
-            break;
+        if (ipAddressesList.at(i) != QHostAddress::LocalHost) {
+            bool ok = false;
+            quint32 ipv4 = ipAddressesList.at(i).toIPv4Address(&ok);
+            Q_UNUSED(ipv4);
+            if (ok) {
+                ipAddress = ipAddressesList.at(i).toString();
+                break;
+            }
         }
     }
     // if we did not find one, use IPv4 localhost
@@ -309,6 +317,11 @@ void Widget::handleNewClientConnection()
     // new connection come in
     QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
 
+    if (clientConnection == nullptr) {
+        qDebug() << __func__ << __LINE__ << "incoming new pending connection is nullptr";
+        return;
+    }
+
     QHostAddress address = clientConnection->peerAddress();
     quint16 port = clientConnection->peerPort();
 
@@ -316,12 +329,20 @@ void Widget::handleNewClientConnection()
     qDebug() << __func__ << __LINE__ << clientConnection->peerAddress();
     qDebug() << __func__ << __LINE__ << clientConnection->peerPort();
 
+    Client *toDelete = nullptr;
     for (auto &item : Client::m_clients) {
-        qDebug() << item->ip() << item->port();
         if ((item->ip() == address) && (port == item->port())) {
-            delete item;
+//            delete item;
+            toDelete = item;
+            break;
             qDebug() << __func__ << __LINE__;
         }
+    }
+    if (toDelete != nullptr) {
+        if (Client::m_clients.contains(toDelete)) {
+            Client::m_clients.removeOne(toDelete);
+        }
+        delete toDelete;
     }
 
     Client *newClient = new Client(&m_uiClientsBox);
@@ -354,6 +375,9 @@ void Widget::handleClientDestroyed()
         return;
     }
     qDebug() << __func__ << __LINE__;
+    if (Client::m_clients.contains(object)) {
+        Client::m_clients.removeOne(object);
+    }
     delete object;
 
     //Client::m_clients.removeOne(object);
@@ -435,6 +459,7 @@ void Widget::on_pbStartAll_clicked()
 
 
     // 2. start play media
+    m_mp3Player->stop();
     m_mp3Player->play();
 
     // 3. delay 9.5s, wait the start gun
@@ -468,20 +493,21 @@ void Widget::on_pbTestSound_clicked()
     if (testing) {
 //        ui->pbTestSound->setText("停止");
         startTestUiStuff(true);
-
+        m_mp3Player->stop();
         m_mp3Player->play();
         QTimer::singleShot(9500, [&](){
-            if (m_mp3Player->state() == QMediaPlayer::PlayingState) {
+            //if (m_mp3Player->state() == QMediaPlayer::PlayingState) { // no need to judge just stop
                 m_mp3Player->stop();
                 startTestUiStuff(false);
                 testing = false;
-            }
+            //}
         });
     } else {
+        qDebug() << "will not execute forever";
 //        ui->pbTestSound->setText("测试");
-        startTestUiStuff(false);
-        m_mp3Player->stop();
-        testing = false;
+//        startTestUiStuff(false);
+//        m_mp3Player->stop();
+//        testing = false;
     }
 }
 

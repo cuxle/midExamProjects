@@ -15,10 +15,10 @@ Client::Client(QList<FormBaseGroup*> *uiClientsBox, QObject *parent)
 {
     m_clients.append(this);
    // QTimer::singleShot(1000, [&](){
-        m_watchDog = new QTimer(this);
+    m_watchDog = new QTimer(this);
     connect(m_watchDog, &QTimer::timeout, this, &Client::handleWathdogTimeout);
     m_watchDog->setInterval(1000);
-        m_watchDog->start();
+    m_watchDog->start();
    // });
 
 }
@@ -30,20 +30,21 @@ Client::~Client()
         m_myUi->setItemState(ClientOffline);
     }
 
-    if (m_tcpSocket != nullptr && m_tcpSocket->state() == QTcpSocket::ConnectedState) {
-        m_tcpSocket->disconnectFromHost();
-    }
-
-    if (m_clients.contains(this)) {
-        m_clients.removeOne(this);
-    }
+    // comment this because may cause crash
+//    if (m_tcpSocket != nullptr && m_tcpSocket->state() == QTcpSocket::ConnectedState) {
+//        m_tcpSocket->disconnectFromHost();
+//    }
+//     move to line before delete client; suspect this code may cause crash
+//    if (m_clients.contains(this)) {
+//        m_clients.removeOne(this);
+//    }
 
 }
 
 void Client::handleWathdogTimeout()
 {
     // client is lost
-    if (m_currentTime >= m_totalTime) {
+    if (m_currentLostTimes >= m_totalAllowedTimes) {
         if (m_myUi != nullptr) {
             m_myUi->setItemState(ClientOffline);
         } else {
@@ -51,7 +52,7 @@ void Client::handleWathdogTimeout()
         }
         emit toDestroy();
     } else {
-        m_currentTime++;
+        m_currentLostTimes++;
     }
 }
 
@@ -98,7 +99,9 @@ void Client::sendCmdToServer(ClientDataType type, int value)
 void Client::sendCmdToAllDevices()
 {
     for (Client* client: m_clients) {
-        client->startSkipCmd(true);
+        if (client != nullptr) {
+            client->startSkipCmd(true);
+        }
     }
 }
 
@@ -144,6 +147,7 @@ void Client::handleSocketReadyRead()
     m_in >> dataType;
 
     switch (dataType) {
+    // client should give an id to me to identify it
     case ClientIdType:
         m_in >> m_id;
         qDebug() << __func__ << __LINE__ << dataType << m_id;
@@ -162,6 +166,7 @@ void Client::handleSocketReadyRead()
 
         if (m_id <= 0 || m_id > m_uiClientsBox->size()) {
             m_id = -1;
+            qDebug() << __func__ << __LINE__ << "id is too small or to big" << m_id;
             return;
         }
 //        updateIdFlag(m_id);
@@ -188,7 +193,7 @@ void Client::handleSocketReadyRead()
         if (m_watchDog != nullptr) {
             m_watchDog->start();
         }
-        m_currentTime = 0;
+        m_currentLostTimes = 0;
         break;
     }
 

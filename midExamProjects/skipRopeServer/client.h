@@ -78,8 +78,8 @@ private:
 
     QTimer *m_watchDog = nullptr;
 
-    int m_totalTime = 3;
-    int m_currentTime = 0;
+    int m_totalAllowedTimes = 3;
+    int m_currentLostTimes = 0;
 
 };
 

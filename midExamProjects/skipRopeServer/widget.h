@@ -22,6 +22,11 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    enum AppInitFailureType {
+        AppInitNoFailure = 0,
+        AppInitServerFailed = 1
+    };
+
 private slots:
     void on_pbBackStep_clicked();
     void handleNewClientConnection();
@@ -71,6 +76,8 @@ private:
     const int m_internal = 100;
 
     int m_currentGroup = 1;
+
+    AppInitFailureType m_appInitFailureType = AppInitNoFailure;
 //    QMap<int, Client*> m_clients;
 };
 #endif // WIDGET_H
