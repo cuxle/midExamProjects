@@ -97,7 +97,6 @@ FormFuncChoose::~FormFuncChoose()
         m_clientThread->wait();
     }
     qDebug() << __func__ << __LINE__;
-    delete m_settingDialog;
 
 //    if (m_enableStartSound) {
 //        m_mp3Player->stop();
@@ -474,6 +473,8 @@ void FormFuncChoose::resetAllSkipCounterBeforeExam()
 
 //    handleSkipCountChanged(0);
 }
+
+
 void FormFuncChoose::resetSkipCounterBeforeSubExam()
 {
     if (m_curScoreLabel == ui->lbScoreFirst) {
@@ -846,10 +847,10 @@ void FormFuncChoose::on_pbSetup_clicked()
 {
     // 设置 配置信息
     // show setting dialog
-    if (m_settingDialog == nullptr) {
-        m_settingDialog = new SettingDialog();
+    if (m_settingDialog.isNull()) {
+        m_settingDialog = QSharedPointer<SettingDialog>(new SettingDialog());
         m_settingDialog->setWindowModality(Qt::ApplicationModal);
-        connect(m_settingDialog, &SettingDialog::sigReStartApp, [&](){
+        connect(m_settingDialog.data(), &SettingDialog::sigReStartApp, [&](){
             AppConfig &config = Singleton<AppConfig>::GetInstance();
             config.deleteLater();
             this->close();
@@ -1044,11 +1045,13 @@ void FormFuncChoose::stopExamStuff()
 {
     // 0. exam count count count
     // 这是一个考生的最后一次，记录本地成绩，上传考生成绩到服务器
+    // 0.1 每一次考试结束，清空考生准考证号，保存成绩20221210
     if (m_curExamCount == m_examCount) {
         if (m_curExamMode == ExamModeFromCamera) {
             saveAndUploadStudentScore();
         }
         m_curExamCount = 0;
+        clearStudentUiInfo();
     }
 
     // 1. 考试结束了
