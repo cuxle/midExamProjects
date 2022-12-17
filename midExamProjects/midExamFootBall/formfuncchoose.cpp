@@ -505,7 +505,7 @@ void FormFuncChoose::updateRectPointTopLeft(const QPoint &topLeft)
 
     float zMin =  -1.2f;
     float zMax = 1.2f;
-    qDebug() << "top left:" << m_topLeft << " bottom right:" << m_bottomRight;
+    qDebug() <<__func__ << __LINE__ << "top left:" << m_topLeft << " bottom right:" << m_bottomRight;
     m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  zMin, zMax);
 }
 
@@ -533,7 +533,7 @@ void FormFuncChoose::updateRectPointBottomRight(const QPoint &bottomRight)
 
     float zMin =  -1.2f;
     float zMax = 1.2f;
-    qDebug() << "top left:" << m_topLeft << " bottom right:" << m_bottomRight << keyAxis->range();
+    qDebug() <<__func__ << __LINE__ << "top left:" << m_topLeft << " bottom right:" << m_bottomRight << keyAxis->range();
     m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  zMin, zMax);
 }
 
@@ -939,7 +939,7 @@ void FormFuncChoose::shiftScoreLabel()
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
         m_curScoreLabel->setFont(m_choosenFont);
-        m_curScoreLabel->setText(QString::number(0));
+//        m_curScoreLabel->setText(QString::number(0));
     }
 }
 
@@ -948,14 +948,11 @@ void FormFuncChoose::updateDisplayTimer()
     m_curForwardSeconds += 10;
 
     setLeftTimeSeconds(m_curForwardSeconds);
-
-    // this paiqiu will not end until the stop button is pushed
-    return; 
-
 }
 
 void FormFuncChoose::saveAndUploadStudentScore()
 {
+    if (m_curExamMode  != ExamModeFromCamera) return;
     // 此时保存考生数据为未上传状态， 等下边与服务器交互完成后，会再次保存
     DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
     if (m_curStudent.isValid) {
@@ -974,7 +971,15 @@ void FormFuncChoose::saveAndUploadStudentScore()
 
 void FormFuncChoose::clearStudentUiInfo()
 {
-//    ui->leUserId->clear();
+    ui->leUserId->clear();
+    ui->leUserGender->clear();
+    ui->leUserName->clear();
+    ui->leUserSchool->clear();
+}
+
+void FormFuncChoose::clearStudentUiInfoWithNoUserId()
+{
+    //ui->leUserId->clear();
     ui->leUserGender->clear();
     ui->leUserName->clear();
     ui->leUserSchool->clear();
@@ -1327,7 +1332,11 @@ void FormFuncChoose::stopExamStuff()
             ui->lbScoreFinal->setText(QString::number(m_curStudent.secondScore/1000.0, 'f', 2));
         }
         m_curExamCount = 0;
+        // clear student ui info 20221210
+        clearStudentUiInfo();
     }
+
+    shiftScoreLabel();
 
     // 1. 考试结束了
     m_curExamState = ExamNotStart; // ExamFinished
@@ -1426,7 +1435,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             return;
         }
 
-        shiftScoreLabel();
+        //shiftScoreLabel();
 
         handleStartExam();
         break;
@@ -1536,7 +1545,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
-        clearStudentUiInfo();
+        clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
     m_curStudent.isOnline = m_isLogin;
@@ -1572,13 +1581,16 @@ void FormFuncChoose::initScoreUiDisplay()
     }
 
     // 默认指向第一个score label
-    m_curScoreLabel = ui->lbScoreFirst;
+    // m_curScoreLabel = ui->lbScoreFirst;
 
     m_choosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_choosenFont.setPixelSize(55);
 
     m_notChoosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_notChoosenFont.setPointSize(28);
+
+    // bold the exam before click start
+    shiftScoreLabel();
 }
 
 
@@ -1627,17 +1639,16 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         // TODO update student score info
         ui->pbZhongTing->setEnabled(false);
 
-        QTimer::singleShot(1000, [&](){
+        QTimer::singleShot(500, [&](){
             ui->pbZhongTing->setEnabled(true);
-        });
-
-        stopExamStuff();
+        });        
 
         if (m_curScoreLabel == nullptr) {
             qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
             return;
         }
         m_curScoreLabel->setText("犯规");
+		stopExamStuff();
 //        ui->lbScore->setText("中停");
 //    }
 }

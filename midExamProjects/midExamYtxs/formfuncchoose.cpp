@@ -102,7 +102,6 @@ FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDial
 
 FormFuncChoose::~FormFuncChoose()
 {
-    delete m_settingDialog;
 	
 //    if (m_enableStartSound) {
 //        m_mp3Player->stop();

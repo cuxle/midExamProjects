@@ -57,20 +57,25 @@ void FootballRegin::startExam(bool started)
 {
     m_examStarted = started;
 
-    // 停止考试了， 要保存考生路径为图片
-    if (!m_examStarted) {
+    // 开始考试， 清除上次考生路径, 20221128 cxl
+    if (started) {
         m_stuPointsPath.clear();
-        QPixmap pix(this->size());
-        this->render(&pix);
-        pix.save(m_stuMovePathFileName);
     }
+    // 停止考试了， 要保存考生路径为图片
+//    if (!m_examStarted) {
+//        m_stuPointsPath.clear();
+//        QPixmap pix(this->size());
+//        this->render(&pix);
+//        pix.save(m_stuMovePathFileName);
+//    }
 }
 
 void FootballRegin::savePath(const QString &zkh, const QString &time)
 {
      // 停止考试了， 要保存考生路径为图片
     if (!m_examStarted) {
-        m_stuPointsPath.clear();
+        // 没必要清除，开始后再清除  20221128
+        //m_stuPointsPath.clear();
         QPixmap pix(this->size());
         this->render(&pix);
         pix.save(m_stuMovePathFileName);
@@ -133,7 +138,7 @@ void FootballRegin::updateRectPointTopLeft(const QPoint &topLeft)
 void FootballRegin::updateRectPointBottomRight(const QPoint &bottomRight)
 {
     m_bottomRight = bottomRight;
-    qDebug() << __func__ << __LINE__ << m_bottomRight;
+    qDebug() << __func__ << __LINE__ << m_topLeft<< m_bottomRight;
     rightDownOk = true;
     if (leftUpOk && rightDownOk) {
         updateRectPoint(m_topLeft, m_bottomRight);
