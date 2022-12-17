@@ -397,6 +397,7 @@ private:
      void saveStudentScore();
      void saveAndUploadStudentScore();
      void clearStudentUiInfo();
+     void clearStudentUiInfoWithNoUserId();
      void initGodLeilaser();
      void showCustomPlot();
      void showExamRegion();
