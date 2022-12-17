@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDir>
+#include <QSharedPointer>
 #include "scoremanagemodel.h"
 //#include "studentmanager.h"
 #include <opencv2/opencv.hpp>
@@ -30,6 +31,8 @@ class FormFuncChoose;
 }
 
 static const int RETCODE_RESTART = 773;
+
+#define TEST 0
 
 class FormFuncChoose : public QDialog
 {
@@ -304,10 +307,10 @@ private:
 
     bool m_bCameraIsOpen = false;
 
-    SettingDialog *m_settingDialog = nullptr;
+    QSharedPointer<SettingDialog> m_settingDialog;
 
     ExamState m_curExamState = ExamNotStart;
-    ExamMode m_curExamMode = ExamModeInvalid;
+    ExamMode m_curExamMode = ExamModeFromCamera; // ExamModeInvalid;
 
     const bool m_cmdOnline = false;
 

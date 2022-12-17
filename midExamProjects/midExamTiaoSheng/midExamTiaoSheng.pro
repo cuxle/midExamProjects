@@ -154,7 +154,6 @@ LIBS += -L$$PWD/../libs/videoWrite -lmatch2
 DISTFILES += \
     logo.rc
 
-
 RC_FILE += logo.rc
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../libs/zmq/libzmq/build2019/lib/ -llibzmq-mt-4_3_5

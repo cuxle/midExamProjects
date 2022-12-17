@@ -156,6 +156,8 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
     if (m_bStartCount) {
         //        QImage img = image;
 
+        qDebug() << __func__ <<__LINE__ << image.height() << image.width();
+
         cv::Mat frame(image.height(), image.width(), CV_8UC3, (void*)image.constBits(), image.bytesPerLine());
 
         QDateTime baseTime = QDateTime::currentDateTime();
@@ -164,6 +166,7 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
 
         if (sharedmem.state == INITSUCCESS)
         {
+
             sharedmem.SendMat(frame, FRAME_NUMBER);
 
             std::string Model = "3";

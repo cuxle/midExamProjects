@@ -103,9 +103,7 @@ FormFuncChoose::~FormFuncChoose()
 //    if (m_cmdOnline) {
 //        m_clientThread->quit();
 //        m_clientThread->wait();
-//    }
-    delete m_settingDialog;
-	
+//    }	
 //    if (m_enableStartSound) {
 //        m_mp3Player->stop();
 //        delete m_mp3Player;
@@ -158,7 +156,6 @@ void FormFuncChoose::initVolleyballWorker()
     connect(m_volleyballThread, &QThread::finished, m_volleyballWorker, &VolleyballWorker::destroyWorker);
     if (m_camera->isOpencvCam()) {
         connect(m_camera, &Camera::sigImageCaptureMat, m_volleyballWorker, &VolleyballWorker::handleReceiveMat);
-
     } else {
         connect(m_camera, &Camera::sigImageCapture, m_volleyballWorker, &VolleyballWorker::handleReceiveImage);
     }
@@ -564,8 +561,9 @@ void FormFuncChoose::startPrepareExam()
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
+#if TEST
         emit sigStartCount(false);
-
+#endif
         // 5. delay 9.5s, wait the start gun
         m_startDelayTimer->start(); // 倒计时结束开始倒计时60s backCounter
 
@@ -679,7 +677,7 @@ void FormFuncChoose::saveAndUploadStudentScore()
 
 void FormFuncChoose::clearStudentUiInfo()
 {
-//    ui->leUserId->clear();
+    ui->leUserId->clear();
     ui->leUserGender->clear();
     ui->leUserName->clear();
     ui->leUserSchool->clear();
@@ -905,10 +903,10 @@ void FormFuncChoose::on_pbSetup_clicked()
 {
     // 设置 配置信息
     // show setting dialog
-    if (m_settingDialog == nullptr) {
-        m_settingDialog = new SettingDialog();
+    if (m_settingDialog.isNull()) {
+        m_settingDialog = QSharedPointer<SettingDialog>(new SettingDialog());
         m_settingDialog->setWindowModality(Qt::ApplicationModal);
-        connect(m_settingDialog, &SettingDialog::sigReStartApp, [&](){
+        connect(m_settingDialog.data(), &SettingDialog::sigReStartApp, [&](){
             AppConfig &config = Singleton<AppConfig>::GetInstance();
             config.deleteLater();
             this->close();
@@ -1111,6 +1109,7 @@ void FormFuncChoose::stopExamStuff()
             saveAndUploadStudentScore();
         }
         m_curExamCount = 0;
+        clearStudentUiInfo();
     }
 
     // 1. 考试结束了
@@ -1156,9 +1155,10 @@ void FormFuncChoose::stopExamStuff()
 
         if (m_enableStartSound) {
             m_mp3Player->blockSignals(true);
-            QTimer::singleShot(500, [&](){
+            // this will cause bug when click start and stop diff two little time
+           // QTimer::singleShot(500, [&](){
                 m_mp3Player->stop();
-            });
+           // });
     //        m_mp3Player->stop();
             m_mp3Player->blockSignals(false);
         }
@@ -1167,11 +1167,13 @@ void FormFuncChoose::stopExamStuff()
 
 void FormFuncChoose::on_pbStartSkip_clicked()
 {
+#if 0
     // 1. 前提条件 camera is open or video file is loaded
     if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
         QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
         return;
     }
+ #endif
 
     // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
     // state  = 准备阶段 or 考试阶段 -> 停止考试
@@ -1182,7 +1184,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
 //        if (m_bCameraIsOpen) {
 //            emit sigUpdateCameraSettings();
 //        }
-
+#if TEST
         switch (m_curExamMode) {
         case ExamModeFromCamera:
         {
@@ -1218,7 +1220,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
         default:
             break;
         }
-
+#endif
         shiftScoreLabel();
         startPrepareExam();
         break;

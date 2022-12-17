@@ -64,6 +64,7 @@ void createDataFolder()
 #if defined(TIAOSHENG) || defined(YTXS)  || defined(YWQZ)
 bool startServer(const QString &serverFullName)
 {
+    qDebug() << __func__ << __LINE__  << serverFullName;
     // start algorithm server
     QString cmd = QString("cmd /c %1").arg(serverFullName);
     int ret = WinExec(cmd.toLocal8Bit(), SW_HIDE);

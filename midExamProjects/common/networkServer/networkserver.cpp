@@ -78,6 +78,8 @@ void NetWorkServer::handleNextRequest(RequestType type)
     default:
         break;
     }
+
+    qDebug() << __func__ << __LINE__ << "send request type:" << type;
 }
 
 QNetworkRequest NetWorkServer::makeHeartBeatRequst()
@@ -266,18 +268,16 @@ void NetWorkServer::sendUploadStudentScore()
             // 0, 必考项目; 1, 选考项目
             obj["type"] = 1;
 
-            qDebug() << "examId" << dataManager.m_curExamInfo.value;
-            qDebug() << "gmtEnded" << curStudent.examStopFirstTime;
-            qDebug() << "gmtStarted" << curStudent.examStartFirstTime;
-            qDebug() << "ksId" << curStudent.id;
-            qDebug() << "objKsId:" << obj["ksId"];
-            qDebug() << "result" << curStudent.firstScore;
+            qDebug() << __func__ << __LINE__ << "examId" << dataManager.m_curExamInfo.value;
+            qDebug() << __func__ << __LINE__ << "gmtEnded" << curStudent.examStopFirstTime;
+            qDebug() << __func__ << __LINE__ << "gmtStarted" << curStudent.examStartFirstTime;
+            qDebug() << __func__ << __LINE__ << "ksId" << curStudent.id;
+            qDebug() << __func__ << __LINE__ << "objKsId:" << obj["ksId"];
+            qDebug() << __func__ << __LINE__ << "result" << curStudent.firstScore;
             array.append(obj);
         }
 
         doc.setArray(array);
-
-//        qDebug() << doc;
 
         QNetworkRequest request = makeUploadStudentScore();
         m_currentRequest = RequestUploadStudentScore;
@@ -684,19 +684,25 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
 //                    sendArbitrationListRequest();
                 }
             } else {
-                if (m_sendUploadFailedTimes < 3) {
-                    // 失败三次就重新登录了
+                // 失败三次就skip过这个student，继续传后边的
+                if (++m_sendUploadFailedTimes < 3) {
                     sendUploadStudentScore();
                 } else {
                     // pop one element if this student upload failed > 3 times
                     if (!dataManager.m_uploadStudentQueue.isEmpty()) {
                         dataManager.m_uploadStudentQueue.pop_front();
                     }
-                    sendUploadStudentScore();
                     m_sendUploadFailedTimes = 0;
-                    break;
+                    if (dataManager.m_uploadStudentQueue.isEmpty()) {
+                        handleNextRequest(RequestArbitrationList);
+                    } else {
+                        sendUploadStudentScore();
+                        break;
+                    }
+
+
                 }
-                m_sendUploadFailedTimes ++;
+
             }
 
             break;

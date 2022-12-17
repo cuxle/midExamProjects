@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDir>
+#include <QSharedPointer>
 #include "scoremanagemodel.h"
 #include <opencv2/opencv.hpp>
 #include "camera.h"
@@ -217,8 +218,8 @@ private slots:
 public slots:
     // update point cloud
     void handleUpdateReceivedLeidaData();
-    void updateRectPointTopLeft(const QPoint &topLeft);
-    void updateRectPointBottomRight(const QPoint &bottomRight);
+    void updateRectPointTopLeft(const QPointF &topLeft);
+    void updateRectPointBottomRight(const QPointF &bottomRight);
 
 private slots:
     void handleRestLidarToClose();
@@ -361,7 +362,7 @@ private:
 
     bool m_bCameraIsOpen = false;
 
-    SettingDialog *m_settingDialog = nullptr;
+    QSharedPointer<SettingDialog> m_settingDialog;
 
     ExamState m_curExamState = ExamNotStart;
     ExamMode m_curExamMode = ExamModeInvalid;

@@ -101,9 +101,7 @@ FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDial
 }
 
 FormFuncChoose::~FormFuncChoose()
-{
-    delete m_settingDialog;
-	
+{	
 //    if (m_enableStartSound) {
 //        m_mp3Player->stop();
 //        delete m_mp3Player;
@@ -113,6 +111,7 @@ FormFuncChoose::~FormFuncChoose()
 
     m_cameraThread->quit();
     m_cameraThread->wait();
+
     m_videoCaptureThread->quit();
     m_videoCaptureThread->wait();
 
@@ -330,8 +329,6 @@ void FormFuncChoose::handleStartExam()
 {
     QTimer::singleShot(1000, [&](){
 		if (m_dingPlayer == nullptr || m_mp3Player == nullptr) return;
-        qDebug() << __func__ << __LINE__ << (m_dingPlayer == nullptr);
-        qDebug() << __func__ << __LINE__ << (m_mp3Player == nullptr);
         m_dingPlayer->stop();
         m_mp3Player->stop();
     });
@@ -614,7 +611,7 @@ void FormFuncChoose::shiftScoreLabel()
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
         m_curScoreLabel->setFont(m_choosenFont);
-        m_curScoreLabel->setText(QString::number(0));
+//        m_curScoreLabel->setText(QString::number(0));
     }
 }
 
@@ -646,7 +643,15 @@ void FormFuncChoose::saveAndUploadStudentScore()
 
 void FormFuncChoose::clearStudentUiInfo()
 {
-//    ui->leUserId->clear();
+    ui->leUserId->clear();
+    ui->leUserGender->clear();
+    ui->leUserName->clear();
+    ui->leUserSchool->clear();
+}
+
+void FormFuncChoose::clearStudentUiInfoWithNoUserId()
+{
+    //ui->leUserId->clear();
     ui->leUserGender->clear();
     ui->leUserName->clear();
     ui->leUserSchool->clear();
@@ -654,10 +659,6 @@ void FormFuncChoose::clearStudentUiInfo()
 
 void FormFuncChoose::closeEvent(QCloseEvent *event)
 {
-    qDebug() << __func__ << __LINE__;
-//    if (m_curExamState == ExamIsRunning) {
-//        stopExamStuff();
-//    }
     emit sigStartSaveVideo(false);
     //QThread::msleep(2*1000);
     emit sigCloseCamera();
@@ -880,11 +881,6 @@ void FormFuncChoose::on_pbSetup_clicked()
     m_settingDialog->exec();
 }
 
-//void FormFuncChoose::on_pbStepBack_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbExit_clicked()
 {
     this->close();
@@ -892,7 +888,6 @@ void FormFuncChoose::on_pbExit_clicked()
 
 void FormFuncChoose::on_pbMainForm_clicked()
 {
-
     // 1. page = 0 Menu, exit;
     // 2. page = 1 Test, go to Menu
     // 3. page = PageDataManage, go to Menu
@@ -945,11 +940,6 @@ void FormFuncChoose::on_pbBackMenu_clicked()
     ui->stackedWidget->setCurrentIndex(PageMenu);
 }
 
-//void FormFuncChoose::on_pbBackMenu_2_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbDataDownload_clicked()
 {
     ui->stackedWidget->setCurrentIndex(PageDataDownload);   
@@ -966,8 +956,6 @@ void FormFuncChoose::on_pbScoreManage_clicked()
 {
     // parse students json file into this qtable widget
     // qtable widget is enougth
-    qDebug() << __func__ << __LINE__;    
-    qDebug() << __func__ << __LINE__;
     ui->stackedWidget->setCurrentIndex(PageScoreManage);
     m_toolBarframe->setHidden(true);
 }
@@ -1063,6 +1051,8 @@ void FormFuncChoose::startSkipStuff()
 // 2. 记录第二次成绩，并且保存成绩，若在线，发送成绩给服务器
 void FormFuncChoose::stopExamStuff()
 {
+
+
     // 0. exam count count count
     // 这是一个考生的最后一次，记录本地成绩，上传考生成绩到服务器
     if (m_curExamCount == m_examCount) {
@@ -1073,6 +1063,8 @@ void FormFuncChoose::stopExamStuff()
         // clear student ui info 20221210
         clearStudentUiInfo();
     }
+
+    shiftScoreLabel();
 
     // 1. 考试结束了
     m_curExamState = ExamNotStart; // ExamFinished
@@ -1199,7 +1191,8 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             break;
         }
 
-        shiftScoreLabel();
+        // move to initUi and after a sub exam 20221211
+//        shiftScoreLabel();
         startPrepareExam();
         break;
     }
@@ -1299,7 +1292,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
-        clearStudentUiInfo();
+        clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
     m_curStudent.isOnline = m_isLogin;
@@ -1335,13 +1328,16 @@ void FormFuncChoose::initScoreUiDisplay()
     }
 
     // 默认指向第一个score label
-    m_curScoreLabel = ui->lbScoreFirst;
+//    m_curScoreLabel = ui->lbScoreFirst;
 
     m_choosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_choosenFont.setPixelSize(60);
 
     m_notChoosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_notChoosenFont.setPointSize(28);
+
+    // bold the exam before click start
+    shiftScoreLabel();
 }
 
 
@@ -1392,12 +1388,14 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         QTimer::singleShot(500, [&](){
             ui->pbZhongTing->setEnabled(true);
         });
-        stopExamStuff();
+
         if (m_curScoreLabel == nullptr) {
             qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
             return;
         }
         m_curScoreLabel->setText("中停");
+
+        stopExamStuff();
 //        ui->lbScore->setText("中停");
     }
 }

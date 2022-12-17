@@ -35,7 +35,7 @@ void LidarCloudWidget::handleLeftUpPointSet()
     m_topLeftPoint = contexPoint;
 //    m_rect.setTopLeft(leftUpPoint);
     leftUpOk = true;
-
+    qDebug() << __func__ << __LINE__<< m_topLeftPoint;
     emit sigRectPointTopLeftUpdated(m_topLeftPoint);
 }
 
@@ -45,16 +45,17 @@ void LidarCloudWidget::handleRightDownPointSet()
     m_bottomRightPoint = contexPoint;
 //    m_rect.setBottomRight(rightBotomPoint);
     rightDownOk = true;
-
+    qDebug() << __func__ << __LINE__<< m_bottomRightPoint;
     emit sigRectPointBottomRightUpdated(m_bottomRightPoint);
 }
 
 void LidarCloudWidget::on_plot_customContextMenuRequested(const QPoint &pos)
 {
-//    qDebug() << __func__ << __LINE__<< (QPoint(contexMenu.x(), contexMenu.y()));
+    qDebug() << __func__ << __LINE__<< (QPoint(pos.x(), pos.y()));
 
-    contexPoint = (pos);
+    contexPoint.setX(pos.x());
+    contexPoint.setY(pos.y());
 
     contexMenu.exec(mapToGlobal(pos));
-
+    qDebug() << __func__ << __LINE__<< (QPoint(mapToGlobal(pos).x(), mapToGlobal(pos).y()));
 }

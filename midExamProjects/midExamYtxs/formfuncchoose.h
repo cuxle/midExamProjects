@@ -318,6 +318,7 @@ private:
      void saveStudentScore();
      void saveAndUploadStudentScore();
      void clearStudentUiInfo();
+     void clearStudentUiInfoWithNoUserId();
      int m_rowsInXlsx = 1;
      QString m_saveVideoFormat = ".mp4";
 

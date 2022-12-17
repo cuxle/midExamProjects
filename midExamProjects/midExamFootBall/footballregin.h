@@ -19,6 +19,8 @@
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/ModelCoefficients.h>
 
+#define TEST
+
 class lidarAnalysis;
 
 class FootballRegin : public QWidget
@@ -32,13 +34,15 @@ public:
     void savePath(const QString &zkh, const QString &time);
     float m_deltaX = 0;
     float m_deltaY = 0;
+    float m_ratioX = 1.0;
+    float m_ratioY = 1.0;
     void setStuMovePathFileName(const QString &newStuPathFileName);
 
     void setLidarAnalysis(lidarAnalysis *newLidarAnalysis);
 
 public slots:
-    void updateRectPointTopLeft(const QPoint &topLeft);
-    void updateRectPointBottomRight(const QPoint &bottomRight);
+    void updateRectPointTopLeft(const QPointF &topLeft);
+    void updateRectPointBottomRight(const QPointF &bottomRight);
 
 signals:
 private:
@@ -47,12 +51,14 @@ private:
     void showExamStudentPoints();
     void showExamStudentPath();
     void showExamStickPos();
-    void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
-    QRect m_rect;
+    void updateRectPoint(const QPointF &topLeft, const QPointF &bottomRight);
+    void zoomToRect(QPointF &topLeft, QPointF &bottomRight);
+    QPointF getNewPoint(QPointF oldPoint);
+    QRectF m_rect;
     QMenu contexMenu;
 
-    QPoint m_topLeft;
-    QPoint m_bottomRight;
+    QPointF m_topLeft;
+    QPointF m_bottomRight;
     QPoint contexPoint;
 
     QPointF m_studentPos;
@@ -74,16 +80,27 @@ private:
     bool m_examStarted = false;
     bool m_exmineStudentInRegin = false;
 
-    QPointF m_rectCenter;
-    QPointF m_realCenter;
+    QPointF m_originCenter;
+    QPointF m_newCenter;
 
     QString m_stuMovePathFileName;
 
     lidarAnalysis *m_lidarAnalysis = nullptr;
 
+    int minY = 0;
+
     // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);
+#ifdef TEST
+    void mousePressEvent(QMouseEvent *event);
+
+    void mouseReleaseEvent(QMouseEvent *event);
+
+
+    void FootballRegin::mouseMoveEvent(QMouseEvent *event);
+
+#endif
 };
 
 #endif // FOOTBALLREGIN_H

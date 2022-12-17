@@ -76,10 +76,15 @@ void Camera::closeCamera()
 void Camera::initCamera()
 {
     if (m_openCvCamera) {
+        AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
+
         m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture(m_cameraIndex));
+//        m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, appconfig.m_cameraWidth);
+//        m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, appconfig.m_cameraHeight);
+        // no need to set camera width and height
         m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, 1920);
         m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
-        qDebug() << __func__ << __LINE__ << m_videoCapture->isOpened();
+        qDebug() << __func__ << __LINE__ <<m_cameraIndex  << m_videoCapture->isOpened();
         m_opencvCameraTimer = new QTimer;
         connect(m_opencvCameraTimer, &QTimer::timeout, this, &Camera::hangleGrabFrameMat);
     } else {

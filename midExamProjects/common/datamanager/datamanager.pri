@@ -12,7 +12,6 @@ HEADERS +=  $$PWD/datamanager.h \
     $$PWD/scoremanagerform.h \
     $$PWD/initdb.h
 
-
 			
 
 SOURCES +=  $$PWD/datamanager.cpp \

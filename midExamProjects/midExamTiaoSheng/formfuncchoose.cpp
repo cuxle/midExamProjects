@@ -593,7 +593,7 @@ void FormFuncChoose::shiftScoreLabel()
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
         m_curScoreLabel->setFont(m_choosenFont);
-        m_curScoreLabel->setText(QString::number(0));
+//        m_curScoreLabel->setText(QString::number(0));
     }
 }
 
@@ -635,7 +635,15 @@ void FormFuncChoose::saveAndUploadStudentScore()
 
 void FormFuncChoose::clearStudentUiInfo()
 {
-//    ui->leUserId->clear();
+    ui->leUserId->clear();
+    ui->leUserGender->clear();
+    ui->leUserName->clear();
+    ui->leUserSchool->clear();
+}
+
+void FormFuncChoose::clearStudentUiInfoWithNoUserId()
+{
+    //ui->leUserId->clear();
     ui->leUserGender->clear();
     ui->leUserName->clear();
     ui->leUserSchool->clear();
@@ -643,10 +651,6 @@ void FormFuncChoose::clearStudentUiInfo()
 
 void FormFuncChoose::closeEvent(QCloseEvent *event)
 {
-    qDebug() << __func__ << __LINE__;
-//    if (m_curExamState == ExamIsRunning) {
-//        stopExamStuff();
-//    }
     emit sigStartSaveVideo(false);
     //QThread::msleep(2*1000);
     emit sigCloseCamera();
@@ -701,7 +705,7 @@ void FormFuncChoose::initCameraWorker()
     connect(this, &FormFuncChoose::sigUpdateCameraSettings, m_camera, &Camera::updateCameraSettings);
 
     m_cameraThread->start();
-    m_cameraThread->setPriority(QThread::TimeCriticalPriority);
+    //    m_cameraThread->setPriority(QThread::TimeCriticalPriority);
 }
 
 //void FormFuncChoose::initRopeSkipWorkerZmq()
@@ -860,12 +864,6 @@ void FormFuncChoose::on_pbSetup_clicked()
     }
     m_settingDialog->exec();
 }
-
-//void FormFuncChoose::on_pbStepBack_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbExit_clicked()
 {
     this->close();
@@ -873,7 +871,6 @@ void FormFuncChoose::on_pbExit_clicked()
 
 void FormFuncChoose::on_pbMainForm_clicked()
 {
-
     // 1. page = 0 Menu, exit;
     // 2. page = 1 Test, go to Menu
     // 3. page = PageDataManage, go to Menu
@@ -926,11 +923,6 @@ void FormFuncChoose::on_pbBackMenu_clicked()
     ui->stackedWidget->setCurrentIndex(PageMenu);
 }
 
-//void FormFuncChoose::on_pbBackMenu_2_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbDataDownload_clicked()
 {
     ui->stackedWidget->setCurrentIndex(PageDataDownload);
@@ -947,8 +939,6 @@ void FormFuncChoose::on_pbScoreManage_clicked()
 {
     // parse students json file into this qtable widget
     // qtable widget is enougth
-    qDebug() << __func__ << __LINE__;
-    qDebug() << __func__ << __LINE__;
     ui->stackedWidget->setCurrentIndex(PageScoreManage);
     m_toolBarframe->setHidden(true);
 }
@@ -1053,6 +1043,8 @@ void FormFuncChoose::stopExamStuff()
         m_curExamCount = 0;
         clearStudentUiInfo();
     }
+
+    shiftScoreLabel();
 
     // 1. 考试结束了
     m_curExamState = ExamNotStart; // ExamFinished
@@ -1254,7 +1246,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
-        clearStudentUiInfo();
+        clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
     m_curStudent.isOnline = m_isLogin;

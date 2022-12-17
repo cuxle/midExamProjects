@@ -67,6 +67,9 @@ QVariant SchoolListTableModel::data(const QModelIndex &index, int role) const
         return font;
     } else if (role == Qt::TextColorRole) {
         QColor color = Qt::white;
+        if (index.column() == 3) {
+            color = (QSqlTableModel::data(index, Qt::DisplayRole).toUInt() == 0) ? Qt::red : Qt::green;
+        }
         return QVariant::fromValue(color);
     } else if (role == Qt::CheckStateRole && index.column() == 0) {
 //        qDebug() << __func__ << __LINE__ << index.row() << index.column() << QSqlTableModel::data(index, role).toInt();

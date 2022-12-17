@@ -92,8 +92,6 @@ FormFuncChoose::FormFuncChoose(bool online, SkipRopeOnZeroMq *skipRqopeMq, QDial
 
 FormFuncChoose::~FormFuncChoose()
 {
-
-    delete m_settingDialog;
 	
 //    if (m_enableStartSound) {
 //        m_mp3Player->stop();
@@ -625,7 +623,7 @@ void FormFuncChoose::saveAndUploadStudentScore()
 
 void FormFuncChoose::clearStudentUiInfo()
 {
-//    ui->leUserId->clear();
+    ui->leUserId->clear();
     ui->leUserGender->clear();
     ui->leUserName->clear();
     ui->leUserSchool->clear();
@@ -843,10 +841,10 @@ void FormFuncChoose::on_pbSetup_clicked()
 {
     // 设置 配置信息
     // show setting dialog
-    if (m_settingDialog == nullptr) {
-        m_settingDialog = new SettingDialog();
+    if (m_settingDialog.isNull()) {
+        m_settingDialog = QSharedPointer<SettingDialog>(new SettingDialog());
         m_settingDialog->setWindowModality(Qt::ApplicationModal);
-        connect(m_settingDialog, &SettingDialog::sigReStartApp, [&](){
+        connect(m_settingDialog.data(), &SettingDialog::sigReStartApp, [&](){
             AppConfig &config = Singleton<AppConfig>::GetInstance();
             config.deleteLater();
             this->close();
@@ -1044,6 +1042,7 @@ void FormFuncChoose::stopExamStuff()
             saveAndUploadStudentScore();
         }
         m_curExamCount = 0;
+        clearStudentUiInfo();
     }
 
     // 1. 考试结束了
@@ -1083,9 +1082,9 @@ void FormFuncChoose::stopExamStuff()
 
         if (m_enableStartSound) {
             m_mp3Player->blockSignals(true);
-            QTimer::singleShot(500, [&](){
+//            QTimer::singleShot(500, [&](){
                 m_mp3Player->stop();
-            });
+//            });
     //        m_mp3Player->stop();
             m_mp3Player->blockSignals(false);
         }

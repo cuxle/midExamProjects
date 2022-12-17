@@ -15,6 +15,8 @@ void CSampleCaptureEventHandler::DoOnImageCaptured(CImageDataPointer& objImageDa
         uint64_t nWidth = objImageDataPointer->GetWidth();
         uint64_t nHeight = objImageDataPointer->GetHeight();
 
+//        qDebug() << __func__ << __LINE__ << nWidth << nHeight;
+
         GX_VALID_BIT_LIST emValidBits = GX_BIT_0_7;
         pBuffer = m_show_image->bits();
 
