@@ -105,12 +105,20 @@ void FootballRegin::startExam(bool started)
     if (started) {
         m_stuPointsPath.clear();
     }
+    // 停止考试了， 要保存考生路径为图片
+//    if (!m_examStarted) {
+//        m_stuPointsPath.clear();
+//        QPixmap pix(this->size());
+//        this->render(&pix);
+//        pix.save(m_stuMovePathFileName);
+//    }
 }
 
 void FootballRegin::savePath(const QString &zkh, const QString &time)
 {
      // 停止考试了， 要保存考生路径为图片
     //if (!m_examStarted) {
+
         // 没必要清除，开始后再清除  20221128
         //m_stuPointsPath.clear();
         QPixmap pix(this->size());

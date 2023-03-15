@@ -1315,6 +1315,8 @@ void FormFuncChoose::stopExamStuff()
         clearStudentUiInfo();
     }
 
+    shiftScoreLabel();
+
     // 1. 考试结束了
     m_curExamState = ExamNotStart; // ExamFinished
 

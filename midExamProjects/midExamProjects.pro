@@ -26,3 +26,5 @@ SUBDIRS += midExamFootBall \
 # SUBDIRS += $$PWD/midExamFootBall/midExamFootBall.pro
 
 EXAMPLE_PATH += $$PWD/common/
+
+CONFIG += c++17
