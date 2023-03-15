@@ -143,20 +143,19 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     qDebug() << __func__ << __LINE__ << "delta angle:" << m_deltaAngle;
 
     connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
+    connect<void(QCPAxis::*)(const QCPRange &)>(valueAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
 
 
     QTimer::singleShot(2000, [&](){
         QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
         keyAxis->axisRect()->setOuterRect(QRect(m_rectReginTopLeftX, m_rectReginTopLeftY, m_rectReginWidth, m_rectReginHight));
-        qDebug() << __func__ << __LINE__ << "outer rect:" << keyAxis->axisRect()->outerRect();
-        emit ui->plot->sigRectPointTopLeftUpdated(QPoint(m_examReginTopLeftX, m_examReginTopLeftY));
-        emit ui->plot->sigRectPointBottomRightUpdated(QPoint(m_examReginBottomRightX, m_examReginBottomRightY));
+        emit ui->plot->sigRectPointTopLeftUpdated(QPointF(m_examReginTopLeftX, m_examReginTopLeftY));
+        emit ui->plot->sigRectPointBottomRightUpdated(QPointF(m_examReginBottomRightX, m_examReginBottomRightY));
     });
 }
 
 FormFuncChoose::~FormFuncChoose()
-{
-	
+{	
 //    if (m_enableStartSound) {
 //        m_mp3Player->stop();
 //        delete m_mp3Player;
@@ -280,12 +279,22 @@ void FormFuncChoose::handleUpdateStudentPos(const QVector<double> &vx, const QVe
     showCustomPlot();
 }
 
-void FormFuncChoose::handleStudentQiangPao(bool flag)
+void FormFuncChoose::handleStudentResultDisplay(int ret)
 {
-    if (flag) {
-        QMessageBox::warning(this, "警告", "考生抢跑，请重新考试考试！");
-        // TODO restart exam
-        return;
+    switch (ret) {
+        case 1:
+        {
+            QMessageBox::warning(this, "警告", "考生抢跑，请重新考试考试, 会中停！");
+            break;
+        }
+        case 2:
+            QMessageBox::warning(this, "警告", "考生抢跑，请重新考试考试！");
+            break;
+        case 3:
+            QMessageBox::warning(this, "警告", "返回值3: 考生犯规，中停！");
+            break;
+        default:
+            break;
     }
 }
 
@@ -416,6 +425,8 @@ void FormFuncChoose::showExamRegion()
             if (!validStart) {
                 // student is in the regin when the exam is starting
                 // only show break the rule, start this exam again
+//                qDebug() << __func__ << __LINE__ << "start failed : zhongTing";
+//                handleStudentResultDisplay(1);
                 on_pbZhongTing_clicked();
                 return;
             }
@@ -438,6 +449,8 @@ void FormFuncChoose::showExamRegion()
             on_pbStartSkip_clicked();
         } else if (status == 3) {
             // student break the exam rule
+//            qDebug() << __func__ << __LINE__ << "exam result frame lindaAnalysis :3 -> zhongTing";
+//            handleStudentResultDisplay(3);
             on_pbZhongTing_clicked();
         }
     }
@@ -472,7 +485,7 @@ void FormFuncChoose::initUi()
 
     ui->stackedWidget->setCurrentIndex(0);
     ui->stkVideoHolder->setCurrentIndex(0);
-    ui->stkWidgetExamCloudRegin->setCurrentIndex(0);
+    ui->stkWidgetExamCloudRegin->setCurrentIndex(1);
 
     ui->pbStartSkip->setHidden(m_cmdOnline);
     ui->lbClientStatus->setHidden(!m_cmdOnline);
@@ -483,13 +496,13 @@ void FormFuncChoose::initUi()
 
     connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, this, &FormFuncChoose::updateRectPointTopLeft);
     connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, this, &FormFuncChoose::updateRectPointBottomRight);
-    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, ui->examRegin, &FootballRegin::updateRectPointTopLeft);
-    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
+//    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, ui->examRegin, &FootballRegin::updateRectPointTopLeft);
+//    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
 
     connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
 }
 
-void FormFuncChoose::updateRectPointTopLeft(const QPoint &topLeft)
+void FormFuncChoose::updateRectPointTopLeft(const QPointF &topLeft)
 {
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
@@ -500,13 +513,12 @@ void FormFuncChoose::updateRectPointTopLeft(const QPoint &topLeft)
     m_config.m_examReginTopLeftX = topLeft.x();
     m_config.m_examReginTopLeftY = topLeft.y();
 
-    float zMin =  -1.2f;
-    float zMax = 1.2f;
-    qDebug() << "top left:" << m_topLeft << " bottom right:" << m_bottomRight;
-    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  zMin, zMax);
+    qDebug() <<__func__ << __LINE__ << "top left:" << m_topLeft << " bottom right:" << m_bottomRight;
+    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  m_zMin, m_zMax);
+    ui->examRegin->updateRectPointTopLeft(m_topLeft);
 }
 
-void FormFuncChoose::updateRectPointBottomRight(const QPoint &bottomRight)
+void FormFuncChoose::updateRectPointBottomRight(const QPointF &bottomRight)
 {
     QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
     QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
@@ -526,12 +538,9 @@ void FormFuncChoose::updateRectPointBottomRight(const QPoint &bottomRight)
     m_config.m_rectReginWidth = m_rectReginWidth;
     m_config.m_rectReginHeight = m_rectReginHight;
 
-
-
-    float zMin =  -1.2f;
-    float zMax = 1.2f;
-    qDebug() << "top left:" << m_topLeft << " bottom right:" << m_bottomRight << keyAxis->range();
-    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  zMin, zMax);
+    qDebug() <<__func__ << __LINE__ << "top left:" << m_topLeft << " bottom right:" << m_bottomRight << keyAxis->range();
+    m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  m_zMin, m_zMax);
+    ui->examRegin->updateRectPointBottomRight(m_bottomRight);
 }
 
 void FormFuncChoose::initFontDatabase()
@@ -582,7 +591,7 @@ void FormFuncChoose::initTimers()
 void FormFuncChoose::handleUploadExamedStudentsScore()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    server.requestFor(NetWorkServer::RequestUploadAllExamedStudentScore);
+    server.requestFor(NetWorkServer::RequestArbitrationList);
 }
 
 void FormFuncChoose::initCommonToolbar()
@@ -640,6 +649,10 @@ void FormFuncChoose::handleStartExam()
     ui->pbStartSkip->setText("停止");
     ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/stopBtn.png); \
                                    font: 25 21pt \"Microsoft YaHei\";");
+
+    // reset flags so the sticks will show red
+    bool ret = m_lidaAnalysis->resetExamParams();
+    qDebug() << __func__ << __LINE__ << ret;
 
     // 1.5 reset display score
     resetSkipCounterBeforeSubExam();
@@ -906,6 +919,10 @@ void FormFuncChoose::resetScoreLabel()
     ui->lbScoreSecond->clear();
     ui->lbScoreThird->clear();
     ui->lbScoreFinal->clear();
+
+    m_curExamCount = 0;
+
+    shiftScoreLabel();
 }
 
 void FormFuncChoose::shiftScoreLabel()
@@ -936,7 +953,7 @@ void FormFuncChoose::shiftScoreLabel()
     if (m_curScoreLabel != nullptr) {
         m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
         m_curScoreLabel->setFont(m_choosenFont);
-        m_curScoreLabel->setText(QString::number(0));
+//        m_curScoreLabel->setText(QString::number(0));
     }
 }
 
@@ -945,14 +962,12 @@ void FormFuncChoose::updateDisplayTimer()
     m_curForwardSeconds += 10;
 
     setLeftTimeSeconds(m_curForwardSeconds);
-
-    // this paiqiu will not end until the stop button is pushed
-    return; 
-
 }
 
 void FormFuncChoose::saveAndUploadStudentScore()
 {
+    if (m_curExamMode  != ExamModeFromCamera) return;
+	
     // 此时保存考生数据为未上传状态， 等下边与服务器交互完成后，会再次保存
     DataManagerDb &dataManager = Singleton<DataManagerDb>::GetInstance();
     if (m_curStudent.isValid) {
@@ -972,6 +987,14 @@ void FormFuncChoose::saveAndUploadStudentScore()
 void FormFuncChoose::clearStudentUiInfo()
 {
     ui->leUserId->clear();
+    ui->leUserGender->clear();
+    ui->leUserName->clear();
+    ui->leUserSchool->clear();
+}
+
+void FormFuncChoose::clearStudentUiInfoWithNoUserId()
+{
+    //ui->leUserId->clear();
     ui->leUserGender->clear();
     ui->leUserName->clear();
     ui->leUserSchool->clear();
@@ -1164,13 +1187,16 @@ void FormFuncChoose::on_pbMainForm_clicked()
         gotoIndex = -1;
         break;
     case PageTest:
+        /* comment this code because slib back video widget will stuck
+         * and have to reset the app
         stopExamStuff();
 //        qDebug() << __func__ << __LINE__ << m_bCameraIsOpen;
         if (m_bCameraIsOpen) {
             emit sigCloseCamera();
-            ui->stkVideoHolder->setCurrentIndex(0);
+            ui->stkVideoHolder->setCurrentIndex(1);
             m_curExamMode = ExamModeInvalid;
         }
+        */
     case PageDataManage:
     case PageSetup:
         gotoIndex = PageMenu;
@@ -1315,17 +1341,16 @@ void FormFuncChoose::stopExamStuff()
     // 0. exam count count count
     // 这是一个考生的最后一次，记录本地成绩，上传考生成绩到服务器
     if (m_curExamCount == m_examCount) {
+
         saveAndUploadStudentScore();
-        if (m_curStudent.midStopFirst && m_curStudent.midStopSecond) {
-            ui->lbScoreFinal->setText("犯规");
-        } else if (m_curStudent.midStopFirst && !m_curStudent.midStopSecond) {
-            ui->lbScoreFinal->setText(QString::number(m_curStudent.firstScore/1000.0, 'f', 2));
-        } else if (!m_curStudent.midStopFirst && m_curStudent.midStopSecond) {
-            ui->lbScoreFinal->setText(QString::number(m_curStudent.secondScore/1000.0, 'f', 2));
-        }
+
+        ui->lbScoreFinal->setText(Utils::calculateFinalScoreForTime(m_curStudent));
+
         m_curExamCount = 0;
+
+        // clear student ui info 20221210
         clearStudentUiInfo();
-    }
+    }    
 
     // 1. 考试结束了
     m_curExamState = ExamNotStart; // ExamFinished
@@ -1335,22 +1360,13 @@ void FormFuncChoose::stopExamStuff()
 	ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
                                    font: 25 21pt \"Microsoft YaHei\";");
 
-    //中停 裁判判犯规等原因
-    bool bEnd = m_lidaAnalysis->setExamEnd();
-
-    // reset flags so the sticks will show red
-    bool ret = m_lidaAnalysis->resetExamParams();
-    qDebug() << __func__ << __LINE__ << ret;
-    // stop count in skip rope
-//    emit sigStartCount(false);
-    ui->examRegin->startExam(false);
 
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
 //    m_ropeSkipWorker->m_bStartCount = false;
 //    m_situpWorker->m_bStartCount = false;
 //    m_volleyballWorker->m_bStartCount = false;
 
-    emit sigStartSaveVideo(false, m_videoFileName);
+
 
 //    if (m_curExamMode == ExamModeFromCamera) {
 //        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
@@ -1369,13 +1385,15 @@ void FormFuncChoose::stopExamStuff()
     m_forwardCountTimer->stop();
 
     qDebug() << __func__<< __LINE__ << m_forwardCountTimer->isActive();
-//    QMessageBox::warning(this, "warning", "stop timer");
 
+    QTimer::singleShot(5000, [&](){
+        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
+    });
 
 //        m_curTimeLeftMs = m_totalTimeMs;
     m_curForwardSeconds = 0;
 
-    QTimer::singleShot(500, [&](){
+    QTimer::singleShot(1000, [&](){
         if (m_curScoreLabel == nullptr) {
             qDebug() << __func__<< __LINE__ << ("m_curScoreLabel is null");
             return;
@@ -1384,10 +1402,19 @@ void FormFuncChoose::stopExamStuff()
         bool isOK = false;
         time.toFloat(&isOK);
         if (isOK) {
-            time + "s";
+            time = time + "s";
         }
+
+        //中停 裁判判犯规等原因
+        bool bEnd = m_lidaAnalysis->setExamEnd();
+
         ui->examRegin->savePath(m_curStudent.zkh, time);
 
+        // stop count in skip rope
+    //    emit sigStartCount(false);
+        ui->examRegin->startExam(false);
+
+        shiftScoreLabel();
     });
 
     setLeftTimeSeconds(0);
@@ -1424,7 +1451,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             return;
         }
 
-        shiftScoreLabel();
+        //shiftScoreLabel();
 
         handleStartExam();
         break;
@@ -1517,9 +1544,6 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         return;
     }
 
-    if (m_curStudent.zkh == m_currentUserId) {
-        return;
-    }
     m_curStudent.zkh = m_currentUserId;
     Student student = DataManagerDb::selectStudentByZkh(m_currentUserId);
     if (student.isValid) {
@@ -1534,7 +1558,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
-        clearStudentUiInfo();
+        clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
     m_curStudent.isOnline = m_isLogin;
@@ -1542,6 +1566,16 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
+    m_curStudent.midStopFirst = false;
+    m_curStudent.midStopSecond = false;
+    m_curStudent.midStopThird = false;
+
+    // reset stick points to red
+    bool ret = m_lidaAnalysis->resetExamParams();
+    qDebug() << __func__ << __LINE__ << ret;
+
+    resetScoreLabel();
 }
 
 
@@ -1561,7 +1595,6 @@ void FormFuncChoose::initScoreUiDisplay()
 {
     AppConfig &config = Singleton<AppConfig>::GetInstance();
     m_examCount = config.m_examNums;
-    qDebug() << __func__ << __LINE__ << m_examCount;
     if (m_examCount == 1) {
         ui->gbScore2->setHidden(true);
         ui->gbScore3->setHidden(true);
@@ -1570,13 +1603,16 @@ void FormFuncChoose::initScoreUiDisplay()
     }
 
     // 默认指向第一个score label
-    m_curScoreLabel = ui->lbScoreFirst;
+    // m_curScoreLabel = ui->lbScoreFirst;
 
     m_choosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_choosenFont.setPixelSize(55);
 
     m_notChoosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_notChoosenFont.setPointSize(28);
+
+    // bold the exam before click start
+    shiftScoreLabel();
 }
 
 
@@ -1625,17 +1661,16 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         // TODO update student score info
         ui->pbZhongTing->setEnabled(false);
 
-        QTimer::singleShot(1000, [&](){
+        QTimer::singleShot(500, [&](){
             ui->pbZhongTing->setEnabled(true);
-        });
-
-        stopExamStuff();
+        });        
 
         if (m_curScoreLabel == nullptr) {
             qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
             return;
         }
         m_curScoreLabel->setText("犯规");
+		stopExamStuff();
 //        ui->lbScore->setText("中停");
 //    }
 }
@@ -1668,14 +1703,16 @@ void FormFuncChoose::handlePlayDingSound()
 
 void FormFuncChoose::on_pbShowExamRegin_clicked()
 {
-    static int index = 1;
-    // set ladar widget to examRegin
-    ui->stkWidgetExamCloudRegin->setCurrentIndex(index);
+    int index = ui->stkWidgetExamCloudRegin->currentIndex();
+
     if (index == 1) {
         index = 0;
     } else {
         index = 1;
     }
+
+    // set ladar widget to examRegin
+    ui->stkWidgetExamCloudRegin->setCurrentIndex(index);
 }
 
 

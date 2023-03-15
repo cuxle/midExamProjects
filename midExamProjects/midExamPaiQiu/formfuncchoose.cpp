@@ -61,6 +61,7 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     initCameraWorker();
 
     initVideoCaptureWorker();
+
     // init exam time version
     //initExamTimeVersion();
 
@@ -85,7 +86,6 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
 
     // init school list model
     initSchoolListInterface();
-
 	
     VideoWidget *videoWidget = static_cast<VideoWidget *>(ui->videoWidget);
     if (videoWidget != nullptr) {
@@ -127,7 +127,6 @@ FormFuncChoose::~FormFuncChoose()
         m_videoPlayerThread->wait();
     }
 
-    qDebug() << __func__ << __LINE__;
     delete ui;
 }
 
@@ -264,7 +263,7 @@ void FormFuncChoose::initTimers()
 void FormFuncChoose::handleUploadExamedStudentsScore()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    server.requestFor(NetWorkServer::RequestUploadAllExamedStudentScore);
+    server.requestFor(NetWorkServer::NetWorkServer::RequestArbitrationList);
 }
 
 //void FormFuncChoose::initSocketClient()
@@ -354,7 +353,6 @@ void FormFuncChoose::handleStartExam()
     QTimer::singleShot(1000, [&](){
 		if (m_dingPlayer == nullptr || m_mp3Player == nullptr) return;
         qDebug() << __func__ << __LINE__ << (m_dingPlayer == nullptr);
-        qDebug() << __func__ << __LINE__ << (m_mp3Player == nullptr);
         m_dingPlayer->stop();
         m_mp3Player->stop();
     });
@@ -385,10 +383,9 @@ void FormFuncChoose::handleStartExam()
 void FormFuncChoose::recordStudentExamInfo(ExamAction action)
 {
     if (m_curExamMode != ExamModeFromCamera) return;
-    QString strFormat = "yyyy-MM-dd hh:mm:ss ddd";
     QDateTime dateTime = QDateTime::currentDateTime();
     QLocale local = QLocale::English;
-    QString dataTime = local.toString(dateTime, strFormat);
+    QString dataTime = local.toString(dateTime, Utils::strFormat);
 //    QDateTime dataTime = QDateTime::currentDateTime().toLocalTime();
     switch (action) {
     case ExamStart:
@@ -398,13 +395,10 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
             if (m_curExamCount == 1) {
                 m_curStudent.examTime = dataTime;
                 m_curStudent.examStartFirstTime = dataTime;
-                qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             } else if (m_curExamCount == 2) {
                 m_curStudent.examStartSecondTime = dataTime;
-                qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             } else if (m_curExamCount == 3) {
                 m_curStudent.examStartThirdTime = dataTime;
-                qDebug() << __func__ << __LINE__ << m_curExamCount << action;
             }
         }
         break;
@@ -561,9 +555,8 @@ void FormFuncChoose::startPrepareExam()
 
         // move to MainCounter start
         // 4. skip rope线程暂时停止工作, 只在60s内计数
-#if TEST
         emit sigStartCount(false);
-#endif
+
         // 5. delay 9.5s, wait the start gun
         m_startDelayTimer->start(); // 倒计时结束开始倒计时60s backCounter
 
@@ -606,12 +599,16 @@ void FormFuncChoose::handleUpdateSchoolListView()
 }
 
 void FormFuncChoose::resetScoreLabel()
-{
-    ui->lbScoreFirst->clear();
-    ui->lbScoreSecond->clear();
-    ui->lbScoreThird->clear();
-    ui->lbScoreFinal->clear();
-}
+ {
+     ui->lbScoreFirst->clear();
+     ui->lbScoreSecond->clear();
+     ui->lbScoreThird->clear();
+     ui->lbScoreFinal->clear();
+
+     m_curExamCount = 0;
+
+     shiftScoreLabel();
+ }
 
 void FormFuncChoose::shiftScoreLabel()
 {
@@ -636,12 +633,12 @@ void FormFuncChoose::shiftScoreLabel()
     }
     if (m_preScoreLabel != nullptr) {
         m_preScoreLabel->setFont(m_notChoosenFont);
-        m_preScoreLabel->setStyleSheet("color: rgb(188, 185, 201);");
+        m_preScoreLabel->setStyleSheet(m_notChoosenColor);
     }
     if (m_curScoreLabel != nullptr) {
-        m_curScoreLabel->setStyleSheet("color: rgb(255, 255, 255);");
+        m_curScoreLabel->setStyleSheet(m_choosenColor);
         m_curScoreLabel->setFont(m_choosenFont);
-        m_curScoreLabel->setText(QString::number(0));
+        //m_curScoreLabel->setText(QString::number(0));
     }
 }
 
@@ -675,6 +672,14 @@ void FormFuncChoose::saveAndUploadStudentScore()
     }
 }
 
+void FormFuncChoose::clearStudentUiInfoWithNoUserId()
+{
+    //ui->leUserId->clear();
+    ui->leUserGender->clear();
+    ui->leUserName->clear();
+    ui->leUserSchool->clear();
+}
+
 void FormFuncChoose::clearStudentUiInfo()
 {
     ui->leUserId->clear();
@@ -702,7 +707,6 @@ void FormFuncChoose::initMediaPlayer()
         m_mp3Player = new QMediaPlayer(this);
 	    m_mp3Player->setMedia(QUrl(m_mediapath));
 	    m_mp3Player->setVolume(100);
-
 
         m_dingPlayer = new QMediaPlayer(this);
         m_dingPlayer->setMedia(QUrl(m_mediaDingPath));
@@ -945,13 +949,17 @@ void FormFuncChoose::on_pbMainForm_clicked()
         gotoIndex = -1;
         break;
     case PageTest:
+
+        /* comment this code because slib back video widget will stuck
+         * and have to reset the app
         stopExamStuff();
 //        qDebug() << __func__ << __LINE__ << m_bCameraIsOpen;
         if (m_bCameraIsOpen) {
             emit sigCloseCamera();
-            ui->stkVideoHolder->setCurrentIndex(0);
+            ui->stkVideoHolder->setCurrentIndex(1);
             m_curExamMode = ExamModeInvalid;
         }
+        */
     case PageDataManage:
     case PageSetup:
         gotoIndex = PageMenu;
@@ -1004,7 +1012,6 @@ void FormFuncChoose::on_pbScoreManage_clicked()
     // parse students json file into this qtable widget
     // qtable widget is enougth
     qDebug() << __func__ << __LINE__;    
-    qDebug() << __func__ << __LINE__;
     ui->stackedWidget->setCurrentIndex(PageScoreManage);
     m_toolBarframe->setHidden(true);
 }
@@ -1108,6 +1115,8 @@ void FormFuncChoose::stopExamStuff()
         if (m_curExamMode == ExamModeFromCamera) {
             saveAndUploadStudentScore();
         }
+        ui->lbScoreFinal->setText(Utils::calculateFinalScoreForCount(m_curStudent));
+
         m_curExamCount = 0;
         clearStudentUiInfo();
     }
@@ -1145,6 +1154,8 @@ void FormFuncChoose::stopExamStuff()
         m_forwardCountTimer->stop();
     }
 
+    shiftScoreLabel();
+
 //        m_curTimeLeftMs = m_totalTimeMs;
 		m_curForwardSeconds = 0;
         setLeftTimeSeconds(0);
@@ -1167,13 +1178,11 @@ void FormFuncChoose::stopExamStuff()
 
 void FormFuncChoose::on_pbStartSkip_clicked()
 {
-#if 0
     // 1. 前提条件 camera is open or video file is loaded
     if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
         QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
         return;
     }
- #endif
 
     // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
     // state  = 准备阶段 or 考试阶段 -> 停止考试
@@ -1184,7 +1193,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
 //        if (m_bCameraIsOpen) {
 //            emit sigUpdateCameraSettings();
 //        }
-#if TEST
         switch (m_curExamMode) {
         case ExamModeFromCamera:
         {
@@ -1220,8 +1228,8 @@ void FormFuncChoose::on_pbStartSkip_clicked()
         default:
             break;
         }
-#endif
-        shiftScoreLabel();
+
+        // shiftScoreLabel();
         startPrepareExam();
         break;
     }
@@ -1321,7 +1329,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
-        clearStudentUiInfo();
+        clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
     m_curStudent.isOnline = m_isLogin;
@@ -1329,6 +1337,12 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
+    m_curStudent.midStopFirst = false;
+    m_curStudent.midStopSecond = false;
+    m_curStudent.midStopThird = false;
+
+    resetScoreLabel();
 }
 
 
@@ -1364,6 +1378,9 @@ void FormFuncChoose::initScoreUiDisplay()
 
     m_notChoosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_notChoosenFont.setPointSize(28);
+
+    // bold the exam before click start
+    shiftScoreLabel();
 }
 
 
@@ -1405,6 +1422,11 @@ void FormFuncChoose::on_pbZhongTing_clicked()
     // 只有在运行中可以核减？
     // decrease one skip by one click
     if (m_curExamState == ExamIsRunning) {
+        if (m_curScoreLabel == nullptr) {
+            qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
+            return;
+        }
+        m_curScoreLabel->setText("中停");
 
         recordStudentExamInfo(ExamMidStop);
 
@@ -1415,12 +1437,6 @@ void FormFuncChoose::on_pbZhongTing_clicked()
             ui->pbZhongTing->setEnabled(true);
         });
         stopExamStuff();
-        if (m_curScoreLabel == nullptr) {
-            qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
-            return;
-        }
-        m_curScoreLabel->setText("中停");
-//        ui->lbScore->setText("中停");
     }
 }
 

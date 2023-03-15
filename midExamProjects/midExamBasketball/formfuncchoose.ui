@@ -26,20 +26,20 @@
    <string>学通中考体育考试软件</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset resource="../midExamYwqz/res.qrc">
     <normaloff>:/resource/images/mainform/loginIcon.png</normaloff>:/resource/images/mainform/loginIcon.png</iconset>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>-1100</x>
-     <y>40</y>
+     <x>-70</x>
+     <y>10</y>
      <width>2463</width>
      <height>1381</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -195,7 +195,7 @@
               <string notr="true">color: rgb(115, 109, 148);</string>
              </property>
              <property name="text">
-              <string>软件版本:v1.0.0-beta1</string>
+              <string>软件版本:v1.0.0-beta6</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1767,7 +1767,7 @@ color: rgb(255, 255, 255);</string>
              <item row="1" column="0">
               <widget class="QStackedWidget" name="stkWidgetExamCloudRegin">
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="page_10">
                 <layout class="QGridLayout" name="gridLayout_5">
@@ -3630,8 +3630,6 @@ color: rgb(255, 255, 255);</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

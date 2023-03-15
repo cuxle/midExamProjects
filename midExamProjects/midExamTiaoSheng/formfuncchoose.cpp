@@ -169,6 +169,7 @@ void FormFuncChoose::initUi()
     initFontDatabase();
 
     connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
+
 }
 
 
@@ -242,6 +243,7 @@ void FormFuncChoose::initSocketClient()
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     int id = appconfig.m_deviceId.toInt();
     QString ip = appconfig.m_platAddress;
+
     m_client = new Client(id, ip);
     m_clientThread = new QThread;
     m_client->moveToThread(m_clientThread);
@@ -327,6 +329,7 @@ void FormFuncChoose::handleStartExam()
 
     // 2. skip rope dll reset count
 //    m_skipRopeZeroMq->resetCount();
+
     emit sigResetCount();
 
     m_skipRopeZeroMq->m_bStartCount = true;
@@ -347,6 +350,7 @@ void FormFuncChoose::handleStartExam()
 void FormFuncChoose::recordStudentExamInfo(ExamAction action)
 {
     if (m_curExamMode != ExamModeFromCamera) return;
+
     QString strFormat = "yyyy-MM-dd hh:mm:ss ddd";
     QDateTime dateTime = QDateTime::currentDateTime();
     QLocale local = QLocale::English;
@@ -886,13 +890,16 @@ void FormFuncChoose::on_pbMainForm_clicked()
         gotoIndex = -1;
         break;
     case PageTest:
+        /* comment this code because slib back video widget will stuck
+         * and have to reset the app
         stopExamStuff();
 //        qDebug() << __func__ << __LINE__ << m_bCameraIsOpen;
         if (m_bCameraIsOpen) {
             emit sigCloseCamera();
-            ui->stkVideoHolder->setCurrentIndex(0);
+            ui->stkVideoHolder->setCurrentIndex(1);
             m_curExamMode = ExamModeInvalid;
         }
+        */
     case PageDataManage:
     case PageSetup:
         gotoIndex = PageMenu;
@@ -1040,7 +1047,11 @@ void FormFuncChoose::stopExamStuff()
         if (m_curExamMode == ExamModeFromCamera) {
             saveAndUploadStudentScore();
         }
+
+        ui->lbScoreFinal->setText(Utils::calculateFinalScoreForCount(m_curStudent));
+
         m_curExamCount = 0;
+        // TEST OPEN NORMAL
         clearStudentUiInfo();
     }
 
@@ -1060,7 +1071,9 @@ void FormFuncChoose::stopExamStuff()
     m_skipRopeZeroMq->m_bStartCount = false;
 
     if (m_curExamMode == ExamModeFromCamera) {
-        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
+        QTimer::singleShot(5000, [&](){
+            emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
+        });
     } else if (m_curExamMode == ExamModeFromVideo) {
         m_curExamMode = ExamModeInvalid;
         m_bVideoFileLoaded = false;
@@ -1068,6 +1081,7 @@ void FormFuncChoose::stopExamStuff()
         emit sigStopVideoPlay();
         // TODO 如果视频没有播放完，60s结束了怎么处理呢？我们暂时假定肯定播放完
     }
+
 
     if (m_backCountTimer->isActive()) {
         m_backCountTimer->stop();
@@ -1127,6 +1141,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
                     m_curStudent.videoPath = config.m_videoSavePath + "/video/" + m_videoFileName.split("_").first() + "/" + m_videoFileName;
                 }
             }
+
             // open this at last, this will cause crash now
            emit sigStartSaveVideo(true, m_videoFileName);
 
@@ -1146,7 +1161,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             break;
         }
 
-        shiftScoreLabel();
         startPrepareExam();
         break;
     }
@@ -1254,6 +1268,12 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
+    m_curStudent.midStopFirst = false;
+    m_curStudent.midStopSecond = false;
+    m_curStudent.midStopThird = false;
+
+    resetScoreLabel();
 }
 
 
@@ -1282,13 +1302,17 @@ void FormFuncChoose::initScoreUiDisplay()
     }
 
     // 默认指向第一个score label
-    m_curScoreLabel = ui->lbScoreFirst;
+    //m_curScoreLabel = ui->lbScoreFirst;
 
     m_choosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_choosenFont.setPixelSize(60);
 
     m_notChoosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_notChoosenFont.setPointSize(28);
+
+
+    // bold the exam before click start
+    shiftScoreLabel();
 }
 
 

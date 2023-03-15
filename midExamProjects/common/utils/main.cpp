@@ -67,7 +67,7 @@ bool startServer(const QString &serverFullName)
     qDebug() << __func__ << __LINE__  << serverFullName;
     // start algorithm server
     QString cmd = QString("cmd /c %1").arg(serverFullName);
-    int ret = WinExec(cmd.toLocal8Bit(), SW_HIDE);
+    int ret = WinExec(cmd.toLocal8Bit(), SW_NORMAL);
     qDebug() << __func__ << __LINE__ << ret << serverFullName;
     if ( ret <= 31) {
         QMessageBox::critical(nullptr, "Critical", "启动Server失败");
@@ -117,10 +117,334 @@ void initQss()
     }
 }
 
+void testCaseForStudentScoreSmaller() {
+    Student student;
+    student.examCount = 1;
+    student.midStopFirst = true;
+    int value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 1; -1:" << value;
 
+    student.examCount = 1;
+    student.midStopFirst = false;
+    student.firstScore = 10;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 1; 10:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = true;
+    student.midStopSecond = true;
+    student.firstScore = 10;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 2; -1:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = true;
+    student.midStopSecond = false;
+    student.firstScore = 10;
+    student.secondScore = 5;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 2; 5:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = false;
+    student.midStopSecond = true;
+    student.firstScore = 10;
+    student.secondScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 2; 10:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.firstScore = 30;
+    student.secondScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 2; 20:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 2; 30:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = true;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; -1:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = true;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 30:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = false;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 40:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = true;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 20:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 30:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = true;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 20:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 20:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 20:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 50;
+    student.secondScore = 10;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 10:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 50;
+    student.secondScore = 40;
+    student.thirdScore = 60;
+    value = Utils::calculateFinalScoreBySmallerCount(student);
+    qDebug() << "exam count = 3; 40:" << value;
+
+
+
+    student.midStopSecond = true;
+    student.midStopThird = true;
+}
+
+void testCaseForStudentScoreBigger() {
+    Student student;
+    student.examCount = 1;
+    student.midStopFirst = true;
+    int value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 1; 犯规:" << value;
+
+    student.examCount = 1;
+    student.midStopFirst = false;
+    student.firstScore = 10;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 1; 10:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = true;
+    student.midStopSecond = true;
+    student.firstScore = 10;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 2; 犯规:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = true;
+    student.midStopSecond = false;
+    student.firstScore = 10;
+    student.secondScore = 5;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 2; 5:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = false;
+    student.midStopSecond = true;
+    student.firstScore = 10;
+    student.secondScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 2; 10:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.firstScore = 30;
+    student.secondScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 2; 30:" << value;
+
+    student.examCount = 2;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 2; 40:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = true;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; -1:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = true;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 30:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = false;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 40:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = true;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 20:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = true;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 40:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = true;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 30:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = true;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 40:" << value;
+
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 30;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 40:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 50;
+    student.secondScore = 40;
+    student.thirdScore = 20;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 50:" << value;
+
+    student.examCount = 3;
+    student.midStopFirst = false;
+    student.midStopSecond = false;
+    student.midStopThird = false;
+    student.firstScore = 50;
+    student.secondScore = 40;
+    student.thirdScore = 60;
+    value = Utils::calculateFinalScoreByBiggerCount(student);
+    qDebug() << "exam count = 3; 60:" << value;
+
+
+
+    student.midStopSecond = true;
+    student.midStopThird = true;
+}
 
 int main(int argc, char *argv[])
 {
+//    testCaseForStudentScoreSmaller();
+//    return 0;
     QApplication a(argc, argv);
 
     if (!License::verifyLicenseFromFile("./license.lic")) {
@@ -132,7 +456,7 @@ int main(int argc, char *argv[])
 
     initDb();
 	
-    Logger::init();
+  // Logger::init();
 	
 #if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
     serverLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/server/";

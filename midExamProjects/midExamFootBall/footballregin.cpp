@@ -13,16 +13,13 @@
 #include "lidar/lidarAnalysis.h"
 #include <QPainterPath>
 
-bool floatEqual(float a, float b)
-{
-    return fabs(a - b) <= std::numeric_limits<float>::epsilon();
-}
 
 FootballRegin::FootballRegin(QWidget *parent)
     : QWidget(parent)
 {
     this->setStyleSheet("background-color: rgb(55, 50, 82);");
     this->setAttribute(Qt::WA_StyledBackground);
+    qDebug() << __func__ << __LINE__;
 }
 
 // convert point from std footground meters to widget pixel
@@ -38,19 +35,66 @@ void FootballRegin::updateStudentPointPosFromStdFootGround(std::vector<pcl::Poin
     for (int i = 0; i < showPoints; i++) {
         // do not show (0, -1) point
 
-        if (floatEqual(objs[i]._PointXYZ::y, -1) \
-                && floatEqual(objs[i]._PointXYZ::x, 0)) {
+        if (Utils::floatEqual(objs[i]._PointXYZ::y, -1) \
+                && Utils::floatEqual(objs[i]._PointXYZ::x, 0)) {           
             continue;
         }
+        qDebug() << __func__ << __LINE__ << showPoints;
 
-        qDebug() << __func__ << __LINE__ <<"convert before" << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
-        float x_pixel = objs[i]._PointXYZ::x / m_per_pixelX + m_origin.x();
-        float y_pixel = m_origin.y() - objs[i]._PointXYZ::y / m_per_pixelY;
-        m_studentsPoints.push_back(QPointF(x_pixel, y_pixel));
+//        qDebug() << __func__ << __LINE__ <<"convert before" << i << objs[i]._PointXYZ::x << objs[i]._PointXYZ::y;
+
+        // tranform meters to pixels
+        float x_pixel = objs[i]._PointXYZ::x * m_XpixelPerMeter;
+        float y_pixel = objs[i]._PointXYZ::y * m_YpixelPerMeter;
+
+        // tranform coordinate system to qt's
+        x_pixel = fx * (x_pixel + deltaX);
+        y_pixel = fy * (y_pixel + deltaY);
+
+        QPointF fpoint = QPointF(x_pixel, y_pixel);
+        m_studentsPoints.push_back(fpoint);
         if (m_examStarted) {
-            m_stuPointsPath.push_back(QPointF(x_pixel, y_pixel));
+            m_stuPointsPath.push_back(fpoint);
+
+            if (m_enableFillLastPoint) {
+                // mainten the last points, this part of code should not exist
+                if (m_lastTwoPoints.size() >= 2) {
+                    m_lastTwoPoints.push_back(fpoint);
+                    m_lastTwoPoints.pop_front();
+                } else {
+                    m_lastTwoPoints.push_back(fpoint);
+                }
+                // mainten the last points, this part of code should not exist
+            }
+
+        } else {
+            qDebug() << "display path";
         }
+        qDebug() << __func__ << __LINE__ << "students in exam region";
     }
+
+    if (m_enableFillLastPoint) {
+        // mainten the last points, this part of code should not exist
+        if (m_lastStudentPointSize == m_studentsPoints.size() && !m_examStarted) {
+            if (m_lastTwoPoints.size() == 2) {
+                QPointF calculatePoint = calculatNextPoint(m_lastTwoPoints.at(0), m_lastTwoPoints.at(1));
+                m_lastTwoPoints.clear();
+                m_stuPointsPath.push_back(calculatePoint);
+            } else {
+                return;
+            }
+        }
+
+        m_lastStudentPointSize = m_studentsPoints.size();
+        // mainten the last points, this part of code should not exist
+    }
+}
+
+QPointF FootballRegin::calculatNextPoint(const QPointF &p1, const QPointF &p2)
+{
+    float x = 2 * p2.x() - p1.x();
+    float y = 2 * p2.y() - p1.y();
+    return std::move(QPointF(x,y));
 }
 
 void FootballRegin::startExam(bool started)
@@ -61,25 +105,19 @@ void FootballRegin::startExam(bool started)
     if (started) {
         m_stuPointsPath.clear();
     }
-    // 停止考试了， 要保存考生路径为图片
-//    if (!m_examStarted) {
-//        m_stuPointsPath.clear();
-//        QPixmap pix(this->size());
-//        this->render(&pix);
-//        pix.save(m_stuMovePathFileName);
-//    }
 }
 
 void FootballRegin::savePath(const QString &zkh, const QString &time)
 {
      // 停止考试了， 要保存考生路径为图片
-    if (!m_examStarted) {
+    //if (!m_examStarted) {
         // 没必要清除，开始后再清除  20221128
         //m_stuPointsPath.clear();
         QPixmap pix(this->size());
         this->render(&pix);
         pix.save(m_stuMovePathFileName);
 
+        // write zkh and socre on the picture
         QPixmap pixmap(m_stuMovePathFileName);
         QPainter painter(&pixmap);
         painter.begin(&pixmap);
@@ -93,7 +131,7 @@ void FootballRegin::savePath(const QString &zkh, const QString &time)
         painter.end();
         pixmap.save(m_stuMovePathFileName);
         qDebug() << __func__ << __LINE__ << m_stuMovePathFileName;
-    }
+   // }
 }
 
 void FootballRegin::updateStudentPointPos(float x, float y)
@@ -130,10 +168,10 @@ void FootballRegin::updateRectPointTopLeft(const QPointF &topLeft)
     m_topLeft = topLeft;
     qDebug() << __func__ << __LINE__ << topLeft;
     leftUpOk = true;
-    rightDownOk = true;
-    if (leftUpOk && rightDownOk) {
-        updateRectPoint(m_topLeft, m_bottomRight);
-    }
+//    rightDownOk = true;
+//    if (leftUpOk && rightDownOk) {
+//        updateRectPoint(m_topLeft, m_bottomRight);
+//    }
 }
 
 void FootballRegin::updateRectPointBottomRight(const QPointF &bottomRight)
@@ -149,18 +187,9 @@ void FootballRegin::updateRectPointBottomRight(const QPointF &bottomRight)
 void FootballRegin::updateRectPoint(const QPointF &topLeft, const QPointF &bottomRight)
 {
     qDebug() << __func__ << __LINE__ << topLeft << bottomRight;
-     // no trastration
-//     qDebug() << __func__ << __LINE__ << leftUpPoint;
-//     qDebug() << __func__ << __LINE__ << rightBotomPoint;
-//     qDebug() << __func__ << __LINE__ << this->geometry().topLeft();
-//     qDebug() << __func__ << __LINE__ << this->geometry().bottomRight();
-//     qDebug() << __func__ << __LINE__ << this->width();
-//     qDebug() << __func__ << __LINE__ << this->height();
 
-
-
-     m_newCenter.setX((this->geometry().topLeft().x() + this->geometry().bottomRight().x()) / 2);
-     m_newCenter.setY((this->geometry().topLeft().y() + this->geometry().bottomRight().y()) / 2);
+     m_newCenter.setX((this->rect().topLeft().x() + this->rect().bottomRight().x()) / 2);
+     m_newCenter.setY((this->rect().topLeft().y() + this->rect().bottomRight().y()) / 2);
 
      m_originCenter.setX((topLeft.x() + bottomRight.x())/2);
      m_originCenter.setY((topLeft.y() + bottomRight.y())/2);
@@ -177,14 +206,14 @@ void FootballRegin::updateRectPoint(const QPointF &topLeft, const QPointF &botto
      zoomToRect(m_topLeft, m_bottomRight);
 
      // calculate origin point
-     m_origin.setX((m_topLeft.x() + m_bottomRight.x()) / 2.0);
-     m_origin.setY(m_bottomRight.y());
+//     m_origin.setX((m_topLeft.x() + m_bottomRight.x()) / 2.0);
+//     m_origin.setY(m_bottomRight.y());
 
      m_rect.setTopLeft(m_topLeft);
      m_rect.setBottomRight(m_bottomRight);
 
-     m_per_pixelX = 10.0 / (m_bottomRight.x() - m_topLeft.x());
-     m_per_pixelY = 30.0 / (m_bottomRight.y() - m_topLeft.y());
+     m_XpixelPerMeter =  (m_bottomRight.x() - m_topLeft.x()) / m_realWidth;
+     m_YpixelPerMeter =  (m_bottomRight.y() - m_topLeft.y()) / m_realHeight;
 
 
      calculateObsStickPosition();
@@ -213,18 +242,26 @@ void FootballRegin::zoomToRect(QPointF &topLeft, QPointF &bottomRight)
     }
     m_ratioX = 1.0 * newWidth / width;
     m_ratioY = 1.0 * newHeight / height;
-
+    qDebug() << __func__ << __LINE__ << newHeight / newWidth;
+    qDebug() << __func__ << __LINE__ << height / width;
     qDebug() << __func__ << __LINE__ <<"old height:"<< height << "old width:" << width << " new height:"<< newHeight<< " new width:" << newWidth<< m_ratioX << m_ratioY;
 
-    topLeft = getNewPoint(topLeft);
-    bottomRight = getNewPoint(bottomRight);
-}
+    bottomRight.setX(m_newCenter.x() + newWidth / 2);
+    bottomRight.setY(m_newCenter.y() + newHeight / 2);
 
-QPointF FootballRegin::getNewPoint(QPointF oldPoint)
-{
-    float newTopLeftX = m_ratioX * (oldPoint.x() - m_originCenter.x()) + m_newCenter.x();
-    float newTopLeftY = m_ratioY * (oldPoint.y() - m_originCenter.y()) + m_newCenter.y();
-    return QPointF(newTopLeftX, newTopLeftY);
+    topLeft.setX(m_newCenter.x() - newWidth / 2);
+    topLeft.setY(m_newCenter.y() - newHeight / 2);
+
+    m_origin.setX(m_newCenter.x());
+    m_origin.setY(m_bottomRight.y());
+
+    deltaX = m_newCenter.x();
+    deltaY = -m_bottomRight.y();
+
+    m_realWidth = m_realHeight * newWidth / newHeight;
+
+//    topLeft = getNewPoint(topLeft);
+//    bottomRight = getNewPoint(bottomRight);
 }
 
 void FootballRegin::paintEvent(QPaintEvent *event)

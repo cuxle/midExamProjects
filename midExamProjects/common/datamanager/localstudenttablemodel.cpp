@@ -43,6 +43,13 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
             color = Qt::red;
         }
         return QVariant::fromValue(color);
+    } else if (role == Qt::UserRole) {
+        if (index.column() == ExamTime)
+        {
+            return QDate::fromString(QSqlTableModel::data(index, Qt::DisplayRole).toString(), Utils::strFormat);
+            // 1st Mistake, no correct conversion. I always got QVariant(invalid)
+        }
+
     } else if (role == Qt::DisplayRole) {
         switch (index.column()) {
         case Gender:
@@ -88,6 +95,7 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
             }
             break;
         }
+
         case UploadStatus:
         {
 

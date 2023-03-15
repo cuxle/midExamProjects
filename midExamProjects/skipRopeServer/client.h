@@ -16,7 +16,9 @@ enum ClientDataType {
     ClientIdType,
     ClientStateType,
     ClientActionType,
-    ClientWatchDog
+    ClientWatchDog,
+    ClientWatchDogAck,
+    ClientExamFinished
 };
 
 class Client : public QObject

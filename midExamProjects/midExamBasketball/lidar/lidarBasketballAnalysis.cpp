@@ -520,7 +520,15 @@ std::vector<PointXYZ> lidarBasketballAnalysis::objectDetection(PointCloud<PointX
 
     //根据距离加权系数约束检测目标的最小尺寸
     float fDist = abs(m_yBorderMax - objDetected[0].y);
-    float fRatio = fDist / 5.0f * m_ratio + 1.0f;
+    float fRatio = fDist / 7.0f;
+    if (fRatio < 1.0)
+    {
+        fRatio = 1.0f;
+    }
+    else
+    {
+        fRatio = fRatio * m_ratio + 1.0f;
+    }
     //如果检测到的目标小于加权后的最小目标值,则认为是虚假目标，进行滤除
     if (nPtMax < fRatio * m_MinClusterSize)
     {

@@ -24,7 +24,6 @@ class VideoCaptureWorker;
 class QMediaPlayer;
 class VideoReplayWorker;
 class SettingDialog;
-class Client;
 class QFrame;
 
 namespace Ui {
@@ -318,6 +317,7 @@ private:
      void saveStudentScore();
      void saveAndUploadStudentScore();
      void clearStudentUiInfo();
+     void clearStudentUiInfoWithNoUserId();
      int m_rowsInXlsx = 1;
      QString m_saveVideoFormat = ".mp4";
 

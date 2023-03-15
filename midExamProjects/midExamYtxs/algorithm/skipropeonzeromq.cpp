@@ -206,8 +206,8 @@ void SkipRopeOnZeroMq::handleReceiveMat(cv::Mat image)
         //        QImage img = image;
         cv::Mat mat;
         image.copyTo(mat);
-//        qDebug() << __LINE__ << __func__;
-//        qDebug() << mat.rows << mat.cols;
+
+        qDebug() << __LINE__ << __func__<< mat.rows << mat.cols;
 
 //        SHAREDMEMORY sharedmem;
 

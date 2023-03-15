@@ -139,7 +139,7 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     pixSize.scale(event->rect().size(), Qt::KeepAspectRatioByExpanding);
 
     QPixmap scaledPix = pix.scaled(pixSize,
-                                   Qt::KeepAspectRatio,
+                                   Qt::KeepAspectRatioByExpanding,
                                    Qt::SmoothTransformation
                                    );
 //    qDebug() << __func__ << __LINE__ << scaledPix.size() << "after";

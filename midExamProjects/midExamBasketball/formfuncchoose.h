@@ -30,6 +30,7 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
 
+#include "utils.h"
 
 #pragma   pop_macro("min")
 #pragma   pop_macro("max")
@@ -49,7 +50,6 @@ class VideoCaptureWorker;
 class QMediaPlayer;
 class VideoReplayWorker;
 class SettingDialog;
-class Client;
 class QFrame;
 
 namespace Ui {
@@ -75,6 +75,8 @@ public:
         PageScoreManage
     };
     void setVideoName(const QString &newVideoName);
+
+    void initConfigValues();
 
 signals:
     void sigCloseLoginForm();
@@ -109,7 +111,7 @@ signals:
 
     void sigSetReginRect(float xMin, float xMax, float yMin, float yMax);
 private slots:
-    void handleStudentQiangPao(bool flag);
+    void handleStudentResultDisplay(int flag);
 
     void handleStartExamFromRemote(bool start);
 
@@ -218,8 +220,8 @@ private slots:
 public slots:
     // update point cloud
     void handleUpdateReceivedLeidaData();
-    void updateRectPointTopLeft(const QPoint &topLeft);
-    void updateRectPointBottomRight(const QPoint &bottomRight);
+    void updateRectPointTopLeft(const QPointF &topLeft);
+    void updateRectPointBottomRight(const QPointF &bottomRight);
 
 private slots:
     void handleRestLidarToClose();
@@ -397,6 +399,7 @@ private:
      void saveStudentScore();
      void saveAndUploadStudentScore();
      void clearStudentUiInfo();
+     void clearStudentUiInfoWithNoUserId();
      void initGodLeilaser();
      void showCustomPlot();
      void showExamRegion();
@@ -454,10 +457,14 @@ private:
      int m_rectReginWidth;
      int m_rectReginHight;
 
+     const float m_zMin =  -1.2f;
+     const float m_zMax = 1.2f;
+
 //     int m_rectReginTopLeftX;
 //     int m_rectReginTopLeftY;
 //     int m_rectReginBottomRightX;
 //     int m_rectReginBottomRightY;
+
 
 protected:
      void closeEvent(QCloseEvent *event);

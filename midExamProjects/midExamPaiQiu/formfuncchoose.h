@@ -23,7 +23,6 @@ class VideoCaptureWorker;
 class QMediaPlayer;
 class VideoReplayWorker;
 class SettingDialog;
-class Client;
 class QFrame;
 
 namespace Ui {
@@ -32,7 +31,7 @@ class FormFuncChoose;
 
 static const int RETCODE_RESTART = 773;
 
-#define TEST 0
+//#define TEST 0
 
 class FormFuncChoose : public QDialog
 {
@@ -202,6 +201,8 @@ private:
 
     void handleUpdateSchoolListView();
 
+    void clearStudentUiInfoWithNoUserId();
+
     Ui::FormFuncChoose *ui;
 
     enum ExamState {
@@ -343,6 +344,9 @@ private:
      QLabel *m_preScoreLabel = nullptr;
      QFont m_choosenFont;
      QFont m_notChoosenFont;
+     QString m_notChoosenColor = "color: rgb(188, 185, 201);";
+     QString m_choosenColor = "color: rgb(255, 255, 255);";
+
 
      bool m_isOnline = false;
      bool m_isLogin = false;

@@ -53,6 +53,7 @@ void Client::handleWathdogTimeout()
         emit toDestroy();
     } else {
         m_currentLostTimes++;
+        qDebug() << __func__ << __LINE__ << m_currentLostTimes;
     }
 }
 
@@ -145,7 +146,7 @@ void Client::handleSocketReadyRead()
 
     int dataType;
     m_in >> dataType;
-
+    qDebug() << __func__ << __LINE__ << dataType;
     switch (dataType) {
     // client should give an id to me to identify it
     case ClientIdType:
@@ -194,6 +195,10 @@ void Client::handleSocketReadyRead()
             m_watchDog->start();
         }
         m_currentLostTimes = 0;
+        qDebug() << __func__ << __LINE__ << "GOT feed dog and send ack";
+        // send Ack to client
+        sendCmdToServer(ClientWatchDogAck, dog);
+
         break;
     }
 

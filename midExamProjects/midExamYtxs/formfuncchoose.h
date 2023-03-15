@@ -21,7 +21,6 @@ class VideoCaptureWorker;
 class QMediaPlayer;
 class VideoReplayWorker;
 class SettingDialog;
-class Client;
 class QFrame;
 
 namespace Ui {

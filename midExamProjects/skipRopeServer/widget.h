@@ -75,7 +75,7 @@ private:
     int m_totalTimeMs = 30*1000;
     const int m_internal = 100;
 
-    int m_currentGroup = 1;
+    int m_currentGroup = 0;
 
     AppInitFailureType m_appInitFailureType = AppInitNoFailure;
 //    QMap<int, Client*> m_clients;

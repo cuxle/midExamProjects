@@ -15,6 +15,7 @@ ScoreManagerForm::ScoreManagerForm(QWidget *parent) :
     ui(new Ui::ScoreManagerForm)
 {
     ui->setupUi(this);
+
     initScoreModel();
 
     connect(ui->pbExportXlsx, &QPushButton::clicked, this, &ScoreManagerForm::handleExportXlsxData);
@@ -145,7 +146,6 @@ void ScoreManagerForm::initScoreModel()
 
         m_scoreProxyModel = new MySortFilterProxyModel(this);
         m_scoreProxyModel->setSourceModel(m_scoreModel);
-
 
         ui->tblViewStudentData->setModel(m_scoreProxyModel);
         ui->tblViewStudentData->setColumnHidden(Id, true);

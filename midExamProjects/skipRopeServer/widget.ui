@@ -918,7 +918,7 @@ border-top-right-radius: 10px;</string>
             <string notr="true">color: rgb(85, 255, 0);</string>
            </property>
            <property name="text">
-            <string>V1.0.1-beta3</string>
+            <string>V1.0.2</string>
            </property>
           </widget>
          </item>

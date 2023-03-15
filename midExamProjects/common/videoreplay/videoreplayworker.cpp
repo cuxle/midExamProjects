@@ -56,6 +56,10 @@ void VideoReplayWorker::startPlayVideo()
 
         frame.copyTo(mat);
 
+//#if defined(YWQZ)
+//        //frame.copyTo(m_frameMat);
+//        cv::resize(frame, frame, cv::Size(frame.cols / 2, frame.rows / 2));
+//#endif
         emit sigSendMatFromVideoReplay(mat);
 
         int waitDiff = waitTime + QDateTime::currentDateTime().msecsTo(baseTime);

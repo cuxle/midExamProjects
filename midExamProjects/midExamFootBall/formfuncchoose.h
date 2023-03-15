@@ -41,6 +41,8 @@
 #include <QVector>
 #include <QTimer>
 
+#include "utils.h"
+
 class QCustomPlot;
 class Camera;
 class QThread;
@@ -49,12 +51,12 @@ class VideoCaptureWorker;
 class QMediaPlayer;
 class VideoReplayWorker;
 class SettingDialog;
-class Client;
 class QFrame;
 
 namespace Ui {
 class FormFuncChoose;
 }
+
 
 static const int RETCODE_RESTART = 773;
 
@@ -109,7 +111,7 @@ signals:
 
     void sigSetReginRect(float xMin, float xMax, float yMin, float yMax);
 private slots:
-    void handleStudentQiangPao(bool flag);
+    void handleStudentResultDisplay(int ret);
 
     void handleStartExamFromRemote(bool start);
 
@@ -454,6 +456,9 @@ private:
      int m_rectReginTopLeftY;
      int m_rectReginWidth;
      int m_rectReginHight;
+
+     float m_zMin =  -1.2f;
+     float m_zMax = 1.2f;
 
 //     int m_rectReginTopLeftX;
 //     int m_rectReginTopLeftY;

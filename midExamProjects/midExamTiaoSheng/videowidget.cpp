@@ -17,10 +17,10 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
 
     QSize pixSize = m_pix.size();
-    pixSize.scale(event->rect().size(), Qt::IgnoreAspectRatio);
+    pixSize.scale(event->rect().size(), Qt::KeepAspectRatioByExpanding);
 
     QPixmap scaledPix = m_pix.scaled(pixSize,
-                                   Qt::IgnoreAspectRatio,
+                                   Qt::KeepAspectRatioByExpanding,
                                    Qt::SmoothTransformation
                                    );
 

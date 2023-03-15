@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QHostAddress>
 #include <QDataStream>
+#include <QSharedPointer>
 
 class QTcpSocket;
 
@@ -26,23 +27,22 @@ public:
     };
 
     enum ClientDataType {
-        ClientIdType,
+        ClientIdType = 0,
         ClientStateType,
         ClientActionType,
-        ClientWatchDog
+        ClientWatchDog,
+        ClientWatchDogAck,
+        ClientExamFinished
     };
 
     Q_OBJECT
 public:
     explicit Client(int devId, const QString &ip, QObject *parent = nullptr);
     ~Client();
-    void setTcpSocket(QTcpSocket *newTcpSocket);
 
     int id() const;
 
     void setId(int newId);
-
-    void updateState(ClientState state);
 
 signals:
     void sigStateChanged(int id, int state);
@@ -57,10 +57,11 @@ public slots:
 private slots:
     void handleSocketReadyRead();
     void displayError(QAbstractSocket::SocketError error);
-    void handleReadReady();
     void handleConnectServer();
     void handleDisconnectFromServer();
-    void handleSendWatchDog();
+    void handleFeedWatchDog();
+    void handleWatchDogAckExceeds();
+    void setClientState(ClientState state);
 
 
 private:
@@ -70,12 +71,16 @@ private:
     QHostAddress m_serverIp;
     QString m_macAddress;
     quint16 m_port = 0;
-    QTcpSocket *m_tcpSocket = nullptr;
-    ClientState m_state;
+
+    ClientState m_curState;
     QDataStream m_out;
 
-    QTimer *m_connectTimer = nullptr;
-    QTimer *m_watchDogTimer = nullptr;
+    QSharedPointer<QTcpSocket> m_tcpSocket;
+    QSharedPointer<QTimer> m_connectTimer;
+    QSharedPointer<QTimer> m_feedDogTimer;
+    QSharedPointer<QTimer> m_waitAckTimer;
+    const int m_totalAllowedTimes = 3;
+    int m_curLoseTimes = 0;
 };
 
 #endif // CLIENT_H

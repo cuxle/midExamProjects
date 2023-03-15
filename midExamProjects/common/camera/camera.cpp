@@ -3,7 +3,10 @@
 #include <QImage>
 #include <QTimer>
 #include <QThread>
+#include <iostream>
 #include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/highgui/highgui_c.h>
 #include "algorithm/ropeskipworker.h"
 #include "appconfig.h"
 #include "singleton.h"
@@ -79,11 +82,12 @@ void Camera::initCamera()
         AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
 
         m_videoCapture = QSharedPointer<cv::VideoCapture>(new cv::VideoCapture(m_cameraIndex));
-//        m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, appconfig.m_cameraWidth);
-//        m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, appconfig.m_cameraHeight);
+        qDebug() << __func__ << __LINE__ <<appconfig.m_cameraWidth  << appconfig.m_cameraHeight;
+        m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, appconfig.m_cameraWidth);
+        m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, appconfig.m_cameraHeight);
         // no need to set camera width and height
-        m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, 1920);
-        m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
+//        m_videoCapture->set(cv::CAP_PROP_FRAME_WIDTH, 1920);
+//        m_videoCapture->set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
         qDebug() << __func__ << __LINE__ <<m_cameraIndex  << m_videoCapture->isOpened();
         m_opencvCameraTimer = new QTimer;
         connect(m_opencvCameraTimer, &QTimer::timeout, this, &Camera::hangleGrabFrameMat);
@@ -111,12 +115,14 @@ void Camera::hangleGrabFrameMat()
 //    qDebug() << __func__ << __LINE__ <<readFrame << m_frameMat.cols << m_frameMat.rows;
     // image 是从相机获得的 1920*1080的画面
     // image_roi 获得的roi 是1280*1024
-#if defined (YWQZ) || defined(TIAOSHENG) || defined(YTXS)
+#if defined(TIAOSHENG) || defined(YTXS)
     cv::Mat frameRoi = m_frameMat(cv::Rect(320, 28, 1280, 1024));
     frameRoi.copyTo(m_frameMat);
-#else
+#elif defined(YWQZ)
     //frame.copyTo(m_frameMat);
+    cv::resize(m_frameMat, m_frameMat, cv::Size(m_frameMat.cols / 2, m_frameMat.rows / 2));
 #endif
+
     emit sigImageCaptureMat(m_frameMat);
 }
 
@@ -143,6 +149,7 @@ void Camera::openDevice()
 
     if (vectorDeviceInfo.size() == 0) {
         emit sigCameraState(CameraNotFound);
+        return;
     }
     for (size_t i = 0; i < vectorDeviceInfo.size(); i++) {
         // if device is open already, vectorDeviceInfo size still will be 1

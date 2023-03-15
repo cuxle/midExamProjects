@@ -130,7 +130,7 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
         QDateTime baseTime = QDateTime::currentDateTime();
 
         //        SHAREDMEMORY sharedmem;
-
+        qDebug() << "handleReceiveImage:" << frame.cols << frame.rows;
         if (sharedmem.state == INITSUCCESS)
         {
             bool ding = false;

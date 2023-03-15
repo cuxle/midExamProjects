@@ -4,16 +4,17 @@ LidarCloudWidget::LidarCloudWidget(QWidget *parent)
     : QCustomPlot(parent)
 {
 
-    QAction *actionL = new QAction("设为左上");
-    QAction *actionR = new QAction("设为右下");
-    connect(actionL, &QAction::triggered, this, &LidarCloudWidget::handleLeftUpPointSet);
-    connect(actionR, &QAction::triggered, this, &LidarCloudWidget::handleRightDownPointSet);
+    m_actionL = new QAction("设为左上");
+    m_actionR = new QAction("设为右下");
+    m_actionR->setDisabled(true);
+    connect(m_actionL, &QAction::triggered, this, &LidarCloudWidget::handleLeftUpPointSet);
+    connect(m_actionR, &QAction::triggered, this, &LidarCloudWidget::handleRightDownPointSet);
     connect(this, &QWidget::customContextMenuRequested, this, &LidarCloudWidget::on_plot_customContextMenuRequested);
     //    ui->plot->addAction(actionL);
     //    ui->plot->addAction(actionR);
     this->setContextMenuPolicy(Qt::CustomContextMenu);
-    contexMenu.addAction(actionL);
-    contexMenu.addAction(actionR);
+    contexMenu.addAction(m_actionL);
+    contexMenu.addAction(m_actionR);
 }
 
 LidarCloudWidget::~LidarCloudWidget()
@@ -37,6 +38,8 @@ void LidarCloudWidget::handleLeftUpPointSet()
     leftUpOk = true;
     qDebug() << __func__ << __LINE__<< m_topLeftPoint;
     emit sigRectPointTopLeftUpdated(m_topLeftPoint);
+    m_actionL->setDisabled(true);
+    m_actionR->setEnabled(true);
 }
 
 
@@ -47,6 +50,8 @@ void LidarCloudWidget::handleRightDownPointSet()
     rightDownOk = true;
     qDebug() << __func__ << __LINE__<< m_bottomRightPoint;
     emit sigRectPointBottomRightUpdated(m_bottomRightPoint);
+    m_actionL->setEnabled(true);
+    m_actionR->setEnabled(false);
 }
 
 void LidarCloudWidget::on_plot_customContextMenuRequested(const QPoint &pos)

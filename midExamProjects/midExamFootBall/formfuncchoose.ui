@@ -195,7 +195,7 @@
               <string notr="true">color: rgb(115, 109, 148);</string>
              </property>
              <property name="text">
-              <string>软件版本:v1.0.0-beta2</string>
+              <string>软件版本:v1.0.0-beta6</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1767,7 +1767,7 @@ color: rgb(255, 255, 255);</string>
              <item row="1" column="0">
               <widget class="QStackedWidget" name="stkWidgetExamCloudRegin">
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="page_10">
                 <layout class="QGridLayout" name="gridLayout_5">

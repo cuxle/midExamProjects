@@ -8,6 +8,8 @@
 #include "networkserver.h"
 #include "Student.h"
 #include <QSqlTableModel>
+#include "utils.h"
+
 static QSqlError addScore(const QString &zkh,
                           const QString &name,
                           int gender,

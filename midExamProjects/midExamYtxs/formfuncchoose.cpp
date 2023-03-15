@@ -168,6 +168,7 @@ void FormFuncChoose::initUi()
     ui->pbStartSkip->setHidden(m_cmdOnline);
     ui->lbClientStatus->setHidden(!m_cmdOnline);
     ui->pbOpenLocalVideoFile->setHidden(m_cmdOnline);
+    ui->pbZhongTing->setHidden(true);
 
     // init font database
     initFontDatabase();
@@ -903,13 +904,16 @@ void FormFuncChoose::on_pbMainForm_clicked()
         gotoIndex = -1;
         break;
     case PageTest:
+        /* comment this code because slib back video widget will stuck
+         * and have to reset the app
         stopExamStuff();
 //        qDebug() << __func__ << __LINE__ << m_bCameraIsOpen;
         if (m_bCameraIsOpen) {
             emit sigCloseCamera();
-            ui->stkVideoHolder->setCurrentIndex(0);
+            ui->stkVideoHolder->setCurrentIndex(1);
             m_curExamMode = ExamModeInvalid;
         }
+        */
     case PageDataManage:
     case PageSetup:
         gotoIndex = PageMenu;
@@ -1059,6 +1063,9 @@ void FormFuncChoose::stopExamStuff()
         if (m_curExamMode == ExamModeFromCamera) {
             saveAndUploadStudentScore();
         }
+
+        ui->lbScoreFinal->setText(Utils::calculateFinalScoreForCount(m_curStudent));
+
         m_curExamCount = 0;
         // clear student ui info 20221210
         clearStudentUiInfo();
@@ -1300,6 +1307,12 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
+    m_curStudent.midStopFirst = false;
+    m_curStudent.midStopSecond = false;
+    m_curStudent.midStopThird = false;
+
+    resetScoreLabel();
 }
 
 

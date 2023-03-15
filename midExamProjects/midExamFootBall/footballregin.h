@@ -18,8 +18,9 @@
 #include <pcl/segmentation/extract_clusters.h>
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/ModelCoefficients.h>
+#include <QQueue>
 
-#define TEST
+#include "utils.h"
 
 class lidarAnalysis;
 
@@ -46,6 +47,7 @@ public slots:
 
 signals:
 private:
+    QPointF calculatNextPoint(const QPointF &p1, const QPointF &p2);
     void calculateObsStickPosition();
     void showExamRegin();
     void showExamStudentPoints();
@@ -53,7 +55,7 @@ private:
     void showExamStickPos();
     void updateRectPoint(const QPointF &topLeft, const QPointF &bottomRight);
     void zoomToRect(QPointF &topLeft, QPointF &bottomRight);
-    QPointF getNewPoint(QPointF oldPoint);
+
     QRectF m_rect;
     QMenu contexMenu;
 
@@ -69,10 +71,22 @@ private:
     QVector<QPointF> m_stuPointsPath;
     QVector<QPointF> m_stickPos;
 
+    bool m_enableFillLastPoint = false;
+    QQueue<QPointF> m_lastTwoPoints;
+    int m_lastStudentPointSize = 0;
+
+    float fx = 1;
+    float deltaX = 0;
+    float fy = -1;
+    float deltaY = 0;
+
+    float m_realHeight = 30; // meters
+    float m_realWidth = 0; // according to ratio
+
     bool isLoging;
 
-    float m_per_pixelX = 0;
-    float m_per_pixelY = 0;
+    float m_XpixelPerMeter = 0;
+    float m_YpixelPerMeter = 0;
 
     bool leftUpOk = false;
     bool rightDownOk = false;
@@ -87,8 +101,6 @@ private:
 
     lidarAnalysis *m_lidarAnalysis = nullptr;
 
-    int minY = 0;
-
     // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);
@@ -98,7 +110,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 
 
-    void FootballRegin::mouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
 #endif
 };

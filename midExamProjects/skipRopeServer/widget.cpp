@@ -467,6 +467,7 @@ void Widget::on_pbStartAll_clicked()
 
 
     // 4.
+    on_pbNextGroup_clicked();
 }
 
 

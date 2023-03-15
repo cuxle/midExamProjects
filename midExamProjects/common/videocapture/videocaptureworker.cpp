@@ -72,6 +72,7 @@ void VideoCaptureWorker::handleReceiveMat(const cv::Mat &mat)
 #if TIAOSHENG
           m_videoWriter->setDownCount(time);
 #endif
+         // qDebug() << __func__ << __LINE__ << mat.cols << mat.rows;
             m_videoWriter->write(mat);
         }
 
@@ -95,10 +96,13 @@ void VideoCaptureWorker::openSavedFile(const QString &fileName)
 
     if (!m_fileIsOpened) {
         AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-
+#if defined (YWQZ)
+        m_width = appconfig.m_cameraWidth / 2;
+        m_height = appconfig.m_cameraHeight / 2;
+#else
         m_width = appconfig.m_cameraWidth;
         m_height = appconfig.m_cameraHeight;
-
+#endif
         m_videoPath = appconfig.m_videoSavePath + "/video";
 
         m_videoWriter = QSharedPointer<videoWriterFFmpeg>(new videoWriterFFmpeg);

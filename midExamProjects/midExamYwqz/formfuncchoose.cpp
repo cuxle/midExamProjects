@@ -160,6 +160,7 @@ void FormFuncChoose::initUi()
     ui->pbStartSkip->setHidden(m_cmdOnline);
     ui->lbClientStatus->setHidden(!m_cmdOnline);
     ui->pbOpenLocalVideoFile->setHidden(m_cmdOnline);
+    ui->pbZhongTing->setHidden(true);
 
     // init font database
     initFontDatabase();
@@ -621,6 +622,14 @@ void FormFuncChoose::saveAndUploadStudentScore()
     }
 }
 
+void FormFuncChoose::clearStudentUiInfoWithNoUserId()
+{
+ //   ui->leUserId->clear();
+    ui->leUserGender->clear();
+    ui->leUserName->clear();
+    ui->leUserSchool->clear();
+}
+
 void FormFuncChoose::clearStudentUiInfo()
 {
     ui->leUserId->clear();
@@ -883,13 +892,16 @@ void FormFuncChoose::on_pbMainForm_clicked()
         gotoIndex = -1;
         break;
     case PageTest:
+        /* comment this code because slib back video widget will stuck
+         * and have to reset the app
         stopExamStuff();
 //        qDebug() << __func__ << __LINE__ << m_bCameraIsOpen;
         if (m_bCameraIsOpen) {
             emit sigCloseCamera();
-            ui->stkVideoHolder->setCurrentIndex(0);
+            ui->stkVideoHolder->setCurrentIndex(1);
             m_curExamMode = ExamModeInvalid;
         }
+        */
     case PageDataManage:
     case PageSetup:
         gotoIndex = PageMenu;
@@ -1041,6 +1053,9 @@ void FormFuncChoose::stopExamStuff()
         if (m_curExamMode == ExamModeFromCamera) {
             saveAndUploadStudentScore();
         }
+
+        ui->lbScoreFinal->setText(Utils::calculateFinalScoreForCount(m_curStudent));
+
         m_curExamCount = 0;
         clearStudentUiInfo();
     }
@@ -1059,7 +1074,9 @@ void FormFuncChoose::stopExamStuff()
     m_skipRopeZeroMq->m_bStartCount = false;
 
     if (m_curExamMode == ExamModeFromCamera) {
-        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
+        QTimer::singleShot(5000, [&](){
+            emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
+        });
     } else if (m_curExamMode == ExamModeFromVideo) {
         m_curExamMode = ExamModeInvalid;
         m_bVideoFileLoaded = false;
@@ -1245,7 +1262,7 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
-        clearStudentUiInfo();
+        clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
     m_curStudent.isOnline = m_isLogin;
@@ -1253,6 +1270,12 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
+    m_curStudent.midStopFirst = false;
+    m_curStudent.midStopSecond = false;
+    m_curStudent.midStopThird = false;
+
+    resetScoreLabel();
 }
 
 

@@ -5,6 +5,8 @@
 #include <QRect>
 #include <QMenu>
 #include <QPoint>
+#include <QPointF>
+#include <QQueue>
 
 #include <vector>
 #include <pcl/visualization/cloud_viewer.h>
@@ -32,13 +34,15 @@ public:
     void savePath(const QString &zkh, const QString &time);
     float m_deltaX = 0;
     float m_deltaY = 0;
+    float m_ratioX = 1.0;
+    float m_ratioY = 1.0;
     void setStuMovePathFileName(const QString &newStuPathFileName);
 
     void setLidarAnalysis(lidarBasketballAnalysis *newLidarAnalysis);
 
 public slots:
-    void updateRectPointTopLeft(const QPoint &topLeft);
-    void updateRectPointBottomRight(const QPoint &bottomRight);
+    void updateRectPointTopLeft(const QPointF &topLeft);
+    void updateRectPointBottomRight(const QPointF &bottomRight);
 
 signals:
 private:
@@ -47,12 +51,15 @@ private:
     void showExamStudentPoints();
     void showExamStudentPath();
     void showExamStickPos();
-    void updateRectPoint(const QPoint &topLeft, const QPoint &bottomRight);
-    QRect m_rect;
+    void updateRectPoint(const QPointF &topLeft, const QPointF &bottomRight);
+    void zoomToRect(QPointF &topLeft, QPointF &bottomRight);
+    QPointF calculatNextPoint(const QPointF &p1, const QPointF &p2);
+
+    QRectF m_rect;
     QMenu contexMenu;
 
-    QPoint m_topLeft;
-    QPoint m_bottomRight;
+    QPointF m_topLeft;
+    QPointF m_bottomRight;
     QPoint contexPoint;
 
     QPointF m_studentPos;
@@ -65,10 +72,22 @@ private:
     QVector<QPointF> m_stuPointsPath;
     QVector<QPointF> m_stickPos;
 
+    bool m_eanbleLastPointFill = false;
+    QQueue<QPointF> m_lastTwoPoints;
+    int m_lastStudentPointSize = 0;
+
+    float fx = 1;
+    float deltaX = 0;
+    float fy = -1;
+    float deltaY = 0;
+
+    float m_realHeight = 28; // meters
+    float m_realWidth = 0; // according to ratio
+
     bool isLoging;
 
-    float m_per_pixelX = 0;
-    float m_per_pixelY = 0;
+    float m_XpixelPerMeter = 0;
+    float m_YpixelPerMeter = 0;
 
     bool leftUpOk = false;
     bool rightDownOk = false;
@@ -76,14 +95,23 @@ private:
     bool m_examStarted = false;
     bool m_exmineStudentInRegin = false;
 
-    QPointF m_rectCenter;
-    QPointF m_realCenter;
+    QPointF m_originCenter;
+    QPointF m_newCenter;
 
     QString m_stuMovePathFileName;
 
     // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);
+#ifdef TEST
+    void mousePressEvent(QMouseEvent *event);
+
+    void mouseReleaseEvent(QMouseEvent *event);
+
+
+    void mouseMoveEvent(QMouseEvent *event);
+
+#endif
 };
 
 #endif // FOOTBALLREGIN_H

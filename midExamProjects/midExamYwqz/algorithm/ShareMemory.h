@@ -22,13 +22,13 @@ typedef struct {
 //=================================共享内存大小确定=================================
 // 为图像分配空间
 #define FRAME_NUMBER         1               // 图像路数
-#define FRAME_W              1280
-#define FRAME_H              1024
+#define FRAME_W              1920
+#define FRAME_H              1080
 #define FRAME_W_H            FRAME_W*FRAME_H
 // 图像分辨率：彩色图（3通道）+图像信息结构体
 #define FRAME_SIZE           FRAME_W_H*sizeof(unsigned char)*3+sizeof(ImgInf)
 
-#define MEMORY_SIZE          FRAME_NUMBER*FRAME_SIZE
+#define MEMORY_SIZE          FRAME_NUMBER * FRAME_SIZE
 
 //=================================共享内存信息定义=================================
 #define INITSUCCESS      0

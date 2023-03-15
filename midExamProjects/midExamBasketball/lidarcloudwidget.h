@@ -14,8 +14,8 @@ public:
     explicit LidarCloudWidget(QWidget *parent = nullptr);
     ~LidarCloudWidget();
 signals:
-    void sigRectPointTopLeftUpdated(const QPoint &topLeft);
-    void sigRectPointBottomRightUpdated(const QPoint &bottomRight);
+    void sigRectPointTopLeftUpdated(const QPointF &topLeft);
+    void sigRectPointBottomRightUpdated(const QPointF &bottomRight);
 private slots:
     void handleLeftUpPointSet();
     void handleRightDownPointSet();
@@ -24,15 +24,18 @@ private:
 
     QMenu contexMenu;
 
-    QPoint m_topLeftPoint;
-    QPoint m_bottomRightPoint;
-    QPoint contexPoint;
+    QPointF m_topLeftPoint;
+    QPointF m_bottomRightPoint;
+    QPointF contexPoint;
 
     QPointF m_cordPointTopLefts;
     QPointF m_cordPointBottomRight;
 
     bool leftUpOk = false;
     bool rightDownOk = false;
+
+    QAction *m_actionL = nullptr;
+    QAction *m_actionR = nullptr;
 
 //protected:
 //    void contextMenuEvent(QContextMenuEvent *event);

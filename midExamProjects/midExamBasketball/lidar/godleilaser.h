@@ -42,7 +42,6 @@ public slots:
     void destroyLaser();
 
 private:
-
     GodLeiLaserMSOP *m_godLeiMsopClient = nullptr;
     QThread *m_msopThread = nullptr;
 };

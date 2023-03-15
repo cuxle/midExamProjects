@@ -32,14 +32,14 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>-750</x>
-     <y>0</y>
+     <x>100</x>
+     <y>-320</y>
      <width>2318</width>
      <height>1502</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -2451,24 +2451,17 @@ font: 25 21pt &quot;Microsoft YaHei&quot;;</string>
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_36">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="pbZhongTing">
                    <property name="minimumSize">
                     <size>
-                     <width>145</width>
-                     <height>145</height>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
                     </size>
                    </property>
                    <property name="styleSheet">

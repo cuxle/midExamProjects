@@ -34,6 +34,9 @@ private:
     bool leftUpOk = false;
     bool rightDownOk = false;
 
+    QAction *m_actionL = nullptr;
+    QAction *m_actionR = nullptr;
+
 //protected:
 //    void contextMenuEvent(QContextMenuEvent *event);
 };
