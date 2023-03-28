@@ -115,10 +115,10 @@ void Camera::hangleGrabFrameMat()
 //    qDebug() << __func__ << __LINE__ <<readFrame << m_frameMat.cols << m_frameMat.rows;
     // image 是从相机获得的 1920*1080的画面
     // image_roi 获得的roi 是1280*1024
-#if defined(TIAOSHENG) || defined(YTXS)
+#if defined(TIAOSHENG)
     cv::Mat frameRoi = m_frameMat(cv::Rect(320, 28, 1280, 1024));
     frameRoi.copyTo(m_frameMat);
-#elif defined(YWQZ)
+#elif defined(YWQZ) || defined(YTXS)
     //frame.copyTo(m_frameMat);
     cv::resize(m_frameMat, m_frameMat, cv::Size(m_frameMat.cols / 2, m_frameMat.rows / 2));
 #endif
@@ -567,3 +567,4 @@ QImage *Camera::image() const
 {
     return m_image;
 }
+

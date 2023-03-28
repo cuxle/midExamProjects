@@ -121,9 +121,11 @@ void VideoWidget::updateConfig()
 
      config.m_rectPoint2x = m_rectRightBottom.x();
      config.m_rectPoint2y = m_rectRightBottom.y();
-     emit sigReginPosChanged(m_triPoint1.x()*m_ratioX, m_triPoint1.y()*m_ratioY, m_triPoint2.x()*m_ratioX, m_triPoint2.y()*m_ratioY,
-                             m_triPoint3.x()*m_ratioX, m_triPoint3.y()*m_ratioY, m_rectLeftTop.x()*m_ratioX, m_rectLeftTop.y()*m_ratioY,
-                             m_rectRightBottom.x()*m_ratioX, m_rectRightBottom.y()*m_ratioY);
+//     emit sigReginPosChanged(m_triPoint1.x()*m_ratioX, m_triPoint1.y()*m_ratioY, m_triPoint2.x()*m_ratioX, m_triPoint2.y()*m_ratioY,
+//                             m_triPoint3.x()*m_ratioX, m_triPoint3.y()*m_ratioY, m_rectLeftTop.x()*m_ratioX, m_rectLeftTop.y()*m_ratioY,
+//                             m_rectRightBottom.x()*m_ratioX, m_rectRightBottom.y()*m_ratioY);
+     emit sigReginRectChanged(m_rectLeftTop.x()*m_ratioX, m_rectLeftTop.y()*m_ratioY,
+                              m_rectHeight*m_ratioY, m_rectWidth*m_ratioX);
      //config.writeConfig();
 }
 
@@ -152,13 +154,13 @@ void VideoWidget::paintEvent(QPaintEvent *event)
     painter.drawPixmap(QPoint(), scaledPix);
 
 
-//    QPen m_pen;
-//    m_pen.setColor(QColor("green"));
-//    m_pen.setWidth(3);
-//    m_pen.setStyle(Qt::DashDotDotLine);
-//    QPainter painter1(this);
-//    painter1.setPen(m_pen);
-//    painter1.drawRect(m_rect);
+    QPen m_pen;
+    m_pen.setColor(QColor("green"));
+    m_pen.setWidth(3);
+    m_pen.setStyle(Qt::DashDotDotLine);
+    QPainter painter1(this);
+    painter1.setPen(m_pen);
+    painter1.drawRect(m_rect);
 
 //    QPen triPen;
 //    triPen.setColor(QColor("red"));

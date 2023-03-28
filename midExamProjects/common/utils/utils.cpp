@@ -17,6 +17,7 @@ QString Utils::calculateFinalScoreForTime(const Student& student)
         // change ms to s
         return QString::number(value/1000.0, 'f', 2);
     }
+
 }
 
 QString Utils::calculateFinalScoreForCount(const Student& student)

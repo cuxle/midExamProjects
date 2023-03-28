@@ -408,6 +408,7 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
         // when one exam test stoped
         // save exam score and time
         if (m_curStudent.isValid) {
+            //m_curStudent.scores[m_curExamCount - 1] = m_curSkipCount;
             if (m_curExamCount == 1) {
                 m_curStudent.firstScore = m_curSkipCount;
                 qDebug() << __func__ << __LINE__ << m_curStudent.firstScore;
@@ -1115,7 +1116,9 @@ void FormFuncChoose::stopExamStuff()
         if (m_curExamMode == ExamModeFromCamera) {
             saveAndUploadStudentScore();
         }
+
         ui->lbScoreFinal->setText(Utils::calculateFinalScoreForCount(m_curStudent));
+       // ui->lbScoreFinal->setText(m_curStudent.getFinalScoreByCount());
 
         m_curExamCount = 0;
         clearStudentUiInfo();
@@ -1341,6 +1344,8 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.midStopFirst = false;
     m_curStudent.midStopSecond = false;
     m_curStudent.midStopThird = false;
+
+    m_curStudent.initCountExam();
 
     resetScoreLabel();
 }

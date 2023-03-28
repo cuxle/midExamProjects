@@ -441,9 +441,66 @@ void testCaseForStudentScoreBigger() {
     student.midStopThird = true;
 }
 
+void testCplus17ByTime() {
+    Student student;
+    student.initTimeExam();
+    qDebug() << "犯规" << student.getFinalScoreByTime() ;
+
+    student.initTimeExam();
+    student.scores[0] = 1;
+    student.scores[1] = 2;
+    student.scores[2] = 5;
+    qDebug() << "0.01" << student.getFinalScoreByTime() ;
+
+    student.initTimeExam();
+    student.scores[0] = 1000;
+    student.scores[1] = 2000;
+    student.scores[2] = 5000;
+    qDebug() << "1" << student.getFinalScoreByTime() ;
+
+    student.initTimeExam();
+   // student.scores[0] = 1000;
+    //student.scores[1] = 2000;
+    student.scores[2] = 5000;
+    qDebug() << "5" << student.getFinalScoreByTime() ;
+
+    student.initTimeExam();
+   student.scores[0] = 10000;
+    student.scores[1] = 20000;
+    student.scores[2] = 6000;
+    qDebug() << "6" << student.getFinalScoreByTime() ;
+
+    student.initCountExam();
+    student.scores[0] = 0;
+    student.scores[1] = 2;
+    student.scores[2] = 5;
+    qDebug() << "5" << student.getFinalScoreByCount() ;
+
+    student.initCountExam();
+    student.scores[0] = 5;
+    student.scores[1] = 2;
+    //student.scores[2] = 5;
+    qDebug() << "5" << student.getFinalScoreByCount() ;
+
+    student.initCountExam();
+    student.scores[0] = 5;
+    student.scores[1] = 10;
+    //student.scores[2] = 5;
+    qDebug() << "10" << student.getFinalScoreByCount() ;
+
+    student.initCountExam();
+//    student.scores[0] = 0;
+//    student.scores[1] = 2;
+//    student.scores[2] = 5;
+    qDebug() << "犯规" << student.getFinalScoreByCount() ;
+
+
+}
+
 int main(int argc, char *argv[])
 {
 //    testCaseForStudentScoreSmaller();
+//    testCplus17ByTime();
 //    return 0;
     QApplication a(argc, argv);
 
@@ -456,7 +513,7 @@ int main(int argc, char *argv[])
 
     initDb();
 	
-  // Logger::init();
+    Logger::init();
 	
 #if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
     serverLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/server/";

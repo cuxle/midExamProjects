@@ -1345,6 +1345,7 @@ void FormFuncChoose::stopExamStuff()
         saveAndUploadStudentScore();
 
         ui->lbScoreFinal->setText(Utils::calculateFinalScoreForTime(m_curStudent));
+        //ui->lbScoreFinal->setText(m_curStudent.getFinalScoreByTime());
 
         m_curExamCount = 0;
 
@@ -1570,6 +1571,8 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.midStopFirst = false;
     m_curStudent.midStopSecond = false;
     m_curStudent.midStopThird = false;
+
+    m_curStudent.initTimeExam();
 
     // reset stick points to red
     bool ret = m_lidaAnalysis->resetExamParams();

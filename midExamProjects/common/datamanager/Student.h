@@ -1,16 +1,23 @@
-﻿#ifndef STUDENT_H
+#ifndef STUDENT_H
 #define STUDENT_H
 
 #include <QString>
 #include <QDateTime>
+#include <algorithm>
+#include <limits>
 
 class Student {
 public:
-    Student()
-        :isValid(false)
-    {
+    Student();
 
-    }
+    void initTimeExam();
+
+    void initCountExam();
+
+    QString getFinalScoreByTime();
+
+    QString getFinalScoreByCount();
+
     bool isValid;
     bool isOnline = false;
     int bcjszt;
@@ -43,6 +50,23 @@ public:
     QString zt;
     QString zxdm;
     QString zxmc;
+    const int int_max = (std::numeric_limits<int>::max)();
+    const int int_min = (std::numeric_limits<int>::min)();
+
+    //
+    //
+    /*
+     * 1. for football basketball
+     *      valid score is [0, 199999] ms
+     *      invalid score is std::number_limits<int>::max()
+     *      final result is min element
+     * 2. for count exam
+     *      valid score is [0, 199999]
+     *      invalid score is std::number_limits<int>::min()
+     *      final result is max element
+
+    */
+    std::vector<int> scores;
 
     int firstScore = 0;
     int secondScore = 0;
@@ -69,6 +93,12 @@ public:
     QString errorMsg;
     QString videoPath;
     QString examProjectName;
+
+
+private:
+    int getFinalExamResultByTime();
+
+    int getFinalExamResultByCount();
 };
 
 #endif // TMPSTUDENT_H
