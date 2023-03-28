@@ -229,7 +229,7 @@ void FormFuncChoose::initTimers()
 void FormFuncChoose::handleUploadExamedStudentsScore()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    server.requestFor(NetWorkServer::RequestUploadAllExamedStudentScore);
+    server.requestFor(NetWorkServer::RequestArbitrationList);
 }
 
 //void FormFuncChoose::initSocketClient()

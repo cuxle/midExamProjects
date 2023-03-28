@@ -195,7 +195,7 @@
               <string notr="true">color: rgb(115, 109, 148);</string>
              </property>
              <property name="text">
-              <string>软件版本:v1.0.3</string>
+              <string>软件版本:v1.0.4-beta1</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
