@@ -687,12 +687,18 @@ void FormFuncChoose::recordStudentExamInfo(ExamAction action)
         if (m_curStudent.isValid) {
             if (m_curExamCount == 1) {
                 // record time for student score seconds
+                //m_curStudent.scores[0] = m_curForwardSeconds;
+
                 m_curStudent.firstScore = m_curForwardSeconds;
                 m_curStudent.examStopFirstTime = dataTime;
             } else if (m_curExamCount == 2) {
+                //m_curStudent.scores[1] = m_curForwardSeconds;
+
                 m_curStudent.secondScore = m_curForwardSeconds;
                 m_curStudent.examStopSecondTime = dataTime;
             } else if (m_curExamCount == 3) {
+                //m_curStudent.scores[2] = m_curForwardSeconds;
+
                 m_curStudent.thirdScore = m_curForwardSeconds;
                 m_curStudent.examStopThirdTime = dataTime;
             }
@@ -1308,6 +1314,7 @@ void FormFuncChoose::stopExamStuff()
         saveAndUploadStudentScore();
 
         ui->lbScoreFinal->setText(Utils::calculateFinalScoreForTime(m_curStudent));
+        //ui->lbScoreFinal->setText(m_curStudent.getFinalScoreByTime());
 
         m_curExamCount = 0;
 
@@ -1537,9 +1544,12 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     m_curStudent.examProjectName = manager.m_curExamInfo.name;
     m_curStudent.examCount = m_examCount;
     m_curStudent.isValid = true;
+
     m_curStudent.midStopFirst = false;
     m_curStudent.midStopSecond = false;
     m_curStudent.midStopThird = false;
+
+    m_curStudent.initTimeExam();
 
     // reset stick points to red
     bool ret = m_lidaAnalysis->resetExamParams();

@@ -73,7 +73,7 @@ void VideoCaptureWorker::handleReceiveMat(const cv::Mat &mat)
           m_videoWriter->setDownCount(time);
 #endif
          // qDebug() << __func__ << __LINE__ << mat.cols << mat.rows;
-            m_videoWriter->write(mat);
+          m_videoWriter->write(mat);
         }
 
     } else {

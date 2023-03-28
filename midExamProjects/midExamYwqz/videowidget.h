@@ -31,7 +31,7 @@ public slots:
     void handleResetVideoWidgetRatio();
 signals:
     void sigReginPosChanged(int p1x, int p1y, int p2x, int p2y, int p3x, int p3y, int lefttopx, int lefttopy, int rightdownx, int rightdowny);
-
+    void sigReginRectChanged(int p1x, int p1y, int height, int width);
     // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);

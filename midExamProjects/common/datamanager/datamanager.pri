@@ -20,6 +20,7 @@ SOURCES +=  $$PWD/datamanager.cpp \
             $$PWD/schoollisttablemodel.cpp \
             $$PWD/scoremanagemodel.cpp \
             $$PWD/scoremanagerform.cpp \
-            $$PWD/localstudenttablemodel.cpp
+            $$PWD/localstudenttablemodel.cpp \
+            $$PWD/student.cpp
 
 FORMS += $$PWD/scoremanagerform.ui

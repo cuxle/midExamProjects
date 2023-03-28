@@ -46,6 +46,7 @@ public slots:
     void openCamera();
     void closeCamera();
 
+
 private slots:
     void hangleGrabFrameMat();
 signals:
@@ -91,6 +92,7 @@ private:
     QSharedPointer<cv::VideoCapture> m_videoCapture = nullptr;
     cv::Mat m_frameMat;
     QTimer *m_opencvCameraTimer = nullptr;
+
 };
 
 #endif // CAMERA_H

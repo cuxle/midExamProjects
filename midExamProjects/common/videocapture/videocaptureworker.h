@@ -38,7 +38,6 @@ public slots:
     void setSaved(bool, const QString &);
 
     void destroyWorker();
-
 private:
 //    QSharedPointer<cv::VideoWriter> m_videoWriter = nullptr;
 

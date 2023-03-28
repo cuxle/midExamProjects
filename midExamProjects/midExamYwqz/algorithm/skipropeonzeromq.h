@@ -41,7 +41,8 @@ public slots:
 //    void destroylib();
     void handleReceiveImage(const QImage &image);
     void handleReceiveMat(const cv::Mat &image);
-
+    void handleReginRectChanged(int p1x, int p1y, int height, int width);
+    void addMaskForMat(cv::Mat &mat);
 
 private:
     SHAREDMEMORY sharedmem;
@@ -51,6 +52,10 @@ private:
     bool m_isRunning = true; // false to quit
     int m_lastCount = 0;
     QDateTime m_dateTime;
+
+    QPoint m_maskOrigin;
+    int m_maskHeight;
+    int m_maskWidth;
 };
 
 #endif // SKIPROPEONZEROMQ_H

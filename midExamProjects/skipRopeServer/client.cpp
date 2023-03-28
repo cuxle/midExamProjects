@@ -31,9 +31,9 @@ Client::~Client()
     }
 
     // comment this because may cause crash
-//    if (m_tcpSocket != nullptr && m_tcpSocket->state() == QTcpSocket::ConnectedState) {
-//        m_tcpSocket->disconnectFromHost();
-//    }
+    if (m_tcpSocket != nullptr && m_tcpSocket->state() == QTcpSocket::ConnectedState) {
+        m_tcpSocket->disconnectFromHost();
+    }
 //     move to line before delete client; suspect this code may cause crash
 //    if (m_clients.contains(this)) {
 //        m_clients.removeOne(this);

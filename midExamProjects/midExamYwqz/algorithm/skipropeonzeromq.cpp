@@ -4,11 +4,23 @@
 
 #include <QDebug>
 #include <QImage>
+#include <QTimer>
+#include "singleton.h"
+#include "appconfig.h"
 #include "ShareMemory.h"
 
 SkipRopeOnZeroMq::SkipRopeOnZeroMq(QObject *parent)
     : QObject(parent)
 {
+    AppConfig &config = Singleton<AppConfig>::GetInstance();
+
+    int p1x =  config.m_rectPoint1x;
+    int p1y =  config.m_rectPoint1y;
+
+    int p2x =  config.m_rectPoint2x;
+    int p2y =  config.m_rectPoint2y;
+
+    handleReginRectChanged(p1x, p2y, abs(p2y-p1y), abs(p2x-p1x));
 
 }
 
@@ -135,6 +147,8 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
         {
             bool ding = false;
 
+            addMaskForMat(frame);
+
             sharedmem.SendMat(frame, FRAME_NUMBER);
 
             std::string Model = "3";
@@ -196,7 +210,7 @@ void SkipRopeOnZeroMq::handleReceiveMat(const cv::Mat &image)
 
         if (sharedmem.state == INITSUCCESS) {
             bool ding = false;
-
+            addMaskForMat(mat);
 //            qDebug() << __func__ << __LINE__;
             sharedmem.SendMat(mat, FRAME_NUMBER);
 
@@ -233,4 +247,24 @@ void SkipRopeOnZeroMq::handleReceiveMat(const cv::Mat &image)
         std::cout << "skip count:" << m_count << std::endl;
         emit sigSkipCountChanged(m_count);
     }
+}
+
+
+void SkipRopeOnZeroMq::handleReginRectChanged(int p1x, int p1y, int height, int width)
+{
+    m_maskOrigin.setX(p1x);
+    m_maskOrigin.setY(p1y);
+
+    m_maskHeight = height;
+    m_maskWidth = width;
+
+    qDebug() << "x:" << p1x << " y:" << p1y << " height:" << height << " width:" << width;
+}
+
+void SkipRopeOnZeroMq::addMaskForMat(cv::Mat &mat)
+{
+    cv::Rect rect_mask(m_maskOrigin.x(), m_maskOrigin.y(), m_maskWidth, m_maskHeight);
+    cv::Mat subImage = mat(rect_mask);
+    // 设置为黑色
+    subImage.setTo(0);
 }
