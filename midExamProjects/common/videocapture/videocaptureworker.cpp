@@ -96,7 +96,7 @@ void VideoCaptureWorker::openSavedFile(const QString &fileName)
 
     if (!m_fileIsOpened) {
         AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
-#if defined (YWQZ)
+#if defined (YWQZ) || defined (YTXS)
         m_width = appconfig.m_cameraWidth / 2;
         m_height = appconfig.m_cameraHeight / 2;
 #else
