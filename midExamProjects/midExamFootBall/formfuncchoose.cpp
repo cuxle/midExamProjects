@@ -71,8 +71,7 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     // init video play until load viddeo file
     // initVideoPlayer();
 
-    // init timers
-    initTimers();	
+    initTimers();
 
     // init school list model
     initSchoolListInterface();
@@ -544,9 +543,9 @@ void FormFuncChoose::initTimers()
     }
 
     m_3minsDelayTimer = new QTimer(this);
-    m_3minsDelayTimer->setInterval(3*60*1000);
+//    m_3minsDelayTimer->setInterval(3*60*1000);
 //    m_3minsDelayTimer->setInterval(20*1000);
-//    m_3minsDelayTimer->setInterval(10*1000);
+    m_3minsDelayTimer->setInterval(10*1000);
     connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleUploadExamedStudentsScore);
     m_3minsDelayTimer->start();
 }

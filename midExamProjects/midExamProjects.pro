@@ -28,3 +28,4 @@ SUBDIRS += midExamFootBall \
 EXAMPLE_PATH += $$PWD/common/
 
 CONFIG += c++17
+CONFIG += resources_big
