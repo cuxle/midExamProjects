@@ -1073,7 +1073,7 @@ void FormFuncChoose::stopExamStuff()
     m_skipRopeZeroMq->m_bStartCount = false;
 
     if (m_curExamMode == ExamModeFromCamera) {
-        QTimer::singleShot(5000, [&](){
+        QTimer::singleShot(Utils::stopVideoDelay, [&](){
             emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
         });
     } else if (m_curExamMode == ExamModeFromVideo) {

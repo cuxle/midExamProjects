@@ -1387,7 +1387,7 @@ void FormFuncChoose::stopExamStuff()
 
     qDebug() << __func__<< __LINE__ << m_forwardCountTimer->isActive();
 
-    QTimer::singleShot(5000, [&](){
+    QTimer::singleShot(Utils::stopVideoDelay, [&](){
         emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
     });
 

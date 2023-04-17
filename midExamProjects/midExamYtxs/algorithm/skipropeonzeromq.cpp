@@ -7,6 +7,7 @@
 #include "ShareMemory.h"
 #include <singleton.h>
 #include <appconfig.h>
+#include "utils.h"
 
 SkipRopeOnZeroMq::SkipRopeOnZeroMq(QObject *parent)
     : QObject(parent)

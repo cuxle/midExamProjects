@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QImage>
 #include "ShareMemory.h"
+#include "utils.h"
 
 SkipRopeOnZeroMq::SkipRopeOnZeroMq(QObject *parent)
     : QObject(parent)
@@ -127,6 +128,8 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
 
         cv::Mat frame(image.height(), image.width(), CV_8UC3, (void*)image.constBits(), image.bytesPerLine());
 
+        Utils::formatImages(frame);
+
         QDateTime baseTime = QDateTime::currentDateTime();
 
 //        SHAREDMEMORY sharedmem;
@@ -170,8 +173,8 @@ void SkipRopeOnZeroMq::handleReceiveMat(cv::Mat image)
         //        QImage img = image;
         cv::Mat mat;
         image.copyTo(mat);
-//        qDebug() << __LINE__ << __func__;
-//        qDebug() << mat.rows << mat.cols;
+
+        Utils::formatImages(mat);
 
 //        SHAREDMEMORY sharedmem;
 

@@ -1,6 +1,7 @@
 #include "utils.h"
 
 QString Utils::strFormat = "yyyy-MM-dd hh:mm:ss ddd";
+int Utils::stopVideoDelay = 10000;
 
 Utils::Utils()
 {
@@ -157,3 +158,16 @@ bool Utils::floatEqual(float a, float b)
     return fabs(a - b) <= std::numeric_limits<float>::epsilon();
 }
 
+
+void Utils::formatImages(cv::Mat &m_frameMat)
+{
+    // image 是从相机获得的 1920*1080的画面
+    // image_roi 获得的roi 是1280*1024
+#if defined(TIAOSHENG)
+    cv::Mat frameRoi = m_frameMat(cv::Rect(320, 28, 1280, 1024));
+    frameRoi.copyTo(m_frameMat);
+#elif defined(YWQZ) || defined(YTXS)
+    //frame.copyTo(m_frameMat);
+    cv::resize(m_frameMat, m_frameMat, cv::Size(m_frameMat.cols / 2, m_frameMat.rows / 2));
+#endif
+}

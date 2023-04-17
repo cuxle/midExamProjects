@@ -8,6 +8,7 @@
 #include "singleton.h"
 #include "appconfig.h"
 #include "ShareMemory.h"
+#include "utils.h"
 
 SkipRopeOnZeroMq::SkipRopeOnZeroMq(QObject *parent)
     : QObject(parent)
@@ -139,10 +140,10 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
 
         cv::Mat frame(image.height(), image.width(), CV_8UC3, (void*)image.constBits(), image.bytesPerLine());
 
+        //Utils::formatImages(frame);
+
         QDateTime baseTime = QDateTime::currentDateTime();
 
-        //        SHAREDMEMORY sharedmem;
-        qDebug() << "handleReceiveImage:" << frame.cols << frame.rows;
         if (sharedmem.state == INITSUCCESS)
         {
             bool ding = false;
@@ -203,6 +204,8 @@ void SkipRopeOnZeroMq::handleReceiveMat(const cv::Mat &image)
         //        QImage img = image;
         cv::Mat mat;
         image.copyTo(mat);
+
+       // Utils::formatImages(mat);
 //        qDebug() << __LINE__ << __func__;
 //        qDebug() << mat.rows << mat.cols;
 
@@ -210,8 +213,9 @@ void SkipRopeOnZeroMq::handleReceiveMat(const cv::Mat &image)
 
         if (sharedmem.state == INITSUCCESS) {
             bool ding = false;
+            qDebug() << __func__ << __LINE__ << mat.cols << mat.rows;
             addMaskForMat(mat);
-//            qDebug() << __func__ << __LINE__;
+
             sharedmem.SendMat(mat, FRAME_NUMBER);
 
             std::string Model = "3";
