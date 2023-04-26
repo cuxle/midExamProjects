@@ -345,6 +345,8 @@ private:
      QMediaPlayer *m_dingPlayer = nullptr;
      QMediaPlayer *m_mp3Player = nullptr;
      bool m_enableStartSound = true;
+
+     const bool m_noCameraTest = true;
 protected:
      void closeEvent(QCloseEvent *event);
 };

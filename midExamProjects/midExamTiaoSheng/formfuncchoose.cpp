@@ -227,7 +227,6 @@ void FormFuncChoose::initTimers()
 //    m_3minsDelayTimer->setInterval(20*1000);
 //    m_3minsDelayTimer->setInterval(10*1000);
     connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleUploadExamedStudentsScore);
-    m_3minsDelayTimer->start();
 }
 
 
@@ -836,6 +835,12 @@ void FormFuncChoose::on_pbStartTest_clicked()
 {
     // 显示 学生信息， 登录， 视频采集，成绩互动
     ui->stackedWidget->setCurrentIndex(PageTest);
+
+    /*
+     * do not start the timer at the beginning,
+     * because it will disturb the school students download process
+    */
+    m_3minsDelayTimer->start();
 
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     // if appconfig m_videoPath isEmpty or dir not exists pop up messagebox

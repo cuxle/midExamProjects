@@ -76,11 +76,11 @@ bool startServer(const QString &serverFullName)
         return true;
     }
 
-//    QProcess process(0);
-//    QString startCmd = QString("start /b %1").arg(serverFullName);
-//    process.start("cmd.exe", QStringList()<< "/c" << startCmd);
-//    process.waitForStarted();
-//    process.waitForFinished();
+    //    QProcess process(0);
+    //    QString startCmd = QString("start /b %1").arg(serverFullName);
+    //    process.start("cmd.exe", QStringList()<< "/c" << startCmd);
+    //    process.waitForStarted();
+    //    process.waitForFinished();
 }
 
 void killServer(const QString &serverName)
@@ -459,13 +459,13 @@ void testCplus17ByTime() {
     qDebug() << "1" << student.getFinalScoreByTime() ;
 
     student.initTimeExam();
-   // student.scores[0] = 1000;
+    // student.scores[0] = 1000;
     //student.scores[1] = 2000;
     student.scores[2] = 5000;
     qDebug() << "5" << student.getFinalScoreByTime() ;
 
     student.initTimeExam();
-   student.scores[0] = 10000;
+    student.scores[0] = 10000;
     student.scores[1] = 20000;
     student.scores[2] = 6000;
     qDebug() << "6" << student.getFinalScoreByTime() ;
@@ -489,9 +489,9 @@ void testCplus17ByTime() {
     qDebug() << "10" << student.getFinalScoreByCount() ;
 
     student.initCountExam();
-//    student.scores[0] = 0;
-//    student.scores[1] = 2;
-//    student.scores[2] = 5;
+    //    student.scores[0] = 0;
+    //    student.scores[1] = 2;
+    //    student.scores[2] = 5;
     qDebug() << "犯规" << student.getFinalScoreByCount() ;
 
 
@@ -499,9 +499,9 @@ void testCplus17ByTime() {
 
 int main(int argc, char *argv[])
 {
-//    testCaseForStudentScoreSmaller();
-//    testCplus17ByTime();
-//    return 0;
+    //    testCaseForStudentScoreSmaller();
+    //    testCplus17ByTime();
+    //    return 0;
     QApplication a(argc, argv);
 
     if (!License::verifyLicenseFromFile("./license.lic")) {
@@ -512,9 +512,9 @@ int main(int argc, char *argv[])
     createDataFolder();
 
     initDb();
-	
-    //Logger::init();
-	
+
+    Logger::init();
+
 #if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
     serverLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/server/";
     serverFullName = serverLocation + serverName;
@@ -529,9 +529,9 @@ int main(int argc, char *argv[])
     logDialog.showNormal();
 
     int ret = a.exec();
-    #if defined(TIAOSHENG) || defined(YTXS)
-//    killServer(serverName);
-    #endif
+#if defined(TIAOSHENG) || defined(YTXS)
+    //    killServer(serverName);
+#endif
     if (ret == RETCODE_RESTART) {
         QProcess::startDetached(qApp->applicationFilePath(), QStringList());
         return 0;

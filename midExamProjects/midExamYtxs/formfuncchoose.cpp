@@ -232,10 +232,7 @@ void FormFuncChoose::initTimers()
 
     m_3minsDelayTimer = new QTimer(this);
     m_3minsDelayTimer->setInterval(3*60*1000);
-//    m_3minsDelayTimer->setInterval(20*1000);
-//    m_3minsDelayTimer->setInterval(10*1000);
     connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleUploadExamedStudentsScore);
-    m_3minsDelayTimer->start();
 }
 
 
@@ -505,8 +502,6 @@ void FormFuncChoose::resetSkipCounterBeforeSubExam()
     m_curSkipCount = 0;
 
     m_skipCountMinus = 0;
-
-//    handleSkipCountChanged(0);
 }
 
 void FormFuncChoose::startPrepareExam()
@@ -851,6 +846,8 @@ void FormFuncChoose::on_pbStartTest_clicked()
     // 显示 学生信息， 登录， 视频采集，成绩互动   
     ui->stackedWidget->setCurrentIndex(PageTest);
 
+    m_3minsDelayTimer->start();
+
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     // if appconfig m_videoPath isEmpty or dir not exists pop up messagebox
     QString videoPath = appconfig.m_videoSavePath;
@@ -1057,8 +1054,6 @@ void FormFuncChoose::startSkipStuff()
 // 2. 记录第二次成绩，并且保存成绩，若在线，发送成绩给服务器
 void FormFuncChoose::stopExamStuff()
 {
-
-
     // 0. exam count count count
     // 这是一个考生的最后一次，记录本地成绩，上传考生成绩到服务器
     if (m_curExamCount == m_examCount) {
@@ -1145,10 +1140,13 @@ void FormFuncChoose::on_pbStartSkip_clicked()
 ////        qDebug() << "Please open camera or load a video file";
 //        return;
 //    }
-    if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
-        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-        return;
+    if (!m_noCameraTest) {
+        if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
+            QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
+            return;
+        }
     }
+
 //    if (!m_bVideoFileLoaded && !m_bCameraIsOpen) {
 //        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
 //        return;
@@ -1172,6 +1170,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             QString idText = ui->leUserId->text();
             if (idText.isEmpty()) {
                 QMessageBox::warning(this, "Warning", "请输入考生ID");
+                m_curExamState = ExamNotStart;
                 return;
             } else {
                 // 保存视频名称
@@ -1201,8 +1200,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             break;
         }
 
-        // move to initUi and after a sub exam 20221211
-//        shiftScoreLabel();
         startPrepareExam();
         break;
     }
@@ -1276,7 +1273,10 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     resetAllSkipCounterBeforeExam();
 
     // 只有用摄像头才需要输入考生id
-    if (m_curExamMode != ExamModeFromCamera) return;
+    if (!m_noCameraTest) {
+        if (m_curExamMode != ExamModeFromCamera) return;
+    }
+
 
     // total aim: create an exam student
     m_currentUserId = ui->leUserId->text();

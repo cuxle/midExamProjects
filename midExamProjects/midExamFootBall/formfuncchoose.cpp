@@ -96,27 +96,25 @@ FormFuncChoose::FormFuncChoose(bool online, QDialog *parent) :
     m_lidarFace = m_config.m_lidarFace;
     m_lidarType = m_config.m_lidarType;
 
-    float m_x_rangeStart = m_config.m_x_rangeStart;
-    float m_x_rangeEnd = m_config.m_x_rangeEnd;
-    float m_y_rangeStart = m_config.m_y_rangeStart;
-    float m_y_rangeEnd = m_config.m_y_rangeEnd;
-
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-    keyAxis->setRange(m_x_rangeStart, m_x_rangeEnd);
-    valueAxis->setRange(m_y_rangeStart, m_y_rangeEnd);
+    m_keyAxis = ui->plot->graph(0)->keyAxis();
+    m_valueAxis = ui->plot->graph(0)->valueAxis();
+    m_keyAxis->setRange(m_config.m_x_rangeStart, m_config.m_x_rangeEnd);
+    m_valueAxis->setRange(m_config.m_y_rangeStart, m_config.m_y_rangeEnd);
     m_currentAngle = m_config.m_deltaAngle;
 
-    connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
-    connect<void(QCPAxis::*)(const QCPRange &)>(valueAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
+    connect<void(QCPAxis::*)(const QCPRange &)>(m_keyAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
+    connect<void(QCPAxis::*)(const QCPRange &)>(m_valueAxis, &QCPAxis::rangeChanged, this, &FormFuncChoose::setValueRange);
 
     QTimer::singleShot(2000, [&](){
-        QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-        keyAxis->axisRect()->setOuterRect(QRect(m_rectReginTopLeftX, m_rectReginTopLeftY, m_rectReginWidth, m_rectReginHight));
+        // 初始化雷云界面参数
+        m_keyAxis->axisRect()->setOuterRect(QRect(m_rectReginTopLeftX, m_rectReginTopLeftY, m_rectReginWidth, m_rectReginHight));
 //        updateRectPointTopLeft(QPointF(m_examReginTopLeftX, m_examReginTopLeftY));
 //        updateRectPointBottomRight(QPointF(m_examReginBottomRightX, m_examReginBottomRightY));
-        emit ui->plot->sigRectPointTopLeftUpdated(QPointF(m_examReginTopLeftX, m_examReginTopLeftY));
-        emit ui->plot->sigRectPointBottomRightUpdated(QPointF(m_examReginBottomRightX, m_examReginBottomRightY));
+//        emit ui->plot->sigRectPointTopLeftUpdated(QPointF(m_examReginTopLeftX, m_examReginTopLeftY));
+//        emit ui->plot->sigRectPointBottomRightUpdated(QPointF(m_examReginBottomRightX, m_examReginBottomRightY));
+
+//        updateRectPointTopLeft(QPointF(m_examReginTopLeftX, m_examReginTopLeftY));
+//        updateRectPointBottomRight(QPointF(m_examReginBottomRightX, m_examReginBottomRightY));
     });
 }
 
@@ -156,14 +154,11 @@ void FormFuncChoose::setValueRange(const QCPRange &range)
 //    valueAxis->setRange(range);
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
 
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
+    m_config.m_x_rangeStart = m_keyAxis->range().lower;
+    m_config.m_x_rangeEnd = m_keyAxis->range().upper;
 
-    m_config.m_x_rangeStart = keyAxis->range().lower;
-    m_config.m_x_rangeEnd = keyAxis->range().upper;
-
-    m_config.m_y_rangeStart = valueAxis->range().lower;
-    m_config.m_y_rangeEnd = valueAxis->range().upper;
+    m_config.m_y_rangeStart = m_valueAxis->range().lower;
+    m_config.m_y_rangeEnd = m_valueAxis->range().upper;
 }
 
 //void FormFuncChoose::setKeyRange(const QCPRange &range)
@@ -182,10 +177,6 @@ void FormFuncChoose::initGodLeilaser()
     ui->plot->graph(0)->setPen(QPen(Qt::green, 3));
 
     ui->plot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom);
-
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-
 
 //    connect<void(QCPAxis::*)(const QCPRange &)>(keyAxis, &QCPAxis::rangeChanged, valueAxis, &QCPAxis::setRange);
 //    connect<void(QCPAxis::*)(const QCPRange &)>(valueAxis, &QCPAxis::rangeChanged, keyAxis, &QCPAxis::setRange);
@@ -448,7 +439,7 @@ void FormFuncChoose::initUi()
 
     ui->stackedWidget->setCurrentIndex(0);
     ui->stkVideoHolder->setCurrentIndex(0);
-    ui->stkWidgetExamCloudRegin->setCurrentIndex(1);
+    ui->stkWidgetExamCloudRegin->setCurrentIndex(0);
 
     ui->pbStartSkip->setHidden(m_cmdOnline);
     ui->lbClientStatus->setHidden(!m_cmdOnline);
@@ -457,24 +448,48 @@ void FormFuncChoose::initUi()
     // init font database
     initFontDatabase();
 
-    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, this, &FormFuncChoose::updateRectPointTopLeft);
-    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, this, &FormFuncChoose::updateRectPointBottomRight);
+    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, this, &FormFuncChoose::updateRectPointTopLeftConfig);
+    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, this, &FormFuncChoose::updateRectPointBottomRightConfig);
 //    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, ui->examRegin, &FootballRegin::updateRectPointTopLeft);
 //    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
 
     connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
 }
 
-void FormFuncChoose::updateRectPointTopLeft(const QPointF &topLeft)
+void FormFuncChoose::updateRectPointTopLeftConfig(const QPointF &topLeft)
 {
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-    m_topLeft = QPointF(keyAxis->pixelToCoord((topLeft).x()), valueAxis->pixelToCoord((topLeft).y()));
-    // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
     // save points to config
     AppConfig &m_config = Singleton<AppConfig>::GetInstance();
     m_config.m_examReginTopLeftX = topLeft.x();
     m_config.m_examReginTopLeftY = topLeft.y();
+
+    m_topLeft = QPointF(m_keyAxis->pixelToCoord((topLeft).x()), m_valueAxis->pixelToCoord((topLeft).y()));
+}
+
+void FormFuncChoose::updateRectPointBottomRightConfig(const QPointF &bottomRight)
+{
+    // save points to config
+    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+    m_config.m_examReginBottomRightX = bottomRight.x();
+    m_config.m_examReginBottomRightY = bottomRight.y();
+
+    m_rectReginTopLeftX = m_keyAxis->axisRect()->outerRect().topLeft().x();
+    m_rectReginTopLeftY = m_keyAxis->axisRect()->outerRect().topLeft().y();
+    m_rectReginWidth = m_keyAxis->axisRect()->outerRect().width();
+    m_rectReginHight = m_keyAxis->axisRect()->outerRect().height();
+
+    m_config.m_rectReginTopLeftX = m_rectReginTopLeftX;
+    m_config.m_rectReginTopLeftY = m_rectReginTopLeftY;
+    m_config.m_rectReginWidth = m_rectReginWidth;
+    m_config.m_rectReginHeight = m_rectReginHight;
+
+    m_bottomRight = QPointF(m_keyAxis->pixelToCoord((bottomRight).x()), m_valueAxis->pixelToCoord((bottomRight).y()));
+}
+
+void FormFuncChoose::updateRectPointTopLeft(const QPointF &topLeft)
+{
+    m_topLeft = QPointF(m_keyAxis->pixelToCoord((topLeft).x()), m_valueAxis->pixelToCoord((topLeft).y()));
+    // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
 
     qDebug() <<__func__ << __LINE__ << "top left:" << m_topLeft << " bottom right:" << m_bottomRight;
     m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  m_zMin, m_zMax);
@@ -483,25 +498,10 @@ void FormFuncChoose::updateRectPointTopLeft(const QPointF &topLeft)
 
 void FormFuncChoose::updateRectPointBottomRight(const QPointF &bottomRight)
 {
-    QCPAxis *keyAxis = ui->plot->graph(0)->keyAxis();
-    QCPAxis *valueAxis = ui->plot->graph(0)->valueAxis();
-    m_bottomRight = QPointF(keyAxis->pixelToCoord((bottomRight).x()), valueAxis->pixelToCoord((bottomRight).y()));
+    m_bottomRight = QPointF(m_keyAxis->pixelToCoord((bottomRight).x()), m_valueAxis->pixelToCoord((bottomRight).y()));
     // float xMin, float xMax, float yMin, float yMax, std::vector<float> pts
 
-    // save points to config
-    AppConfig &m_config = Singleton<AppConfig>::GetInstance();
-    m_config.m_examReginBottomRightX = bottomRight.x();
-    m_config.m_examReginBottomRightY = bottomRight.y();
-    m_rectReginTopLeftX = keyAxis->axisRect()->outerRect().topLeft().x();
-    m_rectReginTopLeftY = keyAxis->axisRect()->outerRect().topLeft().y();
-    m_rectReginWidth = keyAxis->axisRect()->outerRect().width();
-    m_rectReginHight = keyAxis->axisRect()->outerRect().height();
-    m_config.m_rectReginTopLeftX = m_rectReginTopLeftX;
-    m_config.m_rectReginTopLeftY = m_rectReginTopLeftY;
-    m_config.m_rectReginWidth = m_rectReginWidth;
-    m_config.m_rectReginHeight = m_rectReginHight;
-
-    qDebug() <<__func__ << __LINE__ << "top left:" << m_topLeft << " bottom right:" << m_bottomRight << keyAxis->range();
+    qDebug() <<__func__ << __LINE__ << "top left:" << m_topLeft << " bottom right:" << m_bottomRight << m_keyAxis->range();
     m_lidaAnalysis->setTestRegion(m_topLeft.x(), m_bottomRight.x(),  m_bottomRight.y(), m_topLeft.y(),  m_zMin, m_zMax);
     ui->examRegin->updateRectPointBottomRight(m_bottomRight);
 }
@@ -543,11 +543,8 @@ void FormFuncChoose::initTimers()
     }
 
     m_3minsDelayTimer = new QTimer(this);
-//    m_3minsDelayTimer->setInterval(3*60*1000);
-//    m_3minsDelayTimer->setInterval(20*1000);
-    m_3minsDelayTimer->setInterval(10*1000);
+    m_3minsDelayTimer->setInterval(3*60*1000);
     connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleUploadExamedStudentsScore);
-    m_3minsDelayTimer->start();
 }
 
 
@@ -888,10 +885,6 @@ void FormFuncChoose::resetScoreLabel()
     ui->lbScoreSecond->clear();
     ui->lbScoreThird->clear();
     ui->lbScoreFinal->clear();
-
-    m_curExamCount = 0;
-
-    shiftScoreLabel();
 }
 
 void FormFuncChoose::shiftScoreLabel()
@@ -1099,6 +1092,8 @@ void FormFuncChoose::on_pbStartTest_clicked()
 {
     // 显示 学生信息， 登录， 视频采集，成绩互动   
     ui->stackedWidget->setCurrentIndex(PageTest);
+
+    m_3minsDelayTimer->start();
 
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     // if appconfig m_videoPath isEmpty or dir not exists pop up messagebox
@@ -1328,15 +1323,6 @@ void FormFuncChoose::stopExamStuff()
     ui->pbStartSkip->setText("开始");
 	ui->pbStartSkip->setStyleSheet("border-image: url(:/resource/images/examPage/startBtn.png); \
                                    font: 25 21pt \"Microsoft YaHei\";");
-
-
-
-    // reset flags so the sticks will show red
-    // change red after click start and confirm 2023.02.12
-//    bool ret = m_lidaAnalysis->resetExamParams();
-//    qDebug() << __func__ << __LINE__ << ret;
-    // stop count in skip rope
-//    emit sigStartCount(false);
 
 
 //    m_skipRopeZeroMq->m_bStartCount = false;m_vol
@@ -1693,6 +1679,12 @@ void FormFuncChoose::on_pbShowExamRegin_clicked()
         index = 0;
     } else {
         index = 1;
+        // update config
+        QTimer::singleShot(500, [&](){
+            AppConfig &m_config = Singleton<AppConfig>::GetInstance();
+            updateRectPointTopLeft(QPointF(m_config.m_examReginTopLeftX, m_config.m_examReginTopLeftY));
+            updateRectPointBottomRight(QPointF(m_config.m_examReginBottomRightX, m_config.m_examReginBottomRightY));
+        });
     }
 
     // set ladar widget to examRegin

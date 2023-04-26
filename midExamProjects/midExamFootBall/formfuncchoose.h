@@ -111,7 +111,7 @@ signals:
 
     void sigSetReginRect(float xMin, float xMax, float yMin, float yMax);
 private slots:
-    void handleStudentResultDisplay(int ret);
+    void handleStudentResultDisplay(int flag);
 
     void handleStartExamFromRemote(bool start);
 
@@ -404,6 +404,8 @@ private:
      void showCustomPlot();
      void showExamRegion();
      void LidarParsing(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloudData);
+     void updateRectPointTopLeftConfig(const QPointF &topLeft);
+     void updateRectPointBottomRightConfig(const QPointF &bottomRight);
      int m_rowsInXlsx = 1;
      QString m_saveVideoFormat = ".mp4";
      QString m_savePictureFormat = ".png";
@@ -457,8 +459,11 @@ private:
      int m_rectReginWidth;
      int m_rectReginHight;
 
-     float m_zMin =  -1.2f;
-     float m_zMax = 1.2f;
+     const float m_zMin =  -1.2f;
+     const float m_zMax = 1.2f;
+
+     QCPAxis *m_keyAxis = nullptr;
+     QCPAxis *m_valueAxis = nullptr;
 
 //     int m_rectReginTopLeftX;
 //     int m_rectReginTopLeftY;
