@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "xlsxdocument.h"
+#include "utils.h"
 
 class ExamProject {
 public:
@@ -49,6 +50,7 @@ public:
     void parseExamProjectJsonDoc(const QJsonDocument &doc);
     void readUnUploadedStudents();
     void updateIdCode(const QString &id, const QString &code);
+    static QDateTime getValidDateTimeOfStudent(Student &student);
 
     IDCode m_curIdCode;
     ExamProject m_curExamInfo;
@@ -94,6 +96,8 @@ private:
     QString m_curExamName;
 
     QString m_dataBasePath;
+
+    QDateTime deadlineDateTime = QDateTime::fromString("2023-04-26 23:59:59", Utils::strFormat.chopped(4));
 };
 
 #endif // DATAMANAGERDB_H

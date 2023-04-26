@@ -2,6 +2,7 @@
 #include "singleton.h"
 #include "appconfig.h"
 
+
 const auto STUDENTS_SQL =  QLatin1String(R"(
         create table students(zkh varchar(20), name varchar(20),  gender integer, zxdm varchar(20), zxmc varchar(20), id varchar(30)))");
 
@@ -465,8 +466,50 @@ void DataManagerDb::readUnUploadedStudents()
 
         student.id = query.value(idxId).toString();
         student.isValid = true;
+
+
+        QDateTime validDateTime = getValidDateTimeOfStudent(student);
+        if (validDateTime.secsTo(deadlineDateTime) > 0 || student.id.isEmpty()) {
+            qDebug() << __func__ << __LINE__ << "skip time" << validDateTime <<  " before :" << deadlineDateTime;
+            continue;
+        }
         m_uploadStudentQueue.push_back(student);
+    }   
+}
+
+QDateTime DataManagerDb::getValidDateTimeOfStudent(Student &student)
+{
+    QDateTime validTime;
+    if (student.examStartFirstTime.size() > 5) {
+        validTime = QDateTime::fromString(student.examStartFirstTime.chopped(4), Utils::strFormat.chopped(4));
+        if (validTime.isValid()) {
+            return validTime;
+        }
     }
+
+    if (student.examStopFirstTime.size() > 5) {
+        validTime = QDateTime::fromString(student.examStopFirstTime.chopped(4), Utils::strFormat.chopped(4));
+        if (validTime.isValid()) {
+            return validTime;
+        }
+    }
+
+    if (student.examStopSecondTime.size() > 5) {
+        validTime = QDateTime::fromString(student.examStopSecondTime.chopped(4), Utils::strFormat.chopped(4));
+        if (validTime.isValid()) {
+            return validTime;
+        }
+    }
+
+    if (student.examStartSecondTime.size() > 5) {
+        validTime = QDateTime::fromString(student.examStartSecondTime.chopped(4), Utils::strFormat.chopped(4));
+        if (validTime.isValid()) {
+            return validTime;
+        }
+    }
+
+    return validTime;
+
 }
 //QSqlError DataManagerDb::initDb()
 //{

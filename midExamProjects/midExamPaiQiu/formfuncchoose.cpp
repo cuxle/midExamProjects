@@ -1318,6 +1318,11 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
+        m_curStudent.name = "";
+        m_curStudent.gender = 1;
+        m_curStudent.zxdm = "";
+        m_curStudent.zxmc = "";
+        m_curStudent.id = "";
         clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
