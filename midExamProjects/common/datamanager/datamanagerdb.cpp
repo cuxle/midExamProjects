@@ -277,10 +277,17 @@ QSqlError DataManagerDb::addScore(const Student &student)
 QSqlError DataManagerDb::updateStudentScoreUploadStatus(const Student &student)
 {
     QSqlQuery query;
-    query.prepare("update scores set uploadStatus=? where examTime=?");
-    query.addBindValue(QString::number(student.uploadStatus));
-    query.addBindValue(student.examStartFirstTime);
+    if (!student.examStartFirstTime.isEmpty()) {
+        query.prepare("update scores set uploadStatus=? where examTime=?");
+        query.addBindValue(QString::number(student.uploadStatus));
+        query.addBindValue(student.examStartFirstTime);
+    } else {
+        query.prepare("update scores set uploadStatus=? where secondStartTime=?");
+        query.addBindValue(QString::number(student.uploadStatus));
+        query.addBindValue(student.examStartSecondTime);
+    }
     query.exec();
+
     qDebug() << __func__ << __LINE__ << student.examStartFirstTime << student.uploadStatus << query.lastError().text();
     return query.lastError();
 }

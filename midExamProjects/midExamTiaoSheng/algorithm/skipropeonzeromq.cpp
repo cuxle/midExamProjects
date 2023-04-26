@@ -128,7 +128,7 @@ void SkipRopeOnZeroMq::handleReceiveImage(const QImage &image)
 
         cv::Mat frame(image.height(), image.width(), CV_8UC3, (void*)image.constBits(), image.bytesPerLine());
 
-        Utils::formatImages(frame);
+        //Utils::formatImages(frame);
 
         QDateTime baseTime = QDateTime::currentDateTime();
 

@@ -1374,7 +1374,6 @@ void FormFuncChoose::on_pbZhongTing_clicked()
             return;
         }
         m_curScoreLabel->setText("中停");
-//        ui->lbScore->setText("中停");
     }
 }
 

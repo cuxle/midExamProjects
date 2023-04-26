@@ -356,7 +356,9 @@ private:
      QString m_mediaDingPath = "qrc:/resource/sound/ding.wav";
      QMediaPlayer *m_dingPlayer = nullptr;
      QMediaPlayer *m_mp3Player = nullptr;
-     bool m_enableStartSound = true;
+     bool m_enableStartSound = false;
+
+     const bool m_noCameraTest = false;
 protected:
      void closeEvent(QCloseEvent *event);
 };
