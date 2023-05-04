@@ -11,10 +11,7 @@ public:
     explicit VideoWidget(QWidget *parent = nullptr);
     const QPixmap* pixmap() const;
     void setPixmap (const QPixmap &pixmap);
-signals:
 
-
-    // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);
 

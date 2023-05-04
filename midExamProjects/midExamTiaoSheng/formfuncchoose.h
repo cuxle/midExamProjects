@@ -5,11 +5,9 @@
 #include <QDir>
 #include <QSharedPointer>
 #include "scoremanagemodel.h"
-//#include "studentmanager.h"
 #include <opencv2/opencv.hpp>
 #include "camera.h"
 #include "socket/client.h"
-//#include "xlsxdocument.h"
 #include "algorithm/skipropeonzeromq.h"
 #include "schoollisttablemodel.h"
 #include "Student.h"
@@ -95,15 +93,11 @@ private slots:
 
     void on_pbSetup_clicked();
 
-//    void on_pbStepBack_clicked();
-
     void on_pbExit_clicked();
 
     void on_pbMainForm_clicked();
 
     void on_pbBackMenu_clicked();
-
-//    void on_pbBackMenu_2_clicked();
 
     void on_pbDataDownload_clicked();
 
@@ -165,8 +159,6 @@ private slots:
 
     void on_pbZhongTing_clicked();
 
-//    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
-
     void on_leUserId_editingFinished();
 	
 	void handleUploadExamedStudentsScore();
@@ -182,19 +174,14 @@ private:
 //    void initXlsxDcoment();
     void initCameraWorker();
     void initSkipRopeZeroMq();
-//    void initRopeSkipWorker();
     void initVideoCaptureWorker();
     void initVideoPlayer();
     void initCommonToolbar();
     void initFontDatabase();
     void initTimers();
     void initSocketClient();
-
-
     void clearAppConfig();
-
     void recordStudentExamInfo(ExamAction action);
-
     void handleUpdateSchoolListView();
 
     Ui::FormFuncChoose *ui;
@@ -216,9 +203,11 @@ private:
 	void initScoreUiDisplay();
 	
     void initMediaPlayer();
+
     void initTimer();
 
     void startSkipStuff();
+
     void stopExamStuff();
 
     void setLeftTime(int leftTimeMs);
@@ -235,24 +224,13 @@ private:
 
     void resetScoreLabel();
 
-//    ScoreManageModel *m_model = nullptr;
-//    QList<QSharedPointer<StudentItem>> m_students;
-//    StudentManager *m_studentsManager = nullptr;
-//    QSharedPointer<StudentItem>  m_curStudent;
-
     Camera *m_camera = nullptr;
     QThread *m_cameraThread = nullptr;
-
-//    RopeSkipWorker *m_ropeSkipWorker = nullptr;
-//    QThread *m_ropeSkipThread = nullptr;
-
 
     VideoCaptureWorker *m_videoCapture = nullptr;
     QThread *m_videoCaptureThread = nullptr;
 
     SkipRopeOnZeroMq *m_skipRopeZeroMq = nullptr;
-//    QThread *m_skipRopeZeroMqThread = nullptr;
-
 
     bool m_bStartCapture = true;
     QString m_videoFilePath;
@@ -293,7 +271,6 @@ private:
     bool m_bCameraIsOpen = false;
 
     QSharedPointer<SettingDialog> m_settingDialog;
-//    SettingDialog *m_settingDialog = nullptr;
 
     ExamState m_curExamState = ExamNotStart;
     ExamMode m_curExamMode = ExamModeInvalid;
@@ -304,15 +281,12 @@ private:
     QThread *m_clientThread = nullptr;
 
 private:
-//     QXlsx::Document *m_xlsx = nullptr;
      void saveStudentScore();
      void saveAndUploadStudentScore();
      void clearStudentUiInfo();
      void clearStudentUiInfoWithNoUserId();
      int m_rowsInXlsx = 1;
      QString m_saveVideoFormat = ".mp4";
-//     QString m_saveVideoFormat = ".avi";
-//     QString m_saveVideoFormat = ".mp4v";
      QFrame *m_toolBarframe = nullptr;
 
 

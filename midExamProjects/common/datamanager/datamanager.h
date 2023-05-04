@@ -7,22 +7,6 @@
 #include <Student.h>
 #include "datamanagerdb.h"
 
-//struct ExamProject {
-//    QString name;
-//    QString value;
-//    QString unit;
-//    QString type;
-//    bool valid = false;
-//};
-
-//struct IDCode {
-//    QString id;
-//    QString code;
-//    bool operator == (const IDCode &idcode) {
-//        return id == idcode.id && code == idcode.code;
-//    }
-//};
-
 class DataManager : public QObject
 {
     Q_OBJECT

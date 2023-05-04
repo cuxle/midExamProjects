@@ -972,44 +972,10 @@ void FormFuncChoose::on_pbGoBackFromScoreManage_clicked()
     m_toolBarframe->setHidden(false);
 }
 
-void FormFuncChoose::on_pbExport_clicked()
-{
-    // export data from model to a dictionary
-
-}
-
-void FormFuncChoose::on_pbHome_clicked()
-{
-    // tabel view go to home
-}
-
-void FormFuncChoose::on_pbPrePage_clicked()
-{
-    // tabel view go to previous page
-}
-
-void FormFuncChoose::on_pbNextPage_clicked()
-{
-    // tabel view go to next page
-}
-
 void FormFuncChoose::on_pbCancelSetting_clicked()
 {
     ui->stackedWidget->setCurrentIndex(PageMenu);
 }
-
-void FormFuncChoose::on_pbSaveSetting_clicked()
-{
-    // save settings in ini file
-}
-
-void FormFuncChoose::on_pbOpenLocalFile_clicked()
-{
-    // 1. get video file
-    // 2. open video file
-    // 3. start playing
-}
-
 
 void FormFuncChoose::on_pbOpenIpc_clicked()
 {

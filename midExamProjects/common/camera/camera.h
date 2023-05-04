@@ -52,7 +52,6 @@ private slots:
 signals:
     void sigImageCapture(const QImage &img);
     void sigImageCaptureMat(const cv::Mat &mat);
-//    void sigCameraOpened(bool);
     void sigCameraState(CameraState);
 
 

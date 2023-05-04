@@ -55,8 +55,6 @@
 #include "appconfig.h"
 #include "singleton.h"
 
-//    m_dataManager = new DataManagerDb;
-
 const auto STUDENTS_SQL =  QLatin1String(R"(
         create table students(zkh varchar(20), name varchar(20),  gender integer, zxdm varchar(20), zxmc varchar(20), id varchar(30)))");
 
@@ -131,12 +129,10 @@ void initDb()
     }
 
     QStringList tables = db.tables();
-    qDebug() << __func__ <<  __LINE__ << tables;
     if (tables.contains("studetns", Qt::CaseInsensitive)
             && tables.contains("schools", Qt::CaseInsensitive)
             && tables.contains("scores", Qt::CaseInsensitive)
             && tables.contains("examprojects", Qt::CaseInsensitive)) {
-        qDebug() << db.lastError().text();
         return;
     }
 

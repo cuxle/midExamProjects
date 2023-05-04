@@ -11,24 +11,19 @@ AppConfig::AppConfig(QObject *parent) : QObject(parent)
 
 AppConfig::~AppConfig()
 {
-    qDebug() << __func__ << __LINE__;
     writeConfig();
-    //Logger::destroy();
 }
 
 void AppConfig::writeConfig()
 {
     QSettings settings(m_company, m_appName);
-//    QSettings settings(m_filePath, QSettings::IniFormat);
     settings.beginGroup("NETWORK");
     settings.setValue("PLATADDRESS", m_platAddress);
     settings.setValue("DEVICEID", m_deviceId);
-    qDebug() << __func__ << __LINE__ << "DEVICEID:" << m_deviceId;
     settings.setValue("FACEIDSIXLAST", m_faceIdLastSixNum);
     settings.setValue("SENDCMDSERVER", m_sendCmdServerIp);
     settings.setValue("APPMODE", m_appMode);
     settings.endGroup();
-    qDebug() << __func__ << __LINE__ << "APPMODE:" << m_appMode;
 
     settings.beginGroup("VIDEO");
     settings.setValue("IPCADDRESS", m_ipcAddress);
@@ -58,21 +53,6 @@ void AppConfig::writeConfig()
 
     settings.setValue("RectHeight", m_rectHeight);
     settings.setValue("RectWidth", m_rectWidth);
-
-    qDebug() << __func__ << "POINT1X" << m_point1x;
-    qDebug() << __func__ << "POINT1Y" << m_point1y;
-
-    qDebug() << __func__ << "POINT2X" << m_point2x;
-    qDebug() << __func__ << "POINT2Y" << m_point2y;
-
-    qDebug() << __func__ << "POINT3X" << m_point3x;
-    qDebug() << __func__ << "POINT3Y" << m_point3y;
-
-    qDebug() << __func__ << "RECTPOINT1X" << m_rectPoint1x;
-    qDebug() << __func__ << "RECTPOINT1Y" << m_rectPoint1y;
-
-    qDebug() << __func__ << "RectHeight" << m_rectHeight;
-    qDebug() << __func__ << "RectWidth" << m_rectWidth;
 
     settings.endGroup();
 
@@ -130,22 +110,11 @@ void AppConfig::writeConfig()
     }
     settings.endArray();
     settings.endGroup();
-//    settings.beginGroup("UDS");
-//    settings.setValue("CDD_FILE_PATH", m_cddFilePath);
-//    settings.setValue("PROJECT_CONFIG_PATH", m_projectConfigPath);
-//    settings.setValue("SECACCFUNCBLOCK_SCRIPT_PATH", m_secAccFuncBlockScriptPath);
-//    settings.setValue("LOG_FILE_PATH", m_logFilePath);
-//    settings.setValue("DBC_FILE_PATH", m_dbcFilePath);
-//    settings.setValue("LDF_FILE_PATH", m_ldfFilePath);
-//    settings.setValue("FIBEX_FILE_PATH", m_fibexFilePath);
-//    settings.setValue("DOWNLOAD_FUNCBLOCK_FILE_PATH", m_downloadfuncBlockFilePath);
-//    settings.endGroup();
 }
 
 void AppConfig::readConfig()
 {
     QSettings settings(m_company, m_appName);
-//    QSettings settings(m_filePath, QSettings::IniFormat);
     settings.beginGroup("NETWORK");
     m_platAddress = settings.value("PLATADDRESS", "http://121.227.30.61:8787/").toString();
     m_deviceId = settings.value("DEVICEID", "1").toString();
@@ -186,7 +155,6 @@ void AppConfig::readConfig()
 
     settings.endGroup();
 #endif
-    qDebug() << __func__ << __LINE__ << "APPMODE:" << m_appMode;
 
     settings.beginGroup("VIDEO");
     m_ipcAddress = settings.value("IPCADDRESS").toString();
@@ -219,26 +187,10 @@ void AppConfig::readConfig()
     settings.setValue("RECTPOINT1X", m_rectPoint1x);
     settings.setValue("RECTPOINT1Y", m_rectPoint1y);
 
-    qDebug() << __func__ << "POINT1X" << m_point1x;
-    qDebug() << __func__ << "POINT1Y" << m_point1y;
-
-    qDebug() << __func__ << "POINT2X" << m_point2x;
-    qDebug() << __func__ << "POINT2Y" << m_point2y;
-
-    qDebug() << __func__ << "POINT3X" << m_point3x;
-    qDebug() << __func__ << "POINT3Y" << m_point3y;
-
-    qDebug() << __func__ << "RECTPOINT1X" << m_rectPoint1x;
-    qDebug() << __func__ << "RECTPOINT1Y" << m_rectPoint1y;
-
-    qDebug() << __func__ << "RectHeight" << m_rectHeight;
-    qDebug() << __func__ << "RectWidth" << m_rectWidth;
-
     settings.endGroup();
 
 
     settings.beginGroup("EXAM");
-//    m_examProject = settings.value("EXAMPROJECT", "排球").toString();
 #ifdef PAIQIU
     m_examProject = "排球";
 #elif YWQZ
@@ -276,15 +228,4 @@ void AppConfig::readConfig()
     }
     settings.endArray();
     settings.endGroup();
-
-//    settings.beginGroup("UDS");
-//    m_cddFilePath = settings.value("CDD_FILE_PATH", QDir::currentPath()).toString();
-//    m_projectConfigPath = settings.value("PROJECT_CONFIG_PATH", QDir::currentPath()).toString();
-//    m_secAccFuncBlockScriptPath = settings.value("SECACCFUNCBLOCK_SCRIPT_PATH", QDir::currentPath()).toString();
-//    m_logFilePath = settings.value("LOG_FILE_PATH", QDir::homePath()).toString();
-//    m_dbcFilePath = settings.value("DBC_FILE_PATH", QDir::currentPath()).toString();
-//    m_ldfFilePath = settings.value("LDF_FILE_PATH", QDir::currentPath()).toString();
-//    m_fibexFilePath = settings.value("FIBEX_FILE_PATH", QDir::currentPath()).toString();
-//    m_downloadfuncBlockFilePath = settings.value("DOWNLOAD_FUNCBLOCK_FILE_PATH", QDir::currentPath()).toString();
-//    settings.endGroup();
 }

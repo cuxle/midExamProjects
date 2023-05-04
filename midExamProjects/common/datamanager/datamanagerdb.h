@@ -38,8 +38,6 @@ public:
     static QSqlError addStudent(const QString &zkh, const QString &name, int gender,
                     const QString &zxdm, const QString &zxmc, const QString &id);
     static QSqlError addExamproject(const QString &name, const QString &type, const QString &unit,const QString &value);
-//    static QSqlError addScore(const QString &zkh, const QString &name, int gender, const QString &examProject, int firstScore, int secondScore, int thirdScore,
-//                       bool midStopFist, bool midStopSecond, bool midStopThird, const QString &examTime, int uploadStatus, bool isOnline, const QString &errorMsg, const QString &onSiteVide);
     static QSqlError addScore(const Student &student);
     static QSqlError updateStudentScoreUploadStatus(const Student &student);
     static QSqlError updateSchoolDownloadStatus(const QString &zxdm, int downloaded);
@@ -55,9 +53,7 @@ public:
     IDCode m_curIdCode;
     ExamProject m_curExamInfo;
     QQueue<Student> m_uploadStudentQueue;
-signals:
 private:
-//    QSqlError initDb();
     void initCurExamProject();
 
     ExamProject selectExamProjectByName(const QString &projectName);
@@ -70,26 +66,6 @@ private:
     static void addScorePrivate(QSqlQuery &q, const Student &student);
 
     QSqlError addIdCode(const QString &id);
-//    static void addScorePrivate(QSqlQuery &q,
-//                         const QString &zkh,
-//                         const QString &name,
-//                         int gender,
-//                         const QString &examProject,
-//                         int firstScore,
-//                         int secondScore,
-//                         int thirdScore,
-//                         bool midStopFist, bool midStopSecond, bool midStopThird,
-//                         const QString &examTime,
-//                         int uploadStatus,
-//                         bool isOnline,
-//                         const QString &errorMsg,
-//                         const QString &onSiteVide);
-
-
-
-//    QHash<QString, ExamProject> m_examProjects;
-
-//    QList<IDCode> m_idCodes;
 
     QList<IDCode> m_idCodes;
 

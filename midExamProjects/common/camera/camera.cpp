@@ -24,26 +24,17 @@ Camera::Camera(bool useOpencv, QObject *parent)
 
 Camera::~Camera()
 {
-//    qDebug() << __func__;
-//    closeCamera();
-//    destoryCamera();
 }
 
 void Camera::openCamera()
 {
-    qDebug() << "m_bIsOpen :" << m_bIsOpen;
     if (m_openCvCamera) {
-//        if (m_videoCapture->isOpened()) {
-//            m_videoCapture->release();
-//        }
-//        m_bIsOpen = m_videoCapture->open(1);
         if (m_videoCapture.isNull()) return;
         m_bIsOpen = m_videoCapture->isOpened();
 
         // only open the first one device
         qDebug() << "m_bIsOpen :" << m_bIsOpen;
 
-//            emit sigCameraOpened(true);
         emit sigCameraState(CameraOpened);
 
         m_opencvCameraTimer->start(40);
@@ -109,7 +100,6 @@ void Camera::initCamera()
 void Camera::hangleGrabFrameMat()
 {
     if (m_videoCapture.isNull()) return;
-//       m_videoCapture >> m_frameMat;
     bool readFrame = m_videoCapture->read(m_frameMat);
     if (!readFrame) return;
 //    qDebug() << __func__ << __LINE__ <<readFrame << m_frameMat.cols << m_frameMat.rows;
@@ -188,29 +178,24 @@ void Camera::openDevice()
 
             m_objFeatureControlPtr->GetEnumFeature("ExposureAuto")->SetValue("Off");
             gxstring s = m_objFeatureControlPtr->GetEnumFeature("ExposureAuto")->GetValue();
-            std::cout << "ExposureAuto " << s << std::endl;
             QThread::msleep(100);
 
             m_objFeatureControlPtr->GetFloatFeature("ExposureTime")->SetValue(CAMERA_EXPOSE_TIME);
             double d = m_objFeatureControlPtr->GetFloatFeature("ExposureTime")->GetValue();
-            qDebug() << "ExposureTime " << d;
             QThread::msleep(100);
 
             m_objFeatureControlPtr->GetEnumFeature("AcquisitionFrameRateMode")->SetValue("On");
              s = m_objFeatureControlPtr->GetEnumFeature("AcquisitionFrameRateMode")->GetValue();
-            std::cout << "AcquisitionFrameRateMode " << s << std::endl;
             QThread::msleep(100);
 
             m_objFeatureControlPtr->GetFloatFeature("AcquisitionFrameRate")->SetValue(CAMERA_FRAME_RATE);
             d = m_objFeatureControlPtr->GetFloatFeature("AcquisitionFrameRate")->GetValue();
-            qDebug() << "AcquisitionFrameRate:" << d;
             QThread::msleep(100);
 
             //Set Balance White Mode : Once 。设置白平衡，每次点击开始或者60秒重新计时的时候设置一次
             //Set Balance White Mode : Continuous 。设置白平衡，每次点击开始或者60秒重新计时的时候设置一次 - 20220225.春燕
             m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->SetValue(CAMERA_WIHTE_BALANCE);
             s = m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->GetValue();
-            std::cout << "BalanceWhiteAuto " << s << std::endl;
             QThread::msleep(100);
 
             // Set Gain : Once。设置增益，每次点击开始或者60秒重新计时的时候设置一次
@@ -219,11 +204,6 @@ void Camera::openDevice()
             m_objFeatureControlPtr->GetEnumFeature("GainAuto")->SetValue(CAMERA_GAIN_MODE);
             s = m_objFeatureControlPtr->GetEnumFeature("GainAuto")->GetValue();
             QThread::msleep(100);
-            std::cout << "GainAuto " << s << std::endl;
-
-
-//            m_nWidth = (int64_t)m_objFeatureControlPtr->GetIntFeature("Width")->GetValue();
-//            m_nHeight = (int64_t)m_objFeatureControlPtr->GetIntFeature("Height")->GetValue();
 
             //获取设备流个数
             int nCount = m_objDevicePtr->GetStreamCount();
@@ -232,7 +212,6 @@ void Camera::openDevice()
             {
                 m_objStreamPtr = m_objDevicePtr->OpenStream(0);
                 bIsStreamOpen = true;
-                qDebug() << "bIsStreamOpen :" << bIsStreamOpen;
             }
             else
             {
@@ -242,9 +221,6 @@ void Camera::openDevice()
             m_bIsOpen = true;
 
             // only open the first one device
-            qDebug() << "m_bIsOpen :" << m_bIsOpen;
-
-//            emit sigCameraOpened(true);
             emit sigCameraState(CameraOpened);
             break;
         }
@@ -382,7 +358,6 @@ void Camera::StartSnap(QLabel *qtHandle)
             return;
         }
         m_objStreamPtr->RegisterCaptureCallback(m_pCaptureEventHandler, this);
-        qDebug() << __func__ << __LINE__;
     } catch (CGalaxyException& e) {
         throw e;
     }
@@ -431,49 +406,6 @@ void Camera::StartSnap(QLabel *qtHandle)
         if (m_objFeatureControlPtr.IsNull()) {
             return;
         }
-//        m_objFeatureControlPtr->GetCommandFeature("AcquisitionStart")->Execute();
-//        m_objFeatureControlPtr->GetEnumFeature("GainSelector")->SetValue("AnalogAll");
-//        m_objFeatureControlPtr->GetEnumFeature("GainAuto")->SetValue("Continuous");
-
-        // ENABLE white balance
-//        m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->SetValue("Continuous");
-
-//        m_objFeatureControlPtr->GetCommandFeature("AcquisitionStart")->Execute();
-//        m_objFeatureControlPtr->GetEnumFeature("ExposureAuto")->SetValue("Off");
-//        gxstring s = m_objFeatureControlPtr->GetEnumFeature("ExposureAuto")->GetValue();
-//        std::cout << "ExposureAuto " << s << std::endl;
-//        QThread::msleep(100);
-
-//        m_objFeatureControlPtr->GetFloatFeature("ExposureTime")->SetValue(10000.0000);
-//        double d = m_objFeatureControlPtr->GetFloatFeature("ExposureTime")->GetValue();
-//        qDebug() << "ExposureTime " << d;
-//        QThread::msleep(100);
-
-//        m_objFeatureControlPtr->GetEnumFeature("AcquisitionFrameRateMode")->SetValue("On");
-//         s = m_objFeatureControlPtr->GetEnumFeature("AcquisitionFrameRateMode")->GetValue();
-//        std::cout << "AcquisitionFrameRateMode " << s << std::endl;
-//        QThread::msleep(100);
-
-//        m_objFeatureControlPtr->GetFloatFeature("AcquisitionFrameRate")->SetValue(25);
-//        d = m_objFeatureControlPtr->GetFloatFeature("AcquisitionFrameRate")->GetValue();
-//        qDebug() << "AcquisitionFrameRate:" << d;
-//        QThread::msleep(100);
-
-//        //Set Balance White Mode : Once 。设置白平衡，每次点击开始或者60秒重新计时的时候设置一次
-//        //Set Balance White Mode : Continuous 。设置白平衡，每次点击开始或者60秒重新计时的时候设置一次 - 20220225.春燕
-//        m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->SetValue("Continuous");
-//        s = m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->GetValue();
-//        std::cout << "BalanceWhiteAuto " << s << std::endl;
-//        QThread::msleep(100);
-
-//        // Set Gain : Once。设置增益，每次点击开始或者60秒重新计时的时候设置一次
-//        m_objFeatureControlPtr->GetEnumFeature("GainSelector")->SetValue("AnalogAll");
-//        QThread::msleep(100);
-//        m_objFeatureControlPtr->GetEnumFeature("GainAuto")->SetValue("Once");
-//        s = m_objFeatureControlPtr->GetEnumFeature("GainAuto")->GetValue();
-//        QThread::msleep(100);
-//        std::cout << "GainAuto " << s << std::endl;
-////        string s = m_objFeatureControlPtr->GetEnumFeature("ExposureAuto")->GetValue();
     }
 }
 
@@ -551,13 +483,11 @@ void Camera::updateCameraSettings()
             //Set Balance White Mode : Once 。设置白平衡，每次点击开始或者60秒重新计时的时候设置一次
             m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->SetValue("Continuous");
             gxstring s = m_objFeatureControlPtr->GetEnumFeature("BalanceWhiteAuto")->GetValue();
-            std::cout << "BalanceWhiteAuto " << s << std::endl;
 
             // Set Gain : Once。设置增益，每次点击开始或者60秒重新计时的时候设置一次
             m_objFeatureControlPtr->GetEnumFeature("GainSelector")->SetValue("Continuous");
             m_objFeatureControlPtr->GetEnumFeature("GainAuto")->SetValue("Once");
             s = m_objFeatureControlPtr->GetEnumFeature("GainAuto")->GetValue();
-            std::cout << "GainAuto " << s << std::endl;
         }
 
     }

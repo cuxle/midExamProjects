@@ -92,8 +92,6 @@ public:
 
 	QStringList m_userNameslist;
 
-signals:
-
 private:
     void writeConfig();
     void readConfig();

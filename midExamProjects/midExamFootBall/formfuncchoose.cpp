@@ -885,6 +885,8 @@ void FormFuncChoose::resetScoreLabel()
     ui->lbScoreSecond->clear();
     ui->lbScoreThird->clear();
     ui->lbScoreFinal->clear();
+
+    m_curExamCount = 0;
 }
 
 void FormFuncChoose::shiftScoreLabel()
@@ -1377,8 +1379,10 @@ void FormFuncChoose::stopExamStuff()
 
         ui->examRegin->startExam(false);
 
-        shiftScoreLabel();
+
     });
+
+    shiftScoreLabel();
 
     setLeftTimeSeconds(0);
 }
