@@ -225,9 +225,8 @@ void FormFuncChoose::initTimers()
     m_3minsDelayTimer = new QTimer(this);
     m_3minsDelayTimer->setInterval(3*60*1000);
 //    m_3minsDelayTimer->setInterval(20*1000);
-//    m_3minsDelayTimer->setInterval(10*1000);
+//    m_3minsDelayTimer->setInterval(30*1000);
     connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleUploadExamedStudentsScore);
-    m_3minsDelayTimer->start();
 }
 
 
@@ -837,6 +836,12 @@ void FormFuncChoose::on_pbStartTest_clicked()
     // 显示 学生信息， 登录， 视频采集，成绩互动
     ui->stackedWidget->setCurrentIndex(PageTest);
 
+    /*
+     * do not start the timer at the beginning,
+     * because it will disturb the school students download process
+    */
+    m_3minsDelayTimer->start();
+
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     // if appconfig m_videoPath isEmpty or dir not exists pop up messagebox
     QString videoPath = appconfig.m_videoSavePath;
@@ -1110,6 +1115,12 @@ void FormFuncChoose::stopExamStuff()
 
 void FormFuncChoose::on_pbStartSkip_clicked()
 {
+//    ui->pbStartSkip->setEnabled(false);
+
+//    QTimer::singleShot(1000, [&](){
+//        ui->pbStartSkip->setEnabled(true);
+//    });
+
     // 1. 前提条件 camera is open or video file is loaded
     if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
         QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
@@ -1374,7 +1385,6 @@ void FormFuncChoose::on_pbZhongTing_clicked()
             return;
         }
         m_curScoreLabel->setText("中停");
-//        ui->lbScore->setText("中停");
     }
 }
 

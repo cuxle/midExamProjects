@@ -10,6 +10,7 @@ include($$PWD/utils/utils.pri)
 include($$PWD/login/login.pri)
 include($$PWD/license/license.pri)
 include($$PWD/xlsx/qtxlsx.pri)
+include($$PWD/testcase/testcase.pri)
 
 
 win32:CONFIG(release, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410

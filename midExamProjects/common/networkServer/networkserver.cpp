@@ -283,8 +283,10 @@ void NetWorkServer::sendUploadStudentScore()
             obj["type"] = 1;
 
             qDebug() << __func__ << __LINE__ << "examId" << dataManager.m_curExamInfo.value;
-            qDebug() << __func__ << __LINE__ << "gmtEnded" << curStudent.examStopFirstTime;
-            qDebug() << __func__ << __LINE__ << "gmtStarted" << curStudent.examStartFirstTime;
+            qDebug() << __func__ << __LINE__ << "gmtEnded 1" << curStudent.examStopFirstTime;
+            qDebug() << __func__ << __LINE__ << "gmtStarted 1" << curStudent.examStartFirstTime;
+            qDebug() << __func__ << __LINE__ << "gmtEnded 2 " << curStudent.examStopSecondTime;
+            qDebug() << __func__ << __LINE__ << "gmtStarted 2 " << curStudent.examStartSecondTime;
             qDebug() << __func__ << __LINE__ << "ksId" << curStudent.id;
             qDebug() << __func__ << __LINE__ << "objKsId:" << obj["ksId"].toString();
             qDebug() << __func__ << __LINE__ << "result" << curStudent.firstScore;
@@ -472,6 +474,9 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
         qDebug() << __func__ << "--------cut line------------" << m_currentRequest;
         qDebug() << "status:" << jsonObject["code"].toInt();
         qDebug() << "success:" << jsonObject["success"].toBool();
+        if (!jsonObject["success"].toBool()) {
+            qDebug() << __func__ << __LINE__ << strReply;
+        }
         qDebug() << "msg:" << jsonObject["msg"].toString();
         qDebug() << "time:" << jsonObject["time"].toString();
 //        qDebug() << "json response:" << jsonResponse;
@@ -551,7 +556,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
             if (success) {
                 // parse one school student
                 QString zxdm;
-                if (m_schoolsToDownloadByZxdm.size() > 1) {
+                if (m_schoolsToDownloadByZxdm.size() > 0) {
                     zxdm = m_schoolsToDownloadByZxdm.front();
                 } else {
                     return;
@@ -559,15 +564,17 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                 DataManagerDb::updateSchoolDownloadStatus(zxdm, 1);
                 emit sigSchoolDataDownloaded(true);
                 m_schoolsToDownloadByZxdm.pop_front();
-
+                qDebug() << __func__ << "get school students: " << zxdm;
                 // pasrse all student to joson file
                 QJsonArray array;
                 if (!jsonObject["data"].isNull() && !jsonObject["data"].isUndefined()) {
                    array = jsonObject["data"].toArray();  // students list
                 } else {
+                    qDebug() << __func__ << __LINE__ << strReply;
                     return;
                 }
 
+                static int total = 0;
                 for (int i = 0; i < array.size(); i++) {
                     QJsonObject obj = array[i].toObject();
                     QString zkh = obj["zkh"].toString();
@@ -576,7 +583,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                     QString zxdm = obj["zxdm"].toString();
                     QString zxmc = obj["zxmc"].toString();
                     QString id = obj["id"].toString();
-//                    qDebug() << __func__ << zkh << name << gender << zxdm << zxmc << id;
+                    qDebug() << __func__ << __LINE__ <<" totalStudents:"<< total++;
                     DataManagerDb::addStudent(zkh, name, gender, zxdm, zxmc, id);
                 }
                 if (!m_schoolsToDownloadByZxdm.isEmpty()) {

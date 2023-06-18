@@ -245,7 +245,7 @@ void FormFuncChoose::initTimers()
     // off line does need delay timer
     if (!m_cmdOnline) {
         m_startDelayTimer = new QTimer(this);
-        m_startDelayTimer->setInterval(9000);
+        m_startDelayTimer->setInterval(0);
         m_startDelayTimer->setTimerType(Qt::PreciseTimer);
         m_startDelayTimer->setSingleShot(true);
         connect(m_startDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleStartExam);
@@ -253,17 +253,14 @@ void FormFuncChoose::initTimers()
 
     m_3minsDelayTimer = new QTimer(this);
     m_3minsDelayTimer->setInterval(3*60*1000);
-//    m_3minsDelayTimer->setInterval(20*1000);
-//    m_3minsDelayTimer->setInterval(10*1000);
     connect(m_3minsDelayTimer, &QTimer::timeout, this, &FormFuncChoose::handleUploadExamedStudentsScore);
-    m_3minsDelayTimer->start();
 }
 
 
 void FormFuncChoose::handleUploadExamedStudentsScore()
 {
     NetWorkServer &server = Singleton<NetWorkServer>::GetInstance();
-    server.requestFor(NetWorkServer::NetWorkServer::RequestArbitrationList);
+    server.requestFor(NetWorkServer::RequestArbitrationList);
 }
 
 //void FormFuncChoose::initSocketClient()
@@ -350,12 +347,14 @@ void FormFuncChoose::initCommonToolbar()
 
 void FormFuncChoose::handleStartExam()
 {
+/*
     QTimer::singleShot(1000, [&](){
 		if (m_dingPlayer == nullptr || m_mp3Player == nullptr) return;
         qDebug() << __func__ << __LINE__ << (m_dingPlayer == nullptr);
         m_dingPlayer->stop();
         m_mp3Player->stop();
     });
+	*/
     // 0. update state
     m_curExamState = ExamIsRunning;
 
@@ -600,16 +599,12 @@ void FormFuncChoose::handleUpdateSchoolListView()
 }
 
 void FormFuncChoose::resetScoreLabel()
- {
-     ui->lbScoreFirst->clear();
-     ui->lbScoreSecond->clear();
-     ui->lbScoreThird->clear();
-     ui->lbScoreFinal->clear();
-
-     m_curExamCount = 0;
-
-     shiftScoreLabel();
- }
+{
+    ui->lbScoreFirst->clear();
+    ui->lbScoreSecond->clear();
+    ui->lbScoreThird->clear();
+    ui->lbScoreFinal->clear();
+}
 
 void FormFuncChoose::shiftScoreLabel()
 {
@@ -691,10 +686,6 @@ void FormFuncChoose::clearStudentUiInfo()
 
 void FormFuncChoose::closeEvent(QCloseEvent *event)
 {
-    qDebug() << __func__ << __LINE__;
-//    if (m_curExamState == ExamIsRunning) {
-//        stopExamStuff();
-//    }
     emit sigStartSaveVideo(false);
     //QThread::msleep(2*1000);
     emit sigCloseCamera();
@@ -880,7 +871,7 @@ void FormFuncChoose::handleSkipCountChanged(int skipCount)
 
         m_curScoreLabel->setText(QString::number(m_curSkipCount));
 
-        handlePlayDingSound();
+        //handlePlayDingSound();
     }
 }
 
@@ -888,6 +879,8 @@ void FormFuncChoose::on_pbStartTest_clicked()
 {
     // 显示 学生信息， 登录， 视频采集，成绩互动   
     ui->stackedWidget->setCurrentIndex(PageTest);
+
+     m_3minsDelayTimer->start();
 
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     // if appconfig m_videoPath isEmpty or dir not exists pop up messagebox
@@ -922,11 +915,6 @@ void FormFuncChoose::on_pbSetup_clicked()
     m_settingDialog->exec();
 }
 
-//void FormFuncChoose::on_pbStepBack_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbExit_clicked()
 {
     this->close();
@@ -934,7 +922,6 @@ void FormFuncChoose::on_pbExit_clicked()
 
 void FormFuncChoose::on_pbMainForm_clicked()
 {
-
     // 1. page = 0 Menu, exit;
     // 2. page = 1 Test, go to Menu
     // 3. page = PageDataManage, go to Menu
@@ -950,7 +937,6 @@ void FormFuncChoose::on_pbMainForm_clicked()
         gotoIndex = -1;
         break;
     case PageTest:
-
         /* comment this code because slib back video widget will stuck
          * and have to reset the app
         stopExamStuff();
@@ -991,11 +977,6 @@ void FormFuncChoose::on_pbBackMenu_clicked()
     ui->stackedWidget->setCurrentIndex(PageMenu);
 }
 
-//void FormFuncChoose::on_pbBackMenu_2_clicked()
-//{
-//    ui->stackedWidget->setCurrentIndex(PageMenu);
-//}
-
 void FormFuncChoose::on_pbDataDownload_clicked()
 {
     ui->stackedWidget->setCurrentIndex(PageDataDownload);   
@@ -1012,7 +993,6 @@ void FormFuncChoose::on_pbScoreManage_clicked()
 {
     // parse students json file into this qtable widget
     // qtable widget is enougth
-    qDebug() << __func__ << __LINE__;    
     ui->stackedWidget->setCurrentIndex(PageScoreManage);
     m_toolBarframe->setHidden(true);
 }
@@ -1124,6 +1104,8 @@ void FormFuncChoose::stopExamStuff()
         clearStudentUiInfo();
     }
 
+    shiftScoreLabel();
+
     // 1. 考试结束了
     m_curExamState = ExamNotStart; // ExamFinished
 
@@ -1157,35 +1139,39 @@ void FormFuncChoose::stopExamStuff()
         m_forwardCountTimer->stop();
     }
 
-    shiftScoreLabel();
 
 //        m_curTimeLeftMs = m_totalTimeMs;
 		m_curForwardSeconds = 0;
         setLeftTimeSeconds(0);
-    if (!m_cmdOnline) {
-        if (m_startDelayTimer->isActive()) {
-            m_startDelayTimer->stop();
-        }
+        // no need back count in paiqiu 20230424
+//    if (!m_cmdOnline) {
+//        if (m_startDelayTimer->isActive()) {
+//            m_startDelayTimer->stop();
+//        }
 
-        if (m_enableStartSound) {
-            m_mp3Player->blockSignals(true);
-            // this will cause bug when click start and stop diff two little time
-           // QTimer::singleShot(500, [&](){
-                m_mp3Player->stop();
-           // });
-    //        m_mp3Player->stop();
-            m_mp3Player->blockSignals(false);
-        }
-    }
+//        if (m_enableStartSound) {
+//            m_mp3Player->blockSignals(true);
+//            // this will cause bug when click start and stop diff two little time
+//           // QTimer::singleShot(500, [&](){
+//                m_mp3Player->stop();
+//           // });
+//    //        m_mp3Player->stop();
+//            m_mp3Player->blockSignals(false);
+//        }
+//    }
 }
 
 void FormFuncChoose::on_pbStartSkip_clicked()
 {
     // 1. 前提条件 camera is open or video file is loaded
-    if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
-        QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
-        return;
+    if (!m_noCameraTest) {
+        if (m_curExamMode != ExamModeFromCamera && m_curExamMode != ExamModeFromVideo) {
+            QMessageBox::warning(this, "Warning", tr("Please open camera or load a video file"));
+            return;
+        }
     }
+
+
 
     // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
     // state  = 准备阶段 or 考试阶段 -> 停止考试
@@ -1196,6 +1182,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
 //        if (m_bCameraIsOpen) {
 //            emit sigUpdateCameraSettings();
 //        }
+
         switch (m_curExamMode) {
         case ExamModeFromCamera:
         {
@@ -1203,6 +1190,7 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             QString idText = ui->leUserId->text();
             if (idText.isEmpty()) {
                 QMessageBox::warning(this, "Warning", "请输入考生ID");
+                m_curExamState = ExamNotStart;
                 return;
             } else {
                 // 保存视频名称
@@ -1232,7 +1220,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
             break;
         }
 
-        // shiftScoreLabel();
         startPrepareExam();
         break;
     }
@@ -1306,7 +1293,10 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
     resetAllSkipCounterBeforeExam();
 
     // 只有用摄像头才需要输入考生id
-    if (m_curExamMode != ExamModeFromCamera) return;
+    if (!m_noCameraTest) {
+        if (m_curExamMode != ExamModeFromCamera) return;
+    }
+
 
     // total aim: create an exam student
     m_currentUserId = ui->leUserId->text();
@@ -1376,7 +1366,7 @@ void FormFuncChoose::initScoreUiDisplay()
     }
 
     // 默认指向第一个score label
-    m_curScoreLabel = ui->lbScoreFirst;
+    //m_curScoreLabel = ui->lbScoreFirst;
 
     m_choosenFont.setFamily(QString::fromUtf8("Microsoft YaHei"));
     m_choosenFont.setPixelSize(60);
@@ -1427,11 +1417,6 @@ void FormFuncChoose::on_pbZhongTing_clicked()
     // 只有在运行中可以核减？
     // decrease one skip by one click
     if (m_curExamState == ExamIsRunning) {
-        if (m_curScoreLabel == nullptr) {
-            qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
-            return;
-        }
-        m_curScoreLabel->setText("中停");
 
         recordStudentExamInfo(ExamMidStop);
 
@@ -1441,7 +1426,15 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         QTimer::singleShot(500, [&](){
             ui->pbZhongTing->setEnabled(true);
         });
+
+        if (m_curScoreLabel == nullptr) {
+            qDebug() << "m_curScoreLabel == nullptr" << __LINE__;
+            return;
+        }
+        m_curScoreLabel->setText("中停");
+
         stopExamStuff();
+//        ui->lbScore->setText("中停");
     }
 }
 
