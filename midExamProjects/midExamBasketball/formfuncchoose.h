@@ -199,8 +199,8 @@ private slots:
 //    void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
 
     void on_leUserId_editingFinished();
-	
-	void handleUploadExamedStudentsScore();
+
+    void handleUploadExamedStudentsScore();
 
     void handlePlayDingSound();
 
@@ -274,9 +274,9 @@ private:
     };
 
 //    void initExamTimeVersion();
-	
-	void initScoreUiDisplay();
-	
+
+    void initScoreUiDisplay();
+
     void initMediaPlayer();
 
     void initTimer();
@@ -285,7 +285,7 @@ private:
 
     void stopExamStuff();
 
-    void setLeftTime(int leftTimeMs);    
+    void setLeftTime(int leftTimeMs);
 
     void setLeftTimeSeconds(int leftTimeSeconds);
 

@@ -1171,8 +1171,6 @@ void FormFuncChoose::on_pbStartSkip_clicked()
         }
     }
 
-
-
     // state = 未开始  -> start = 准备阶段 --> 进入准备阶段
     // state  = 准备阶段 or 考试阶段 -> 停止考试
     switch (m_curExamState) {
@@ -1322,6 +1320,11 @@ void FormFuncChoose::on_pbConfimUserIdBtn_clicked()
         ui->leUserGender->setText(m_curStudent.gender == 1 ? "男" : "女");
         ui->leUserSchool->setText(m_curStudent.zxmc);
     } else {
+        m_curStudent.name = "";
+        m_curStudent.gender = 1;
+        m_curStudent.zxdm = "";
+        m_curStudent.zxmc = "";
+        m_curStudent.id = "";
         clearStudentUiInfoWithNoUserId();
     }
     m_curStudent.uploadStatus = 0;
@@ -1434,7 +1437,6 @@ void FormFuncChoose::on_pbZhongTing_clicked()
         m_curScoreLabel->setText("中停");
 
         stopExamStuff();
-//        ui->lbScore->setText("中停");
     }
 }
 

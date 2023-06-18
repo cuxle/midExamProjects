@@ -564,7 +564,7 @@ void NetWorkServer::requestFinished(QNetworkReply* reply)
                 DataManagerDb::updateSchoolDownloadStatus(zxdm, 1);
                 emit sigSchoolDataDownloaded(true);
                 m_schoolsToDownloadByZxdm.pop_front();
-                qDebug() << __func__ << "get school students: " << zxdm;
+
                 // pasrse all student to joson file
                 QJsonArray array;
                 if (!jsonObject["data"].isNull() && !jsonObject["data"].isUndefined()) {

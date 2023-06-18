@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>6</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -195,7 +195,7 @@
               <string notr="true">color: rgb(115, 109, 148);</string>
              </property>
              <property name="text">
-              <string>软件版本:v1.0.3</string>
+              <string>软件版本:v1.0.4</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
