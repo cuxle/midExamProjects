@@ -1341,9 +1341,7 @@ void FormFuncChoose::stopExamStuff()
 //    m_situpWorker->m_bStartCount = false;
 //    m_volleyballWorker->m_bStartCount = false;
 
-    QTimer::singleShot(5000, [&](){
-        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
-    });
+
 
 //    if (m_curExamMode == ExamModeFromCamera) {
 //        emit sigStartSaveVideo(false, m_videoFileName); // TODO when to stop save video
@@ -1358,7 +1356,6 @@ void FormFuncChoose::stopExamStuff()
 //    if (m_backCountTimer->isActive()) {
 //        m_backCountTimer->stop();
 //    }
-
 
     m_forwardCountTimer->stop();
 
