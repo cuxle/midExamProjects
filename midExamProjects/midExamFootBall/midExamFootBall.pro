@@ -40,7 +40,7 @@ SOURCES += \
     #lidar/godleilaserdifop.cpp \
     lidar/godleilasermsop.cpp \
     lidar/lidarAnalysis.cpp \
-    lidarcloudwidget.cpp \
+    lidarcloudview.cpp \
     qcustomplot.cpp \
     #    main.cpp \
     formfuncchoose.cpp \
@@ -56,7 +56,7 @@ HEADERS += \
     #lidar/godleilaserdifop.h \
     lidar/godleilasermsop.h \
     lidar/lidarAnalysis.h \
-    lidarcloudwidget.h \
+    lidarcloudview.h \
     qcustomplot.h \
     formfuncchoose.h \
     #socket/client.h \
