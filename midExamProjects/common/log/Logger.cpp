@@ -5,11 +5,16 @@
 #include <QFile>
 #include <QHash>
 #include <QObject>
-#include <QStandardPaths>
-#include <QDir>
+#include <QDateTime>
+#include "log4qt/log4qt.h"
+#include "log4qt/basicconfigurator.h"
+#include "log4qt/rollingfileappender.h"
+#include "log4qt/patternlayout.h"
+#include "log4qt/propertyconfigurator.h"
+#include <QApplication>
 
-QSharedPointer<QFile> Logger::logFile = Q_NULLPTR;
-bool Logger::isInit = false;
+#include "log4qt/logger.h"
+
 QHash<QtMsgType, QString> Logger::contextNames = {
 	{QtMsgType::QtDebugMsg,		" Debug  "},
 	{QtMsgType::QtInfoMsg,		"  Info  "},
@@ -19,71 +24,70 @@ QHash<QtMsgType, QString> Logger::contextNames = {
 };
 
 void Logger::init() {
-	if (isInit) {
-        return;
-	}
 
-    QString logLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/log/";
-    QDir dir(logLocation);
-    if (!dir.exists()) {
-        dir.mkdir(".");
-    }
+    QString path = QApplication::applicationDirPath() + "/log4qt.properties";
+    QFile file(path);
+    qDebug() << "path dir:" << path << file.exists();
+    Log4Qt::PropertyConfigurator::configure(path);
 
-	// Create log file
-    logFile = QSharedPointer<QFile>(new QFile);
-    logFile->setFileName(logLocation + "/MyLog.log");
+    installMessageOut();
+}
 
-    if (logFile->open(QIODevice::Append | QIODevice::Text)) {
-        qDebug() << __func__ << __LINE__ << "open file success";
-    } else {
-        qDebug() << __func__ << __LINE__ << "open file failed";
-    }
-
-	// Redirect logs to messageOutput
+void Logger::installMessageOut()
+{
     qInstallMessageHandler(Logger::messageOutput);
-
-	// Clear file contents
-    logFile->resize(0);
-
-	Logger::isInit = true;
+    initStartTag();
 }
 
-void Logger::clean() {
-
-}
-
-void Logger::messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+void Logger::initStartTag()
 {
-
-//    QString log = QString("%1 | %2 | %3 | %4 | %5 | %6\n").arg(QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss"),
-//                                                               Logger::contextNames.value(type),
-//                                                               QString::number(context.line),
-//                                                               QString(context.file).section('\\', -1),
-//                                                               QString(context.function).section('(', -2, -2).section(' ', -1).section(':', -1),
-//                                                               msg);
-////        arg(QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss")).
-////        arg(Logger::contextNames.value(type)).
-////        arg(context.line).
-////        arg(QString(context.file).
-////            section('\\', -1)).			// File name without file path
-////        arg(QString(context.function).
-////            section('(', -2, -2).		// Function name only
-////            section(' ', -1).
-////            section(':', -1)).
-////        arg(msg);
-
-    if (!logFile.isNull() && logFile->isOpen()) {
-        logFile->write(msg.toLocal8Bit());
-        logFile->write("\n");
-    }
+    QString format = "yyyy-MM-dd hh:mm:ss.zzz";
+    QString data = QDateTime::currentDateTime().toString(format);
+    qInfo() << (QStringLiteral("################################################################"));
+    qInfo() << (QStringLiteral("#                          START : ")) << data;
+    qInfo() << (QStringLiteral("################################################################"));
 }
 
-void Logger::destroy()
+void Logger::initStoptTag()
 {
-    if (!logFile.isNull() && logFile->isOpen()) {
-        logFile->flush();
-        logFile->close();
-        logFile.clear();
-    }
+    QString format = "yyyy-MM-dd hh:mm:ss.zzz";
+    QString data = QDateTime::currentDateTime().toString(format);
+    qInfo() << (QStringLiteral("################################################################"));
+    qInfo() << (QStringLiteral("#                          End : ")) << data;
+    qInfo() << (QStringLiteral("################################################################"));
+}
 
+void Logger::messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
+
+//	QString log = QObject::tr("%1 | %2 | %3 | %4 | %5 | %6\n").
+//		arg(QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss")).
+//        arg(MyLogger::contextNames.value(type)).
+//		arg(context.line).
+//		arg(QString(context.file).
+//			section('\\', -1)).			// File name without file path
+//		arg(QString(context.function).
+//			section('(', -2, -2).		// Function name only
+//			section(' ', -1).
+//			section(':', -1)).
+//		arg(msg);
+    QString log = QObject::tr("%1").arg(msg);
+    auto logger = Log4Qt::Logger::rootLogger();
+
+    // QtDebugMsg, QtWarningMsg, QtCriticalMsg, QtFatalMsg, QtInfoMsg, QtSystemMsg = QtCriticalMsg
+    switch(type) {
+    case QtDebugMsg:
+        logger->debug(log);
+        break;
+    case QtWarningMsg:
+        logger->warn(log);
+        break;
+    case QtFatalMsg:
+        logger->fatal(log);
+        break;
+    case QtInfoMsg:
+        logger->info(log);
+        break;
+    default:
+        break;
+    }
 }

@@ -531,6 +531,7 @@ LIBS += "D:\ProgramData\PCL1.12.1\3rdParty\VTK\lib\vtkzlib-9.1.lib"
 DISTFILES += \
     logo.rc
 
+message($$LIBS)
 
 RC_FILE += logo.rc
 

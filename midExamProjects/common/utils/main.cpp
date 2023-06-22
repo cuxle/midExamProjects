@@ -1,6 +1,5 @@
 #include "formlogin.h"
 #include "logindialog.h"
-#include "Logger.h"
 #include "formfuncchoose.h"
 #include <QApplication>
 #include <QFile>
@@ -16,6 +15,7 @@
 #include "singleton.h"
 #include <QStandardPaths>
 #include <WinBase.h>
+#include "Logger.h"
 
 QString serverLocation;
 #if TIAOSHENG
@@ -499,10 +499,7 @@ void testCplus17ByTime() {
 
 int main(int argc, char *argv[])
 {
-    //    testCaseForStudentScoreSmaller();
-    //    testCplus17ByTime();
-    //    return 0;
-    QApplication a(argc, argv);
+    QApplication application(argc, argv);
 
     if (!License::verifyLicenseFromFile("./license.lic")) {
         QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
@@ -528,7 +525,9 @@ int main(int argc, char *argv[])
     LoginDialog logDialog;
     logDialog.showNormal();
 
-    int ret = a.exec();
+    // init log stop
+    int ret = application.exec();
+
 #if defined(TIAOSHENG) || defined(YTXS)
     //    killServer(serverName);
 #endif

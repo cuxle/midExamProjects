@@ -1,5 +1,4 @@
 #include "videoreplayworker.h"
-#include "Logger.h"
 #include "mat2qtformatmethod.h"
 #include <QImage>
 #include <QDateTime>
