@@ -5,7 +5,7 @@
 #include "mysortfilterproxymodel.h"
 
 #include "localstudenttablemodel.h"
-#include "xlsxdocument.h"
+// #include "xlsxdocument.h"
 
 namespace Ui {
 class ScoreManagerForm;
@@ -23,7 +23,7 @@ public slots:
 private slots:
     void on_pbSearch_clicked();
     void on_tblViewStudentData_doubleClicked(const QModelIndex &index);
-    void handleExportXlsxData();
+    //void handleExportXlsxData();
 signals:
     void sigLocalStudentsDataChanged();
 private:
@@ -31,12 +31,12 @@ private:
     void initScoreModel();
     void initXlsxDcoment();
     void saveStudentScore(const QString &fileName);
-    void writeHeader(QXlsx::Document &xlsx);
+    //void writeHeader(QXlsx::Document &xlsx);
 
     LocalStudentTableModel *m_scoreModel = nullptr;
     MySortFilterProxyModel *m_scoreProxyModel = nullptr;
 
-    QXlsx::Document * m_xlsx = nullptr;
+    //QXlsx::Document * m_xlsx = nullptr;
 };
 
 #endif // SCOREMANAGERFORM_H

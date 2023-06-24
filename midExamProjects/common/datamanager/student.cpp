@@ -19,6 +19,11 @@ void Student::initCountExam() {
     }
 }
 
+// Overloaded assignment
+Student& Student::operator= (const Student& fraction) {
+    return *this;
+}
+
 QString Student::getFinalScoreByTime()
 {
     int value = getFinalExamResultByTime();

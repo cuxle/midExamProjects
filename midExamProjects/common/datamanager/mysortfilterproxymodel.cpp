@@ -91,7 +91,7 @@ bool MySortFilterProxyModel::filterAcceptsRow(int sourceRow,
 //    QString dataTimestr = sourceModel()->data(indexExamTime).toString();
 //    qDebug() << __func__ << __LINE__  << QDateTime::fromString(dataTimestr.trimmed(), timeFormat);
 
-    return (sourceModel()->data(indexZkh).toString().contains(filterRegExp()))
+    return (sourceModel()->data(indexZkh).toString().contains(filterRegularExpression()))
             && dateInRange(local.toDateTime(sourceModel()->data(indexExamTime).toString(), timeFormat));
 }
 //! [5] //! [6]

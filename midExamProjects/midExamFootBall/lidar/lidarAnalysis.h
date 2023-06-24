@@ -94,7 +94,7 @@ public:
 	bool resetExamParams();
 
 	std::vector<PointXYZ> objectDetection(PointCloud<PointXYZ>::Ptr cloudPtr);
-	int *lidarAnalysis::rand_rgb();
+    int *rand_rgb();
 
 
 	bool removePtsOutOfRegion(float xMin, float xMax, float yMin, float yMax, vector<float> pts);

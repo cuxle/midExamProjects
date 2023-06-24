@@ -15,6 +15,7 @@
 #include <QFontDatabase>
 #include <QMediaPlayer>
 #include <QThread>
+#include <QAudioOutput>
 
 #include "client.h"
 #include "formbasegroup.h"
@@ -129,9 +130,13 @@ void Widget::initMediaPlayer()
 
     QString mediapath = "qrc:/resource/sound/skipRope30s.mp3";
 
-    m_mp3Player->setMedia(QUrl(mediapath));
+    m_audioOutput = new QAudioOutput(); // chooses the default audio routing
 
-    m_mp3Player->setVolume(100);
+    m_mp3Player->setAudioOutput(m_audioOutput);
+
+    m_mp3Player->setSource(mediapath);
+
+    m_audioOutput->setVolume(100);
 
     // no need to handle sound stop
 
@@ -426,7 +431,6 @@ void Widget::initCommonToolbar()
     QVBoxLayout *vlayout = new QVBoxLayout;
     vlayout->addWidget(frame);
     vlayout->addWidget(ui->gbMainForm);
-    vlayout->setMargin(0);
     vlayout->setSpacing(0);
     this->setLayout(vlayout);
 }
@@ -531,7 +535,7 @@ void Widget::on_cmbExamTimeChoose_currentIndexChanged(int index)
         m_totalTimeMs = 60*1000;
         m_currentMp3File = "qrc:/resource/sound/skipRope60s.mp3";
     }
-    m_mp3Player->setMedia(QUrl(m_currentMp3File));
+    m_mp3Player->setSource(QUrl(m_currentMp3File));
     setLeftTime(m_totalTimeMs);
 }
 

@@ -153,17 +153,17 @@ void DataManager::initReadLocalIDCodes()
         IDCode idCode;
         idCode.id = localObj["ID"].toString();
         idCode.code = localObj["Code"].toString();
-        m_idCodes.append(idCode);
+        m_idCodes.insert(idCode);
     }
 }
 
 void DataManager::saveLocalIDCodes()
 {
     QJsonArray array;
-    for (int i = 0; i < m_idCodes.size(); i++) {
+    for (auto item : m_idCodes) {
         QJsonObject localObj;
-        localObj["CODE"] = m_idCodes.at(i).code;
-        localObj["ID"] = m_idCodes.at(i).id;
+        localObj["CODE"] = item.code;
+        localObj["ID"] = item.id;
         array.append(localObj);
     }
 
@@ -288,12 +288,11 @@ QJsonDocument DataManager::readJsonToJsonDoc(const QString &fileName)
 
 void DataManager::updateIdCode(const QString &id, const QString &code)
 {
-    qDebug() << __func__ << __LINE__ << id;
-    qDebug() << __func__ << __LINE__ << code;
+    qDebug() << __func__ << __LINE__ << id << code;
     m_curIdCode.id = id;
     m_curIdCode.code = code;
     if (!m_idCodes.contains(m_curIdCode)) {
-        m_idCodes.append(m_curIdCode);
+        m_idCodes.insert(m_curIdCode);
         qDebug() << "id code append m_idCodes";
     } else {
         qDebug() << "m_idCodes contains id code";

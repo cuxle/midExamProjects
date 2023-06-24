@@ -50,8 +50,12 @@ public:
     QString zt;
     QString zxdm;
     QString zxmc;
-    const int int_max = (std::numeric_limits<int>::max)();
-    const int int_min = (std::numeric_limits<int>::min)();
+//    const int int_max = (std::numeric_limits<int>::max)();
+//    const int int_min = (std::numeric_limits<int>::min)();
+
+    const int int_max = 10;
+    const int int_min = 1;
+
 
     //
     //
@@ -94,7 +98,13 @@ public:
     QString videoPath;
     QString examProjectName;
 
+    bool operator==(const Student& rhs) const
+    {
+        return this->zkh == rhs.zkh;
+    }
 
+    // Overloaded assignment
+    Student& operator= (const Student& fraction);
 private:
     int getFinalExamResultByTime();
 

@@ -199,37 +199,37 @@ DataManagerDb::DataManagerDb()
     }
 }
 
-QSqlError DataManagerDb::addStudentsFromExecl(const QString &execlName)
-{
-    if (execlName.isEmpty()) return QSqlError();
-    QXlsx::Document m_xlsx(execlName);
+//QSqlError DataManagerDb::addStudentsFromExecl(const QString &execlName)
+//{
+//    if (execlName.isEmpty()) return QSqlError();
+//    QXlsx::Document m_xlsx(execlName);
 
-    qDebug() << __func__ << __LINE__ << execlName;
+//    qDebug() << __func__ << __LINE__ << execlName;
 
-    QFile file(execlName);
-    if (!file.exists()) {
-        return QSqlError();
-    }
+//    QFile file(execlName);
+//    if (!file.exists()) {
+//        return QSqlError();
+//    }
 
-    int m_rowsInXlsx = 2;
-    while (true) {
-        QVariant zkh = m_xlsx.read(m_rowsInXlsx, 1);
-        if (zkh.isNull()) {
-            break;
-        }
+//    int m_rowsInXlsx = 2;
+//    while (true) {
+//        QVariant zkh = m_xlsx.read(m_rowsInXlsx, 1);
+//        if (zkh.isNull()) {
+//            break;
+//        }
 
-        QVariant name = m_xlsx.read(m_rowsInXlsx, 2);
-        QVariant gender = m_xlsx.read(m_rowsInXlsx, 3);
-        QVariant zxdm = m_xlsx.read(m_rowsInXlsx, 4);
-        QVariant zxmc = m_xlsx.read(m_rowsInXlsx, 5);
-        QVariant id = m_xlsx.read(m_rowsInXlsx, 6);
+//        QVariant name = m_xlsx.read(m_rowsInXlsx, 2);
+//        QVariant gender = m_xlsx.read(m_rowsInXlsx, 3);
+//        QVariant zxdm = m_xlsx.read(m_rowsInXlsx, 4);
+//        QVariant zxmc = m_xlsx.read(m_rowsInXlsx, 5);
+//        QVariant id = m_xlsx.read(m_rowsInXlsx, 6);
 
-        addStudent(zkh.toString(), name.toString(), gender.toInt(), zxdm.toString(), zxmc.toString(), id.toString());
+//        addStudent(zkh.toString(), name.toString(), gender.toInt(), zxdm.toString(), zxmc.toString(), id.toString());
 
-        m_rowsInXlsx++;
-    }
-    return QSqlError();
-}
+//        m_rowsInXlsx++;
+//    }
+//    return QSqlError();
+//}
 
 QSqlError DataManagerDb::addSchool(int checked, const QString &zxdm, const QString &zxmc, int downloaded)
 {

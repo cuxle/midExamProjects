@@ -30,70 +30,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-    #algorithm/ShareMemory.cpp \
     algorithm/algorithmloadbase.cpp \
-    #algorithm/ropeskippinginterface.cpp \
-    #algorithm/ropeskipworker.cpp \
-    #algorithm/situpinterface.cpp \
-    #algorithm/situpworker.cpp \
     algorithm/volleyballinterface.cpp \
     algorithm/volleyballworker.cpp \
-    #appconfig.cpp \
-    #datamanager.cpp \
-    #examprojectbasicinfo.cpp \
-    #localstudenttablemodel.cpp \
-    #logindialog.cpp \
-    #    main.cpp \
-    #maincounter.cpp \
-    #    mainwindow.cpp \
-    #formlogin.cpp \
     formfuncchoose.cpp \
-    #schoollisttablemodel.cpp \
-    #scoremanagemodel.cpp \
-    #settingdialog.cpp \
-    #socket/client.cpp \
-    #videomanage/mat2qtformatmethod.cpp \
-    #videomanage/videocaptureworker.cpp \
-    #videoReplay/videoreplayworker.cpp \
     videowidget.cpp
 
 HEADERS += \
-    #TmpStudent.h \
-    #algorithm/ShareMemory.h \
     algorithm/algorithmloadbase.h \
-    #algorithm/ropeskippinginterface.h \
-    #algorithm/ropeskipworker.h \
-    #algorithm/situpinterface.h \
-    #algorithm/situpworker.h \
     algorithm/volleyballinterface.h \
     algorithm/volleyballworker.h \
-    #appconfig.h \
-    #datamanager.h \
-    #defines.h \
-    #examprojectbasicinfo.h \
-    #localstudenttablemodel.h \
-    #logindialog.h \
-    #maincounter.h \
-    #    mainwindow.h \
-    #formlogin.h \
     formfuncchoose.h \
-    #schoollisttablemodel.h \
-    #scoremanagemodel.h \
-    #settingdialog.h \
-    #singleton.h \
-    #socket/client.h \
-    #videomanage/mat2qtformatmethod.h \
-    #videomanage/videocaptureworker.h \
-    #videoReplay/videoreplayworker.h \
     videowidget.h
-    #libs/videoWrite/videoWriterFFmpeg.h
 
 FORMS += \
-    #logindialog.ui \
-    #    mainwindow.ui \
-    #formlogin.ui \
     formfuncchoose.ui
-    #settingdialog.ui
 
 RESOURCES += \
     res.qrc
@@ -104,36 +55,6 @@ unix|win32: LIBS += -LD:/ProgramData/DahengImaging/GalaxySDK/Samples/C++SDK/lib/
 
 INCLUDEPATH += D:/ProgramData/DahengImaging/GalaxySDK/Samples/C++SDK/lib/x64
 DEPENDPATH += D:/ProgramData/DahengImaging/GalaxySDK/Samples/C++SDK/lib/x64
-
-#win32:CONFIG(release, debug|release): LIBS += -LD:/QtbAK/opencv3410/opencv/build/x64/vc15/lib/ -lopencv_world3410
-#else:win32:CONFIG(debug, debug|release): LIBS += -LD:/QtbAK/opencv3410/opencv/build/x64/vc15/lib/ -lopencv_world3410d
-#else:unix: LIBS += -LD:/QtbAK/opencv3410/opencv/build/x64/vc15/lib/ -lopencv_world3410
-
-#INCLUDEPATH += D:/QtbAK/opencv3410/opencv/build/include
-#DEPENDPATH += D:/QtbAK/opencv3410/opencv/build/include
-
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../libzmq/build2019/lib/ -llibzmq-mt-4_3_5
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../libzmq/build2019/lib/ -llibzmq-mt-4_3_5d
-#else:unix: LIBS += -L$$PWD/../../../../libzmq/build2019/lib/ -llibzmq-mt-4_3_5
-
-#INCLUDEPATH += $$PWD/../../../../zmq/libzmq/include
-#DEPENDPATH += $$PWD/../../../../zmq/libzmq/include
-
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../libzmq/build2019/lib/ -llibzmq-mt-s-4_3_5
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../libzmq/build2019/lib/ -llibzmq-mt-s-4_3_5d
-#else:unix: LIBS += -L$$PWD/../../../../libzmq/build2019/lib/ -llibzmq-mt-s-4_3_5
-
-#INCLUDEPATH += $$PWD/../../../../zmq/libzmq/include
-#DEPENDPATH += $$PWD/../../../../zmq/libzmq/include
-
-
-
-#win32:CONFIG(release, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410
-#else:win32:CONFIG(debug, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410d
-#else:unix: LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410
-
-#INCLUDEPATH += D:/opencv/build/include
-#DEPENDPATH += D:/opencv/build/include
 
 INCLUDEPATH += $$PWD/../libs/videoWrite/FFmpeg/include
 INCLUDEPATH += $$PWD/../libs/videoWrite

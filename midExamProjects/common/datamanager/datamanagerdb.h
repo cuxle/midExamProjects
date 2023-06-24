@@ -6,8 +6,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include "xlsxdocument.h"
 #include "utils.h"
+#include "idcode.h"
 
 class ExamProject {
 public:
@@ -21,19 +21,11 @@ public:
     bool valid = false;
 };
 
-struct IDCode {
-    QString id;
-    QString code;
-    bool operator == (const IDCode &idcode) {
-        return id == idcode.id && code == idcode.code;
-    }
-};
-
 class DataManagerDb
 {
 public:
     explicit DataManagerDb();
-    static QSqlError addStudentsFromExecl(const QString &execlName);
+    // static QSqlError addStudentsFromExecl(const QString &execlName);
     static QSqlError addSchool(int checked, const QString &zxdm, const QString &zxmc, int downloaded);
     static QSqlError addStudent(const QString &zkh, const QString &name, int gender,
                     const QString &zxdm, const QString &zxmc, const QString &id);

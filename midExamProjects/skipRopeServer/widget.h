@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMap>
+#include <QAudioOutput>
 
 class FormBaseGroup;
 
@@ -67,6 +68,8 @@ private:
     QTcpServer *tcpServer = nullptr;
 
     QMediaPlayer *m_mp3Player = nullptr;
+    QAudioOutput *m_audioOutput = nullptr;
+
     QTimer *m_backCountTimer = nullptr;
     QTimer *m_startDelayTimer = nullptr;
     QString m_currentMp3File;

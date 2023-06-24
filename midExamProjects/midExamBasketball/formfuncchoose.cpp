@@ -21,6 +21,7 @@
 #include <QProcess>
 #include <QModelIndex>
 #include <QDesktopServices>
+#include <QAudioOutput>
 
 #include <QFontDatabase>
 
@@ -452,10 +453,10 @@ void FormFuncChoose::initUi()
     // init font database
     initFontDatabase();
 
-    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, this, &FormFuncChoose::updateRectPointTopLeftConfig);
-    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, this, &FormFuncChoose::updateRectPointBottomRightConfig);
-//    connect(ui->plot, &LidarCloudWidget::sigRectPointTopLeftUpdated, ui->examRegin, &FootballRegin::updateRectPointTopLeft);
-//    connect(ui->plot, &LidarCloudWidget::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
+    connect(ui->plot, &LidarCloudView::sigRectPointTopLeftUpdated, this, &FormFuncChoose::updateRectPointTopLeftConfig);
+    connect(ui->plot, &LidarCloudView::sigRectPointBottomRightUpdated, this, &FormFuncChoose::updateRectPointBottomRightConfig);
+//    connect(ui->plot, &LidarCloudView::sigRectPointTopLeftUpdated, ui->examRegin, &FootballRegin::updateRectPointTopLeft);
+//    connect(ui->plot, &LidarCloudView::sigRectPointBottomRightUpdated, ui->examRegin, &FootballRegin::updateRectPointBottomRight);
 
     connect(this, &FormFuncChoose::sigLocalStudentsDataChanged, ui->scoreManagerWidget, &ScoreManagerForm::handleUpdateScoreModel);
 }
@@ -978,13 +979,16 @@ void FormFuncChoose::initMediaPlayer()
 {
     if (m_enableStartSound) {
         m_mp3Player = new QMediaPlayer(this);
-	    m_mp3Player->setMedia(QUrl(m_mediapath));
-	    m_mp3Player->setVolume(100);
+        QAudioOutput * audio = new QAudioOutput(); // chooses the default audio routing
 
+        m_mp3Player->setAudioOutput(audio);
+        m_mp3Player->setSource(QUrl(m_mediapath));
 
         m_dingPlayer = new QMediaPlayer(this);
-        m_dingPlayer->setMedia(QUrl(m_mediaDingPath));
-        m_dingPlayer->setVolume(100);
+        m_dingPlayer->setAudioOutput(audio);
+        m_dingPlayer->setSource(QUrl(m_mediaDingPath));
+
+        audio->setVolume(100);
     }
 
 }

@@ -34,7 +34,7 @@ QVariant LocalStudentTableModel::data(const QModelIndex &index, int role) const
         font.setFamily(QString::fromUtf8("Microsoft YaHei"));
         font.setPixelSize(18);
         return font;
-    } else if (role == Qt::TextColorRole) {
+    } else if (role == Qt::ForegroundRole) {
         QColor color = Qt::white;
         QModelIndex midStopIndex = createIndex(index.row(), index.column() + 3);
         if ((index.column() == FirstScore && QSqlTableModel::data(midStopIndex).toBool()) ||

@@ -7,6 +7,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <QDateTime>
 #include "ShareMemory.h"
+#include <QPoint>
 
 class SkipRopeOnZeroMq : public QObject
 {

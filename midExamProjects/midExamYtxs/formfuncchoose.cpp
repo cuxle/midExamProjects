@@ -4,7 +4,7 @@
 #include "ui_formfuncchoose.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QTimer>
 #include <QFileDialog>
 #include <QThread>
@@ -17,7 +17,7 @@
 #include <QToolBar>
 #include <QSpacerItem>
 #include <QPixmap>
-#include <QTextCodec>
+#include <QStringConverter>
 #include <QProcess>
 #include <QModelIndex>
 #include <QDesktopServices>
@@ -45,6 +45,7 @@
 #include <QStringLiteral>
 
 #include "datamanager.h"
+#include <QAudioOutput>
 
 #include <QLockFile>
 
@@ -154,8 +155,9 @@ void FormFuncChoose::initUi()
     initCommonToolbar();
 
     this->setStyleSheet(QString::fromUtf8("FormFuncChoose{background-color: rgb(35, 31, 57);}"));
-    const QRect rect = QApplication::desktop()->screenGeometry();
-    this->setGeometry(rect);
+    QScreen *primaryScreen = QGuiApplication::primaryScreen();
+    QRect screenRect = primaryScreen->geometry();
+    this->setGeometry(screenRect);
 
     ui->stackedWidget->setCurrentIndex(0);
     ui->stkVideoHolder->setCurrentIndex(0);
@@ -668,13 +670,16 @@ void FormFuncChoose::initMediaPlayer()
 {
     if (m_enableStartSound) {
         m_mp3Player = new QMediaPlayer(this);
-	    m_mp3Player->setMedia(QUrl(m_mediapath));
-	    m_mp3Player->setVolume(100);
+        QAudioOutput * audio = new QAudioOutput(); // chooses the default audio routing
 
+        m_mp3Player->setAudioOutput(audio);
+        m_mp3Player->setSource(QUrl(m_mediapath));
 
         m_dingPlayer = new QMediaPlayer(this);
-        m_dingPlayer->setMedia(QUrl(m_mediaDingPath));
-        m_dingPlayer->setVolume(100);
+        m_dingPlayer->setAudioOutput(audio);
+        m_dingPlayer->setSource(QUrl(m_mediaDingPath));
+
+        audio->setVolume(100);
 
 //	    connect(m_mp3Player, &QMediaPlayer::stateChanged, [&](QMediaPlayer::State newState){
 //	       if (newState == QMediaPlayer::StoppedState) {

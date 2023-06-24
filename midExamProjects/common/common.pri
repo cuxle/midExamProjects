@@ -9,7 +9,7 @@ include($$PWD/settingdialog/settingdialog.pri)
 include($$PWD/utils/utils.pri)
 include($$PWD/login/login.pri)
 include($$PWD/license/license.pri)
-include($$PWD/xlsx/qtxlsx.pri)
+#include($$PWD/xlsx/qtxlsx.pri)
 #include($$PWD/testcase/testcase.pri)
 
 # include log4qt lib

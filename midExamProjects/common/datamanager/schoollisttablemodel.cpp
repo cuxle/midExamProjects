@@ -65,7 +65,7 @@ QVariant SchoolListTableModel::data(const QModelIndex &index, int role) const
         font.setFamily(QString::fromUtf8("Microsoft YaHei"));
         font.setPixelSize(18);
         return font;
-    } else if (role == Qt::TextColorRole) {
+    } else if (role == Qt::ForegroundRole) {
         QColor color = Qt::white;
         if (index.column() == 3) {
             color = (QSqlTableModel::data(index, Qt::DisplayRole).toUInt() == 0) ? Qt::red : Qt::green;
@@ -113,6 +113,7 @@ void SchoolListTableModel::schoolListDataChanged()
 
 bool SchoolListTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    Q_UNUSED(value);
     switch(role) {
     case Qt::CheckStateRole:
         qDebug() << __func__ << role;

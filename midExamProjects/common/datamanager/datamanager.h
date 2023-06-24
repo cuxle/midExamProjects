@@ -3,9 +3,11 @@
 
 #include <QObject>
 #include <QHash>
+#include <QSet>
 #include <QQueue>
 #include <Student.h>
 #include "datamanagerdb.h"
+#include "idcode.h"
 
 //struct ExamProject {
 //    QString name;
@@ -51,7 +53,7 @@ public:
 
     IDCode m_curIdCode;
 
-    QList<IDCode> m_idCodes;
+    QSet<IDCode> m_idCodes;
     QString m_basePath;
 };
 
