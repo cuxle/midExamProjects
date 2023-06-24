@@ -1,5 +1,5 @@
-﻿#pragma once 
-// ShareMemory.cpp : 此文件包含信息定义SHAREDMEMOR类的实现
+#pragma once 
+// ShareMemory.cpp :
 // Author : MJJ
 // Update : 2020/11/27
 #ifndef ShareMemory_CPP
@@ -13,7 +13,7 @@ using namespace std;
 
 /*************************************************************************************
 FuncName  :SHAREDMEMORY::~SHAREDMEMORY()
-Desc      :构造函数创建共享内存
+Desc      :
 Input     :None
 Output    :None
 **************************************************************************************/
@@ -27,7 +27,7 @@ SHAREDMEMORY::SHAREDMEMORY() {
         sShareMemName);        //name of mapping object
 
     if (hShareMem) {
-        //  映射对象视图，得到共享内存指针，设置数据
+        // 
         pBuf = (LPTSTR)MapViewOfFile(
             hShareMem,           //handle to map object
             FILE_MAP_ALL_ACCESS, // read/write permission
@@ -36,7 +36,7 @@ SHAREDMEMORY::SHAREDMEMORY() {
             MEMORY_SIZE);
         cout << "memory size:" << MEMORY_SIZE << endl;
 
-        // 若映射失败退出
+        //
         if (pBuf == NULL)
         {
             std::cout << "Could not map view of framebuffer file." << GetLastError() << std::endl;
@@ -54,22 +54,22 @@ SHAREDMEMORY::SHAREDMEMORY() {
 
 /*************************************************************************************
 FuncName  :SHAREDMEMORY::~SHAREDMEMORY()
-Desc      :析构函数释放
+Desc      :
 Input     :None
 Output    :None
 **************************************************************************************/
 SHAREDMEMORY::~SHAREDMEMORY() {
     std::cout << "unmap shared addr." << std::endl;
-    UnmapViewOfFile(pBuf); //释放；
+    UnmapViewOfFile(pBuf); //
     CloseHandle(hShareMem);
 }
 
 /*************************************************************************************
 FuncName  :void SHAREDMEMORY::SendMat(cv::Mat img, char indexAddress)
-Desc      :发送Mat数据
+Desc      :
 Input     :
-    Mat img               发送图像
-    char indexAddress     共享内存中起始位置，若只有一路视频则无偏移
+    Mat img             
+    char indexAddress  
 Output    :None
 **************************************************************************************/
 void SHAREDMEMORY::SendMat(cv::Mat img, char indexAddress) {
@@ -93,16 +93,16 @@ void SHAREDMEMORY::SendMat(cv::Mat img, char indexAddress) {
             img.cols * img.rows * img.channels()                   // size of data
         );
     }
-   // cout << "write shared mem successful." << endl;
+    cout << "write shared mem successful." << endl;
 }
 
 
 /*************************************************************************************
 FuncName  :cv::Mat SHAREDMEMORY::ReceiveMat(char indexAddress)
-Desc      :接收Mat数据
+Desc      :
 Input     :
-    char indexAddress     共享内存中起始位置，若只有一路视频则无偏移
-Output    :Mat图像
+    char indexAddress
+Output    :
 **************************************************************************************/
 cv::Mat SHAREDMEMORY::ReceiveMat(char indexAddress)
 {
@@ -123,10 +123,10 @@ cv::Mat SHAREDMEMORY::ReceiveMat(char indexAddress)
 
 /*************************************************************************************
 FuncName  :void SHAREDMEMORY::SendStr(cv::Mat img, char indexAddress)
-Desc      :发送str数据
+Desc      :
 Input     :
-    Mat img               发送图像
-    char indexAddress     共享内存中起始位置，若只有一路视频则无偏移
+    Mat img      
+    char indexAddress
 Output    :None
 **************************************************************************************/
 void SHAREDMEMORY::SendStr(const char data[]) {
@@ -137,9 +137,9 @@ void SHAREDMEMORY::SendStr(const char data[]) {
 
 /*************************************************************************************
 FuncName  :void SHAREDMEMORY::ReceiveStr()
-Desc      :接收str数据
+Desc      :
 Input     :None
-Output    :获取的字符串
+Output    :
 **************************************************************************************/
 char* SHAREDMEMORY::ReceiveStr() {
     char* str = (char*)pBuf;
