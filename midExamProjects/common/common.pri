@@ -15,8 +15,6 @@ include($$PWD/license/license.pri)
 # include log4qt lib
 LIBS += -L$$PWD/../libs/log/ -llog4qt
 
-message($$LIBS)
-
 win32:CONFIG(release, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410
 else:win32:CONFIG(debug, debug|release): LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410d
 else:unix: LIBS += -LD:/opencv/build/x64/vc15/lib/ -lopencv_world3410

@@ -6,10 +6,6 @@
 #include <QHash>
 #include <QObject>
 #include <QDateTime>
-#include "log4qt/log4qt.h"
-#include "log4qt/basicconfigurator.h"
-#include "log4qt/rollingfileappender.h"
-#include "log4qt/patternlayout.h"
 #include "log4qt/propertyconfigurator.h"
 #include <QApplication>
 

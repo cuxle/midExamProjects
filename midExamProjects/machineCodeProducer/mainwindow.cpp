@@ -30,9 +30,11 @@ QString MainWindow::getId(QString idType)
     if (idType == "cpu") {
         param2 = "processorid";
     }
-    QString cmd = QString("wmic %1 get %2").arg(idType).arg(param2);
+    QString cmd = QString("wmic");
     QProcess p(0);
-    p.start(cmd);
+    QStringList args;
+    args << "cpu" << "get" << "processorid";
+    p.start(cmd, args);
     p.waitForFinished();
     QString ret = QString::fromLocal8Bit(p.readAllStandardOutput());
     ret = ret.remove(param2, Qt::CaseInsensitive).trimmed();
@@ -58,8 +60,11 @@ QByteArray encodeByString(QByteArray code, const QByteArray &by)
 QString MainWindow::getMachineCode()
 {
     QString cpuId = getId("cpu");
+    qDebug() << "cpuId id" << cpuId;
     QString biosId = getId("bios");
+    qDebug() << "biosId id" << biosId;
     QString baseBoard = getId("baseboard");
+    qDebug() << "baseBoard id" << biosId;
     QString machineId = cpuId + biosId + baseBoard;
     qDebug() << "machine id" << machineId;
     QString str = "redDog";

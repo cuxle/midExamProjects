@@ -4,7 +4,7 @@
 #include "ui_formfuncchoose.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QTimer>
 #include <QFileDialog>
 #include <QThread>
@@ -17,7 +17,7 @@
 #include <QToolBar>
 #include <QSpacerItem>
 #include <QPixmap>
-#include <QTextCodec>
+#include <QStringConverter>
 #include <QProcess>
 #include <QModelIndex>
 #include <QDesktopServices>
@@ -439,8 +439,9 @@ void FormFuncChoose::initUi()
     initCommonToolbar();
 
     this->setStyleSheet(QString::fromUtf8("FormFuncChoose{background-color: rgb(35, 31, 57);}"));
-    const QRect rect = QApplication::desktop()->screenGeometry();
-    this->setGeometry(rect);
+    QScreen *primaryScreen = QGuiApplication::primaryScreen();
+    QRect screenRect = primaryScreen->geometry();
+    this->setGeometry(screenRect);
 
     ui->stackedWidget->setCurrentIndex(0);
     ui->stkVideoHolder->setCurrentIndex(0);
@@ -600,7 +601,7 @@ void FormFuncChoose::initCommonToolbar()
     QVBoxLayout *vlayout1 = new QVBoxLayout(this);
     vlayout1->addWidget(m_toolBarframe);
     vlayout1->addWidget(ui->stackedWidget);
-    vlayout1->setMargin(0);
+    //vlayout1->setMargin(0);
     this->setLayout(vlayout1);
 }
 
@@ -1207,7 +1208,7 @@ void FormFuncChoose::on_pbDataImport_clicked()
 {
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     QString execl = QFileDialog::getOpenFileName(this, "Open Execl", appconfig.m_videoSavePath, tr("Xlsx Files (*.xlsx)"));
-    DataManagerDb::addStudentsFromExecl(execl);
+    //DataManagerDb::addStudentsFromExecl(execl);
 }
 
 void FormFuncChoose::on_pbScoreManage_clicked()

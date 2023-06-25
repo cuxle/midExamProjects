@@ -30,9 +30,11 @@ QString MainWindow::getId(QString idType)
     if (idType == "cpu") {
         param2 = "processorid";
     }
-    QString cmd = QString("wmic %1 get %2").arg(idType).arg(param2);
+    QString cmd = QString("wmic");
+    QStringList args;
+    args << "cpu" << "get" << "processorid";
     QProcess p(0);
-    p.start(cmd);
+    p.start(cmd, args);
     p.waitForFinished();
     QString ret = QString::fromLocal8Bit(p.readAllStandardOutput());
     ret = ret.remove(param2, Qt::CaseInsensitive).trimmed();

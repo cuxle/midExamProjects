@@ -4,7 +4,6 @@
 #include <QDialog>
 #include <QDir>
 #include <QSharedPointer>
-#include "scoremanagemodel.h"
 #include <opencv2/opencv.hpp>
 #include "camera.h"
 //#include "socket/client.h"

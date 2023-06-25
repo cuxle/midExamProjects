@@ -501,6 +501,8 @@ int main(int argc, char *argv[])
 {
     QApplication application(argc, argv);
 
+    Logger::init();
+
     if (!License::verifyLicenseFromFile("./license.lic")) {
         QMessageBox::critical(nullptr, "warning", "请获取license.lic并放入软件执行目录！");
         return -1;
@@ -509,8 +511,6 @@ int main(int argc, char *argv[])
     createDataFolder();
 
     initDb();
-
-    Logger::init();
 
 #if defined(TIAOSHENG) || defined(YTXS) || defined(YWQZ)
     serverLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/server/";

@@ -26,7 +26,7 @@
    <string>学通中考体育考试软件</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset resource="../midExamFootBall/res.qrc">
     <normaloff>:/resource/images/mainform/loginIcon.png</normaloff>:/resource/images/mainform/loginIcon.png</iconset>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>6</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -593,7 +593,6 @@ border-top-right-radius: 10px;</string>
                 <font>
                  <family>Microsoft YaHei UI</family>
                  <pointsize>14</pointsize>
-                 <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -1180,7 +1179,6 @@ border:1px solid #898698;</string>
                       <font>
                        <family>Microsoft YaHei</family>
                        <pointsize>14</pointsize>
-                       <weight>50</weight>
                        <bold>false</bold>
                       </font>
                      </property>
@@ -1387,7 +1385,6 @@ border-top-right-radius: 10px;</string>
                 <font>
                  <family>Microsoft YaHei UI</family>
                  <pointsize>14</pointsize>
-                 <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -1772,7 +1769,7 @@ color: rgb(255, 255, 255);</string>
                <widget class="QWidget" name="page_10">
                 <layout class="QGridLayout" name="gridLayout_5">
                  <item row="0" column="0">
-                  <widget class="LidarCloudWidget" name="plot" native="true">
+                  <widget class="LidarCloudView" name="plot" native="true">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1786,7 +1783,7 @@ color: rgb(255, 255, 255);</string>
                <widget class="QWidget" name="page_11">
                 <layout class="QGridLayout" name="gridLayout_7">
                  <item row="0" column="0">
-                  <widget class="FootballRegin" name="examRegin" native="true"/>
+                  <widget class="ExamRegin" name="examRegin" native="true"/>
                  </item>
                 </layout>
                </widget>
@@ -1859,7 +1856,6 @@ border-top-right-radius: 10px;</string>
                 <font>
                  <family>Microsoft YaHei UI</family>
                  <pointsize>14</pointsize>
-                 <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -1909,7 +1905,6 @@ border-top-right-radius: 10px;</string>
                <property name="font">
                 <font>
                  <family>Microsoft YaHei UI</family>
-                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2065,7 +2060,6 @@ border-top-right-radius: 10px;</string>
                      <font>
                       <family>Microsoft YaHei</family>
                       <pointsize>28</pointsize>
-                      <weight>50</weight>
                       <bold>false</bold>
                      </font>
                     </property>
@@ -2167,7 +2161,6 @@ border-top-right-radius: 10px;</string>
                      <font>
                       <family>Microsoft YaHei</family>
                       <pointsize>28</pointsize>
-                      <weight>50</weight>
                       <bold>false</bold>
                      </font>
                     </property>
@@ -2269,7 +2262,6 @@ border-top-right-radius: 10px;</string>
                      <font>
                       <family>Microsoft YaHei</family>
                       <pointsize>28</pointsize>
-                      <weight>50</weight>
                       <bold>false</bold>
                      </font>
                     </property>
@@ -2371,7 +2363,6 @@ border-top-right-radius: 10px;</string>
                      <font>
                       <family>Microsoft YaHei</family>
                       <pointsize>28</pointsize>
-                      <weight>50</weight>
                       <bold>false</bold>
                      </font>
                     </property>
@@ -3608,30 +3599,28 @@ color: rgb(255, 255, 255);</string>
   <customwidget>
    <class>VideoWidget</class>
    <extends>QWidget</extends>
-   <header location="global">videowidget.h</header>
+   <header>videowidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ScoreManagerForm</class>
    <extends>QWidget</extends>
-   <header location="global">scoremanagerform.h</header>
+   <header>scoremanagerform.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>LidarCloudWidget</class>
+   <class>ExamRegin</class>
    <extends>QWidget</extends>
-   <header location="global">lidarcloudwidget.h</header>
+   <header>examregin.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>FootballRegin</class>
+   <class>LidarCloudView</class>
    <extends>QWidget</extends>
-   <header location="global">footballregin.h</header>
+   <header>lidarcloudview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

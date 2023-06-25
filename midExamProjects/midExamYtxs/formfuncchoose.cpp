@@ -322,7 +322,7 @@ void FormFuncChoose::initCommonToolbar()
     QVBoxLayout *vlayout1 = new QVBoxLayout(this);
     vlayout1->addWidget(m_toolBarframe);
     vlayout1->addWidget(ui->stackedWidget);
-    vlayout1->setMargin(0);
+    //vlayout1->setMargin(0);
     this->setLayout(vlayout1);
 }
 
@@ -957,7 +957,7 @@ void FormFuncChoose::on_pbDataImport_clicked()
 {
     AppConfig &appconfig = Singleton<AppConfig>::GetInstance();
     QString execl = QFileDialog::getOpenFileName(this, "Open Execl", appconfig.m_videoSavePath, tr("Xlsx Files (*.xlsx)"));
-    DataManagerDb::addStudentsFromExecl(execl);
+   // DataManagerDb::addStudentsFromExecl(execl);
 }
 
 void FormFuncChoose::on_pbScoreManage_clicked()
