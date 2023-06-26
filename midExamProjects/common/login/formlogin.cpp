@@ -97,11 +97,10 @@ void FormLogin::initMainFrm(bool online)
         m_frmFuncChoose = new FormFuncChoose(online);
 #endif
     }
-    qDebug() << __LINE__;
+
     emit sigHiddenLoginForm();
-    qDebug() << __LINE__;
-    m_frmFuncChoose->show();
-    qDebug() << __LINE__;
+
+    m_frmFuncChoose->showFullScreen();
 
     this->setParent(m_frmFuncChoose);
 }

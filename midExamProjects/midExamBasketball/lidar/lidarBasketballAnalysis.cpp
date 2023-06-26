@@ -40,7 +40,7 @@ bool lidarBasketballAnalysis::normalizeData(PointCloud<PointXYZ>::Ptr cloudPtr)
 {
 	std::vector<pcl::PointXYZ, Eigen::aligned_allocator<pcl::PointXYZ> > pointsArr;
 
-	float ratio = 28.0f/abs(m_yMax - m_yMin);
+    float ratio = 28.0f / abs(m_yMax - m_yMin);
 	m_xBorderMax = (m_xMax - m_xMin)*ratio / 2.0f;
 	m_xBorderMin = -m_xBorderMax;
 
@@ -75,7 +75,7 @@ bool lidarBasketballAnalysis::removePtsOutOfRegion(float xMin, float xMax, float
 
 bool lidarBasketballAnalysis::setTestRegion(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
 {
-//    qDebug() << __func__ << __LINE__ << "xMin:" << xMin << " xMax:" << xMax <<" yMin:"<< yMin <<" yMax:"<<  yMax << m_zMin << m_zMax;
+    qDebug() << __func__ << __LINE__ << "xMin:" << xMin << " xMax:" << xMax <<" yMin:"<< yMin <<" yMax:"<<  yMax << m_zMin << m_zMax;
 	m_xMin = xMin;
 	m_xMax = xMax;
 	m_yMin = yMin;

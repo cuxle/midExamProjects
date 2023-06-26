@@ -95,10 +95,10 @@ void AppConfig::writeConfig()
     settings.setValue("LIDAR_FACE", m_lidarFace);
     settings.setValue("LIDAR_TYPE", m_lidarType);
 
-    settings.setValue("EXAMREGIN_TOPLEFTX", QString::number(m_examReginTopLeftX));
-    settings.setValue("EXAMREGIN_TOPLEFTY", QString::number(m_examReginTopLeftY));
-    settings.setValue("EXAMREGIN_DOWNLEFTX", QString::number(m_examReginBottomRightX));
-    settings.setValue("EXAMREGIN_DOWNLEFTY", QString::number(m_examReginBottomRightY));
+    settings.setValue("EXAMREGIN_TOPLEFTX", QString::number(m_examReginTopLeftX, 'f'));
+    settings.setValue("EXAMREGIN_TOPLEFTY", QString::number(m_examReginTopLeftY, 'f'));
+    settings.setValue("EXAMREGIN_DOWNLEFTX", QString::number(m_examReginBottomRightX, 'f'));
+    settings.setValue("EXAMREGIN_DOWNLEFTY", QString::number(m_examReginBottomRightY, 'f'));
 
     settings.setValue("RECTREGIN_TOPLEFTX", QString::number(m_rectReginTopLeftX));
     settings.setValue("RECTREGIN_TOPLEFTY", QString::number(m_rectReginTopLeftY));
@@ -167,10 +167,10 @@ void AppConfig::readConfig()
     m_lidarType = settings.value("LIDAR_TYPE", 0).toUInt();
 
 
-    m_examReginTopLeftX  = settings.value("EXAMREGIN_TOPLEFTX", 0).toString().toInt();
-    m_examReginTopLeftY  = settings.value("EXAMREGIN_TOPLEFTY", 0).toString().toInt();
-    m_examReginBottomRightX  = settings.value("EXAMREGIN_DOWNLEFTX", 0).toString().toInt();
-    m_examReginBottomRightY  = settings.value("EXAMREGIN_DOWNLEFTY", 0).toString().toInt();
+    m_examReginTopLeftX  = settings.value("EXAMREGIN_TOPLEFTX", 0).toString().toDouble();
+    m_examReginTopLeftY  = settings.value("EXAMREGIN_TOPLEFTY", 0).toString().toDouble();
+    m_examReginBottomRightX  = settings.value("EXAMREGIN_DOWNLEFTX", 0).toString().toDouble();
+    m_examReginBottomRightY  = settings.value("EXAMREGIN_DOWNLEFTY", 0).toString().toDouble();
 
     m_rectReginTopLeftX  = settings.value("RECTREGIN_TOPLEFTX", 0).toString().toInt();
     m_rectReginTopLeftY  = settings.value("RECTREGIN_TOPLEFTY", 0).toString().toInt();

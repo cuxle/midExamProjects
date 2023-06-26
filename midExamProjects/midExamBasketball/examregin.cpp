@@ -226,8 +226,8 @@ void ExamRegin::updateRectPoint(const QPointF &topLeft, const QPointF &bottomRig
      m_XpixelPerMeter =  (m_bottomRight.x() - m_topLeft.x()) / m_realWidth;
      m_YpixelPerMeter =  (m_bottomRight.y() - m_topLeft.y()) / m_realHeight;
 
-
      calculateObsStickPosition();
+
      this->update();
 }
 
@@ -239,24 +239,33 @@ void ExamRegin::zoomToRect(QPointF &topLeft, QPointF &bottomRight)
     qDebug() << __func__ << __LINE__ << topLeft << bottomRight;
     float width = abs(bottomRight.x() - topLeft.x());
     float height = abs(bottomRight.y() - topLeft.y());
-    float ratio = 1.0 * width / height;
+
+    float ratioKeep = 1.0 * height / width;
+
+    float ratioRect = 1.0 * this->rect().height() / this->rect().width();
+
+    qDebug() << __func__ << __LINE__ << this->rect().width() << this->rect().height();
 
     float newHeight = 0;
     float newWidth = 0;
-    if (height >= width) {
+    if (ratioKeep >= ratioRect) {
         // pick the direct max slab based on the height or with - 100
-        qDebug() << __func__ << __LINE__ << this->rect().height();
-        newHeight = this->rect().height() - margin*2;
-        newWidth = newHeight * ratio;
+        newHeight = this->rect().height() - margin * 2;
+        newWidth = newHeight / ratioKeep ;
+        qDebug() << __func__ << __LINE__ << "path 1:" << ratioKeep << ratioRect;
+        qDebug() << __func__ << __LINE__ << "new width: " << newWidth;
+        qDebug() << __func__ << __LINE__ << "new height: " << newHeight;
     } else {
-        qDebug() << __func__ << __LINE__ << this->rect().width();
-        newWidth = this->rect().width() - margin*2;
-        newHeight = newWidth / ratio;
+        newWidth = this->rect().width() - margin * 2;
+        newHeight = newWidth * ratioKeep;
+        qDebug() << __func__ << __LINE__ << "path 2:" << ratioKeep << ratioRect;
+        qDebug() << __func__ << __LINE__ << "new width: " << newWidth;
+        qDebug() << __func__ << __LINE__ << "new height: " << newHeight;
     }
     m_ratioX = 1.0 * newWidth / width;
     m_ratioY = 1.0 * newHeight / height;
 
-    qDebug() << __func__ << __LINE__ <<"old height:"<< height << "old width:" << width << " new height:"<< newHeight<< " new width:" << newWidth<< m_ratioX << m_ratioY;
+    qDebug() << __func__ << __LINE__ << "old height:" << height << "old width:" << width << " new height:"<< newHeight<< " new width:" << newWidth<< m_ratioX << m_ratioY;
 
     bottomRight.setX(m_newCenter.x() + newWidth / 2);
     bottomRight.setY(m_newCenter.y() + newHeight / 2);
@@ -271,14 +280,10 @@ void ExamRegin::zoomToRect(QPointF &topLeft, QPointF &bottomRight)
     deltaY = -m_bottomRight.y();
 
     m_realWidth = m_realHeight * newWidth / newHeight;
-
-//    topLeft = getNewPoint(topLeft);
-//    bottomRight = getNewPoint(bottomRight);
 }
 
 void ExamRegin::paintEvent(QPaintEvent *event)
 {
-//    qDebug() << __func__ << __LINE__ << leftUpOk << rightDownOk;
     showExamRegin();
 
     showExamStudentPath();

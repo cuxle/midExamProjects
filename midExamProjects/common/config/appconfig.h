@@ -56,10 +56,10 @@ public:
     int m_lidarFace = 0;
     int m_lidarType = 0;
 
-    int m_examReginTopLeftX = 0;
-    int m_examReginTopLeftY = 0;
-    int m_examReginBottomRightX = 0;
-    int m_examReginBottomRightY = 0;
+    double m_examReginTopLeftX = 0;
+    double m_examReginTopLeftY = 0;
+    double m_examReginBottomRightX = 0;
+    double m_examReginBottomRightY = 0;
 
     int m_rectReginTopLeftX = 0;
     int m_rectReginTopLeftY = 0;

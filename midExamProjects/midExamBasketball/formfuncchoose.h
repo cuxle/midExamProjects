@@ -234,6 +234,8 @@ private slots:
     void on_pbRotateRightLeiDa_pressed();
 
     void on_pbRotateRightLeiDa_released();
+
+    void handleUpdateTopLeftBottomRightForDebug();
 private:
     enum ExamAction {
         ExamStart,
@@ -299,6 +301,8 @@ private:
     void resetAllSkipCounterBeforeExam();
 
     void resetScoreLabel();
+
+    void updateExamRegin();
 //    ScoreManageModel *m_model = nullptr;
 //    QList<QSharedPointer<StudentItem>> m_students;
 //    StudentManager *m_studentsManager = nullptr;
@@ -445,10 +449,10 @@ private:
      float m_currentAngle = 0;
      float m_deltaAngle = 0.5;
 
-     int m_examReginTopLeftX;
-     int m_examReginTopLeftY;
-     int m_examReginBottomRightX;
-     int m_examReginBottomRightY;
+     double m_examReginTopLeftX;
+     double m_examReginTopLeftY;
+     double m_examReginBottomRightX;
+     double m_examReginBottomRightY;
      int m_lidarFace = 0;
      int m_lidarType = 0;
 

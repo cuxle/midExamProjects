@@ -231,22 +231,32 @@ void ExamRegin::updateRectPoint(const QPointF &topLeft, const QPointF &bottomRig
 // resize to a perfem_ct frame
 void ExamRegin::zoomToRect(QPointF &topLeft, QPointF &bottomRight)
 {
-    int margin = 50;
+    int margin = 50; //pixels
 
     qDebug() << __func__ << __LINE__ << topLeft << bottomRight;
     float width = abs(bottomRight.x() - topLeft.x());
     float height = abs(bottomRight.y() - topLeft.y());
     float ratio = 1.0 * width / height;
 
+    qDebug() << __func__ << __LINE__ << "RAITO:" << ratio;
+    qDebug() << __func__ << __LINE__ << this->rect().height() << this->rect().width();
+
     float newHeight = 0;
     float newWidth = 0;
     if (height >= width) {
+
         // pick the direct max slab based on the height or with - 100
-        newHeight = this->rect().height() - margin*2;
+        newHeight = this->rect().height() - margin * 2;
+
+        qDebug() << "path 1: new height" << newHeight;
+
         newWidth = newHeight * ratio;
     } else {
         newWidth = this->rect().width() - margin*2;
         newHeight = newWidth / ratio;
+
+        qDebug() << "path 1: new height" << newHeight;
+        qDebug() << "path 1: new width" << newWidth;
     }
     m_ratioX = 1.0 * newWidth / width;
     m_ratioY = 1.0 * newHeight / height;
@@ -267,9 +277,6 @@ void ExamRegin::zoomToRect(QPointF &topLeft, QPointF &bottomRight)
     deltaY = -m_bottomRight.y();
 
     m_realWidth = m_realHeight * newWidth / newHeight;
-
-//    topLeft = getNewPoint(topLeft);
-//    bottomRight = getNewPoint(bottomRight);
 }
 
 void ExamRegin::paintEvent(QPaintEvent *event)
